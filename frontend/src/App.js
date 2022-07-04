@@ -27,7 +27,7 @@ function App() {
   return (
 
     <AuthContextProvider>
-    <BrowserRouter >
+    <BrowserRouter>
         {cookies.checked === 'true' ? (
           cookies.userName ? null : (
             <Navigate to="/login" />
