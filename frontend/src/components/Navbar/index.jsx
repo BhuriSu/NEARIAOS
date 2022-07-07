@@ -7,7 +7,7 @@ import {
 } from './NavbarElements';
 
 function Navbar({ toggle }) {
-  const toggleHome = () => {
+  const ToggleHome = () => {
     scroll.scrollToTop();
   };
 
@@ -15,7 +15,7 @@ function Navbar({ toggle }) {
     <IconContext.Provider value={{ color: '#fff' }}>
       <Nav>
         <NavbarContainer>
-          <NavLogo to="/" onClick={toggleHome}>Redunda</NavLogo>
+          <NavLogo to="/" onClick={ToggleHome}>Redunda</NavLogo>
 
           <MobileIcon onClick={toggle}>
             <FaBars />

@@ -29,7 +29,7 @@ function Register(props) {
 
   return (
     <RegisterContainer>
-      {' '}
+     
       {cookies.userName ? (
         <Navigate to="/process" />
       ) : (

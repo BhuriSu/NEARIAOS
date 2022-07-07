@@ -1,0 +1,11 @@
+.slide {
+    text-align: center;
+  }
+  
+  .image_wrapper {
+    margin: 20px 40px;
+  }
+  
+  .image_wrapper img {
+    width: 80%;
+  }

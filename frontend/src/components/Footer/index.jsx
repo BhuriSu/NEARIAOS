@@ -8,7 +8,7 @@ import {
 } from './FooterElements';
 
 function Footer() {
-  const toggleHome = () => {
+  const ToggleHome = () => {
     scroll.scrollToTop();
   };
 
@@ -46,13 +46,12 @@ function Footer() {
 
         <SocialMedia>
           <SocialMediaWrap>
-            <SocialLogo to="/" onClick={toggleHome}>
+            <SocialLogo to="/" onClick={ToggleHome}>
               Redunda
             </SocialLogo>
             <WebsiteRights>
               Redunda ©
               {new Date().getFullYear()}
-              {' '}
               All rights reserved.
             </WebsiteRights>
             <SocialIcons>

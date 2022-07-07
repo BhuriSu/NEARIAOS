@@ -143,10 +143,4 @@ input[type="range"]::-webkit-slider-thumb:hover {
   height: 100vh;
 }
 
-.root,
-html,
-body {
-  background: linear-gradient(to bottom, #4a00e0, #8e2de2 100%);
-  background-size: cover;
-  background-attachment: fixed;
-}
+

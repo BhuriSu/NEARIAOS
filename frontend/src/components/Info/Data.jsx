@@ -6,7 +6,7 @@ export const homeObjOne = {
   description: 'More people you meet more knowledge you get',
   buttonLabel: 'Right here',
   imgStart: false,
-  img: require('../../images/info1.webp').default,
+  img: require('../../images/info1.svg').default,
   alt: 'circle',
 };
 

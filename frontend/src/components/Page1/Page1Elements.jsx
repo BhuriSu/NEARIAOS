@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-export const P1Container = styled.div`
+export const Container = styled.div`
   background: #000;
   display: flex;
   justify-content: center;
@@ -21,7 +21,7 @@ export const P1Container = styled.div`
   }
 `;
 
-export const P1Content = styled.div`
+export const Content = styled.div`
   z-index: 3;
   max-width: 1200px;
   position: absolute;
@@ -32,13 +32,11 @@ export const P1Content = styled.div`
 `;
 
 export const Color = styled.text`
-background: linear-gradient(to right, #00fff9, #dd00ff);
--webkit-background-clip: text;
--webkit-text-fill-color: transparent;
+color: #00fff9;
 `;
 
-export const P1P = styled.p`
-   margin-top: 30px;
+export const P = styled.p`
+  margin-top: 30px;
   color: #fff;
   font-size: 24px;
   text-align: center;

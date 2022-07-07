@@ -46,7 +46,7 @@ export default function ResetPasswordPage() {
                 duration: 9000,
                 isClosable: true,
               });
-              navigate('/login');
+              navigate('../login',{ replace: true });
             } catch (error) {
               toast({
                 description: error.message,

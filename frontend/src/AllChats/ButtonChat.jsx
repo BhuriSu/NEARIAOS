@@ -47,7 +47,7 @@ function ButtonChat(props) {
               {chats.nickname}
               :
             </strong>
-            {' '}
+          
             {chats.lastMessage}
           </div>
           <div

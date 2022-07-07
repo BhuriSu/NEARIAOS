@@ -13,6 +13,7 @@ function AllChats() {
   const [chats, setChat] = useState(null);
 
   useEffect(() => {
+    
     axios
       .get(`/database/${cookies.userName}`)
       .then(async ({ data }) => {

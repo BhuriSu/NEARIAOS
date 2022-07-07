@@ -19,19 +19,19 @@ function Services() {
           <ServicesCard1>
             <ServicesIcon src={Icon1} width="600" height="600" alt="" />
             <ServicesH2>Leisure friend</ServicesH2>
-            <ServicesP>Search your new friend if you want someone with you at some time</ServicesP>
+            <ServicesP>Search your new friend if you want someone with you at some place</ServicesP>
           </ServicesCard1>
 
           <ServicesCard2>
             <ServicesIcon src={Icon2} width="600" height="600" alt="" />
             <ServicesH2>Let share a fee</ServicesH2>
-            <ServicesP>share a fee with someone maybe preventing from dangerous driver</ServicesP>
+            <ServicesP>Need to reduce cost of traveling but want private at the same time right? just use our service before using other share-riding app</ServicesP>
           </ServicesCard2>
 
           <ServicesCard3>
             <ServicesIcon src={Icon3} width="600" height="600" alt="" />
             <ServicesH2>Make profit by helping</ServicesH2>
-            <ServicesP>Someone have a problem immediately you can negotiate with them</ServicesP>
+            <ServicesP>You can negotiate with someone who have problem nearby immediately</ServicesP>
           </ServicesCard3>
 
         </ServicesWrapper>

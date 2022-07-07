@@ -1,8 +1,8 @@
 import React from 'react';
 import './App.css';
-import { useCookies } from 'react-cookie';
+
 import {
-  BrowserRouter , Routes, Route, Navigate
+  BrowserRouter , Routes, Route
 } from 'react-router-dom';
 import Home from './pages';
 import SerranoPage from './pages/serrano';
@@ -10,7 +10,6 @@ import ContactPage from './pages/contact';
 import LoginPage from './pages/login';
 import RegisterPage from './pages/register';
 import CreatingAccountPage from './pages/process';
-import NotFound from './NewFeedComponents/notFound';
 import ProfileEditPage from './pages/profile';
 import AllChatPage from './pages/allChat';
 import ChatPage from './pages/chat';
@@ -23,18 +22,11 @@ import AuthContextProvider from './context';
 
 function App() {
   
-  const [cookies] = useCookies(['userName', 'checked']);
+ 
   return (
 
     <AuthContextProvider>
     <BrowserRouter>
-        {cookies.checked === 'true' ? (
-          cookies.userName ? null : (
-            <Navigate to="/login" />
-          )
-        ) : (
-          <Navigate to="/" />
-        )}
         <Routes>
           <Route path="/" element={<Home/>} exact />
           <Route path="/serrano" element={<SerranoPage/>} />
@@ -50,7 +42,6 @@ function App() {
           <Route path="/privacy" element={<PrivacyPage/>} />
           <Route path="/forgotPassword" element={<ForgotPasswordPage/>} />
           <Route path="/resetPassword" element={<ResetPasswordPage/>} />
-          <Route element={NotFound} />
         </Routes>
         </BrowserRouter>
     </AuthContextProvider>
