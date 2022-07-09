@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link , Navigate , useLocation, useNavigate } from "react-router-dom";
+import { Link , useLocation, Navigate , useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
@@ -13,7 +13,7 @@ function Login(props) {
   const location = useLocation();
   const navigate = useNavigate();
   function handleRedirectToOrBack() {
-    navigate(location.state?.from ?? '/listUsers',{ replace: true })
+    navigate(location.state?.from ?? '/listUsers' , { replace: true })
   }
 
   function PutData(event) {
@@ -37,7 +37,7 @@ function Login(props) {
     <LoginContainer>
       {cookies.userName ? (
         user.profileId ? (
-          <Navigate from="/login" to="/listUsers" />
+          <Navigate  from="/login" to="/listUsers" />
         ) : (
           <Navigate to="/process" />
         )
@@ -71,7 +71,6 @@ function Login(props) {
             type="submit"
             data-cy='login-submit-button'
           >
-            {" "}
             LogIn 
           </button>
           <div style={{ color: "red", textAlign: "center" }}>{err.title}</div>

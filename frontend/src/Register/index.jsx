@@ -8,7 +8,6 @@ import { RegisterContainer, RegisterText } from './RegisterElements';
 
 function Register(props) {
   const [cookies, setCookie] = useCookies(['userName', 'userNickname']);
-
   const { requestFetchRegister, err, user } = props;
 
   function PutData(event) {

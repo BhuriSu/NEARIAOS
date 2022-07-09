@@ -6,7 +6,7 @@ import { homeObjOne, homeObjTwo, homeObjThree } from '../components/Info/Data';
 import Navbar from '../components/Navbar';
 import OurPlatForm from '../components/OurPlatform';
 import Sidebar from '../components/SideBar';
-import SlidePage from '../components/SlidePage/SlidePage';
+
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,11 +23,10 @@ function Home() {
       <Navbar toggle={toggle} />
       <Page1 />
       <OurPlatForm />
-     
+      
       <Info {...homeObjOne} />
       <Info {...homeObjTwo} />
       <Info {...homeObjThree} />
-      <SlidePage />
       <Footer />
 
     </>

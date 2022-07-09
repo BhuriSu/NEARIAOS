@@ -89,7 +89,7 @@ export default function ForgotPasswordPage() {
           </chakra.form>
           <br />
           <Center>
-            <Button variant="link" colorScheme="black" onClick={() => navigate('../login' , { replace: true })}>
+            <Button variant="link" colorScheme="black" onClick={() => navigate('/login' , { replace: true })}>
               Login
             </Button>
           </Center>
