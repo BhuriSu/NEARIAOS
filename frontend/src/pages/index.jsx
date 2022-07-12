@@ -6,7 +6,7 @@ import { homeObjOne, homeObjTwo, homeObjThree } from '../components/Info/Data';
 import Navbar from '../components/Navbar';
 import OurPlatForm from '../components/OurPlatform';
 import Sidebar from '../components/SideBar';
-
+import Animation from '../components/AnimationPicture';
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -23,7 +23,7 @@ function Home() {
       <Navbar toggle={toggle} />
       <Page1 />
       <OurPlatForm />
-      
+      <Animation />
       <Info {...homeObjOne} />
       <Info {...homeObjTwo} />
       <Info {...homeObjThree} />

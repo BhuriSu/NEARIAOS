@@ -7,7 +7,6 @@ import {
   ServicesContainer, ServicesH1, ServicesWrapper, ServicesCard1,
   ServicesCard2, ServicesCard3, ServicesIcon, ServicesH2, ServicesP,
 } from './ServiceElements';
-
 function Services() {
   return (
     <ServicesContainer id="services">
@@ -33,7 +32,7 @@ function Services() {
             <ServicesH2>Make profit by helping</ServicesH2>
             <ServicesP>You can negotiate with someone who have problem nearby immediately</ServicesP>
           </ServicesCard3>
-
+ 
         </ServicesWrapper>
       </Fade>
     </ServicesContainer>
