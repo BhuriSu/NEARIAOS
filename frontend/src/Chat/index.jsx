@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
-import { getDatabase, ref, child } from 'firebase/database';
-import Message from '../Message';
-import './chatForm.css';
+import React, { useState, useEffect, useRef } from "react";
+import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
+import { getDatabase, ref, child } from "firebase/database";
+import Message from "../Message";
+import "./chatForm.css";
 import {
   BodyChat,
   NameText,
@@ -14,11 +14,11 @@ import {
   SendButton,
   ChatInput,
   ChatButton,
-} from './ChatFormElements';
+} from "./ChatFormElements";
 
 function Chat(props) {
-  const [cookies] = useCookies(['userName', 'userNickname']);
-  const [msg, setMsg] = useState('');
+  const [cookies] = useCookies(["userName", "userNickname"]);
+  const [msg, setMsg] = useState("");
   const [messages, setMessages] = useState({});
   const {
     chats, urlFriend, name, friend,
@@ -29,7 +29,7 @@ function Chat(props) {
 
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
-    messagesEndRef.current.scrollIntoView({ behavior: 'auto' });
+    messagesEndRef.current.scrollIntoView({ behavior: "auto" });
   };
   useEffect(scrollToBottom, [messages]);
   useEffect(() => {
@@ -38,9 +38,9 @@ function Chat(props) {
         setMessages(snap.val());
       }
     };
-    chatRoom.on('value', handleNewMessages);
+    chatRoom.on("value", handleNewMessages);
     return () => {
-      chatRoom.off('value', handleNewMessages);
+      chatRoom.off("value", handleNewMessages);
     };
   }, [chatRoom, setMessages]);
   const handleMsgChange = (e) => setMsg(e.target.value);
@@ -57,7 +57,7 @@ function Chat(props) {
       dateDay: new Date().toLocaleDateString(),
       date: Date.now(),
     });
-    setMsg('');
+    setMsg("");
   };
   return (
     <BodyChat>
@@ -77,7 +77,7 @@ function Chat(props) {
 
         <NameText>{name}</NameText>
         <Img
-          style={{ backgroundImage: `url(${urlFriend || './infoUser.svg'}` }}
+          style={{ backgroundImage: `url(${urlFriend || "./infoUser.svg"}` }}
         />
       </HeaderChat>
 
@@ -99,7 +99,7 @@ function Chat(props) {
         <div
           className="to-bottom"
           ref={messagesEndRef}
-          style={{ marginBottom: '50px' }}
+          style={{ marginBottom: "50px" }}
         />
       </Window>
 
@@ -111,7 +111,7 @@ function Chat(props) {
           onChange={handleMsgChange}
           value={msg}
         />
-        {msg !== '' ? (
+        {msg !== "" ? (
           <ChatButton id="send" onClick={handleKeyDown}>
             Send
           </ChatButton>

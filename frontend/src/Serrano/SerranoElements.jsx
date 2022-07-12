@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const SerranoContainer = styled.div`
   height: 1000px;
@@ -101,7 +101,7 @@ export const SerranoH1 = styled.h1`
   background: linear-gradient(to right, #ba00ff, #ff1d00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: 'Berkshire Swash', cursive;
+  font-family: "Berkshire Swash", cursive;
   @media screen and (max-width: 480px) {
     font-size: 2rem;
   }  

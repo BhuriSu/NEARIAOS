@@ -1,10 +1,10 @@
-import React from 'react';
-import './message.css';
-import { useCookies } from 'react-cookie';
-import { MessageBody, MessageChat, MessageText } from './MessageElements';
+import React from "react";
+import "./message.css";
+import { useCookies } from "react-cookie";
+import { MessageBody, MessageChat, MessageText } from "./MessageElements";
 
 function Message(props) {
-  const [cookies] = useCookies(['userName', 'userNickname']);
+  const [cookies] = useCookies(["userName", "userNickname"]);
 
   const { msg, dateTime, nickname } = props;
 
@@ -13,19 +13,19 @@ function Message(props) {
       <MessageChat>
         {cookies.userNickname === nickname ? (
           <div className="mine messages">
-            <small style={{ color: ' #fff', margin: '0 auto' }}>
+            <small style={{ color: " #fff", margin: "0 auto" }}>
               {dateTime}
             </small>
             <MessageText>{msg}</MessageText>
           </div>
         ) : (
           <div className="yours messages">
-            <small style={{ color: ' #fff', margin: '0 auto' }}>
+            <small style={{ color: " #fff", margin: "0 auto" }}>
               {dateTime}
             </small>
 
             <MessageText>
-              {' '}
+              {" "}
               {msg}
             </MessageText>
           </div>

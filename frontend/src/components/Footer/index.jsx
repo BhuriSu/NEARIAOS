@@ -1,11 +1,11 @@
-import React from 'react';
-import { FaTwitter } from 'react-icons/fa';
-import { animateScroll as scroll } from 'react-scroll';
+import React from "react";
+import { FaTwitter } from "react-icons/fa";
+import { animateScroll as scroll } from "react-scroll";
 import {
   FooterContainer, FooterWrap, FooterLinkWrapper, FooterLinkItems, FooterLinkContainer,
   FooterLinkTitle, FooterLink, SocialIconLink, SocialIcons, SocialLogo, SocialMedia,
   SocialMediaWrap, WebsiteRights,
-} from './FooterElements';
+} from "./FooterElements";
 
 function Footer() {
   const ToggleHome = () => {

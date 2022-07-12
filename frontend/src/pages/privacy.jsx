@@ -1,5 +1,5 @@
-import React from 'react';
-import Privacy from '../Privacy';
+import React from "react";
+import Privacy from "../Privacy";
 
 function PrivacyPage() {
   return (

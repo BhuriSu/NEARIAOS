@@ -1,34 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { getDatabase } from 'firebase/database';
-import { getStorage, ref, getDownloadURL } from 'firebase/storage';
-import Map from './Map';
-import ModalWindow from '../NewFeedComponents/Modal';
-import AnnouncementMessage from '../NewFeedComponents/Announcement';
-import './listUsers.css';
-import Navbar from '../NewFeedComponents/NavbarNewFeed';
-import Loader from '../NewFeedComponents/loader/Loader';
-import Loader2 from '../NewFeedComponents/loader/loader2';
+import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import { connect } from "react-redux";
+import axios from "axios";
+import { getDatabase } from "firebase/database";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import Map from "./Map";
+import ModalWindow from "../NewFeedComponents/Modal";
+import AnnouncementMessage from "../NewFeedComponents/Announcement";
+import "./listUsers.css";
+import Navbar from "../NewFeedComponents/NavbarNewFeed";
+import Loader from "../NewFeedComponents/loader/Loader";
+import Loader2 from "../NewFeedComponents/loader/loader2";
 
 /**
  * @param {*} props
  */
 
 function ListUsers() {
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(["userName"]);
   const [radius, setRadius] = useState(null);
   const [list, setList] = useState({
     success: false,
-    err: '',
+    err: "",
   });
 
-  const [isColorBtn, setColorBtn] = useState('findMe');
+  const [isColorBtn, setColorBtn] = useState("findMe");
   const [isShowLoader, setIsShowLoader] = useState(false);
   const [isShowMap, setShowMap] = useState(false);
-  const [user, setUser] = useState('');
-  const [url, setUrl] = useState('');
+  const [user, setUser] = useState("");
+  const [url, setUrl] = useState("");
   const [loader, setLoader] = useState();
   const database = getDatabase();
   const pushRoom = ref(database, `${cookies.userName}`);
@@ -47,9 +47,9 @@ function ListUsers() {
         pushRoom.remove();
       }
     };
-    pushRoom.on('value', handleNewMessages);
+    pushRoom.on("value", handleNewMessages);
     return () => {
-      pushRoom.off('value', handleNewMessages);
+      pushRoom.off("value", handleNewMessages);
     };
   });
 
@@ -68,7 +68,7 @@ function ListUsers() {
 
   const requestListUsers = (id, latitude, longitude, radius) => {
     axios
-      .post('/list/users', {
+      .post("/list/users", {
         id,
         latitude,
         longitude,
@@ -108,14 +108,14 @@ function ListUsers() {
       .catch(() => {
         setList({
           success: false,
-          err: 'Runtime error',
+          err: "Runtime error",
         });
       });
   };
 
   const geoFindLocation = () => {
     setIsShowLoader(true);
-    setColorBtn('whiteBorder');
+    setColorBtn("whiteBorder");
     const success = (position) => {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
@@ -131,14 +131,14 @@ function ListUsers() {
     const error = () => {
       setList({
         success: false,
-        err: 'Unable to retrieve your location',
+        err: "Unable to retrieve your location",
       });
     };
 
     if (!navigator.geolocation) {
       setList({
         success: false,
-        err: 'Geolocation is not supported by your browser',
+        err: "Geolocation is not supported by your browser",
       });
     } else {
       /**
@@ -163,7 +163,7 @@ function ListUsers() {
       <div
         className="main-container"
         style={{
-          width: '100%',
+          width: "100%",
         }}
       >
         <Navbar />
@@ -175,17 +175,17 @@ function ListUsers() {
             }}
             type="range"
             style={{
-              minWidth: '300px',
-              display: 'block',
-              width: '30%',
-              height: '50px',
-              margin: '0 auto',
-              border: 'none',
-              paddingBottom: '0',
-              borderBottom: 'solid #FFF 2px',
-              borderRadius: '0',
-              boxShadow: 'none',
-              marginBottom: '20px',
+              minWidth: "300px",
+              display: "block",
+              width: "30%",
+              height: "50px",
+              margin: "0 auto",
+              border: "none",
+              paddingBottom: "0",
+              borderBottom: "solid #FFF 2px",
+              borderRadius: "0",
+              boxShadow: "none",
+              marginBottom: "20px",
             }}
             min="200"
             max="10000"
@@ -195,15 +195,15 @@ function ListUsers() {
           <label className="label">
             {radius !== null ? (
               <div>
-                {' '}
+                {" "}
                 Chosen radius: &nbsp;
-                {' '}
+                {" "}
                 {radius}
                 &nbsp; meters
-                {' '}
+                {" "}
               </div>
             ) : (
-              <div style={{ margin: ' auto 0' }}>Choose the radius</div>
+              <div style={{ margin: " auto 0" }}>Choose the radius</div>
             )}
             &nbsp;
           </label>
@@ -212,13 +212,13 @@ function ListUsers() {
             className={isColorBtn}
             onClick={() => geoFindLocation()}
             style={{
-              display: 'block',
-              color: '#FFF',
-              backgroundColor: 'transparent',
-              position: 'relative',
-              margin: '0 auto',
-              width: '25rem',
-              textShadow: 'none',
+              display: "block",
+              color: "#FFF",
+              backgroundColor: "transparent",
+              position: "relative",
+              margin: "0 auto",
+              width: "25rem",
+              textShadow: "none",
             }}
           >
             FIND ME SOMEONE
@@ -226,7 +226,7 @@ function ListUsers() {
         </div>
 
         {list.success ? (
-          <div className="toggleBox" style={{ margin: '0 auto' }}>
+          <div className="toggleBox" style={{ margin: "0 auto" }}>
             <input type="checkbox" name="toggle" className="sw" id="toggle-2" />
             <label htmlFor="toggle-2" onClick={ChangeOnMap}>
               <span>Use a map</span>
@@ -245,21 +245,21 @@ function ListUsers() {
                 longitude={longitude}
                 list={list}
                 style={{
-                  marginTop: '10%',
-                  alignSelf: 'center',
-                  width: '100%',
-                  justifyContent: 'center',
+                  marginTop: "10%",
+                  alignSelf: "center",
+                  width: "100%",
+                  justifyContent: "center",
                 }}
                 radius={radius}
               />
             ) : (
               <ul
                 style={{
-                  display: 'flex',
-                  listStyle: 'none',
-                  padding: '0',
-                  justifyContent: 'space-around',
-                  flexWrap: 'wrap',
+                  display: "flex",
+                  listStyle: "none",
+                  padding: "0",
+                  justifyContent: "space-around",
+                  flexWrap: "wrap",
                 }}
               >
                 {list.success

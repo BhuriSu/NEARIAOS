@@ -3,7 +3,7 @@ import axios from "axios";
 import { LogIn } from "../redux/action";
 import { connect } from "react-redux";
 import ImageUpload from "./PhotoUpload";
-import {FromProcess,FromProcessContainer,ButtonCreate} from './CreatingElements'
+import {FromProcess,FromProcessContainer,ButtonCreate} from "./CreatingElements"
 
 class CreatingAccount extends React.Component {
   constructor(props) {
@@ -99,7 +99,7 @@ class CreatingAccount extends React.Component {
           className="btn"
           type="button"
           onClick={this._next}
-          data-cy='next-process'
+          data-cy="next-process"
           style={{
             marginBottom: "25px",
             color: "#FFF",
@@ -161,7 +161,7 @@ function Step1(props) {
           name="name"
           placeholder="Your name"
           required
-          data-cy='input-name-process'
+          data-cy="input-name-process"
         />
       </label>
       <label>
@@ -174,7 +174,7 @@ function Step1(props) {
           max="2010-01-01"
           min="1920-12-31"
           required
-          data-cy='input-Dob-process'
+          data-cy="input-Dob-process"
         />
       </label>
       <label>
@@ -184,7 +184,7 @@ function Step1(props) {
           type="text"
           name="activity"
           placeholder="Place of work or study (Optional)"
-          data-cy='input-activity-process'
+          data-cy="input-activity-process"
         />
       </label>
     </div>
@@ -244,7 +244,7 @@ function Step3(props) {
       <button
         type="submit"
         className="btn"
-        data-cy='submit-process'
+        data-cy="submit-process"
         style={{
           backgroundColor: "#3103ff",
           marginBottom: "25px",

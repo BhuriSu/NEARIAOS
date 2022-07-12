@@ -1,6 +1,6 @@
 import React, {
   createContext, useContext, useEffect, useState,
-} from 'react';
+} from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -10,8 +10,8 @@ import {
   GoogleAuthProvider,
   signOut,
   confirmPasswordReset,
-} from 'firebase/auth';
-import { auth } from '../firebase';
+} from "firebase/auth";
+import { auth } from "../firebase";
 
 const AuthContext = createContext({
   currentUser: null,
@@ -37,7 +37,7 @@ export default function AuthContextProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    console.log('The user is', currentUser);
+    console.log("The user is", currentUser);
   }, [currentUser]);
 
   function login(email, password) {
@@ -50,7 +50,7 @@ export default function AuthContextProvider({ children }) {
 
   function forgotPassword(email) {
     return sendPasswordResetEmail(auth, email, {
-      url: 'http://localhost:3000/login',
+      url: "http://localhost:3000/login",
     });
   }
 

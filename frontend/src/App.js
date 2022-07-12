@@ -1,23 +1,23 @@
-import React from 'react';
-import './App.css';
+import React from "react";
+import "./App.css";
 import {
   BrowserRouter , Routes, Route 
-} from 'react-router-dom';
-import Home from './pages';
-import SerranoPage from './pages/serrano';
-import ContactPage from './pages/contact';
-import LoginPage from './pages/login';
-import RegisterPage from './pages/register';
-import CreatingAccountPage from './pages/process';
-import ProfileEditPage from './pages/profile';
-import AllChatPage from './pages/allChat';
-import ChatPage from './pages/chat';
-import MessagePage from './pages/message';
-import ListPage from './pages/listUsers';
-import PrivacyPage from './pages/privacy';
-import ForgotPasswordPage from './pages/forgotPassword';
-import ResetPasswordPage from './pages/resetPassword';
-import AuthContextProvider from './context';
+} from "react-router-dom";
+import Home from "./pages";
+import SerranoPage from "./pages/serrano";
+import ContactPage from "./pages/contact";
+import LoginPage from "./pages/login";
+import RegisterPage from "./pages/register";
+import CreatingAccountPage from "./pages/process";
+import ProfileEditPage from "./pages/profile";
+import AllChatPage from "./pages/allChat";
+import ChatPage from "./pages/chat";
+import MessagePage from "./pages/message";
+import ListPage from "./pages/listUsers";
+import PrivacyPage from "./pages/privacy";
+import ForgotPasswordPage from "./pages/forgotPassword";
+import ResetPasswordPage from "./pages/resetPassword";
+import AuthContextProvider from "./context";
 
 function App() {
   

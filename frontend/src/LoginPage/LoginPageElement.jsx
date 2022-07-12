@@ -1,5 +1,5 @@
-import styled from 'styled-components';
-import { Link as LinkR } from 'react-router-dom';
+import styled from "styled-components";
+import { Link as LinkR } from "react-router-dom";
 
 export const LoginContainer = styled.div`
 height: 800px;

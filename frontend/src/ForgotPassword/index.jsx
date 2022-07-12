@@ -8,14 +8,14 @@ import {
   Input,
   Stack,
   useToast,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import styled from 'styled-components';
-import { Card } from '../components/Card';
-import { Layout } from '../components/Layout';
-import { useAuth } from '../context';
-import { ChakraProvider } from '@chakra-ui/react';
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import styled from "styled-components";
+import { Card } from "../components/Card";
+import { Layout } from "../components/Layout";
+import { useAuth } from "../context";
+import { ChakraProvider } from "@chakra-ui/react";
 
 const ForgotContainer = styled.div`
   height: 800px;
@@ -38,7 +38,7 @@ export default function ForgotPasswordPage() {
   const { forgotPassword } = useAuth();
   const toast = useToast();
 
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
 
   return (
     <ChakraProvider>
@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
                 forgotPassword(email);
                 toast({
                   description: `An email is sent to ${email} for password reset instructions.`,
-                  status: 'success',
+                  status: "success",
                   duration: 9000,
                   isClosable: true,
                 });
@@ -63,7 +63,7 @@ export default function ForgotPasswordPage() {
                 console.log(error.message);
                 toast({
                   description: error.message,
-                  status: 'error',
+                  status: "error",
                   duration: 9000,
                   isClosable: true,
                 });
@@ -89,7 +89,7 @@ export default function ForgotPasswordPage() {
           </chakra.form>
           <br />
           <Center>
-            <Button variant="link" colorScheme="black" onClick={() => navigate('/login' , { replace: true })}>
+            <Button variant="link" colorScheme="black" onClick={() => navigate("/login" , { replace: true })}>
               Login
             </Button>
           </Center>

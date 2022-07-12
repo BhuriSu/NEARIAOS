@@ -1,11 +1,11 @@
-import React from 'react';
-import Animated from '../animation/animated.gif';
-import Color from '../images/color.svg';
-import Card3 from '../images/card3.svg';
+import React from "react";
+import Animated from "../animation/animated.gif";
+import Color from "../images/color.svg";
+import Card3 from "../images/card3.svg";
 import {
   SerranoContainer, SerranoH1, SerranoWrapper, SerranoCard1,
   SerranoCard2, SerranoCard3, SerranoIcon, SerranoH2,
-} from './SerranoElements';
+} from "./SerranoElements";
 
 function Serrano() {
   return (

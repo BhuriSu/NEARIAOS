@@ -1,5 +1,5 @@
-import React from 'react';
-import AllChat from '../AllChats';
+import React from "react";
+import AllChat from "../AllChats";
 
 function AllChatPage() {
   return (

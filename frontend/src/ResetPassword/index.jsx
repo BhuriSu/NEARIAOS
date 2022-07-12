@@ -7,13 +7,13 @@ import {
   Input,
   Stack,
   useToast,
-} from '@chakra-ui/react';
-import React, { useState } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
-import { Card } from '../components/Card';
-import { Layout } from '../components/Layout';
-import { useAuth } from '../context';
-import { ChakraProvider } from '@chakra-ui/react';
+} from "@chakra-ui/react";
+import React, { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Card } from "../components/Card";
+import { Layout } from "../components/Layout";
+import { useAuth } from "../context";
+import { ChakraProvider } from "@chakra-ui/react";
 // A custom hook that builds on useLocation to parse
 // the query string for you.
 function useQuery() {
@@ -24,10 +24,10 @@ export default function ResetPasswordPage() {
   const { resetPassword } = useAuth();
   const query = useQuery();
   const navigate = useNavigate();
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState("");
   const toast = useToast();
 
-  console.log(query.get('mode'), query.get('oobCode'));
+  console.log(query.get("mode"), query.get("oobCode"));
   return (
     <ChakraProvider>
     <Layout>
@@ -39,18 +39,18 @@ export default function ResetPasswordPage() {
           onSubmit={async (e) => {
             e.preventDefault();
             try {
-              resetPassword(query.get('oobCode'), password);
+              resetPassword(query.get("oobCode"), password);
               toast({
-                description: 'Password has been changed, you can login now.',
-                status: 'success',
+                description: "Password has been changed, you can login now.",
+                status: "success",
                 duration: 9000,
                 isClosable: true,
               });
-              navigate('/login');
+              navigate("/login");
             } catch (error) {
               toast({
                 description: error.message,
-                status: 'error',
+                status: "error",
                 duration: 9000,
                 isClosable: true,
               });

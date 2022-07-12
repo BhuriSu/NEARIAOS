@@ -1,5 +1,5 @@
-import React from 'react';
-import CreatingAccount from '../CreatingAccount';
+import React from "react";
+import CreatingAccount from "../CreatingAccount";
 
 function CreatingAccountPage() {
   return (

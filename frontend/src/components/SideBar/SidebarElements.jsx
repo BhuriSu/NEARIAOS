@@ -1,6 +1,6 @@
-import styled from 'styled-components';
-import { Link as LinkR } from 'react-router-dom';
-import { FaTimes } from 'react-icons/fa';
+import styled from "styled-components";
+import { Link as LinkR } from "react-router-dom";
+import { FaTimes } from "react-icons/fa";
 
 export const SidebarContainer = styled.aside`
   position: fixed;
@@ -11,8 +11,8 @@ export const SidebarContainer = styled.aside`
   display: grid;
   align-items: center;
   transition: 0.3s ease-in-out;
-  opacity: ${({ isOpen }) => (isOpen ? '100%' : '0')};
-  top: ${({ isOpen }) => (isOpen ? '0' : '-100%')};
+  opacity: ${({ isOpen }) => (isOpen ? "100%" : "0")};
+  top: ${({ isOpen }) => (isOpen ? "0" : "-100%")};
 `;
 
 export const CloseIcon = styled(FaTimes)`

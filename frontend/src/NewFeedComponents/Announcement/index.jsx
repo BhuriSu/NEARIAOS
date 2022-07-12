@@ -1,16 +1,16 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import { useCookies } from "react-cookie";
 import {
   MainContainer,
   MessageContainer,
   NameAndDate,
   ImgExit,
   ExitBar,
-} from './AnnouncementElements';
+} from "./AnnouncementElements";
 
 function AnnouncementMessage(props) {
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(["userName"]);
   const { user } = props;
   const [man, setMan] = useState(null);
   function getChatName(a, b) {
@@ -38,17 +38,17 @@ function AnnouncementMessage(props) {
           </MessageContainer>
           <Link
             to={{
-              pathname: '/chat',
+              pathname: "/chat",
               state: {
                 chats: getChatName(cookies.userName, user.friend),
                 name: user.name,
                 urlFriend: user.url,
                 friend: user.friend,
-                url: '',
+                url: "",
               },
             }}
           >
-            {' '}
+            {" "}
             Go chat
           </Link>
           <ExitBar src="./images/stop.svg" alt="close" />

@@ -1,10 +1,10 @@
-import React from 'react';
-import { FaBars } from 'react-icons/fa';
-import { IconContext } from 'react-icons/lib';
-import { animateScroll as scroll } from 'react-scroll';
+import React from "react";
+import { FaBars } from "react-icons/fa";
+import { IconContext } from "react-icons/lib";
+import { animateScroll as scroll } from "react-scroll";
 import {
   Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavLinks, NavItem, NavBtn, NavBtnLink,
-} from './NavbarElements';
+} from "./NavbarElements";
 
 function Navbar({ toggle }) {
   const ToggleHome = () => {
@@ -12,7 +12,7 @@ function Navbar({ toggle }) {
   };
 
   return (
-    <IconContext.Provider value={{ color: '#fff' }}>
+    <IconContext.Provider value={{ color: "#fff" }}>
       <Nav>
         <NavbarContainer>
           <NavLogo to="/" onClick={ToggleHome}>Redunda</NavLogo>

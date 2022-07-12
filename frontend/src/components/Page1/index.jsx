@@ -1,8 +1,8 @@
-import React from 'react';
+import React from "react";
 import {
   Container, Content, P, Color, Img,
-} from './Page1Elements';
-import FirstPic from '../../images/firstPic.svg';
+} from "./Page1Elements";
+import FirstPic from "../../images/firstPic.svg";
 
 function Page1() {
   return (

@@ -1,5 +1,5 @@
-import React from 'react';
-import ForgotPasswordFunction from '../ForgotPassword';
+import React from "react";
+import ForgotPasswordFunction from "../ForgotPassword";
 
 function ForgotPasswordPage() {
   return (

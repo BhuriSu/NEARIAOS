@@ -3,8 +3,8 @@ import { Link , useLocation, Navigate , useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
-import { useAuth } from '../context';
-import {LoginContainer, LoginText, ForgotButton, ButtonGoogle } from './LoginPageElement';
+import { useAuth } from "../context";
+import {LoginContainer, LoginText, ForgotButton, ButtonGoogle } from "./LoginPageElement";
 
 function Login(props) {
   const { user, err, requestFetchLogin } = props;
@@ -13,7 +13,7 @@ function Login(props) {
   const location = useLocation();
   const navigate = useNavigate();
   function handleRedirectToOrBack() {
-    navigate(location.state?.from ?? '/listUsers' , { replace: true })
+    navigate(location.state?.from ?? "/listUsers" , { replace: true })
   }
 
   function PutData(event) {
@@ -53,7 +53,7 @@ function Login(props) {
               type="email"
               placeholder="Email Address"
               required
-              data-cy='input-email'
+              data-cy="input-email"
             />
           </label>
           <label>
@@ -63,13 +63,13 @@ function Login(props) {
               placeholder="Password"
               minLength="5"
               required
-              data-cy='input-password'
+              data-cy="input-password"
             />
           </label>
           <button 
             className="LoginButton"
             type="submit"
-            data-cy='login-submit-button'
+            data-cy="login-submit-button"
           >
             LogIn 
           </button>

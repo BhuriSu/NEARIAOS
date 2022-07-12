@@ -1,13 +1,13 @@
-import React, { useEffect } from 'react';
-import { connect } from 'react-redux';
-import { Link, Navigate } from 'react-router-dom';
-import { useCookies } from 'react-cookie';
-import { requestFetchRegister } from '../redux/action';
-import './Register.css';
-import { RegisterContainer, RegisterText } from './RegisterElements';
+import React, { useEffect } from "react";
+import { connect } from "react-redux";
+import { Link, Navigate } from "react-router-dom";
+import { useCookies } from "react-cookie";
+import { requestFetchRegister } from "../redux/action";
+import "./Register.css";
+import { RegisterContainer, RegisterText } from "./RegisterElements";
 
 function Register(props) {
-  const [cookies, setCookie] = useCookies(['userName', 'userNickname']);
+  const [cookies, setCookie] = useCookies(["userName", "userNickname"]);
   const { requestFetchRegister, err, user } = props;
 
   function PutData(event) {
@@ -21,8 +21,8 @@ function Register(props) {
   }
   useEffect(() => {
     if (user.id) {
-      setCookie('userNickname', user.nickname);
-      setCookie('userName', user.id);
+      setCookie("userNickname", user.nickname);
+      setCookie("userName", user.id);
     }
   }, [user.id, setCookie, user.nickname]);
 
@@ -69,7 +69,7 @@ function Register(props) {
           >
             Create
           </button>
-          <div style={{ color: 'red', textAlign: 'center' }}>{err.title}</div>
+          <div style={{ color: "red", textAlign: "center" }}>{err.title}</div>
           <br />
           <Link to="/login">
             <button

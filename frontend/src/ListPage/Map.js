@@ -1,12 +1,12 @@
-import React from 'react';
+import React from "react";
 import {
   Button, Header, Modal, List,
-} from 'semantic-ui-react';
-import axios from 'axios';
-import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
-import { GoogleMap, Marker, Circle } from '@react-google-maps/api';
-import styles from './GoogleMapStyles.json';
+} from "semantic-ui-react";
+import axios from "axios";
+import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
+import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
+import styles from "./GoogleMapStyles.json";
 
 function Map({
   googleMapURL = process.env.REACT_APP_GOOGLE_MAP_URI,
@@ -16,10 +16,10 @@ function Map({
   radius,
   url,
 }) {
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(["userName"]);
 
   function sendRequest(id) {
-    axios.post('/database', {
+    axios.post("/database", {
       ID1: cookies.userName,
       ID2: id,
     });
@@ -54,17 +54,17 @@ function Map({
   return (
     <CMap
       googleMapURL={googleMapURL}
-      loadingElement={<div style={{ height: '50%' }} />}
-      containerElement={<div style={{ height: '400px' }} />}
+      loadingElement={<div style={{ height: "50%" }} />}
+      containerElement={<div style={{ height: "400px" }} />}
       mapElement={(
         <div
           style={{
-            height: '95%',
-            width: '85%',
-            border: '2px solid #FFF',
-            borderRadius: '25px',
-            margin: '0 auto',
-            boxShadow: '10px 10px 8px black',
+            height: "95%",
+            width: "85%",
+            border: "2px solid #FFF",
+            borderRadius: "25px",
+            margin: "0 auto",
+            boxShadow: "10px 10px 8px black",
           }}
         />
         )}
@@ -75,14 +75,14 @@ function Map({
         <div>
           <Modal
             style={{
-              textAlign: 'center',
-              height: 'auto',
+              textAlign: "center",
+              height: "auto",
             }}
             dimmer="blurring"
             size="mini"
             trigger={(
               <Marker
-                icon={{ url: './images/search.svg' }}
+                icon={{ url: "./images/search.svg" }}
                 position={{ lat: profile.latitude, lng: profile.longitude }}
                 title={profile.name}
               />
@@ -90,7 +90,7 @@ function Map({
           >
             <Modal.Content>
               <Modal.Description>
-                <Header style={{ color: '#0f4667', fontSize: 'x-large' }}>
+                <Header style={{ color: "#0f4667", fontSize: "x-large" }}>
                   {` ${profile.name}, ${Math.floor(
                     (new Date() - new Date(profile.DoB))
                         / (24 * 3600 * 365.25 * 1000),
@@ -100,10 +100,10 @@ function Map({
                   className="avatar cursor"
                   style={{
                     backgroundImage: `url(${profile.url
-                        || './images/infoUser.svg'})`,
+                        || "./images/infoUser.svg"})`,
                   }}
                 />
-                <List style={{ padding: '0 3rem', fontSize: 'large' }}>
+                <List style={{ padding: "0 3rem", fontSize: "large" }}>
                   <List.Item icon="briefcase" content={profile.activity} />
                   <List.Item icon="glass martini" content={profile.drinks} />
                   <List.Item icon="comments" content={profile.topics} />
@@ -113,12 +113,12 @@ function Map({
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions
-              style={{ backgroundColor: '#0f4667', textAlign: 'center' }}
+              style={{ backgroundColor: "#0f4667", textAlign: "center" }}
             >
               <Link
                 onClick={() => sendRequest(profile._id)}
                 to={{
-                  pathname: '/chat',
+                  pathname: "/chat",
                   state: {
                     chats: getChatName(cookies.userName, profile.person),
                     name: profile.name,
@@ -131,11 +131,11 @@ function Map({
                 <Button
                   primary
                   style={{
-                    color: '#0f4667',
-                    textShadow: 'none',
-                    margin: '0 auto',
-                    borderRadius: '320px',
-                    backgroundColor: '#FFF',
+                    color: "#0f4667",
+                    textShadow: "none",
+                    margin: "0 auto",
+                    borderRadius: "320px",
+                    backgroundColor: "#FFF",
                   }}
                 >
                   Write

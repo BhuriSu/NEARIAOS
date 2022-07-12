@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 export const MessageBody = styled.div`
 font-family: helvetica;

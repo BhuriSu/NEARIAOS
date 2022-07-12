@@ -1,11 +1,11 @@
-import { getStorage } from 'firebase/storage';
-import 'firebase/messaging';
-import { initializeApp } from 'firebase/app';
-import { getAnalytics } from 'firebase/analytics';
-import { getDatabase } from 'firebase/database';
-import { getAuth } from 'firebase/auth';
-import { getFirestore } from 'firebase/firestore';
-// Your web app's Firebase configuration
+import { getStorage } from "firebase/storage";
+import "firebase/messaging";
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+import { getDatabase } from "firebase/database";
+import { getAuth } from "firebase/auth";
+import { getFirestore } from "firebase/firestore";
+// Your web app"s Firebase configuration
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_DB_API,
   authDomain: process.env.REACT_APP_authDomain,

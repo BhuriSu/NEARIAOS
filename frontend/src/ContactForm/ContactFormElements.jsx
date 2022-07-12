@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled from "styled-components";
 
 export const StyledFormWrapper = styled.div`
  background-color: #000;
@@ -16,7 +16,7 @@ export const StyledFormWrapper = styled.div`
   @media screen and (max-width: 480px) {
     height: 1300px;
   }
-`
+`;
 export const StyledForm = styled.form`
   width: 100%;
   max-width: 700px;
@@ -40,7 +40,7 @@ export const TopicForm = styled.h1`
   @media screen and (max-width: 480px) {
     font-size: 18px
   }
-`
+`;
 
 
 export const StyledError = styled.div`

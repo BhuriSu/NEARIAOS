@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import Serrano from '../Serrano';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/SideBar';
-import Footer from '../components/Footer';
+import React, { useState } from "react";
+import Serrano from "../Serrano";
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/SideBar";
+import Footer from "../components/Footer";
 
 function SerranoPage() {
   const [isOpen, setIsOpen] = useState(false);

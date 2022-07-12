@@ -1,12 +1,12 @@
-import React from 'react';
-import axios from 'axios';
+import React from "react";
+import axios from "axios";
 import {
   Button, Header, Modal, List, Card,
-} from 'semantic-ui-react';
-import './modal.css';
-import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
-import { Mini, AvatarModal } from './ModalElements';
+} from "semantic-ui-react";
+import "./modal.css";
+import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
+import { Mini, AvatarModal } from "./ModalElements";
 
 function ModalWindow(props) {
   const { url } = props;
@@ -14,9 +14,9 @@ function ModalWindow(props) {
   const age = Math.floor(
     (new Date() - new Date(profile.DoB)) / (24 * 3600 * 365.25 * 1000),
   );
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(["userName"]);
   function sendRequest() {
-    axios.post('/database', {
+    axios.post("/database", {
       ID1: cookies.userName,
       ID2: profile.person,
     });
@@ -32,38 +32,38 @@ function ModalWindow(props) {
     <div>
       <Modal
         style={{
-          textAlign: 'center',
-          height: 'auto',
+          textAlign: "center",
+          height: "auto",
         }}
         dimmer="blurring"
         size="Mini"
         trigger={(
           <Button
             style={{
-              fontSize: '25px',
-              listStyle: 'none',
-              alignSelf: 'center',
-              position: 'relative',
-              backgroundColor: 'transparent',
-              flex: '1',
-              color: '#FFF',
+              fontSize: "25px",
+              listStyle: "none",
+              alignSelf: "center",
+              position: "relative",
+              backgroundColor: "transparent",
+              flex: "1",
+              color: "#FFF",
             }}
           >
             <Card
               style={{
-                backgroundColor: 'transparent',
-                borderRadius: '8px',
-                width: '200px',
+                backgroundColor: "transparent",
+                borderRadius: "8px",
+                width: "200px",
               }}
             >
               <Card.Content>
                 <Mini
                   style={{
-                    backgroundImage: `url(${profile.url || './images/infoUser.svg'})`,
+                    backgroundImage: `url(${profile.url || "./images/infoUser.svg"})`,
                   }}
                 />
                 <Card.Header textAlign="center" />
-                <Card.Description style={{ color: 'white' }}>
+                <Card.Description style={{ color: "white" }}>
                   {profile.name}
                   ,
                   {age}
@@ -74,17 +74,17 @@ function ModalWindow(props) {
         )}
       >
         <Modal.Content>
-          <Modal.Description style={{ color: 'rgb(124, 42, 255)' }}>
-            <Header style={{ color: 'rgb(124, 42, 255)', fontSize: 'x-large' }}>
+          <Modal.Description style={{ color: "rgb(124, 42, 255)" }}>
+            <Header style={{ color: "rgb(124, 42, 255)", fontSize: "x-large" }}>
               {` ${profile.name}, ${age}`}
             </Header>
             <AvatarModal
               className="cursor"
               style={{
-                backgroundImage: `url(${profile.url || './images/infoUser.svg'})`,
+                backgroundImage: `url(${profile.url || "./images/infoUser.svg"})`,
               }}
             />
-            <List style={{ padding: '0 3rem', fontSize: 'large' }}>
+            <List style={{ padding: "0 3rem", fontSize: "large" }}>
               <List.Item icon="briefcase" content={profile.activity} />
               <List.Item icon="glass martini" content={profile.drinks} />
               <List.Item icon="comments" content={profile.topics} />
@@ -93,12 +93,12 @@ function ModalWindow(props) {
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions
-          style={{ backgroundColor: 'rgb(124, 42, 255)', textAlign: 'center' }}
+          style={{ backgroundColor: "rgb(124, 42, 255)", textAlign: "center" }}
         >
           <Link
             onClick={sendRequest}
             to={{
-              pathname: '/chat',
+              pathname: "/chat",
               state: {
                 chats: getChatName(cookies.userName, profile.person),
                 name: profile.name,
@@ -110,11 +110,11 @@ function ModalWindow(props) {
           >
             <Button
               style={{
-                color: 'rgb(124, 42, 255)',
-                textShadow: 'none',
-                marginBottom: '1em',
-                borderRadius: '320px',
-                backgroundColor: '#FFF',
+                color: "rgb(124, 42, 255)",
+                textShadow: "none",
+                marginBottom: "1em",
+                borderRadius: "320px",
+                backgroundColor: "#FFF",
               }}
             >
               Write

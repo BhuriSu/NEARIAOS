@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { useCookies } from "react-cookie";
+import axios from "axios";
 import {
   getDatabase, ref, query, limitToLast, onValue,
-} from 'firebase/database';
-import ButtonChat from './ButtonChat';
-import Navbar from '../NewFeedComponents/NavbarNewFeed';
-import Loader from '../NewFeedComponents/loader/Loader';
+} from "firebase/database";
+import ButtonChat from "./ButtonChat";
+import Navbar from "../NewFeedComponents/NavbarNewFeed";
+import Loader from "../NewFeedComponents/loader/Loader";
 
 function AllChats() {
-  const [cookies] = useCookies(['userName', 'checked']);
+  const [cookies] = useCookies(["userName", "checked"]);
   const [chats, setChat] = useState(null);
 
   useEffect(() => {
@@ -40,8 +40,8 @@ function AllChats() {
   return (
     <div
       style={{
-        width: '100vw',
-        height: '100vh',
+        width: "100vw",
+        height: "100vh",
       }}
     >
       <div className="full-wh">
@@ -52,13 +52,13 @@ function AllChats() {
           <div id="stars4" />
         </div>
       </div>
-      <div style={{ width: '100%' }} className="main-cont">
+      <div style={{ width: "100%" }} className="main-cont">
         <Navbar />
         <div
           style={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
+            display: "flex",
+            justifyContent: "center",
+            flexDirection: "column",
           }}
           className="button-chat"
         >

@@ -1,10 +1,10 @@
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import emailjs from '@emailjs/browser';
-import { ToastContainer, toast } from 'react-toastify';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import emailjs from "@emailjs/browser";
+import { ToastContainer, toast } from "react-toastify";
 import {
   StyledFormWrapper, StyledForm, TopicForm, StyledInput, StyledButton, StyledTextArea, StyledError,
-} from './ContactFormElements';
+} from "./ContactFormElements";
 
 function ContactForm() {
   const {
@@ -17,15 +17,15 @@ function ContactForm() {
 
 
   const toastifySuccess = () => {
-    toast('Form sent!', {
-      position: 'bottom-right',
+    toast("Form sent!", {
+      position: "bottom-right",
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
-      className: 'submit-feedback success',
-      toastId: 'notifyToast',
+      className: "submit-feedback success",
+      toastId: "notifyToast",
     });
   };
 
@@ -78,14 +78,14 @@ function ContactForm() {
             <StyledInput
               type="text"
               name="name"
-              {...register('name', {
+              {...register("name", {
                 required: {
                   value: true,
-                  message: 'Please enter your name',
+                  message: "Please enter your name",
                 },
                 maxLength: {
                   value: 30,
-                  message: 'Please use 30 characters or less',
+                  message: "Please use 30 characters or less",
                 },
               })}
               placeholder="Name"
@@ -98,7 +98,7 @@ function ContactForm() {
             <StyledInput
               type="email"
               name="email"
-              {...register('email', {
+              {...register("email", {
                 required: true,
                 pattern:
                           /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
@@ -117,14 +117,14 @@ function ContactForm() {
             <StyledInput
               type="text"
               name="subject"
-              {...register('subject', {
+              {...register("subject", {
                 required: {
                   value: true,
-                  message: 'Please enter a subject',
+                  message: "Please enter a subject",
                 },
                 maxLength: {
                   value: 75,
-                  message: 'Subject cannot exceed 75 characters',
+                  message: "Subject cannot exceed 75 characters",
                 },
               })}
               placeholder="Subject"
@@ -141,7 +141,7 @@ function ContactForm() {
             <StyledTextArea
               rows={3}
               name="message"
-              {...register('message', {
+              {...register("message", {
                 required: true,
               })}
               placeholder="Message"
