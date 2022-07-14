@@ -16,14 +16,13 @@ export const homeObjTwo = {
   topLine: "you can find",
   headline: "True love",
   description: "Maybe your lovely couple in the future would be found around you",
-  buttonLabel: "Learn More",
+  buttonLabel: "Find it",
   imgStart: true,
   img: require("../../images/info2.svg").default,
   alt: "love",
 };
 
 export const homeObjThree = {
-
   lightBg: true,
   lightText: false,
   topLine: "easy peasy",
@@ -33,4 +32,16 @@ export const homeObjThree = {
   imgStart: false,
   img: require("../../images/info3.svg").default,
   alt: "stack",
+};
+
+export const homeObjFour = {
+  lightBg: true,
+  lightText: false,
+  topLine: "c'mon",
+  headline: "What are you waiting for?",
+  description: "Click Click Click",
+  buttonLabel: "Click!",
+  imgStart: false,
+  img: require("../../images/mixcard.svg").default,
+  alt: "user",
 };

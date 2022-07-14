@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Footer from "../components/Footer";
 import Page1 from "../components/Page1";
 import Info from "../components/Info";
-import { homeObjOne, homeObjTwo, homeObjThree } from "../components/Info/Data";
+import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from "../components/Info/Data";
 import Navbar from "../components/Navbar";
 import OurPlatForm from "../components/OurPlatform";
 import Sidebar from "../components/SideBar";
@@ -27,6 +27,7 @@ function Home() {
       <Info {...homeObjOne} />
       <Info {...homeObjTwo} />
       <Info {...homeObjThree} />
+      <Info {...homeObjFour} />
       <Footer />
 
     </>
