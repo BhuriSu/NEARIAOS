@@ -21,7 +21,7 @@ function Footer() {
 
             <FooterLinkItems>
               <FooterLinkTitle>About Us</FooterLinkTitle>
-              <FooterLink to="/privacy">Terms & Conditions</FooterLink>
+              <FooterLink to="/privacy" >Privacy and Cookie Policy</FooterLink>
             </FooterLinkItems>
 
             <FooterLinkItems>

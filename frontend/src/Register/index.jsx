@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { requestFetchRegister } from "../redux/action";
 import "./Register.css";
@@ -9,7 +9,7 @@ import { RegisterContainer, RegisterText } from "./RegisterElements";
 function Register(props) {
   const [cookies, setCookie] = useCookies(["userName", "userNickname"]);
   const { requestFetchRegister, err, user } = props;
-
+  const Navigate = useNavigate();
   function PutData(event) {
     event.preventDefault();
     const {

@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link , useLocation, Navigate , useNavigate } from "react-router-dom";
+import { Link , useLocation, useNavigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
@@ -11,9 +11,9 @@ function Login(props) {
   const [cookies, setCookie] = useCookies(["userName", "userNickname"]);
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
-  const navigate = useNavigate();
+  const Navigate = useNavigate();
   function handleRedirectToOrBack() {
-    navigate(location.state?.from ?? "/listUsers" , { replace: true })
+    Navigate(location.state?.from ?? "/listUsers" , { replace: true })
   }
 
   function PutData(event) {
