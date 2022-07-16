@@ -72,7 +72,7 @@ function Map({
     >
       <Circle center={{ lat: latitude, lng: longitude }} radius={+radius} />
       {list.list.map((profile) => (
-        <div>
+        <div key={profile._id} >
           <Modal
             style={{
               textAlign: "center",

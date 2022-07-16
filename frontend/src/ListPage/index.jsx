@@ -264,8 +264,8 @@ function ListUsers() {
               >
                 {list.success
                   ? list.list.map((obj) => (
-                    <div className="map">
-                      <ModalWindow obj={obj} url={url} key={obj._id} />
+                    <div key={obj._id} className="map">
+                      <ModalWindow obj={obj} url={url} />
                     </div>
                   ))
                   : list.err}
