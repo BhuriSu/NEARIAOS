@@ -63,7 +63,7 @@ function AllChats() {
           className="button-chat"
         >
           {chats ? (
-            chats.map((el, index) => <ButtonChat key={el._id} chats={el} />)
+            chats.map((el) => <ButtonChat key={el._id} chats={el} />)
           ) : (
             <Loader />
           )}

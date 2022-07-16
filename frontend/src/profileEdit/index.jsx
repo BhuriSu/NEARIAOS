@@ -125,7 +125,7 @@ function ProfileEdit(props) {
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(
         'state_changed',
-        (snapshot) => {
+        () => {
           setUrl('./loading.gif');
         },
         (error) => {

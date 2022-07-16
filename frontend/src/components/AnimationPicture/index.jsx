@@ -1,3 +1,4 @@
+import React from "react";
 import "./animation.css";
 import { motion } from "framer-motion";
 import { Container } from './AnimationElements';

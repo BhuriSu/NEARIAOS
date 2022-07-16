@@ -1,6 +1,6 @@
 import { DialogActions, DialogContent, DialogContentText } from '@mui/material';
 import { EmailAuthProvider, reauthenticateWithCredential } from 'firebase/auth';
-import { useRef } from 'react';
+import React, { useRef } from 'react';
 import { useAuth } from '../../context';
 import PasswordField from '../inputs/PasswordField';
 import SubmitButton from '../inputs/SubmitButton';

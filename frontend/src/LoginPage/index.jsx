@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
 import { useAuth } from "../context";
-import {LoginContainer, LoginText, ForgotButton, ButtonGoogle } from "./LoginPageElement";
+import { LoginContainer, LoginText, ForgotButton, ButtonGoogle } from "./LoginPageElement";
 
 function Login(props) {
   const { user, err, requestFetchLogin } = props;
@@ -37,7 +37,7 @@ function Login(props) {
     <LoginContainer>
       {cookies.userName ? (
         user.profileId ? (
-          <Navigate  from="/login" to="/listUsers" />
+          <Navigate from="/login" to="/listUsers" />
         ) : (
           <Navigate to="/process" />
         )

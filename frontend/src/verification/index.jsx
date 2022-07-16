@@ -1,7 +1,7 @@
 import { Close } from "@mui/icons-material";
 import { Alert, Box, Button, Collapse, IconButton } from "@mui/material";
 import { sendEmailVerification } from "firebase/auth";
-import { useState } from "react";
+import React, { useState } from "react";
 import { useAuth } from "../context";
 
 const Verification = () => {
