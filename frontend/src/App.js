@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import {
-  BrowserRouter , Routes, Route 
+  BrowserRouter as Router , Routes, Route 
 } from "react-router-dom";
 import Home from "./pages";
 import SerranoPage from "./pages/serrano";
@@ -25,7 +25,7 @@ function App() {
   return (
 
     <AuthContextProvider>
-    <BrowserRouter>
+    <Router>
         <Routes>
           <Route path="/" element={<Home/>} exact />
           <Route path="/serrano" element={<SerranoPage/>} />
@@ -42,7 +42,7 @@ function App() {
           <Route path="/forgotPassword" element={<ForgotPasswordPage/>} />
           <Route path="/resetPassword" element={<ResetPasswordPage/>} />
         </Routes>
-        </BrowserRouter>
+        </Router>
     </AuthContextProvider>
 
   );

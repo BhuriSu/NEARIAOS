@@ -11,16 +11,13 @@ function getChatName (a, b) {
 }
 
 router.post('/listUsers',async (req,res)=>{
+try {
 const {ID1, ID2} = req.body;
 const chat = getChatName(ID1,ID2)
-
 const results = await Promise.all(
   [ID1, ID2].map(x => Person.findOne({_id:x}))
 );
-
-// geolocation point
-const user = results[0];
-
+const user = results[0]; // geolocation point
 const check = user.chats.some(el=>el.chat===chat)
 if(check){
 return res.send()
@@ -32,14 +29,21 @@ return res.send()
   )
   res.send()
 }
-})
+} catch (err) {
+  console.error("Something went wrong")
+  console.error(err)
+}})
 
 router.get('/:id',async (req,res)=>{
+try {
 const id = req.params.id
-const chats = (await Person.findOne({_id:id})).chats
+const chats = await Person.findOne({_id:id}).chats
   res.send({
     chats,
   })
-}) 
+} catch (err) {
+  console.error("Something went wrong")
+  console.error(err)
+}}) 
 
 module.exports = router;

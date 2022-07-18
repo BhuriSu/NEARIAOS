@@ -7,18 +7,26 @@ import "./Register.css";
 import { RegisterContainer, RegisterText } from "./RegisterElements";
 
 function Register(props) {
-  const [cookies, setCookie] = useCookies(["userName", "userNickname"]);
+  const [ setCookie ] = useCookies(["userName", "userNickname"]);
   const { requestFetchRegister, err, user } = props;
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   function PutData(event) {
     event.preventDefault();
-    const {
-      nick: { value: nickname },
-      mail: { value: email },
-      password: { value: password },
-    } = event.target;
-    requestFetchRegister(nickname, email, password);
+    try {
+      const {
+        nick: { value: nickname },
+        mail: { value: email },
+        password: { value: password },
+      } = event.target;
+      requestFetchRegister(nickname, email, password);
+      navigate('/process');
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+      console.log('Not Authorized');
+    }
   }
+  
   useEffect(() => {
     if (user.id) {
       setCookie("userNickname", user.nickname);
@@ -29,10 +37,7 @@ function Register(props) {
   return (
     <RegisterContainer>
      
-      {cookies.userName ? (
-        <Navigate to="/process" />
-      ) : (
-
+     
         <form
           onSubmit={PutData}
           className="form "
@@ -80,7 +85,7 @@ function Register(props) {
           </Link>
         </form>
 
-      )}
+      
     </RegisterContainer>
   );
 }

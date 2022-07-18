@@ -11,19 +11,25 @@ function Login(props) {
   const [cookies, setCookie] = useCookies(["userName", "userNickname"]);
   const { signInWithGoogle } = useAuth();
   const location = useLocation();
-  const Navigate = useNavigate();
+  const navigate = useNavigate();
   function handleRedirectToOrBack() {
-    Navigate(location.state?.from ?? "/listUsers" , { replace: true })
+    navigate(location.state?.from ?? "/listUsers" , { replace: true })
   }
 
-  function PutData(event) {
+  async function PutData(event) {
     event.preventDefault();
-    
-    const {
-      mail: { value: email },
-      password: { value: password }
-    } = event.target;
-    requestFetchLogin(email, password);
+    try {
+      const {
+        mail: { value: email },
+        password: { value: password }
+      } = event.target;
+      requestFetchLogin(email, password);
+      navigate('/listUsers');
+    } catch (err) {
+      console.error(err);
+      alert(err.message);
+      console.log('Not Authorized');
+    }
   }
 
   useEffect(() => {
@@ -36,11 +42,7 @@ function Login(props) {
   return (
     <LoginContainer>
       {cookies.userName ? (
-        user.profileId ? (
-          <Navigate from="/login" to="/listUsers" />
-        ) : (
-          <Navigate to="/process" />
-        )
+        user.profileId 
       ) : (
         <form
           onSubmit={PutData}

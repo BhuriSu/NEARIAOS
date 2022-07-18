@@ -20,10 +20,15 @@ const distHaversine = (p1, p2) => {
 };
 
 router.get("/listUsers", async (req, res) => {
+  try {
   res.send("respond with a resource");
-});
+} catch (err) {
+  console.error("Something went wrong")
+  console.error(err)
+}});
 
 router.post("/users", async (req, res) => {
+  try {
   const { id, latitude, longitude, radius } = req.body;
   if ([id, latitude, longitude, radius].some(el => el === undefined)) {
     return res.send({
@@ -72,5 +77,8 @@ router.post("/users", async (req, res) => {
     success: false,
     err: "No such a user from this geolocation"
   });
-});
+} catch (err) {
+  console.error("Something went wrong")
+  console.error(err)
+}});
 module.exports = router;
