@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Link , useLocation, useNavigate } from "react-router-dom";
+import { Link , useLocation, useNavigate, Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
@@ -18,18 +18,11 @@ function Login(props) {
 
   async function PutData(event) {
     event.preventDefault();
-    try {
       const {
         mail: { value: email },
         password: { value: password }
       } = event.target;
       requestFetchLogin(email, password);
-      navigate('/listUsers');
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
-      console.log('Not Authorized');
-    }
   }
 
   useEffect(() => {
@@ -42,7 +35,11 @@ function Login(props) {
   return (
     <LoginContainer>
       {cookies.userName ? (
-        user.profileId 
+        user.profileId ? (
+          <Navigate from="/login" to="/listUsers" />
+        ) : (
+          <Navigate to="/process"/>
+        )
       ) : (
         <form
           onSubmit={PutData}

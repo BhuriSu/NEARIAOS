@@ -1,7 +1,7 @@
 import React from "react";
 import "./App.css";
 import {
-  BrowserRouter as Router , Routes, Route 
+  BrowserRouter as Router ,Routes ,Route 
 } from "react-router-dom";
 import Home from "./pages";
 import SerranoPage from "./pages/serrano";
@@ -30,7 +30,7 @@ function App() {
           <Route path="/" element={<Home/>} exact />
           <Route path="/serrano" element={<SerranoPage/>} />
           <Route path="/contact" element={<ContactPage/>} />
-          <Route path="/login" element={<LoginPage/>} />
+          <Route path="/login" element={ <LoginPage/>} />
           <Route path="/register" element={<RegisterPage/>} />
           <Route path="/process" element={<CreatingAccountPage/>} />
           <Route path="/profile" element={<ProfileEditPage/>} />

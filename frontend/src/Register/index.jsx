@@ -1,30 +1,22 @@
 import React, { useEffect } from "react";
 import { connect } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, Navigate} from "react-router-dom";
 import { useCookies } from "react-cookie";
 import { requestFetchRegister } from "../redux/action";
 import "./Register.css";
 import { RegisterContainer, RegisterText } from "./RegisterElements";
 
 function Register(props) {
-  const [ setCookie ] = useCookies(["userName", "userNickname"]);
+  const [ cookies ,setCookie ] = useCookies(["userName", "userNickname"]);
   const { requestFetchRegister, err, user } = props;
-  const navigate = useNavigate();
   function PutData(event) {
     event.preventDefault();
-    try {
       const {
         nick: { value: nickname },
         mail: { value: email },
         password: { value: password },
       } = event.target;
       requestFetchRegister(nickname, email, password);
-      navigate('/process');
-    } catch (err) {
-      console.error(err);
-      alert(err.message);
-      console.log('Not Authorized');
-    }
   }
   
   useEffect(() => {
@@ -37,7 +29,9 @@ function Register(props) {
   return (
     <RegisterContainer>
      
-     
+     {cookies.userName ? (
+        <Navigate to="/process" />
+      ) : (
         <form
           onSubmit={PutData}
           className="form "
@@ -85,9 +79,10 @@ function Register(props) {
           </Link>
         </form>
 
-      
+        )}
     </RegisterContainer>
-  );
+      
+      );
 }
 const mapStateToProps = (state) => ({
   user: state.user,
