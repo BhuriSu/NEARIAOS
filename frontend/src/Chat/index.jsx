@@ -61,14 +61,6 @@ function Chat(props) {
   };
   return (
     <BodyChat>
-      <div className="full-wh">
-        <div className="bg-animation">
-          <div id="stars" />
-          <div id="stars2" />
-          <div id="stars3" />
-          <div id="stars4" />
-        </div>
-      </div>
 
       <HeaderChat>
         <Link to="/allChat" className="ChatBar">

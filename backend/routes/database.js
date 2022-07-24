@@ -30,8 +30,7 @@ return res.send()
   res.send()
 }
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }})
 
 router.get('/:id',async (req,res)=>{
@@ -42,8 +41,7 @@ const chats = await Person.findOne({_id:id}).chats
     chats,
   })
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }}) 
 
 module.exports = router;

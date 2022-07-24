@@ -26,17 +26,11 @@ function Footer() {
 
             <FooterLinkItems>
               <FooterLinkTitle>Contact Us</FooterLinkTitle>
-
               <FooterLink to="/contact">Sponsorships</FooterLink>
             </FooterLinkItems>
 
-          </FooterLinkWrapper>
-
-          <FooterLinkWrapper>
-
             <FooterLinkItems>
               <FooterLinkTitle>Social Media</FooterLinkTitle>
-
               <FooterLink to="/">Twitter</FooterLink>
             </FooterLinkItems>
 
@@ -46,21 +40,23 @@ function Footer() {
 
         <SocialMedia>
           <SocialMediaWrap>
+
             <SocialLogo to="/" onClick={ToggleHome}>
               Redunda
             </SocialLogo>
+
             <WebsiteRights>
               Redunda ©
               {new Date().getFullYear()}
               All rights reserved.
             </WebsiteRights>
+
             <SocialIcons>
-
-              <SocialIconLink href="/" target="_blank" aria-label="Twitter">
-                <FaTwitter />
-              </SocialIconLink>
-
+            <SocialIconLink href="/" target="_blank" aria-label="Twitter">
+            <FaTwitter />
+            </SocialIconLink>
             </SocialIcons>
+
           </SocialMediaWrap>
         </SocialMedia>
 

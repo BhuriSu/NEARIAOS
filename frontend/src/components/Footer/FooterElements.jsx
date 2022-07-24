@@ -94,6 +94,7 @@ export const SocialIcons = styled.div`
   justify-content: space-between;
   align-items: center;
   width: 240px;
+  margin-bottom: 65px;
 `;
 export const SocialIconLink = styled.a`
   color: #000;

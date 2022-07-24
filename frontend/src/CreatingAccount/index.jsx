@@ -19,7 +19,12 @@ class CreatingAccount extends React.Component {
       random: 0
     };
   }
-
+  componentDidMount() {
+    this.setState({
+      ...this.state,
+      random: Math.floor(Math.random() * 10)
+    });
+  }
 
   handleChange = event => {
     const { name, value } = event.target;
@@ -234,6 +239,7 @@ function Step3(props) {
           <input
             value={props.about}
             onChange={props.handleChange}
+            className="form-control"
             type="text"
             name="about"
             placeholder="Caption (Optional)"

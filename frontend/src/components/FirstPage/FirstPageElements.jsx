@@ -31,11 +31,7 @@ export const Content = styled.div`
   align-items: center;
 `;
 
-export const Color = styled.text`
-color: #00fff9;
-`;
-
-export const P = styled.p`
+export const FirstLine = styled.p`
   margin-top: 30px;
   color: #fff;
   font-size: 24px;
@@ -53,7 +49,7 @@ export const P = styled.p`
     font-size: 16px
   }
 `;
-export const Img = styled.img`
+export const Planet = styled.img`
 width: 100%;
 height: 100%;
 -o-object-fit: cover;

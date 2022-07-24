@@ -7,8 +7,7 @@ router.get('/listUsers', async (req, res) => {
   try {
   res.send('respond with a resource');
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 
 router.post('/login', async (req, res) => {
@@ -29,8 +28,7 @@ router.post('/login', async (req, res) => {
     err: 'No such user or incorrect pair login password',
   });
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 
 router.post('/registration', async (req, res) => {
@@ -59,8 +57,7 @@ router.post('/registration', async (req, res) => {
     err: 'Email is already registered',
   });
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 
 router.post('/profile', async (req, res) => {
@@ -103,8 +100,7 @@ router.post('/profile', async (req, res) => {
     },
   });
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 
 router.patch('/profile', async (req, res) => {
@@ -126,8 +122,7 @@ router.patch('/profile', async (req, res) => {
     res.send({ success: false, err: 'Try again' });
   }
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 
 router.post('/profileEdit', async (req, res) => {
@@ -140,8 +135,7 @@ router.post('/profileEdit', async (req, res) => {
     res.send({ success: false, err: 'Something went wrong' });
   }
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 
 module.exports = router;

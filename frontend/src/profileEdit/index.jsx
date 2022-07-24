@@ -3,16 +3,12 @@ import { connect } from 'react-redux';
 import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import MenuItem from '@mui/material/MenuItem';
-import ListItemIcon from '@mui/material/ListItemIcon';
-import Settings from '@mui/icons-material/Settings';
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage,
 } from 'firebase/storage';
 import { profileInit } from '../redux/action';
 import NavbarNewFeed from '../NewFeedComponents/NavbarNewFeed';
-import { useAuth } from '../context';
-import AccountSettings from './settings/AccountSettings';
+
 import './profileEdit.css';
 
 function ProfileEdit(props) {
@@ -29,7 +25,7 @@ function ProfileEdit(props) {
   const id = cookies.userName;
   const { profileInit, user } = props;
   const [image, setImage] = useState(null);
-  const { setModal } = useAuth();
+ 
 
   function patchData(event) {
     event.preventDefault();
@@ -143,14 +139,6 @@ function ProfileEdit(props) {
 
   return (
     <>
-      <div className="full-wh">
-        <div className="bg-animation">
-          <div id="stars" />
-          <div id="stars2" />
-          <div id="stars3" />
-          <div id="stars4" />
-        </div>
-      </div>
       <NavbarNewFeed />
       <div className="profile-container">
         <div style={{ alignSelf: 'center' }}>
@@ -250,18 +238,7 @@ function ProfileEdit(props) {
           </div>
         </form>
 
-        <MenuItem
-          onClick={() => setModal({
-            isOpen: true,
-            title: 'Account Settings',
-            content: <AccountSettings />,
-          })}
-        >
-          <ListItemIcon>
-            <Settings fontSize="small" />
-          </ListItemIcon>
-          Settings
-        </MenuItem>
+    
 
         <div className="exit" style={{ margin: '0' }}>
           <Link to="/login" onClick={LogOut} style={{ position: 'relative' }}>

@@ -1,9 +1,9 @@
 import React from "react";
 import "./App.css";
 import {
-  BrowserRouter as Router ,Routes ,Route 
+  BrowserRouter as Router ,Routes ,Route
 } from "react-router-dom";
-import Home from "./pages";
+import Home from "./pages/main";
 import SerranoPage from "./pages/serrano";
 import ContactPage from "./pages/contact";
 import LoginPage from "./pages/login";
@@ -15,16 +15,15 @@ import ChatPage from "./pages/chat";
 import MessagePage from "./pages/message";
 import ListPage from "./pages/listUsers";
 import PrivacyPage from "./pages/privacy";
-import ForgotPasswordPage from "./pages/forgotPassword";
-import ResetPasswordPage from "./pages/resetPassword";
-import AuthContextProvider from "./context";
+
+
+
 
 function App() {
-  
  
   return (
 
-    <AuthContextProvider>
+   
     <Router>
         <Routes>
           <Route path="/" element={<Home/>} exact />
@@ -39,11 +38,10 @@ function App() {
           <Route path="/message" element={<MessagePage/>} />
           <Route path="/listUsers" element={<ListPage/>} />
           <Route path="/privacy" element={<PrivacyPage/>} />
-          <Route path="/forgotPassword" element={<ForgotPasswordPage/>} />
-          <Route path="/resetPassword" element={<ResetPasswordPage/>} />
+         
         </Routes>
-        </Router>
-    </AuthContextProvider>
+    </Router>
+   
 
   );
 }

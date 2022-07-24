@@ -99,7 +99,7 @@ export const ServicesIcon = styled.img`
 `;
 export const ServicesH1 = styled.h1`
   font-size: 2.5rem;
-  margin-bottom: 32px;
+  margin-bottom: 35px;
   background: linear-gradient(to right, #021aff, #e500ff);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;

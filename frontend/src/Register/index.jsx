@@ -9,12 +9,13 @@ import { RegisterContainer, RegisterText } from "./RegisterElements";
 function Register(props) {
   const [ cookies ,setCookie ] = useCookies(["userName", "userNickname"]);
   const { requestFetchRegister, err, user } = props;
+
   function PutData(event) {
     event.preventDefault();
       const {
         nick: { value: nickname },
         mail: { value: email },
-        password: { value: password },
+        password: { value: password }
       } = event.target;
       requestFetchRegister(nickname, email, password);
   }
@@ -24,7 +25,7 @@ function Register(props) {
       setCookie("userNickname", user.nickname);
       setCookie("userName", user.id);
     }
-  }, [user.id, setCookie, user.nickname]);
+  }, [user.id, user.nickname]);
 
   return (
     <RegisterContainer>

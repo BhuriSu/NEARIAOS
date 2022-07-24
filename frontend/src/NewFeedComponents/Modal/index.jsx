@@ -1,7 +1,7 @@
 import React from "react";
 import axios from "axios";
 import {
-  Button, Header, Modal, List, Card,
+  Button, Header, Modal, List, Card
 } from "semantic-ui-react";
 import "./modal.css";
 import { useCookies } from "react-cookie";

@@ -44,14 +44,7 @@ function AllChats() {
         height: "100vh",
       }}
     >
-      <div className="full-wh">
-        <div className="bg-animation">
-          <div id="stars" />
-          <div id="stars2" />
-          <div id="stars3" />
-          <div id="stars4" />
-        </div>
-      </div>
+      
       <div style={{ width: "100%" }} className="main-cont">
         <Navbar />
         <div

@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { GoogleMap, Marker, Circle } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle, LoadScriptNext } from "@react-google-maps/api";
 import styles from "./GoogleMapStyles.json";
 
 function Map({
@@ -15,7 +15,7 @@ function Map({
   list,
   radius,
   url,
-}) {
+ }) {
   const [cookies] = useCookies(["userName"]);
 
   function sendRequest(id) {
@@ -34,10 +34,11 @@ function Map({
 
   function CMap(props) {
     return (
+      <LoadScriptNext googleMapsApiKey={googleMapURL}>
       <GoogleMap
-        defaultZoom={14}
-        defaultCenter={{ lat: latitude, lng: longitude }}
-        defaultOptions={{
+        zoom={14}
+        center={{ lat: latitude, lng: longitude }}
+        options={{
           disableDefaultUI: true,
           draggable: true,
           keyboardShortcuts: false,
@@ -48,6 +49,7 @@ function Map({
       >
         {props.children}
       </GoogleMap>
+      </LoadScriptNext>
     );
   }
 
@@ -55,19 +57,6 @@ function Map({
     <CMap
       googleMapURL={googleMapURL}
       loadingElement={<div style={{ height: "50%" }} />}
-      containerElement={<div style={{ height: "400px" }} />}
-      mapElement={(
-        <div
-          style={{
-            height: "95%",
-            width: "85%",
-            border: "2px solid #FFF",
-            borderRadius: "25px",
-            margin: "0 auto",
-            boxShadow: "10px 10px 8px black",
-          }}
-        />
-        )}
       center={{ lat: latitude, lng: longitude }}
     >
       <Circle center={{ lat: latitude, lng: longitude }} radius={+radius} />

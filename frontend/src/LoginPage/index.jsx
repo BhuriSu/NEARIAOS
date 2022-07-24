@@ -1,20 +1,14 @@
 import React, { useEffect } from "react";
-import { Link , useLocation, useNavigate, Navigate } from "react-router-dom";
+import { Link , Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
-import { useAuth } from "../context";
-import { LoginContainer, LoginText, ForgotButton, ButtonGoogle } from "./LoginPageElement";
+import { LoginContainer, LoginText } from "./LoginPageElement";
 
 function Login(props) {
   const { user, err, requestFetchLogin } = props;
   const [cookies, setCookie] = useCookies(["userName", "userNickname"]);
-  const { signInWithGoogle } = useAuth();
-  const location = useLocation();
-  const navigate = useNavigate();
-  function handleRedirectToOrBack() {
-    navigate(location.state?.from ?? "/listUsers" , { replace: true })
-  }
+ 
 
   async function PutData(event) {
     event.preventDefault();
@@ -30,7 +24,7 @@ function Login(props) {
       setCookie("userName", user.id);
       setCookie("userNickname", user.nickname);
     }
-  }, [user.id, setCookie, user.nickname]);
+  }, [user.id, user.nickname]);
 
   return (
     <LoginContainer>
@@ -83,18 +77,6 @@ function Login(props) {
             </button>
           </Link>
          
-          <ButtonGoogle onClick ={() =>
-              signInWithGoogle()
-              .then(user => {
-                handleRedirectToOrBack()
-                console.log(user)
-              })
-              .catch(e => console.log(e.message))
-            }>Sign in with Google</ButtonGoogle>
-
-            <br/>
-            <br/>
-             <ForgotButton to="/forgotPassword" >Forgot Password?</ForgotButton>
         </form>
       )}
     </LoginContainer>

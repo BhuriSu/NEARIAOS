@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Footer from "../components/Footer";
-import Page1 from "../components/Page1";
+import FirstPage from "../components/FirstPage";
 import Info from "../components/Info";
 import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from "../components/Info/Data";
 import Navbar from "../components/Navbar";
@@ -21,7 +21,7 @@ function Home() {
 
       <Sidebar isOpen={isOpen} toggle={toggle} />
       <Navbar toggle={toggle} />
-      <Page1 />
+      <FirstPage />
       <OurPlatForm />
       <Animation />
       <Info {...homeObjOne} />

@@ -24,7 +24,9 @@ root.render(
     <CookiesProvider>
 
       <Provider store={store}>
+      
         <App />
+      
       </Provider>
       
     </CookiesProvider>

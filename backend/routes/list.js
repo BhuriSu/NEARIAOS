@@ -23,8 +23,7 @@ router.get("/listUsers", async (req, res) => {
   try {
   res.send("respond with a resource");
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 
 router.post("/users", async (req, res) => {
@@ -78,7 +77,6 @@ router.post("/users", async (req, res) => {
     err: "No such a user from this geolocation"
   });
 } catch (err) {
-  console.error("Something went wrong")
-  console.error(err)
+  console.error(`Something went wrong ${err}`)
 }});
 module.exports = router;

@@ -8,7 +8,7 @@ import Map from "./Map";
 import ModalWindow from "../NewFeedComponents/Modal";
 import AnnouncementMessage from "../NewFeedComponents/Announcement";
 import "./listUsers.css";
-import Navbar from "../NewFeedComponents/NavbarNewFeed";
+import NavbarListPage from "../NewFeedComponents/NavbarNewFeed";
 import Loader from "../NewFeedComponents/loader/Loader";
 import Loader2 from "../NewFeedComponents/loader/loader2";
 
@@ -24,7 +24,7 @@ function ListUsers() {
     err: "",
   });
 
-  const [isColorBtn, setColorBtn] = useState("findMe");
+  const [isColorBtn, setColorBtn] = useState("FindMe");
   const [isShowLoader, setIsShowLoader] = useState(false);
   const [isShowMap, setShowMap] = useState(false);
   const [user, setUser] = useState("");
@@ -152,22 +152,16 @@ function ListUsers() {
 
   return (
     <div className="back">
-      <div className="full-wh">
-        <div className="bg-animation">
-          <div id="stars" />
-          <div id="stars2" />
-          <div id="stars3" />
-          <div id="stars4" />
-        </div>
-      </div>
+     
       <div
         className="main-container"
         style={{
           width: "100%",
         }}
       >
-        <Navbar />
-        <div className="input-form-UserList">
+        <NavbarListPage />
+        
+         <div className="input-form-UserList">
           <input
             className="inputFind"
             onChange={(event) => {
