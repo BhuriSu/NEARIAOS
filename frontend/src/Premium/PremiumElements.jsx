@@ -1,22 +1,22 @@
 import styled from "styled-components";
 
-export const SerranoContainer = styled.div`
+export const PremiumContainer = styled.div`
+  background-color: #000;
   height: 1000px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #000;
 
   @media screen and (max-width: 768px) {
-    height: 1100px;
+    height: 1200px;
   }
 
   @media screen and (max-width: 480px) {
-    height: 1300px;
+    height: 1400px;
   }
  `;
-export const SerranoWrapper = styled.div`
+export const PremiumWrapper = styled.div`
     max-width: 1000px;
     margin: 0 auto;
     display: grid;
@@ -35,7 +35,7 @@ export const SerranoWrapper = styled.div`
   }
 `;
 
-export const SerranoCard1 = styled.div`
+export const PremiumCard1 = styled.div`
   background: linear-gradient(90deg, rgba(246,210,66,1) 0%, rgba(255,82,229,1) 100%);
   display: flex;
   flex-direction: column;
@@ -53,7 +53,7 @@ export const SerranoCard1 = styled.div`
    
   }
 `;
-export const SerranoCard2 = styled.div`
+export const PremiumCard2 = styled.div`
   background: linear-gradient(90deg, rgba(250,178,255,1) 0%, rgba(24,0,255,1) 100%);
   display: flex;
   flex-direction: column;
@@ -71,7 +71,7 @@ export const SerranoCard2 = styled.div`
    
   }
 `;
-export const SerranoCard3 = styled.div`
+export const PremiumCard3 = styled.div`
   background: linear-gradient(90deg, rgba(105,255,151,1) 0%, rgba(0,228,255,1) 100%);
   display: flex;
   flex-direction: column;
@@ -89,15 +89,15 @@ export const SerranoCard3 = styled.div`
    
   }
 `;
-export const SerranoIcon = styled.img`
+export const PremiumIcon = styled.img`
   height: 180px;
   width: 180px;
   margin-bottom: 18px;
   border-radius: 30px;
 `;
-export const SerranoH1 = styled.h1`
+export const PremiumH1 = styled.h1`
   font-size: 2.5rem;
-  margin-bottom: 64px;
+  margin-bottom: 34px;
   background: linear-gradient(to right, #ba00ff, #ff1d00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -106,8 +106,18 @@ export const SerranoH1 = styled.h1`
     font-size: 2rem;
   }  
 `;
-export const SerranoH2 = styled.h2`
+export const PremiumH2 = styled.h2`
   font-size: rem;
   margin-bottom: 10px;
   color: #000;
 `;
+
+export const TextBelow = styled.h1`
+color: #fff;
+margin-top: 20px;
+font-size: 2.5rem;
+font-family: "Berkshire Swash", cursive;
+@media screen and (max-width: 480px) {
+  font-size: 2rem;
+}  
+`

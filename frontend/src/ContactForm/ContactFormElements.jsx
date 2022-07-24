@@ -1,13 +1,12 @@
 import styled from "styled-components";
 
 export const StyledFormWrapper = styled.div`
- background-color: #000;
+  background-color: #000;
   height: 900px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background: #000;
 
   @media screen and (max-width: 768px) {
     height: 1100px;

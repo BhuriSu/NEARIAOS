@@ -14,7 +14,7 @@ function Sidebar({ isOpen, toggle }) {
 
         <SidebarMenu>
           <SidebarLink to="/contact" onClick={toggle}>Contact</SidebarLink>
-          <SidebarLink to="/serrano" onClick={toggle}>Serrano</SidebarLink>
+          <SidebarLink to="/premium" onClick={toggle}>Premium</SidebarLink>
         </SidebarMenu>
 
         <SideBtnWrap>

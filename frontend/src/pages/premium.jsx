@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import Serrano from "../Serrano";
+import Premium from "../Premium";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/SideBar";
 import Footer from "../components/Footer";
 
-function SerranoPage() {
+function PremiumPage() {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggle = () => {
@@ -15,10 +15,10 @@ function SerranoPage() {
     <>
       <Sidebar isOpen={isOpen} toggle={toggle} />
       <Navbar toggle={toggle} />
-      <Serrano />
+      <Premium />
       <Footer />
     </>
   );
 }
 
-export default SerranoPage;
+export default PremiumPage;

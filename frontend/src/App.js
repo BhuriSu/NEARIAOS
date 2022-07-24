@@ -4,7 +4,7 @@ import {
   BrowserRouter as Router ,Routes ,Route
 } from "react-router-dom";
 import Home from "./pages/main";
-import SerranoPage from "./pages/serrano";
+import PremiumPage from "./pages/premium";
 import ContactPage from "./pages/contact";
 import LoginPage from "./pages/login";
 import RegisterPage from "./pages/register";
@@ -27,7 +27,7 @@ function App() {
     <Router>
         <Routes>
           <Route path="/" element={<Home/>} exact />
-          <Route path="/serrano" element={<SerranoPage/>} />
+          <Route path="/premium" element={<PremiumPage/>} />
           <Route path="/contact" element={<ContactPage/>} />
           <Route path="/login" element={ <LoginPage/>} />
           <Route path="/register" element={<RegisterPage/>} />
@@ -38,7 +38,6 @@ function App() {
           <Route path="/message" element={<MessagePage/>} />
           <Route path="/listUsers" element={<ListPage/>} />
           <Route path="/privacy" element={<PrivacyPage/>} />
-         
         </Routes>
     </Router>
    

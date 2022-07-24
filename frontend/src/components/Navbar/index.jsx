@@ -28,7 +28,7 @@ function Navbar({ toggle }) {
             </NavItem>
 
             <NavItem>
-              <NavLinks to="/serrano">Serrano</NavLinks>
+              <NavLinks to="/premium">Premium</NavLinks>
             </NavItem>
 
           </NavMenu>

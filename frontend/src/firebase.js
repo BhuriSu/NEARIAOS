@@ -1,10 +1,11 @@
-import { getStorage } from "firebase/storage";
+
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
+import { getStorage } from "firebase/storage";
 import { getDatabase } from "firebase/database";
+import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 
-// Your web app"s Firebase configuration
+
 const firebaseConfig = {
   apiKey: process.env.REACT_APP_DB_API,
   authDomain: process.env.REACT_APP_authDomain,
@@ -15,13 +16,13 @@ const firebaseConfig = {
   appId: process.env.REACT_APP_database_AppId,
   measurementId: process.env.REACT_APP_measurementId,
 };
-// Initialize Firebase
+
 const firebase = initializeApp(firebaseConfig);
 const storage = getStorage(firebase);
 const database = getDatabase(firebase);
 const analytics = getAnalytics(firebase);
 const auth = getAuth(firebase);
 
-export {
-  firebase, storage, database, analytics, auth as default,
+export default {
+  firebase, storage, database, analytics, auth
 };
