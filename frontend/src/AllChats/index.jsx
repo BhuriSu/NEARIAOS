@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import {
-  getDatabase, ref, query, limitToLast, onValue,
+      ref, query, limitToLast, onValue,
 } from "firebase/database";
+import { database } from "../firebase";
 import ButtonChat from "./ButtonChat";
 import Navbar from "../NewFeedComponents/NavbarNewFeed";
 import Loader from "../NewFeedComponents/loader/Loader";
@@ -19,7 +20,6 @@ function AllChats() {
       .then(async ({ data }) => {
         await Promise.all(
           data.chats.map(async (el) => {
-            const database = getDatabase();
             const snapshot = onValue(query(ref(database, `${el.chat}`), limitToLast(1)));
             snapshot.forEach((childSnapshot) => {
               const {

@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { getDatabase, ref, child } from "firebase/database";
+import { ref, child } from "firebase/database";
+import { database } from "../firebase";
 import Message from "../Message";
 import "./chatForm.css";
 import {
@@ -23,7 +24,6 @@ function Chat(props) {
   const {
     chats, urlFriend, name, friend,
   } = props.location.state;
-  const database = getDatabase();
   const chatRoom = child(ref(database), `${chats}`);
   const pushRoom = child(ref(database), `${friend}`);
 

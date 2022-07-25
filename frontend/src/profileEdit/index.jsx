@@ -4,8 +4,9 @@ import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-  ref, uploadBytesResumable, getDownloadURL, getStorage,
+  ref, uploadBytesResumable, getDownloadURL
 } from 'firebase/storage';
+import { storage } from "../firebase";
 import { profileInit } from '../redux/action';
 import NavbarNewFeed from '../NewFeedComponents/NavbarNewFeed';
 
@@ -44,7 +45,6 @@ function ProfileEdit(props) {
           setSave(data.err);
         }
       });
-    const storage = getStorage();
     const storageRef = ref(storage, `images/${cookies.userName || './images/infoUser.svg'}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on('state_changed', undefined, undefined, () => {
@@ -95,7 +95,6 @@ function ProfileEdit(props) {
   }
 
   useEffect(() => {
-    const storage = getStorage();
     getDownloadURL(ref(storage, `images/${cookies.userName}`))
       .then((url) => {
         setUrl(url);
@@ -116,7 +115,6 @@ function ProfileEdit(props) {
   function photoDownload(e) {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
-      const storage = getStorage();
       const storageRef = ref(storage, `images/${cookies.userName}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(

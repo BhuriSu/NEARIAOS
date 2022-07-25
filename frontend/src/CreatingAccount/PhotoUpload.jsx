@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import {
-  ref, uploadBytesResumable, getDownloadURL, getStorage,
+  ref, uploadBytesResumable, getDownloadURL
 } from "firebase/storage";
+import { storage } from "../firebase";
 import styled from "styled-components";
 
 const Avatar = styled.div`
@@ -22,7 +23,7 @@ function Photo() {
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
-      const storage = getStorage();
+      
       const storageRef = ref(storage, `images/${cookies.userName}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
 

@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
 import axios from "axios";
-import { getDatabase } from "firebase/database";
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
+import { ref, getDownloadURL } from "firebase/storage";
+import { database, storage } from "../firebase";
 import Map from "./Map";
 import ModalWindow from "../NewFeedComponents/Modal";
 import AnnouncementMessage from "../NewFeedComponents/Announcement";
@@ -30,7 +30,6 @@ function ListUsers() {
   const [user, setUser] = useState("");
   const [url, setUrl] = useState("");
   const [loader, setLoader] = useState();
-  const database = getDatabase();
   const pushRoom = ref(database, `${cookies.userName}`);
   useEffect(() => {
     const loader = Math.floor(Math.random() * 10);
@@ -79,7 +78,6 @@ function ListUsers() {
           setIsShowLoader(false);
 
           const promisesArr = response.data.list.map(async (user) => {
-            const storage = getStorage();
             const pic = await getDownloadURL(ref(storage, `images/${user.person}`))
               .catch((e) => console.log(e));
             user.url = pic;
