@@ -9,7 +9,6 @@ function FirstPage() {
   return (
     <Container>
       <Content>
-      
       <Planet src={FirstPic} alt="" /> 
         <FirstLine>
         Redunda is platform for chatting with stranger nearby you

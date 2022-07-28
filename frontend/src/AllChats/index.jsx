@@ -4,7 +4,7 @@ import axios from "axios";
 import {
       ref, query, limitToLast, onValue,
 } from "firebase/database";
-import { database } from "../firebase";
+import database from "../firebase";
 import ButtonChat from "./ButtonChat";
 import Navbar from "../NewFeedComponents/NavbarNewFeed";
 import Loader from "../NewFeedComponents/loader/Loader";

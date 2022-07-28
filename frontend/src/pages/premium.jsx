@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import Premium from "../Premium";
-import Navbar from "../components/Navbar";
-import Sidebar from "../components/SideBar";
-import Footer from "../components/Footer";
+import Navbar from "../MainPage/Navbar";
+import Sidebar from "../MainPage/SideBar";
+import Footer from "../MainPage/Footer";
 
 function PremiumPage() {
   const [isOpen, setIsOpen] = useState(false);

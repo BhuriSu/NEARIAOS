@@ -9,7 +9,6 @@ import {
 import { storage } from "../firebase";
 import { profileInit } from '../redux/action';
 import NavbarNewFeed from '../NewFeedComponents/NavbarNewFeed';
-
 import './profileEdit.css';
 
 function ProfileEdit(props) {

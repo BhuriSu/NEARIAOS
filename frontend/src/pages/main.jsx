@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import Footer from "../components/Footer";
-import FirstPage from "../components/FirstPage";
-import Info from "../components/Info";
-import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from "../components/Info/Data";
-import Navbar from "../components/Navbar";
-import OurPlatForm from "../components/OurPlatform";
-import Sidebar from "../components/SideBar";
-import Animation from "../components/AnimationPicture";
+import Footer from "../MainPage/Footer";
+import FirstPage from "../MainPage/FirstPage";
+import Info from "../MainPage/Info";
+import { homeObjOne, homeObjTwo, homeObjThree, homeObjFour } from "../MainPage/Info/Data";
+import Navbar from "../MainPage/Navbar";
+import OurPlatForm from "../MainPage/OurPlatform";
+import Sidebar from "../MainPage/SideBar";
+import Animation from "../MainPage/AnimationPicture";
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);

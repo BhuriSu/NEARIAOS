@@ -3,7 +3,7 @@ import { useCookies } from "react-cookie";
 import {
   ref, uploadBytesResumable, getDownloadURL
 } from "firebase/storage";
-import { storage } from "../firebase";
+import storage from "../firebase";
 import styled from "styled-components";
 
 const Avatar = styled.div`
@@ -48,8 +48,6 @@ function Photo() {
           }
         },
         () => {
-          // complete function ....
-
           getDownloadURL(storageRef).then((url) => {
             setUrl(url);
           });
@@ -63,7 +61,7 @@ function Photo() {
       <label htmlFor="file-input">
         <Avatar style={{ backgroundImage: `url(${url})` }} />
       </label>
-      <input id="file-input" type="file" onChange={handleChange} />
+      <input id="file-input" type="file" onChange={(e) =>handleChange(e)} />
     </div>
   );
 }

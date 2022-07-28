@@ -16,14 +16,10 @@ import MessagePage from "./pages/message";
 import ListPage from "./pages/listUsers";
 import PrivacyPage from "./pages/privacy";
 
-
-
-
 function App() {
  
   return (
 
-   
     <Router>
         <Routes>
           <Route path="/" element={<Home/>} exact />
