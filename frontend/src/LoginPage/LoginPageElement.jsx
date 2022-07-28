@@ -37,3 +37,22 @@ text-align: center;
 color: #fff;
 padding: 32px 0;
 `;
+
+export const ContainerButton = styled.div`
+margin-top: 20px;
+`;
+
+export const GoogleAuth = styled.div`
+background: #ff005d;
+color: #fff;
+border-radius: 10px;
+font-weight: bold;
+transition: all 0.2s ease-in-out;
+cursor: pointer;
+font-weight: 600;
+height: 48px;
+display: inline-flex;
+justify-content: center;
+align-items: center;
+width: 100%;
+`;

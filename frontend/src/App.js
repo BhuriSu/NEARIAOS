@@ -15,12 +15,13 @@ import ChatPage from "./pages/chat";
 import MessagePage from "./pages/message";
 import ListPage from "./pages/listUsers";
 import PrivacyPage from "./pages/privacy";
-
+import { AuthContextProvider } from './Context';
 function App() {
  
   return (
 
     <Router>
+      <AuthContextProvider>
         <Routes>
           <Route path="/" element={<Home/>} exact />
           <Route path="/premium" element={<PremiumPage/>} />
@@ -35,6 +36,7 @@ function App() {
           <Route path="/listUsers" element={<ListPage/>} />
           <Route path="/privacy" element={<PrivacyPage/>} />
         </Routes>
+        </AuthContextProvider>
     </Router>
    
 

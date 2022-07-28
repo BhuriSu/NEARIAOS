@@ -3,19 +3,36 @@ import { Link , Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
-import { LoginContainer, LoginText } from "./LoginPageElement";
+import { LoginContainer, LoginText, GoogleAuth, ContainerButton } from "./LoginPageElement";
+import { UserAuth } from '../Context';
+import { useNavigate } from 'react-router-dom';
 
 function Login(props) {
   const { user, err, requestFetchLogin } = props;
   const [cookies, setCookie] = useCookies(["userName", "userNickname"]);
- 
+  const { googleSignIn, users } = UserAuth();
+  const navigate = useNavigate();
 
-  async function PutData(event) {
-    event.preventDefault();
+  const handleGoogleSignIn = async () => {
+    try {
+      await googleSignIn();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (users != null) {
+      navigate('/listUsers');
+    }
+  }, [users]);
+
+  async function PutData(e) {
+    e.preventDefault();
       const {
         mail: { value: email },
         password: { value: password }
-      } = event.target;
+      } = e.target;
       requestFetchLogin(email, password);
   }
 
@@ -76,7 +93,13 @@ function Login(props) {
               SignUp 
             </button>
           </Link>
-         
+
+          <ContainerButton>
+          <GoogleAuth onClick={handleGoogleSignIn} >
+          Google 
+          </GoogleAuth>
+          </ContainerButton>
+
         </form>
       )}
     </LoginContainer>

@@ -61,7 +61,7 @@ function Photo() {
       <label htmlFor="file-input">
         <Avatar style={{ backgroundImage: `url(${url})` }} />
       </label>
-      <input id="file-input" type="file" onChange={(e) =>handleChange(e)} />
+      <input id="file-input" type="file"  accept="image/*" onChange={(e) =>handleChange(e)} />
     </div>
   );
 }
