@@ -36,7 +36,7 @@ function ModalWindow(props) {
           height: "auto",
         }}
         dimmer="blurring"
-        size="Mini"
+        size="mini"
         trigger={(
           <Button
             style={{

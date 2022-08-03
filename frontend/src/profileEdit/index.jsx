@@ -4,9 +4,8 @@ import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-  ref, uploadBytesResumable, getDownloadURL
+  ref, uploadBytesResumable, getDownloadURL, getStorage
 } from 'firebase/storage';
-import { storage } from "../firebase";
 import { profileInit } from '../redux/action';
 import NavbarNewFeed from '../NewFeedComponents/NavbarNewFeed';
 import './profileEdit.css';
@@ -44,6 +43,7 @@ function ProfileEdit(props) {
           setSave(data.err);
         }
       });
+    const storage = getStorage();
     const storageRef = ref(storage, `images/${cookies.userName || './images/infoUser.svg'}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on('state_changed', undefined, undefined, () => {
@@ -94,6 +94,7 @@ function ProfileEdit(props) {
   }
 
   useEffect(() => {
+    const storage = getStorage();
     getDownloadURL(ref(storage, `images/${cookies.userName}`))
       .then((url) => {
         setUrl(url);
@@ -114,6 +115,7 @@ function ProfileEdit(props) {
   function photoDownload(e) {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
+      const storage = getStorage();
       const storageRef = ref(storage, `images/${cookies.userName}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(
@@ -164,7 +166,6 @@ function ProfileEdit(props) {
               onChange={handleChangeActivity}
               type="text"
               name="activity"
-              onInput="this.className"
               required
               className="profileInput"
             />
@@ -180,7 +181,6 @@ function ProfileEdit(props) {
               onChange={handleChangeTopics}
               type="text"
               name="topics"
-              onInput="this.className"
               required
               className="profileInput"
             />
@@ -196,7 +196,6 @@ function ProfileEdit(props) {
               onChange={handleChangeAbout}
               type="text"
               name="about"
-              onInput="this.className"
               required
               className="profileInput"
             />
@@ -212,7 +211,6 @@ function ProfileEdit(props) {
               onChange={handleChangeDrinks}
               type="text"
               name="drinks"
-              onInput="this.className"
               required
               className="profileInput"
             />

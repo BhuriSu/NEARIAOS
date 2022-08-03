@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { ref, child } from "firebase/database";
-import  database  from "../firebase";
+import { ref, child, getDatabase, onValue } from "firebase/database";
 import Message from "../Message";
 import "./chatForm.css";
 import {
@@ -24,9 +23,9 @@ function Chat(props) {
   const {
     chats, urlFriend, name, friend,
   } = props.location.state;
-  const chatRoom = child(ref(database), `${chats}`);
-  const pushRoom = child(ref(database), `${friend}`);
-
+  const database = ref(getDatabase());
+  const chatRoom = child(database, `${chats}`);
+  const pushRoom = child(database, `${friend}`);
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "auto" });
@@ -38,9 +37,9 @@ function Chat(props) {
         setMessages(snap.val());
       }
     };
-    chatRoom.on("value", handleNewMessages);
+    onValue(pushRoom, handleNewMessages);
     return () => {
-      chatRoom.off("value", handleNewMessages);
+      onValue(pushRoom, handleNewMessages);
     };
   }, [chatRoom, setMessages]);
   const handleMsgChange = (e) => setMsg(e.target.value);

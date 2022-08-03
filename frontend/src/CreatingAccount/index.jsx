@@ -212,7 +212,6 @@ function Step2(props) {
           onChange={props.handleChange}
           name="drinks"
           placeholder="Favorite drink: (Optional)"
-          
         />
       </label>
     </div>

@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import axios from "axios";
 import {
-      ref, query, limitToLast, onValue,
+      ref, query, limitToLast, onValue, getDatabase
 } from "firebase/database";
-import database from "../firebase";
 import ButtonChat from "./ButtonChat";
 import Navbar from "../NewFeedComponents/NavbarNewFeed";
 import Loader from "../NewFeedComponents/loader/Loader";
@@ -19,8 +18,10 @@ function AllChats() {
       .get(`/database/${cookies.userName}`)
       .then(async ({ data }) => {
         await Promise.all(
-          data.chats.map(async (el) => {
-            const snapshot = onValue(query(ref(database, `${el.chat}`), limitToLast(1)));
+          data.chats?.map(async (el) => {
+            const database = getDatabase();
+            const databaseRef = ref(database, `${el.chat}`);
+            const snapshot = onValue(query(databaseRef, limitToLast(1)));
             snapshot.forEach((childSnapshot) => {
               const {
                 nickname,
@@ -31,6 +32,8 @@ function AllChats() {
               el.nickname = nickname;
               el.lastMessage = msg;
             });
+          }, {
+            onlyOnce: true
           }),
         );
         data.chats.sort((a, b) => b.date - a.date);
@@ -56,7 +59,7 @@ function AllChats() {
           className="button-chat"
         >
           {chats ? (
-            chats.map((el) => <ButtonChat key={el._id} chats={el} />)
+            chats?.map((el) => <ButtonChat key={el._id} chats={el} />)
           ) : (
             <Loader />
           )}

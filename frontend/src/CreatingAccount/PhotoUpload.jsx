@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useCookies } from "react-cookie";
 import {
-  ref, uploadBytesResumable, getDownloadURL
+  ref, uploadBytesResumable, getDownloadURL, getStorage
 } from "firebase/storage";
-import storage from "../firebase";
 import styled from "styled-components";
 
 const Avatar = styled.div`
@@ -23,7 +22,7 @@ function Photo() {
   const handleChange = (e) => {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
-      
+      const storage = getStorage();
       const storageRef = ref(storage, `images/${cookies.userName}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
 
@@ -61,7 +60,7 @@ function Photo() {
       <label htmlFor="file-input">
         <Avatar style={{ backgroundImage: `url(${url})` }} />
       </label>
-      <input id="file-input" type="file"  accept="image/*" onChange={(e) =>handleChange(e)} />
+      <input id="file-input" type="file"  accept="image/*" onChange={handleChange} />
     </div>
   );
 }

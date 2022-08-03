@@ -2,9 +2,8 @@ import React, { useState, useEffect } from "react";
 import { useCookies } from "react-cookie";
 import { connect } from "react-redux";
 import axios from "axios";
-import { ref, getDownloadURL } from "firebase/storage";
-import database from "../firebase";
-import storage  from "../firebase";
+import {  getDownloadURL, getStorage } from "firebase/storage";
+import { ref, getDatabase, child, onValue } from "firebase/database";
 import Map from "./Map";
 import ModalWindow from "../NewFeedComponents/Modal";
 import AnnouncementMessage from "../NewFeedComponents/Announcement";
@@ -19,7 +18,7 @@ import Loader2 from "../NewFeedComponents/loader/loader2";
 
 function ListUsers() {
   const [cookies] = useCookies(["userName"]);
-  const [radius, setRadius] = useState(null);
+  const [radius, setRadius] = useState("");
   const [list, setList] = useState({
     success: false,
     err: "",
@@ -31,7 +30,8 @@ function ListUsers() {
   const [user, setUser] = useState("");
   const [url, setUrl] = useState("");
   const [loader, setLoader] = useState();
-  const pushRoom = ref(database, `${cookies.userName}`);
+  const database = ref(getDatabase());
+  const pushRoom = child(database, `${cookies.userName}`);
   useEffect(() => {
     const loader = Math.floor(Math.random() * 10);
     setLoader(loader);
@@ -47,17 +47,17 @@ function ListUsers() {
         pushRoom.remove();
       }
     };
-    pushRoom.on("value", handleNewMessages);
+    onValue(pushRoom, handleNewMessages);
     return () => {
-      pushRoom.off("value", handleNewMessages);
+      onValue(pushRoom, handleNewMessages);
     };
   });
 
   const ChangeOnMap = () => {
     setShowMap(!isShowMap);
   };
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
+  const [latitude, setLatitude] = useState("");
+  const [longitude, setLongitude] = useState("");
 
   /**
    * @param {String} id
@@ -79,7 +79,8 @@ function ListUsers() {
           setIsShowLoader(false);
 
           const promisesArr = response.data.list.map(async (user) => {
-            const pic = await getDownloadURL(ref(storage, `images/${user.person}`))
+            const storage = ref(getStorage());
+            const pic = await getDownloadURL(storage, `images/${user.person}`)
               .catch((e) => console.log(e));
             user.url = pic;
             return user;
@@ -186,14 +187,14 @@ function ListUsers() {
             value={radius}
           />
           <label className="label">
-            {radius !== null ? (
+            {radius !== undefined ? (
               <div>
-                {" "}
+               
                 Chosen radius: &nbsp;
-                {" "}
+              
                 {radius}
                 &nbsp; meters
-                {" "}
+              
               </div>
             ) : (
               <div style={{ margin: " auto 0" }}>Choose the radius</div>
@@ -256,7 +257,7 @@ function ListUsers() {
                 }}
               >
                 {list.success
-                  ? list.list.map((obj) => (
+                  ? list.list?.map((obj) => (
                     <div key={obj._id} className="map">
                       <ModalWindow obj={obj} url={url} />
                     </div>

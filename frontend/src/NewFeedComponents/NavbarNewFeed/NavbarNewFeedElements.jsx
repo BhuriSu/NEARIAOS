@@ -1,14 +1,20 @@
 import styled from 'styled-components';
 
 export const NavbarNewFeedContainer = styled.div`
-overflow: hidden;
-position: relative;
-top: 0;
-width: 100%;
+padding: 1rem 0.5rem;
+.ant-row-space-between {
+  align-items: center;
+  text-align: center;
+}
 `;
 export const NavList = styled.div`
 display: flex;
-justify-content: space-around;
+justify-content: space-between;
+height: 80px;
+z-index: 1;
+width: 100%;
+padding: 0 24px;
+max-width: 1100px;
 `;
 export const ListLi = styled.div`
 list-style: none;
