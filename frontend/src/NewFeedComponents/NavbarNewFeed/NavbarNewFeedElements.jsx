@@ -1,26 +1,67 @@
 import styled from 'styled-components';
+import { Link as LinkR } from "react-router-dom";
 
 export const NavbarNewFeedContainer = styled.div`
-padding: 1rem 0.5rem;
-.ant-row-space-between {
+  background: ${({ scrollNav }) => (scrollNav ? "#fff" : "transparent")};
+  height: 80px;
+  margin-top: -80px;
+  display:flex;
+  justify-content: center;
   align-items: center;
-  text-align: center;
-}
+  position: sticky;
+  top:0;
+  z-index:10;
+  @media screen and (max-width: 960px) {
+    transition: 0.8s all ease;
+  }
 `;
 export const NavList = styled.div`
 display: flex;
 justify-content: space-between;
 height: 80px;
 z-index: 1;
-width: 100%;
 padding: 0 24px;
-max-width: 1100px;
 `;
-export const ListLi = styled.div`
-list-style: none;
-transition: 1s;
-margin-left: 0%;
-:hover {
-    transform: scale(1.3);
+export const MobileIcon = styled.div`
+  display: none;
+  @media screen and (max-width: 768px) {
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    transform: translate(-100%, 60%);
+    font-size: 1.8rem;
+    cursor: pointer;
+    color: #fff;
   }
 `;
+export const NavElements = styled.div`
+margin: 0 auto; 
+text-align: center;
+margin-top:50px;
+@media screen and (max-width: 768px) {
+  display: none;
+}
+`;
+export const NavLinks = styled(LinkR)`
+  cursor: pointer;
+`;
+
+export const Profile = styled.img`
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+`;
+
+export const Find = styled.img`
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+`;
+
+export const Chat = styled.img`
+  cursor: pointer;
+  height: 100px;
+  width: 100px;
+`;
+

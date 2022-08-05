@@ -8,10 +8,9 @@ import Map from "./Map";
 import ModalWindow from "../NewFeedComponents/Modal";
 import AnnouncementMessage from "../NewFeedComponents/Announcement";
 import "./listUsers.css";
-import NavbarListPage from "../NewFeedComponents/NavbarNewFeed";
 import Loader from "../NewFeedComponents/loader/Loader";
 import Loader2 from "../NewFeedComponents/loader/loader2";
-
+import { ListPageBackground } from "./ListPageElement";
 /**
  * @param {*} props
  */
@@ -151,16 +150,7 @@ function ListUsers() {
   };
 
   return (
-    <div className="back">
-     
-      <div
-        className="main-container"
-        style={{
-          width: "100%",
-        }}
-      >
-        <NavbarListPage />
-        
+    <ListPageBackground>
          <div className="input-form-UserList">
           <input
             className="inputFind"
@@ -189,12 +179,12 @@ function ListUsers() {
           <label className="label">
             {radius !== undefined ? (
               <div>
-               
+                {' '}
                 Chosen radius: &nbsp;
-              
+                {' '}
                 {radius}
                 &nbsp; meters
-              
+                {' '}
               </div>
             ) : (
               <div style={{ margin: " auto 0" }}>Choose the radius</div>
@@ -267,9 +257,9 @@ function ListUsers() {
             )}
           </div>
         )}
-      </div>
-      <AnnouncementMessage user={user} />
-    </div>
+      
+          <AnnouncementMessage user={user} />
+    </ListPageBackground>
   );
 }
 

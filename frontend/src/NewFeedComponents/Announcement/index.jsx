@@ -48,7 +48,6 @@ function AnnouncementMessage(props) {
               },
             }}
           >
-            {" "}
             Go chat
           </Link>
           <ExitBar src="./images/stop.svg" alt="close" />

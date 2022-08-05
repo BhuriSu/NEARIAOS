@@ -16,7 +16,6 @@ export const Nav = styled.nav`
     transition: 0.8s all ease;
   }
 `;
-
 export const NavbarContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -58,7 +57,6 @@ export const NavMenu = styled.ul`
   list-style: none;
   text-align: center;
   margin-right: -15px;
-  
   @media screen and (max-width: 768px) {
     display: none;
   }

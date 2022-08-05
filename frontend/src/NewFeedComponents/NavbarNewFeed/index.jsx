@@ -1,42 +1,38 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { NavbarNewFeedContainer, NavList, ListLi } from './NavbarNewFeedElements';
-
+import { NavbarNewFeedContainer, NavList, NavElements, NavLinks, MobileIcon, Profile, Find, Chat } from './NavbarNewFeedElements';
+import { IconContext } from "react-icons/lib";
+import { FaBars } from "react-icons/fa";
+import profile from "../../images/profile.svg";
+import FindPic from "../../images/find.svg";
+import ChatPic from "../../images/chat.svg"
 function NavbarNewFeed() {
   return (
+    <IconContext.Provider value={{ color: "#fff" }}>
     <NavbarNewFeedContainer>
       <NavList>
-          <ListLi>
-              <Link to="/profile">
-                <img
-                  src="./images/profile.svg"
-                  alt="Your profile"
-                  title="Your profile"
-                />
-              </Link>
-          </ListLi>
 
-          <ListLi>
-              <Link to="/listUsers">
-                <img
-                  src="./images/find.svg"
-                  alt="Find buddy"
-                  title="Find buddy"
-                />
-              </Link>
-          </ListLi>
+          <MobileIcon>
+            <FaBars />
+          </MobileIcon>
 
-          <ListLi>
-              <Link to="/allChat">
-                <img
-                  src="./images/chat.svg"
-                  alt="ChatList"
-                  title="ChatList"
-                />
-              </Link>
-          </ListLi>
+          <NavElements>
+
+              <NavLinks to="/profile">
+              <Profile src={profile} width="100" height="100" alt="" /> 
+              </NavLinks>
+              {' '} 
+              <NavLinks to="/listUsers">
+              <Find src={FindPic} width="100" height="100" alt="" /> 
+              </NavLinks>
+              {' '}
+              <NavLinks to="/allChat">
+              <Chat src={ChatPic} width="100" height="100" alt="" /> 
+              </NavLinks>
+
+          </NavElements>
       </NavList>
     </NavbarNewFeedContainer>
+    </IconContext.Provider>
   );
 }
 

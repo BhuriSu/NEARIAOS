@@ -32,7 +32,7 @@ function Info({
 
             <Column2>
               <ImgWrap>
-                <Img src={img} alt={alt} />
+                <Img src={img} alt={alt} width="400" height="400"/>
               </ImgWrap>
             </Column2>
 
