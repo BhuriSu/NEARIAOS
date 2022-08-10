@@ -5,7 +5,7 @@ import {
 import axios from "axios";
 import { useCookies } from "react-cookie";
 import { Link } from "react-router-dom";
-import { GoogleMap, Marker, Circle, LoadScriptNext } from "@react-google-maps/api";
+import { GoogleMap, Marker, Circle, LoadScript } from "@react-google-maps/api";
 import styles from "./GoogleMapStyles.json";
 
 function Map({
@@ -17,7 +17,7 @@ function Map({
   url,
  }) {
   const [cookies] = useCookies(["userName"]);
-
+  const IconMarker =  <img src="./images/back.svg" width="100" height="100" alt="BackToListPage" title="BackToListPage" />;
   function sendRequest(id) {
     axios.post("/database", {
       ID1: cookies.userName,
@@ -31,10 +31,11 @@ function Map({
     }
     return `${b}+${a}`;
   }
-
+  
   function CMap(props) {
+   
     return (
-      <LoadScriptNext googleMapsApiKey={googleMapURL}>
+      <LoadScript googleMapsApiKey={googleMapURL}>
       <GoogleMap
         zoom={14}
         center={{ lat: latitude, lng: longitude }}
@@ -49,7 +50,7 @@ function Map({
       >
         {props.children}
       </GoogleMap>
-      </LoadScriptNext>
+      </LoadScript>
     );
   }
 
@@ -71,7 +72,7 @@ function Map({
             size="mini"
             trigger={(
               <Marker
-                icon={{ url: "./images/search.svg" }}
+                icon={IconMarker}
                 position={{ lat: profile.latitude, lng: profile.longitude }}
                 title={profile.name}
               />

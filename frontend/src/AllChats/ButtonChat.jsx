@@ -43,12 +43,7 @@ function ButtonChat(props) {
               marginBottom: "5px",
             }}
           >
-            <strong>
-              {chats.nickname}
-              :
-            </strong>
-          
-            {chats.lastMessage}
+          <strong>{chats.nickname}:</strong> {chats.lastMessage}
           </div>
           <div
             style={{

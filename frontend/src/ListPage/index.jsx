@@ -187,7 +187,7 @@ function ListUsers() {
                 {' '}
               </div>
             ) : (
-              <div style={{ margin: " auto 0" }}>Choose the radius</div>
+              <div style={{ margin: "auto 0" }}>Choose the radius</div>
             )}
             &nbsp;
           </label>
@@ -210,7 +210,7 @@ function ListUsers() {
         </div>
 
         {list.success ? (
-          <div className="toggleBox" style={{ margin: "0 auto" }}>
+          <div className="toggleBox">
             <input type="checkbox" name="toggle" className="sw" id="toggle-2" />
             <label htmlFor="toggle-2" onClick={ChangeOnMap}>
               <span>Use a map</span>

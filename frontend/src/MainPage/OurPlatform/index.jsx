@@ -1,8 +1,8 @@
 import React from "react";
 import { Fade } from "react-awesome-reveal";
-import Icon1 from "../../images/our1.svg";
-import Icon2 from "../../images/our2.svg";
-import Icon3 from "../../images/our3.svg";
+import Icon1 from "../../images/ImagesInMainPage/our1.svg";
+import Icon2 from "../../images/ImagesInMainPage/our2.svg";
+import Icon3 from "../../images/ImagesInMainPage/our3.svg";
 import {
   ServicesContainer, ServicesH1, ServicesWrapper, ServicesCard1,
   ServicesCard2, ServicesCard3, ServicesIcon, ServicesH2, ServicesP,

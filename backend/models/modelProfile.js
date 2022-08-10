@@ -16,6 +16,7 @@ const profileSchema = new mongoose.Schema({
   },
   activity: {
     type: String,
+    required: true,
   },
   about: {
     type: String,

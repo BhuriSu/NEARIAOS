@@ -1,26 +1,34 @@
-import React, { useState, useEffect } from 'react';
-import { connect } from 'react-redux';
-import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { connect } from "react-redux";
+import { useCookies } from "react-cookie";
+import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
-} from 'firebase/storage';
-import { profileInit } from '../redux/action';
-import NavbarNewFeed from '../NewFeedComponents/NavbarNewFeed';
-import './profileEdit.css';
+} from "firebase/storage";
+import { profileInit } from "../redux/action";
+import "./profileEdit.css";
+import styled from "styled-components";
+const Avatar = styled.div`
+width: 250px;
+height: 250px;
+border-radius: 50%;
+background-size: cover;
+background-position: center;
+cursor: pointer;
+`;
 
 function ProfileEdit(props) {
   const [cookies, removeCookies] = useCookies([
-    'userName',
-    'userNickname',
+    "userName",
+    "userNickname",
   ]);
-  const [activity, setActivity] = useState('');
-  const [drinks, setDrinks] = useState('');
-  const [topics, setTopics] = useState('');
-  const [about, setAbout] = useState('');
-  const [url, setUrl] = useState('./images/UploadPic.svg');
-  const [save, setSave] = useState('');
+  const [activity, setActivity] = useState("");
+  const [drinks, setDrinks] = useState("");
+  const [topics, setTopics] = useState("");
+  const [about, setAbout] = useState("");
+  const [url, setUrl] = useState("./images/UploadPic.svg");
+  const [save, setSave] = useState("");
   const id = cookies.userName;
   const { profileInit, user } = props;
   const [image, setImage] = useState(null);
@@ -29,7 +37,7 @@ function ProfileEdit(props) {
   function patchData(event) {
     event.preventDefault();
     axios
-      .patch('/users/profile', {
+      .patch("/users/profile", {
         activity,
         drinks,
         topics,
@@ -38,22 +46,22 @@ function ProfileEdit(props) {
       })
       .then(({ data }) => {
         if (data.success) {
-          setSave('Changes were saved');
+          setSave("Changes were saved");
         } else {
           setSave(data.err);
         }
       });
     const storage = getStorage();
-    const storageRef = ref(storage, `images/${cookies.userName || './images/infoUser.svg'}`);
+    const storageRef = ref(storage, `images/${cookies.userName || "./images/infoUser.svg"}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
-    uploadTask.on('state_changed', undefined, undefined, () => {
+    uploadTask.on("state_changed", undefined, undefined, () => {
       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
         setUrl(url);
       });
     });
     if (setUrl !== null || setUrl == null) {
       axios
-        .patch('/users/profile', {
+        .patch("/users/profile", {
           activity,
           drinks,
           topics,
@@ -63,7 +71,7 @@ function ProfileEdit(props) {
         })
         .then(({ data }) => {
           if (data.success) {
-            setSave('Saved');
+            setSave("Saved");
           } else {
             setSave(data.err);
           }
@@ -89,8 +97,8 @@ function ProfileEdit(props) {
   }
   function LogOut() {
     user.id = null;
-    removeCookies('userName');
-    removeCookies('userNickname');
+    removeCookies("userName");
+    removeCookies("userNickname");
   }
 
   useEffect(() => {
@@ -100,17 +108,18 @@ function ProfileEdit(props) {
         setUrl(url);
       });
     axios
-      .post('/users/profileEdit', {
+      .post("/users/profileEdit", {
         id,
       })
       .then(({ data }) => {
+        console.log(data);
         setActivity(data.profileId.activity);
         setDrinks(data.profileId.drinks);
         setAbout(data.profileId.about);
         setTopics(data.profileId.topics);
         profileInit(data.profileId);
       });
-  }, [profileInit, id, cookies.userName]);
+  }, [profileInit, id]);
 
   function photoDownload(e) {
     if (e.target.files[0]) {
@@ -119,9 +128,9 @@ function ProfileEdit(props) {
       const storageRef = ref(storage, `images/${cookies.userName}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(
-        'state_changed',
+        "state_changed",
         () => {
-          setUrl('./loading.gif');
+          setUrl("./loading.gif");
         },
         (error) => {
           console.log(error);
@@ -138,25 +147,18 @@ function ProfileEdit(props) {
 
   return (
     <>
-      <NavbarNewFeed />
+     
       <div className="profile-container">
-        <div style={{ alignSelf: 'center' }}>
+        <div style={{ alignSelf: "center" }}>
           <label htmlFor="file-input">
-            <div
-              className="avatar"
-              style={{ backgroundImage: `url(${url})` }}
-            />
+          <Avatar style={{ backgroundImage: `url(${url})` }} />
           </label>
           <input id="file-input" type="file" onChange={photoDownload} />
         </div>
+
         <form onSubmit={patchData} className="edit">
           <span
-            style={{
-              textShadow: 'none',
-              marginBottom: '8px',
-              marginTop: '0px',
-              color: '#fff',
-            }}
+            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
           >
             Activity:
           </span>
@@ -166,12 +168,12 @@ function ProfileEdit(props) {
               onChange={handleChangeActivity}
               type="text"
               name="activity"
-              required
               className="profileInput"
+              required
             />
           </label>
           <span
-            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
+            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
           >
             Topics:
           </span>
@@ -181,12 +183,12 @@ function ProfileEdit(props) {
               onChange={handleChangeTopics}
               type="text"
               name="topics"
-              required
               className="profileInput"
+              required
             />
           </label>
           <span
-            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
+            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
           >
             About:
           </span>
@@ -196,12 +198,12 @@ function ProfileEdit(props) {
               onChange={handleChangeAbout}
               type="text"
               name="about"
-              required
               className="profileInput"
+              required
             />
           </label>
           <span
-            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
+            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
           >
             Drinks:
           </span>
@@ -211,33 +213,33 @@ function ProfileEdit(props) {
               onChange={handleChangeDrinks}
               type="text"
               name="drinks"
-              required
               className="profileInput"
+              required
             />
           </label>
           <button
-            style={{
-              margin: '0 auto',
-              width: '95%',
-              height: '100%',
-            }}
+            style={{ margin: "0 auto" }}
             className="chatButton"
           >
-            {' '}
+            {" "}
             Save changes
-            {' '}
+            {" "}
           </button>
-          <div style={{ marginTop: '15px', color: '#fff' }}>
-            {' '}
+          <div style={{ marginTop: "15px", color: "#fff" }}>
+            {" "}
             {save}
           </div>
         </form>
 
-    
+        <div className="quitEdit" style={{ margin: "0 auto" }}>
+          <Link to="/listUsers" style={{ position: "relative" }}>
+           <img src="./images/back.svg" width="100" height="100" alt="BackToListPage" title="BackToListPage" />
+          </Link>
+        </div>
 
-        <div className="exit" style={{ margin: '0' }}>
-          <Link to="/login" onClick={LogOut} style={{ position: 'relative' }}>
-            <img src="./images/exit.svg" alt="Logout" title="Logout" />
+        <div className="exit" style={{ margin: "0 auto" }}>
+          <Link to="/login" onClick={LogOut} style={{ position: "relative" }}>
+            <img src="./images/exit.svg" width="100" height="100" alt="Logout" title="Logout" />
           </Link>
         </div>
       </div>

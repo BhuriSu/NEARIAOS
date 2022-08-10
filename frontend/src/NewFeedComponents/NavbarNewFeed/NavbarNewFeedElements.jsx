@@ -17,10 +17,10 @@ export const NavbarNewFeedContainer = styled.div`
 `;
 export const NavList = styled.div`
 display: flex;
-justify-content: space-between;
 height: 80px;
 z-index: 1;
 padding: 0 24px;
+margin: 0 auto; 
 `;
 export const MobileIcon = styled.div`
   display: none;
@@ -36,8 +36,6 @@ export const MobileIcon = styled.div`
   }
 `;
 export const NavElements = styled.div`
-margin: 0 auto; 
-text-align: center;
 margin-top:50px;
 @media screen and (max-width: 768px) {
   display: none;

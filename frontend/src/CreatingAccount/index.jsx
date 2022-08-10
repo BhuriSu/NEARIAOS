@@ -181,7 +181,8 @@ function Step1(props) {
           onChange={props.handleChange}
           type="text"
           name="activity"
-          placeholder="Place of work or study (Optional)"
+          required
+          placeholder="Place of work or study (required)"
           data-cy="input-activity-process"
         />
       </label>

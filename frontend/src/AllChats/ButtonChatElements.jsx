@@ -22,3 +22,7 @@ background-size: cover;
 background-position: center;
 cursor: pointer;
 `;
+export const MainChat = styled.div`
+width: 100%;
+background:#000;
+`;

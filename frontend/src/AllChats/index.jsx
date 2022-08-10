@@ -5,20 +5,19 @@ import {
       ref, query, limitToLast, onValue, getDatabase
 } from "firebase/database";
 import ButtonChat from "./ButtonChat";
-import Navbar from "../NewFeedComponents/NavbarNewFeed";
 import Loader from "../NewFeedComponents/loader/Loader";
+import { MainChat } from "./ButtonChatElements"
 
 function AllChats() {
   const [cookies] = useCookies(["userName", "checked"]);
   const [chats, setChat] = useState(null);
 
   useEffect(() => {
-    
     axios
       .get(`/database/${cookies.userName}`)
       .then(async ({ data }) => {
         await Promise.all(
-          data.chats?.map(async (el) => {
+          data.chats?.map((el) => {
             const database = getDatabase();
             const databaseRef = ref(database, `${el.chat}`);
             const snapshot = onValue(query(databaseRef, limitToLast(1)));
@@ -39,7 +38,7 @@ function AllChats() {
         data.chats.sort((a, b) => b.date - a.date);
         setChat(data.chats);
       });
-  }, [cookies.userName, setChat]);
+  }, [setChat]);
   return (
     <div
       style={{
@@ -47,9 +46,7 @@ function AllChats() {
         height: "100vh",
       }}
     >
-      
-      <div style={{ width: "100%" }} className="main-cont">
-        <Navbar />
+      <MainChat>
         <div
           style={{
             display: "flex",
@@ -64,7 +61,7 @@ function AllChats() {
             <Loader />
           )}
         </div>
-      </div>
+      </MainChat>
     </div>
   );
 }

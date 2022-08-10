@@ -6,7 +6,7 @@ export const homeObjOne = {
   description: "More people you meet more knowledge you get",
   buttonLabel: "Right here",
   imgStart: false,
-  img: require("../../images/info1.svg").default,
+  img: require("../../images/ImagesInMainPage/info1.svg").default,
   alt: "circle",
 };
 
@@ -18,7 +18,7 @@ export const homeObjTwo = {
   description: "Maybe your lovely couple in the future would be found around you",
   buttonLabel: "Find it",
   imgStart: true,
-  img: require("../../images/info2.svg").default,
+  img: require("../../images/ImagesInMainPage/info2.svg").default,
   alt: "love",
 };
 
@@ -30,7 +30,7 @@ export const homeObjThree = {
   description: "Get access to our platform without getting charged any fees.",
   buttonLabel: "Start Now",
   imgStart: false,
-  img: require("../../images/info3.svg").default,
+  img: require("../../images/ImagesInMainPage/info3.svg").default,
   alt: "stack",
 };
 

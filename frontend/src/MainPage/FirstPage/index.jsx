@@ -1,5 +1,5 @@
 import React from "react";
-import FirstPic from "../../images/FirstPic.svg";
+import FirstPic from "../../images/ImagesInMainPage/FirstPic.svg";
 import {
   Container, Content, FirstLine, Planet
 } from "./FirstPageElements";
