@@ -5,6 +5,11 @@ const cookieParser = require('cookie-parser');
 const morgan = require('morgan');
 const cors = require('cors');
 require('dotenv').config();
+const app = express();
+const usersRouter = require('./routes/users');
+const listRouter = require('./routes/list'); 
+const databaseRouter = require('./routes/database');
+const publicPath = path.join(__dirname, 'build');
 const mongoose = require('mongoose');
 
 mongoose.connect(
@@ -13,26 +18,17 @@ mongoose.connect(
 );
 
 
-const usersRouter = require('./routes/users');
-const listRouter = require('./routes/list'); 
-const databaseRouter = require('./routes/database');
-
-const publicPath = path.join(__dirname, 'build');
-
-const app = express();
-app.use(cors());
-
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
-
+app.use(cors());
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
+app.use(express.static(publicPath));
 
 app.use('/users', usersRouter);
 app.use('/database', databaseRouter);
@@ -41,7 +37,6 @@ app.use('/list', listRouter);
 app.get('*', (req, res) => {
   res.send(path.join(publicPath, 'index.html'));
 });
-
 
 app.use((req, res, next) => {
   next(createError(404));

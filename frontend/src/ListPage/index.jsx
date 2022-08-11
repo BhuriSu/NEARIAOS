@@ -10,7 +10,7 @@ import AnnouncementMessage from "../NewFeedComponents/Announcement";
 import "./listUsers.css";
 import Loader from "../NewFeedComponents/loader/Loader";
 import Loader2 from "../NewFeedComponents/loader/loader2";
-import { ListPageBackground } from "./ListPageElement";
+import { ListPageBackground, ToggleBox } from "./ListPageElement";
 /**
  * @param {*} props
  */
@@ -177,7 +177,7 @@ function ListUsers() {
             value={radius}
           />
           <label className="label">
-            {radius !== undefined ? (
+            {radius !== null ? (
               <div>
                 {' '}
                 Chosen radius: &nbsp;
@@ -207,15 +207,14 @@ function ListUsers() {
           >
             FIND ME SOMEONE
           </button>
-        </div>
 
-        {list.success ? (
-          <div className="toggleBox">
+          {list.success ? (
+          <ToggleBox>
             <input type="checkbox" name="toggle" className="sw" id="toggle-2" />
             <label htmlFor="toggle-2" onClick={ChangeOnMap}>
               <span>Use a map</span>
             </label>
-          </div>
+          </ToggleBox>
         ) : (
           list.err
         )}
@@ -257,8 +256,11 @@ function ListUsers() {
             )}
           </div>
         )}
+        </div>
+
+    
       
-          <AnnouncementMessage user={user} />
+       <AnnouncementMessage user={user} />
     </ListPageBackground>
   );
 }

@@ -17,9 +17,11 @@ const profileSchema = new mongoose.Schema({
   activity: {
     type: String,
     required: true,
+    minlength: 1,
   },
   about: {
     type: String,
+    minlength: 1,
   },
   topics: String,
   drinks: String,

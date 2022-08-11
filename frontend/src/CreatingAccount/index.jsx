@@ -1,35 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { LogIn } from "../redux/action";
 import { connect } from "react-redux";
 import ImageUpload from "./PhotoUpload";
-import {FromProcess,FromProcessContainer,ButtonCreate} from "./CreatingElements"
+import { useNavigate } from "react-router-dom";
+import { FromProcess, FromProcessContainer, ButtonCreate } from "./CreatingElements";
 
-class CreatingAccount extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentStep: 1,
-      name: "",
-      DoB: "",
-      activity: "",
-      topics: "",
-      drinks: "",
-      about: "",
-      random: 0
-    };
-  }
-  handleChange = event => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+function CreatingAccount (props) {
+  const navigate = useNavigate();
+  const [state,setState] = useState({
+    currentStep: 1,
+    name: "",
+    DoB: "",
+    activity: "",
+    topics: "",
+    drinks: "",
+    about: ""
+  });
+
+  const handleChange = e => {
+    const { name, value } = e.target;
+    setState(state => ({
+      ...state,    // <-- copy previous state
+      [name]: value, // <-- update property
+    }));
   };
 
-  handleSubmit = async event => {
+  const handleSubmit = async event => {
     event.preventDefault();
-    const { user } = this.props;
-    let { name, DoB, activity, topics, drinks, about } = this.state;
+    const { user } = props;
+    navigate("/listUsers");
+    let { name, DoB, activity, topics, drinks, about } = state;
     await axios.post("/users/profile", {
       name,
       DoB,
@@ -48,29 +49,30 @@ class CreatingAccount extends React.Component {
       topics,
       drinks
     };
-    this.props.LogIn(user.id, user.nickname, profileId);
-    this.props.navigate("/listUsers");
+    LogIn(user.id, user.nickname, profileId);
+    
   };
 
-  _next = () => {
-    let currentStep = this.state.currentStep;
+  const _next = () => {
+    let currentStep = state.currentStep;
     currentStep = currentStep >= 2 ? 3 : currentStep + 1;
-    this.setState({
-      currentStep: currentStep
-    });
+    setState(state => ({
+      ...state,    // <-- copy previous state
+      currentStep: currentStep// <-- update property
+    }));
   };
 
-  _prev = () => {
-    let currentStep = this.state.currentStep;
+  const _prev = () => {
+    let currentStep = state.currentStep;
     currentStep = currentStep <= 1 ? 1 : currentStep - 1;
-    this.setState({
-      currentStep: currentStep
-    });
+    setState(state => ({
+      ...state,    // <-- copy previous state
+      currentStep: currentStep// <-- update property
+    }));
   };
-
- 
-  previousButton() {
-    let currentStep = this.state.currentStep;
+  
+  function previousButton() {
+    let currentStep = state.currentStep;
     if (currentStep !== 1) {
       return (
         <>
@@ -78,7 +80,7 @@ class CreatingAccount extends React.Component {
             style={{ color: "#3103ff" }}
             className="btn"
             type="button"
-            onClick={this._prev}
+            onClick={_prev}
           >
             Previous
           </ButtonCreate>
@@ -88,15 +90,15 @@ class CreatingAccount extends React.Component {
     }
     return null;
   }
-
-  nextButton() {
-    let currentStep = this.state.currentStep;
+  
+  function nextButton() {
+    let currentStep = state.currentStep;
     if (currentStep < 3) {
       return (
         <ButtonCreate
           className="btn"
           type="button"
-          onClick={this._next}
+          onClick={_next}
           data-cy="next-process"
           style={{
             marginBottom: "25px",
@@ -110,39 +112,37 @@ class CreatingAccount extends React.Component {
     }
     return null;
   }
-
-  render() {
-    return (
-      <>
-       <FromProcessContainer>
-        <FromProcess onSubmit={this.handleSubmit} >
-          <p>Step {this.state.currentStep}</p>
-          <br/>
-          <Step1
-            currentStep={this.state.currentStep}
-            handleChange={this.handleChange}
-            name={this.state.name}
-            DoB={this.state.DoB}
-            activity={this.state.activity}
-          />
-          <Step2
-            currentStep={this.state.currentStep}
-            handleChange={this.handleChange}
-            topics={this.state.topics}
-            drinks={this.state.drinks}
-          />
-          <Step3
-            currentStep={this.state.currentStep}
-            handleChange={this.handleChange}
-            about={this.state.about}
-          />
-          {this.previousButton()}
-          {this.nextButton()}
-        </FromProcess>
-        </FromProcessContainer>
-      </>
-    );
-  }
+  return (
+    <>
+     <FromProcessContainer>
+      <FromProcess onSubmit={handleSubmit} >
+     
+        <p>Step {state.currentStep}</p>
+        <br/>
+        <Step1
+          currentStep={state.currentStep}
+          handleChange={handleChange}
+          name={state.name}
+          DoB={state.DoB}
+          activity={state.activity}
+        />
+        <Step2
+          currentStep={state.currentStep}
+          handleChange={handleChange}
+          topics={state.topics}
+          drinks={state.drinks}
+        />
+        <Step3
+          currentStep={state.currentStep}
+          handleChange={handleChange}
+          about={state.about}
+        />
+        {previousButton()}
+        {nextButton()}
+      </FromProcess>
+      </FromProcessContainer>
+    </>
+  );
 }
 
 function Step1(props) {
@@ -170,7 +170,7 @@ function Step1(props) {
           name="DoB"
           placeholder="Date of Birth"
           max="2010-01-01"
-          min="1920-12-31"
+          min="1930-12-31"
           required
           data-cy="input-Dob-process"
         />
@@ -202,8 +202,7 @@ function Step2(props) {
           onChange={props.handleChange}
           type="text"
           name="topics"
-          placeholder="Favorite topics: (Optional)"
-          
+          placeholder="Favorite topics: (Optional)" 
         />
       </label>
       <label>
@@ -220,13 +219,12 @@ function Step2(props) {
 }
 
 function Step3(props) {
-  
   if (props.currentStep !== 3) {
     return null;
   }
   return (
     <>
-      <ImageUpload/>
+       <ImageUpload/>
       <div className="form-group">
         <label>
           <input
@@ -252,6 +250,7 @@ function Step3(props) {
       >
         Save it
       </button>
+      
     </>
   );
 }

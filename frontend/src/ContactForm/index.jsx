@@ -14,8 +14,6 @@ function ContactForm() {
     formState: { errors },
   } = useForm();
   const [disabled, setDisabled] = useState(false);
-
-
   const toastifySuccess = () => {
     toast("Form sent!", {
       position: "bottom-right",

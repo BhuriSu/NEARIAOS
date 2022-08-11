@@ -15,3 +15,11 @@ align-items: center;
   height: 1300px;
 }
 `;
+
+export const ToggleBox = styled.div`
+text-align: center;
+font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+background: transparent;
+margin-top:20px;
+-webkit-font-smoothing: antialiased;
+`;

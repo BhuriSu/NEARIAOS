@@ -6,7 +6,7 @@ import {
 } from "firebase/database";
 import ButtonChat from "./ButtonChat";
 import Loader from "../NewFeedComponents/loader/Loader";
-import { MainChat } from "./ButtonChatElements"
+import { MainChat, ButtonChatDiv } from "./ButtonChatElements"
 
 function AllChats() {
   const [cookies] = useCookies(["userName", "checked"]);
@@ -47,20 +47,13 @@ function AllChats() {
       }}
     >
       <MainChat>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "center",
-            flexDirection: "column",
-          }}
-          className="button-chat"
-        >
+        <ButtonChatDiv width="200" height="200">
           {chats ? (
             chats?.map((el) => <ButtonChat key={el._id} chats={el} />)
           ) : (
             <Loader />
           )}
-        </div>
+        </ButtonChatDiv>
       </MainChat>
     </div>
   );

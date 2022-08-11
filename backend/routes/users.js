@@ -4,14 +4,10 @@ const Profile = require('../models/modelProfile');
 
 
 router.get('/listUsers', async (req, res) => {
-  try {
   res.send('respond with a resource');
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}});
+});
 
 router.post('/login', async (req, res) => {
-  try {
   const { email, password } = req.body;
   const user = await Person.findOne({ email, password });
   if (user) {
@@ -27,12 +23,9 @@ router.post('/login', async (req, res) => {
     success: false,
     err: 'No such user or incorrect pair login password',
   });
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}});
+});
 
 router.post('/registration', async (req, res) => {
-  try {
   const { nickname, email, password } = req.body;
   if (nickname === '' || email === '' || password === '') {
     return res.send({
@@ -56,12 +49,9 @@ router.post('/registration', async (req, res) => {
     success: false,
     err: 'Email is already registered',
   });
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}});
+});
 
 router.post('/profile', async (req, res) => {
-  try {
   const {
     name,
     DoB,
@@ -99,12 +89,9 @@ router.post('/profile', async (req, res) => {
       avatar,
     },
   });
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}});
+});
 
 router.patch('/profile', async (req, res) => {
-  try {
   const {
     activity,
     topics,
@@ -121,12 +108,9 @@ router.patch('/profile', async (req, res) => {
   } else {
     res.send({ success: false, err: 'Try again' });
   }
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}});
+});
 
 router.post('/profileEdit', async (req, res) => {
-  try {
   const { id } = req.body;
   const response = await Profile.findOne({ person: id });
   if (response) {
@@ -134,8 +118,6 @@ router.post('/profileEdit', async (req, res) => {
   } else {
     res.send({ success: false, err: 'Something went wrong' });
   }
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}});
+});
 
 module.exports = router;

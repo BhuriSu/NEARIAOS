@@ -89,14 +89,6 @@ input.sw:checked + label {
   transition: box-shadow 2.5s cubic-bezier(0, 1.2, 0.94, 0.95);
 }
 
-/* Pen Style */
-.toggleBox {
-  text-align: center;
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  background: transparent;
-  -webkit-font-smoothing: antialiased;
-}
-
 /*------------------------red background---------------------------*/
 
 .FindMe {

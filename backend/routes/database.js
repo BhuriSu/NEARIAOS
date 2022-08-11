@@ -11,7 +11,7 @@ function getChatName (a, b) {
 }
 
 router.post('/listUsers',async (req,res)=>{
-try {
+
 const {ID1, ID2} = req.body;
 const chat = getChatName(ID1,ID2)
 const results = await Promise.all(
@@ -29,19 +29,15 @@ return res.send()
   )
   res.send()
 }
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}})
+})
 
 router.get('/:id',async (req,res)=>{
-try {
+
 const id = req.params.id
 const chats = await Person.findOne({_id:id}).chats
   res.send({
     chats,
   })
-} catch (err) {
-  console.error(`Something went wrong ${err}`)
-}}) 
+}) 
 
 module.exports = router;

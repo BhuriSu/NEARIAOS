@@ -17,7 +17,7 @@ function Map({
   url,
  }) {
   const [cookies] = useCookies(["userName"]);
-  const IconMarker =  <img src="./images/back.svg" width="100" height="100" alt="BackToListPage" title="BackToListPage" />;
+ 
   function sendRequest(id) {
     axios.post("/database", {
       ID1: cookies.userName,
@@ -72,7 +72,6 @@ function Map({
             size="mini"
             trigger={(
               <Marker
-                icon={IconMarker}
                 position={{ lat: profile.latitude, lng: profile.longitude }}
                 title={profile.name}
               />
