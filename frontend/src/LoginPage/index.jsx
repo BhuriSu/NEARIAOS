@@ -3,7 +3,7 @@ import { Link , Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { requestFetchLogin } from "../redux/action";
-import { LoginContainer, LoginText, GoogleAuth, ContainerButton } from "./LoginPageElement";
+import { LoginContainer, LoginText, GoogleAuth, ContainerButton,NavLinks } from "./LoginPageElement";
 import { UserAuth } from '../Context';
 import { useNavigate } from 'react-router-dom';
 
@@ -102,6 +102,11 @@ function Login(props) {
 
         </form>
       )}
+              <div style={{ margin: "0 auto" }}>
+              <NavLinks to="/" style={{ position: "relative" }}>
+              <img src="./images/back.svg" width="100" height="100" alt="BackToListPage" title="BackToListPage" />
+              </NavLinks>
+              </div>
     </LoginContainer>
   );
 }

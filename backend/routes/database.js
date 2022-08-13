@@ -10,7 +10,7 @@ function getChatName (a, b) {
   }
 }
 
-router.post('/listUsers',async (req,res)=>{
+router.post('/',async (req,res)=>{
 
 const {ID1, ID2} = req.body;
 const chat = getChatName(ID1,ID2)

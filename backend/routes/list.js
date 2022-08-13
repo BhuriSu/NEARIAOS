@@ -19,7 +19,7 @@ const distHaversine = (p1, p2) => {
   return d.toFixed(3) * 1000; 
 };
 
-router.get("/listUsers", async (req, res) => {
+router.get("/", async (req, res) => {
   res.send("respond with a resource");
 });
 

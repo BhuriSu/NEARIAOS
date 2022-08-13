@@ -5,13 +5,13 @@ import { FaBars } from "react-icons/fa";
 import profile from "../../images/profile.svg";
 import FindPic from "../../images/find.svg";
 import ChatPic from "../../images/chat.svg"
-function NavbarNewFeed() {
+function NavbarNewFeed({ toggle }) {
   return (
     <IconContext.Provider value={{ color: "#fff" }}>
     <NavbarNewFeedContainer>
       <NavList>
-
-          <MobileIcon>
+ 
+          <MobileIcon onClick={toggle}>
             <FaBars />
           </MobileIcon>
 

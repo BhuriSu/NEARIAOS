@@ -2,8 +2,7 @@ const router = require('express').Router();
 const Person = require('../models/modelPerson'); 
 const Profile = require('../models/modelProfile');
 
-
-router.get('/listUsers', async (req, res) => {
+router.get('/', async (req, res) => {
   res.send('respond with a resource');
 });
 

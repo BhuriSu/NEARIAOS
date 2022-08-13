@@ -20,7 +20,6 @@ display: flex;
 height: 80px;
 z-index: 1;
 padding: 0 24px;
-margin: 0 auto; 
 `;
 export const MobileIcon = styled.div`
   display: none;
