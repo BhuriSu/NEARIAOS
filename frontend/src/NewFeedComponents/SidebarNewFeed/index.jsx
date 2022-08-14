@@ -3,9 +3,9 @@ import {
     SidebarNewFeedContainer, Icon, CloseIcon, SidebarNewFeedWrapper,
     SidebarNewFeedMenu, NavLinks, Profile, Find, Chat
 } from "./SidebarNewFeedElements";
-import profile from "../../images/profile.svg";
-import FindPic from "../../images/find.svg";
-import ChatPic from "../../images/chat.svg"
+import profile from "../../images/ImagesInListPage/profile.svg";
+import FindPic from "../../images/ImagesInListPage/find.svg";
+import ChatPic from "../../images/ImagesInListPage/chat.svg"
 
 function SidebarNewFeed({ isOpen, toggle }) {
 
@@ -36,7 +36,6 @@ function SidebarNewFeed({ isOpen, toggle }) {
               </NavLinks>
               </div>
         </SidebarNewFeedMenu>
-
        
       </SidebarNewFeedWrapper>
     </SidebarNewFeedContainer>

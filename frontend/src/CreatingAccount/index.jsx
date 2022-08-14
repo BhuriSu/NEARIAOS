@@ -26,10 +26,9 @@ function CreatingAccount (props) {
     }));
   };
 
-  const handleSubmit = async event => {
-    event.preventDefault();
+  const handleSubmit = async e => {
+    e.preventDefault();
     const { user } = props;
-    navigate("/listUsers");
     let { name, DoB, activity, topics, drinks, about } = state;
     await axios.post("/users/profile", {
       name,
@@ -49,8 +48,8 @@ function CreatingAccount (props) {
       topics,
       drinks
     };
-    LogIn(user.id, user.nickname, profileId);
-    
+    props.LogIn(user.id, user.nickname, profileId);
+    navigate("/listUsers");
   };
 
   const _next = () => {

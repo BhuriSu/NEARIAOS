@@ -8,8 +8,6 @@ import Map from "./Map";
 import ModalWindow from "../NewFeedComponents/Modal";
 import AnnouncementMessage from "../NewFeedComponents/Announcement";
 import "./listUsers.css";
-import Loader from "../NewFeedComponents/loader/Loader";
-import Loader2 from "../NewFeedComponents/loader/loader2";
 import { ListPageBackground, ToggleBox } from "./ListPageElement";
 /**
  * @param {*} props
@@ -24,17 +22,13 @@ function ListUsers() {
   });
 
   const [isColorBtn, setColorBtn] = useState("FindMe");
-  const [isShowLoader, setIsShowLoader] = useState(false);
   const [isShowMap, setShowMap] = useState(false);
   const [user, setUser] = useState("");
   const [url, setUrl] = useState("");
-  const [loader, setLoader] = useState();
+
   const database = ref(getDatabase());
   const pushRoom = child(database, `${cookies.userName}`);
-  useEffect(() => {
-    const loader = Math.floor(Math.random() * 10);
-    setLoader(loader);
-  }, []);
+
 
   useEffect(() => {
     const handleNewMessages = async (snap) => {
@@ -75,7 +69,6 @@ function ListUsers() {
       })
       .then(async (response) => {
         if (response.data.success) {
-          setIsShowLoader(false);
 
           const promisesArr = response.data.list.map(async (user) => {
             const storage = ref(getStorage());
@@ -113,7 +106,6 @@ function ListUsers() {
   };
 
   const geoFindLocation = () => {
-    setIsShowLoader(true);
     setColorBtn("whiteBorder");
     const success = (position) => {
       setLatitude(position.coords.latitude);
@@ -179,6 +171,9 @@ function ListUsers() {
           <label className="label">
             {radius !== null ? (
               <div>
+                 Just touch the line and move right or left
+                 <br/>
+                 <br/>
                 {' '}
                 Chosen radius: &nbsp;
                 {' '}
@@ -218,9 +213,7 @@ function ListUsers() {
         ) : (
           list.err
         )}
-        {isShowLoader ? (
-          <div>{loader > 5 ? <Loader /> : <Loader2 />}</div>
-        ) : (
+       
           <div>
             {isShowMap ? (
               <Map
@@ -255,7 +248,7 @@ function ListUsers() {
               </ul>
             )}
           </div>
-        )}
+      
         </div>
 
     

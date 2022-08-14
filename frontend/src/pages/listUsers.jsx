@@ -12,7 +12,7 @@ function ListPage() {
   return (
     <>
     <SidebarListPage isOpen={isOpen} toggle={toggle} />
-    <NavbarListPage toggle={toggle}/>
+    <NavbarListPage toggle={toggle} />
     <ListUsers />
     </>
   );

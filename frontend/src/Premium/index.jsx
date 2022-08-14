@@ -1,7 +1,7 @@
 import React from "react";
 import Animated from "../animation/animated.gif";
-import Color from "../images/color.svg";
-import Card3 from "../images/card3.svg";
+import Color from "../images/ImagesInPremiumPage/color.svg";
+import Card3 from "../images/ImagesInPremiumPage/card3.svg";
 import {
   PremiumContainer, PremiumH1,PremiumWrapper, PremiumCard1,
   PremiumCard2, PremiumCard3, PremiumIcon, PremiumH2, TextBelow

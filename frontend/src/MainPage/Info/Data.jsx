@@ -42,6 +42,6 @@ export const homeObjFour = {
   description: "Click Click Click",
   buttonLabel: "Click!",
   imgStart: false,
-  img: require("../../images/mixcard.svg").default,
+  img: require("../../images/ImagesInMainPage/mixCard.svg").default,
   alt: "user",
 };

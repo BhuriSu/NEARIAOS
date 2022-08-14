@@ -5,7 +5,6 @@ import {
       ref, query, limitToLast, onValue, getDatabase
 } from "firebase/database";
 import ButtonChat from "./ButtonChat";
-import Loader from "../NewFeedComponents/loader/Loader";
 import { MainChat, ButtonChatDiv } from "./ButtonChatElements"
 
 function AllChats() {
@@ -48,11 +47,7 @@ function AllChats() {
     >
       <MainChat>
         <ButtonChatDiv width="200" height="200">
-          {chats ? (
-            chats?.map((el) => <ButtonChat key={el._id} chats={el} />)
-          ) : (
-            <Loader />
-          )}
+          { chats?.map((el) => <ButtonChat key={el._id} chats={el} />) }
         </ButtonChatDiv>
       </MainChat>
     </div>
