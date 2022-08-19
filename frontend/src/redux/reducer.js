@@ -1,28 +1,27 @@
-import { LOGIN, PROFILE_INIT } from './action-types';
+import { LOGIN, PROFILE_INIT } from "./action-types";
 
 const init = {
-  id: '',
-  nickname: '',
-  profileId: '',
+  id: "",
+  nickname: "",
+  profileId: ""
 };
 
-const reducer = (state = init, action) => {
+export default (state = init, action) => {
   switch (action.type) {
     case LOGIN:
       return {
         ...state,
         id: action.id,
         nickname: action.nickname,
-        profileId: action.profileId,
+        profileId: action.profileId
       };
     case PROFILE_INIT:
       return {
         ...state,
-        profileId: action.profileId,
+        profileId: action.profileId
       };
 
     default:
       return state;
   }
 };
-export default reducer;

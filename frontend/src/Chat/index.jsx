@@ -37,10 +37,8 @@ function Chat(props) {
         setMessages(snap.val());
       }
     };
-    onValue(pushRoom, handleNewMessages);
-    return () => {
-      onValue(pushRoom, handleNewMessages);
-    };
+   const unsubscribe = onValue(pushRoom, handleNewMessages);
+   return () => unsubscribe();
   }, [chatRoom, setMessages]);
   const handleMsgChange = (e) => setMsg(e.target.value);
   const handleKeyDown = () => {

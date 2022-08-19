@@ -1,8 +1,9 @@
 import { ERROR, CLEAR_ERROR } from './action-types';
 
+
 const init = { error: false, title: '' };
 
-const reducerError = (state = init, action) => {
+export default (state = init, action) => {
   switch (action.type) {
     case ERROR:
       return {
@@ -20,4 +21,3 @@ const reducerError = (state = init, action) => {
       return state;
   }
 };
-export default reducerError

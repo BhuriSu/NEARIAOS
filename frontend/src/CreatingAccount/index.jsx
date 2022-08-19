@@ -115,7 +115,6 @@ function CreatingAccount (props) {
     <>
      <FromProcessContainer>
       <FromProcess onSubmit={handleSubmit} >
-     
         <p>Step {state.currentStep}</p>
         <br/>
         <Step1
@@ -233,7 +232,6 @@ function Step3(props) {
             type="text"
             name="about"
             placeholder="Caption (Optional)"
-           
           />
         </label>
       </div>

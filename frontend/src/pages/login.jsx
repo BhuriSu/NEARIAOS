@@ -1,9 +1,9 @@
 import React from "react";
-import Login from "../LoginPage";
+import LoginUser from "../LoginPage";
 
 function LoginPage() {
   return (
-    <Login />
+    <LoginUser />
   );
 }
 
