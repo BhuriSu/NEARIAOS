@@ -73,7 +73,6 @@ router.post('/profile', async (req, res) => {
       drinks,
       avatar,
     });
-    // $set operator replaces the value of a field with the specified value.
     await Person.updateOne(user, { $set: { profileId: newProfile._id } });
     return res.send({
       success: true,
@@ -113,9 +112,9 @@ router.post('/profileEdit', async (req, res) => {
   const { id } = req.body;
   const response = await Profile.findOne({ person: id });
   if (response) {
-    res.send({ success: true, profileId: response });
+    res.send({ profileId: response });
   } else {
-    res.send({ success: false, err: 'Something went wrong' });
+    res.status(500).send({ err: 'Something went wrong' });
   }
 });
 

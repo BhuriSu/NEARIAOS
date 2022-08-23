@@ -40,10 +40,8 @@ function ListUsers() {
         pushRoom.remove();
       }
     };
-    onValue(pushRoom, handleNewMessages);
-    return () => {
-      onValue(pushRoom, handleNewMessages);
-    };
+    const unsubscribe = onValue(pushRoom, handleNewMessages);
+    return () => unsubscribe();
   });
 
   const ChangeOnMap = () => {
@@ -71,8 +69,8 @@ function ListUsers() {
         if (response.data.success) {
 
           const promisesArr = response.data.list.map(async (user) => {
-            const storage = ref(getStorage());
-            const pic = await getDownloadURL(storage, `images/${user.person}`)
+            const storage = getStorage();
+            const pic = await getDownloadURL(ref(storage, `images/${user.person}`))
               .catch((e) => console.log(e));
             user.url = pic;
             return user;
@@ -251,8 +249,6 @@ function ListUsers() {
       
         </div>
 
-    
-      
        <AnnouncementMessage user={user} />
     </ListPageBackground>
   );

@@ -55,7 +55,7 @@ function ProfileEdit(props) {
     const storageRef = ref(storage, `images/${cookies.userName || "./images/infoUser.svg"}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on("state_changed", undefined, undefined, () => {
-      getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+      getDownloadURL(storageRef).then((url) => {
         setUrl(url);
       });
     });
@@ -108,17 +108,22 @@ function ProfileEdit(props) {
         setUrl(url);
       });
     axios
-      .post("/users/profileEdit", {
-        id,
-      })
+      .post("/users/profileEdit", {id})
       .then(({ data }) => {
-        console.log(data);
-        setActivity(data.profileId.activity);
-        setDrinks(data.profileId.drinks);
-        setAbout(data.profileId.about);
-        setTopics(data.profileId.topics);
-        profileInit(data.profileId);
+        const {
+          profileId,
+          profileId: { activity, drinks, about, topics },
+        } = data;
+        setActivity(activity);
+        setDrinks(drinks);
+        setAbout(about);
+        setTopics(topics);
+        profileInit(profileId);
+      })
+      .catch(error => {
+        console.log(error.response.data);
       });
+
   }, [profileInit, id]);
 
   function photoDownload(e) {

@@ -23,9 +23,9 @@ function Chat(props) {
   const {
     chats, urlFriend, name, friend,
   } = props.location.state;
-  const database = ref(getDatabase());
-  const chatRoom = child(database, `${chats}`);
-  const pushRoom = child(database, `${friend}`);
+  const database = getDatabase();
+  const chatRoom = child(ref(database, `${chats}`));
+  const pushRoom = child(ref(database, `${friend}`));
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
     messagesEndRef.current.scrollIntoView({ behavior: "auto" });

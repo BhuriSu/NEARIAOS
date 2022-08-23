@@ -62,7 +62,6 @@ input[type="file"] {
 .exit {
   transition: 1s;
 }
-
 .profileInput {
   color: rgb(0, 0, 0);
 }
