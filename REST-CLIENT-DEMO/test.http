@@ -1,1 +1,1 @@
-GET http://localhost:3000/listUsers
+GET http://localhost:3000/
