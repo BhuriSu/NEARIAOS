@@ -59,8 +59,9 @@ function Photo() {
     <div style={{ alignSelf: "center" }}>
       <label htmlFor="file-input">
         <Avatar style={{ backgroundImage: `url(${url})` }} />
+        <input id="file-input" type="file" title="upload" onChange={handleChange} />
       </label>
-      <input id="file-input" type="file"  accept="image/*" onChange={handleChange} />
+     
     </div>
   );
 }

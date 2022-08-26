@@ -38,6 +38,9 @@ function CreatingAccount (props) {
       drinks,
       about,
       id: user.id
+    })
+    .catch(({error}) => {
+      console.log(error);
     });
     const profileId = {
       person: user.id,
@@ -48,8 +51,8 @@ function CreatingAccount (props) {
       topics,
       drinks
     };
-    props.LogIn(user.id, user.nickname, profileId);
-    navigate("/listUsers");
+   LogIn(user.id, user.nickname, profileId);
+   navigate("/listUsers");
   };
 
   const _next = () => {

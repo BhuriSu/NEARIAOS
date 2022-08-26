@@ -54,11 +54,32 @@ function ProfileEdit(props) {
     const storage = getStorage();
     const storageRef = ref(storage, `images/${cookies.userName || "./images/infoUser.svg"}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
-    uploadTask.on("state_changed", undefined, undefined, () => {
-      getDownloadURL(storageRef).then((url) => {
-        setUrl(url);
-      });
-    });
+    uploadTask.on(
+      "state_changed",
+      () => {
+        setUrl("./loading.gif");
+      },
+      (error) => {
+        switch (error.code) {
+          case "storage/unauthorized":
+            console.log("storage is unauthorized");
+            break;
+          case "storage/canceled":
+            console.log("storage is canceled");
+            break;
+          case "storage/unknown":
+            console.log("storage is unknown");
+            break;
+          default:
+            console.log("sorry it is not about storage");
+        }
+      },
+      () => {
+        getDownloadURL(storageRef).then((url) => {
+          setUrl(url);
+        });
+      },
+    );
     if (setUrl !== null || setUrl == null) {
       axios
         .patch("/users/profile", {
@@ -108,22 +129,19 @@ function ProfileEdit(props) {
         setUrl(url);
       });
     axios
-      .post("/users/profileEdit", {id})
-      .then(({ data }) => {
-        const {
-          profileId,
-          profileId: { activity, drinks, about, topics },
-        } = data;
-        setActivity(activity);
-        setDrinks(drinks);
-        setAbout(about);
-        setTopics(topics);
-        profileInit(profileId);
-      })
-      .catch(error => {
-        console.log(error.response.data);
-      });
-
+    .post('/users/profileEdit', {
+      id,
+    })
+    .then(({ data }) => {
+      setActivity(data.profileId.activity);
+      setDrinks(data.profileId.drinks);
+      setAbout(data.profileId.about);
+      setTopics(data.profileId.topics);
+      profileInit(data.profileId);
+    })
+    .catch(({error}) => {
+      console.log(error);
+    });
   }, [profileInit, id]);
 
   function photoDownload(e) {
@@ -157,8 +175,9 @@ function ProfileEdit(props) {
         <div style={{ alignSelf: "center" }}>
           <label htmlFor="file-input">
           <Avatar style={{ backgroundImage: `url(${url})` }} />
+          <input id="file-input" type="file" title="upload" onChange={photoDownload} />
           </label>
-          <input id="file-input" type="file" onChange={photoDownload} />
+         
         </div>
 
         <form onSubmit={patchData} className="edit">
@@ -169,6 +188,7 @@ function ProfileEdit(props) {
           </span>
           <label>
             <input
+              title="activity"
               value={activity}
               onChange={handleChangeActivity}
               type="text"
@@ -184,6 +204,7 @@ function ProfileEdit(props) {
           </span>
           <label>
             <input
+              title="topics"
               value={topics}
               onChange={handleChangeTopics}
               type="text"
@@ -199,6 +220,7 @@ function ProfileEdit(props) {
           </span>
           <label>
             <input
+              title="about"
               value={about}
               onChange={handleChangeAbout}
               type="text"
@@ -214,6 +236,7 @@ function ProfileEdit(props) {
           </span>
           <label>
             <input
+              title="drinks"
               value={drinks}
               onChange={handleChangeDrinks}
               type="text"

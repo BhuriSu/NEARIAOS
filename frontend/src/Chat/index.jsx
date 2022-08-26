@@ -65,6 +65,7 @@ function Chat(props) {
         </Link>
 
         <NameText>{name}</NameText>
+        
         <Img
           style={{ backgroundImage: `url(${urlFriend || "./infoUser.svg"}` }}
         />

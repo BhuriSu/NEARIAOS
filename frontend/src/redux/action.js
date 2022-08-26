@@ -12,32 +12,34 @@ export const LogIn = (id, nickname, profileId, success) => ({
   id,
   nickname,
   profileId,
-  success,
+  success
 });
-
 export const requestFetchRegister = (nickname, email, password) => ({
   type: REQUEST_FETCH_REGISTER,
   nickname,
   email,
-  password,
+  password
 });
-
 export const profileInit = (profileId) => ({
   type: PROFILE_INIT,
-  profileId,
+  profileId
 });
-
 export const error = (title) => ({
   type: ERROR,
-  title,
+  title
 });
-
 export const clearError = () => ({
-  type: CLEAR_ERROR,
+  type: CLEAR_ERROR
 });
-
 export const requestFetchLogin = (email, password) => ({
   type: REQUEST_FETCH_LOGIN,
   email,
-  password,
+  password
 });
+export default {
+  LogIn,
+  requestFetchLogin,
+  clearError,
+  error,
+  requestFetchRegister
+};

@@ -1,6 +1,5 @@
 import { ERROR, CLEAR_ERROR } from './action-types';
 
-
 const init = { error: false, title: '' };
 
 export default (state = init, action) => {

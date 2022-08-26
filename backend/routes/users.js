@@ -114,7 +114,7 @@ router.post('/profileEdit', async (req, res) => {
   if (response) {
     res.send({ profileId: response });
   } else {
-    res.status(500).send({ err: 'Something went wrong' });
+    res.status(404).send({ err: 'Something went wrong' });
   }
 });
 
