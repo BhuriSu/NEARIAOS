@@ -1,6 +1,4 @@
-const router = require('express').Router();
-const Person = require('../models/modelPerson'); 
-
+import Person from '../models/modelPerson'; 
 
 function getChatName (a, b) {
   if (a > b) {
@@ -10,8 +8,7 @@ function getChatName (a, b) {
   }
 }
 
-router.post('/',async (req,res)=>{
-
+export const GetChat = tryCatch(async (req,res)=>{
 const {ID1, ID2} = req.body;
 const chat = getChatName(ID1,ID2)
 const results = await Promise.all(
@@ -29,15 +26,13 @@ return res.send()
   )
   res.send()
 }
-})
+});
 
-router.get('/:id',async (req,res)=>{
-
+export const FindChat = tryCatch(async (req,res)=>{
 const id = req.params.id
 const chats = await Person.findOne({_id:id}).chats
   res.send({
     chats,
   })
-}) 
+}); 
 
-module.exports = router;

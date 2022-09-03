@@ -9,6 +9,7 @@ import ModalWindow from "../NewFeedComponents/Modal";
 import AnnouncementMessage from "../NewFeedComponents/Announcement";
 import "./listUsers.css";
 import { ListPageBackground, ToggleBox } from "./ListPageElement";
+
 /**
  * @param {*} props
  */

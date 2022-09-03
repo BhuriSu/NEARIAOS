@@ -1,6 +1,5 @@
-const express = require("express");
-const router = express.Router();
-const Profile = require("../models/modelProfile"); 
+
+import Profile from "../models/modelProfile"; 
 
 // geolocation formula
 const rad = x => (x * Math.PI) / 180;
@@ -19,11 +18,11 @@ const distHaversine = (p1, p2) => {
   return d.toFixed(3) * 1000; 
 };
 
-router.get("/", async (req, res) => {
+export const Lists = tryCatch(async (req, res) => {
   res.send("respond with a resource");
 });
 
-router.post("/users", async (req, res) => {
+export const FindUsers = tryCatch(async (req, res) => {
   const { id, latitude, longitude, radius } = req.body;
   if ([id, latitude, longitude, radius].some(el => el === undefined)) {
     return res.send({
@@ -72,4 +71,3 @@ router.post("/users", async (req, res) => {
     err: "No such a user from this geolocation"
   });
 });
-module.exports = router;

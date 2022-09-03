@@ -11,10 +11,10 @@ function CreatingAccount (props) {
   const [state,setState] = useState({
     currentStep: 1,
     name: "",
-    DoB: "",
-    activity: "",
-    topics: "",
-    drinks: "",
+    doB: "",
+    workplace: "",
+    favorite: "",
+    beverage: "",
     about: ""
   });
 
@@ -29,29 +29,26 @@ function CreatingAccount (props) {
   const handleSubmit = async e => {
     e.preventDefault();
     const { user } = props;
-    let { name, DoB, activity, topics, drinks, about } = state;
+    let { name, doB, workplace, favorite, beverage, about } = state;
     await axios.post("/users/profile", {
       name,
-      DoB,
-      activity,
-      topics,
-      drinks,
+      doB,
+      workplace,
+      favorite,
+      beverage,
       about,
       id: user.id
-    })
-    .catch(({error}) => {
-      console.log(error);
     });
     const profileId = {
       person: user.id,
       name,
-      DoB,
-      activity,
+      doB,
+      workplace,
       about,
-      topics,
-      drinks
-    };
-   LogIn(user.id, user.nickname, profileId);
+      favorite,
+      beverage
+    };  
+   props.LogIn(user.id, user.nickname, profileId);
    navigate("/listUsers");
   };
 
@@ -124,14 +121,14 @@ function CreatingAccount (props) {
           currentStep={state.currentStep}
           handleChange={handleChange}
           name={state.name}
-          DoB={state.DoB}
-          activity={state.activity}
+          doB={state.doB}
+          workplace={state.workplace}
         />
         <Step2
           currentStep={state.currentStep}
           handleChange={handleChange}
-          topics={state.topics}
-          drinks={state.drinks}
+          favorite={state.favorite}
+          beverage={state.beverage}
         />
         <Step3
           currentStep={state.currentStep}
@@ -165,26 +162,25 @@ function Step1(props) {
       </label>
       <label>
         <input
-          value={props.DoB}
+          value={props.doB}
           onChange={props.handleChange}
           type="date"
-          name="DoB"
+          name="doB"
           placeholder="Date of Birth"
           max="2010-01-01"
           min="1930-12-31"
           required
-          data-cy="input-Dob-process"
+          data-cy="input-dob-process"
         />
       </label>
       <label>
         <input
-          value={props.activity}
+          value={props.workplace}
           onChange={props.handleChange}
           type="text"
-          name="activity"
-          required
-          placeholder="Place of work or study (required)"
-          data-cy="input-activity-process"
+          name="workplace"
+          placeholder="Workplace or study: (Optional)"
+          data-cy="input-workplace-process"
         />
       </label>
     </div>
@@ -199,20 +195,20 @@ function Step2(props) {
     <div className="form-group">
       <label>
         <input
-          value={props.topics}
+          value={props.favorite}
           onChange={props.handleChange}
           type="text"
-          name="topics"
-          placeholder="Favorite topics: (Optional)" 
+          name="favorite"
+          placeholder="Favorite: (Optional)" 
         />
       </label>
       <label>
         <input
           type="text"
-          value={props.drinks}
+          value={props.beverage}
           onChange={props.handleChange}
-          name="drinks"
-          placeholder="Favorite drink: (Optional)"
+          name="beverage"
+          placeholder="Beverage: (Optional)"
         />
       </label>
     </div>
@@ -225,7 +221,7 @@ function Step3(props) {
   }
   return (
     <>
-       <ImageUpload/>
+      <ImageUpload/>
       <div className="form-group">
         <label>
           <input

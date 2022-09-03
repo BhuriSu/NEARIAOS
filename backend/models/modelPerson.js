@@ -1,12 +1,19 @@
-const mongoose = require('mongoose');
+import { Schema, model } from 'mongoose';
 
-const personSchema = new mongoose.Schema(
+const personSchema = new Schema(
   {
-    nickname: String,
-    email: String,
-    password: String,
+    nickname: { type: String, min: 2, max: 50, required: true },
+    email:  {
+      type: String,
+      min: 5,
+      max: 50,
+      required: true,
+      unique: true,
+      trim: true,
+    },
+    password: { type: String, required: true },
     profileId: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'Profile',
     },
     chats: [
@@ -23,4 +30,5 @@ const personSchema = new mongoose.Schema(
   },
 );
 
-module.exports = mongoose.model('Person', personSchema);
+const modelPerson = model('Person', personSchema);
+export default modelPerson;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
-import { Link } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
@@ -23,24 +23,25 @@ function ProfileEdit(props) {
     "userName",
     "userNickname",
   ]);
-  const [activity, setActivity] = useState("");
-  const [drinks, setDrinks] = useState("");
-  const [topics, setTopics] = useState("");
+  const [workplace, setWorkplace] = useState("");
+  const [beverage, setBeverage] = useState("");
+  const [favorite, setFavorite] = useState("");
   const [about, setAbout] = useState("");
   const [url, setUrl] = useState("./images/UploadPic.svg");
   const [save, setSave] = useState("");
   const id = cookies.userName;
   const { profileInit, user } = props;
   const [image, setImage] = useState(null);
- 
+  const navigate = useNavigate();
+  const { _id } = useParams();
 
   function patchData(event) {
     event.preventDefault();
     axios
       .patch("/users/profile", {
-        activity,
-        drinks,
-        topics,
+        workplace,
+        beverage,
+        favorite,
         about,
         id,
       })
@@ -83,9 +84,9 @@ function ProfileEdit(props) {
     if (setUrl !== null || setUrl == null) {
       axios
         .patch("/users/profile", {
-          activity,
-          drinks,
-          topics,
+          workplace,
+          beverage,
+          favorite,
           about,
           id,
           avatar: url,
@@ -104,17 +105,17 @@ function ProfileEdit(props) {
     event.preventDefault();
     setAbout(event.target.value);
   }
-  function handleChangeDrinks(event) {
+  function handleChangeBeverage(event) {
     event.preventDefault();
-    setDrinks(event.target.value);
+    setBeverage(event.target.value);
   }
-  function handleChangeTopics(event) {
+  function handleChangeFavorite(event) {
     event.preventDefault();
-    setTopics(event.target.value);
+    setFavorite(event.target.value);
   }
-  function handleChangeActivity(event) {
+  function handleChangeWorkplace(event) {
     event.preventDefault();
-    setActivity(event.target.value);
+    setWorkplace(event.target.value);
   }
   function LogOut() {
     user.id = null;
@@ -133,10 +134,10 @@ function ProfileEdit(props) {
       id,
     })
     .then(({ data }) => {
-      setActivity(data.profileId.activity);
-      setDrinks(data.profileId.drinks);
+      setWorkplace(data.profileId.workplace);
+      setBeverage(data.profileId.beverage);
       setAbout(data.profileId.about);
-      setTopics(data.profileId.topics);
+      setFavorite(data.profileId.favorite);
       profileInit(data.profileId);
     })
     .catch(({error}) => {
@@ -168,6 +169,15 @@ function ProfileEdit(props) {
     }
   }
 
+  async function handleDelete(){
+    try {
+			await axios.delete(`/users/delete/${_id}`);
+			navigate("/");
+		} catch (error) {
+			console.error(error);
+		}
+  }
+
   return (
     <>
      
@@ -184,15 +194,15 @@ function ProfileEdit(props) {
           <span
             style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
           >
-            Activity:
+            Workplace:
           </span>
           <label>
             <input
-              title="activity"
-              value={activity}
-              onChange={handleChangeActivity}
+              title="workplace"
+              value={workplace}
+              onChange={handleChangeWorkplace}
               type="text"
-              name="activity"
+              name="workplace"
               className="profileInput"
               required
             />
@@ -200,15 +210,15 @@ function ProfileEdit(props) {
           <span
             style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
           >
-            Topics:
+            Favorite:
           </span>
           <label>
             <input
-              title="topics"
-              value={topics}
-              onChange={handleChangeTopics}
+              title="favorite"
+              value={favorite}
+              onChange={handleChangeFavorite}
               type="text"
-              name="topics"
+              name="favorite"
               className="profileInput"
               required
             />
@@ -232,22 +242,22 @@ function ProfileEdit(props) {
           <span
             style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
           >
-            Drinks:
+            Beverage:
           </span>
           <label>
             <input
-              title="drinks"
-              value={drinks}
-              onChange={handleChangeDrinks}
+              title="beverage"
+              value={beverage}
+              onChange={handleChangeBeverage}
               type="text"
-              name="drinks"
+              name="beverage"
               className="profileInput"
               required
             />
           </label>
           <button
             style={{ margin: "0 auto" }}
-            className="chatButton"
+            className="saveButton"
           >
             {" "}
             Save changes
@@ -270,6 +280,11 @@ function ProfileEdit(props) {
             <img src="./images/exit.svg" width="100" height="100" alt="Logout" title="Logout" />
           </Link>
         </div>
+  
+        <button onClick={handleDelete} className="deleteAccount">
+					Delete
+				</button>
+       
       </div>
     </>
   );
