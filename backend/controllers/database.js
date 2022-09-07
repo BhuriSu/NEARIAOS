@@ -1,4 +1,5 @@
-import Person from '../models/modelPerson'; 
+import Person from '../models/modelPerson.js'; 
+import tryCatch from './utils/tryCatch.js';
 
 function getChatName (a, b) {
   if (a > b) {

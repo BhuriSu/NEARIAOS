@@ -1,39 +1,30 @@
-import React ,{ useContext, createContext, useEffect, useState } from 'react';
-import {
-  GoogleAuthProvider,
-  signInWithPopup,
-  onAuthStateChanged,
-} from 'firebase/auth';
-import auth from '../firebase';
+import React, { createContext, useContext, useEffect, useReducer } from 'react';
+import reducer from './reducer';
 
-const AuthContext = createContext();
+const initialState = {
+  currentUser: null,
+  openLogin: false,
+  loading: false,
+  alert: { open: false, severity: 'info', message: '' },
+};
 
-export const AuthContextProvider = ({ children }) => {
-  const [users, setUser] = useState({});
+const Context = createContext(initialState);
 
-  const googleSignIn = () => {
-    const provider = new GoogleAuthProvider();
-    signInWithPopup(auth, provider)
-  };
+export const useValue = () => {
+  return useContext(Context);
+};
 
-
+const ContextProvider = ({ children }) => {
+  const [state, dispatch] = useReducer(reducer, initialState);
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-      console.log('User', currentUser)
-    });
-    return () => {
-      unsubscribe();
-    };
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (currentUser) {
+      dispatch({ type: 'UPDATE_USER', payload: currentUser });
+    }
   }, []);
-
   return (
-    <AuthContext.Provider value={{ googleSignIn, users }}>
-      {children}
-    </AuthContext.Provider>
+    <Context.Provider value={{ state, dispatch }}>{children}</Context.Provider>
   );
 };
 
-export const UserAuth = () => {
-  return useContext(AuthContext);
-};
+export default ContextProvider;

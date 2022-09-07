@@ -1,17 +1,17 @@
-import React from "react";
-import FirstPic from "../../images/ImagesInMainPage/FirstPic.svg";
+import React from 'react';
+import FirstPic from '../../images/ImagesInMainPage/FirstPic.svg';
 import {
   Container, Content, FirstLine, Planet
-} from "./FirstPageElements";
+} from './FirstPageElements';
 
 
 function FirstPage() {
   return (
     <Container>
       <Content>
-      <Planet src={FirstPic} alt="" /> 
+      <Planet src={FirstPic} alt='' /> 
         <FirstLine>
-        Redunda is platform for chatting with stranger nearby you
+        NEARIAOS is platform for chatting with stranger nearby you
         </FirstLine>
       </Content>
     </Container>

@@ -1,5 +1,5 @@
-
-import Profile from "../models/modelProfile"; 
+import Profile from '../models/modelProfile.js'; 
+import tryCatch from './utils/tryCatch.js';
 
 // geolocation formula
 const rad = x => (x * Math.PI) / 180;
@@ -19,7 +19,7 @@ const distHaversine = (p1, p2) => {
 };
 
 export const Lists = tryCatch(async (req, res) => {
-  res.send("respond with a resource");
+  res.send('respond with a resource');
 });
 
 export const FindUsers = tryCatch(async (req, res) => {
@@ -27,7 +27,7 @@ export const FindUsers = tryCatch(async (req, res) => {
   if ([id, latitude, longitude, radius].some(el => el === undefined)) {
     return res.send({
       success: false,
-      err: "Arguments is undefined"
+      err: 'Arguments is undefined'
     });
   }
  
@@ -68,6 +68,6 @@ export const FindUsers = tryCatch(async (req, res) => {
   }
   return res.send({
     success: false,
-    err: "No such a user from this geolocation"
+    err: 'No such a user from this geolocation'
   });
 });

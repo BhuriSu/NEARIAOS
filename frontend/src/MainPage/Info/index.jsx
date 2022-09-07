@@ -1,18 +1,18 @@
-import React from "react";
-import { Fade } from "react-awesome-reveal";
-import { Button } from "../ButtonElements";
+import React from 'react';
+import { Fade } from 'react-awesome-reveal';
+import { Button } from '../ButtonElements';
 import {
   InfoContainer, InfoWrapper, InfoRow, Column1, Column2, TextWrapper,
   TopLine, Heading, Subtitle, BtnWrap, ImgWrap, Img,
 }
-  from "./InfoElements";
+  from './InfoElements';
 
 function Info({
   imgStart, topLine, lightText, headline, darkText, description, buttonLabel, alt, img,
 }) {
   return (
     <InfoContainer>
-      <Fade direction="right">
+      <Fade direction='right'>
         <InfoWrapper>
 
           <InfoRow imgStart={imgStart}>
@@ -23,7 +23,7 @@ function Info({
                 <Heading lightText={lightText}>{headline}</Heading>
                 <Subtitle darkText={darkText}>{description}</Subtitle>
                 <BtnWrap>
-                  <Button to="/login">
+                  <Button to='/login'>
                     {buttonLabel}
                   </Button>
                 </BtnWrap>
@@ -32,7 +32,7 @@ function Info({
 
             <Column2>
               <ImgWrap>
-                <Img src={img} alt={alt} width="400" height="400"/>
+                <Img src={img} alt={alt} width='400' height='400'/>
               </ImgWrap>
             </Column2>
 

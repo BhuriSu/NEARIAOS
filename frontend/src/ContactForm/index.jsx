@@ -1,10 +1,10 @@
-import React ,{ useState } from "react";
-import { useForm } from "react-hook-form";
-import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
+import React ,{ useState } from 'react';
+import { useForm } from 'react-hook-form';
+import emailjs from '@emailjs/browser';
+import { ToastContainer, toast } from 'react-toastify';
 import {
   StyledFormWrapper, StyledForm, TopicForm, StyledInput, StyledButton, StyledTextArea, StyledError,
-} from "./ContactFormElements";
+} from './ContactFormElements';
 
 function ContactForm() {
   const {
@@ -15,15 +15,15 @@ function ContactForm() {
   } = useForm();
   const [disabled, setDisabled] = useState(false);
   const toastifySuccess = () => {
-    toast("Form sent!", {
-      position: "bottom-right",
+    toast('Form sent!', {
+      position: 'bottom-right',
       autoClose: 5000,
       hideProgressBar: true,
       closeOnClick: true,
       pauseOnHover: true,
       draggable: false,
-      className: "submit-feedback success",
-      toastId: "notifyToast",
+      className: 'submit-feedback success',
+      toastId: 'notifyToast',
     });
   };
 
@@ -71,37 +71,37 @@ function ContactForm() {
       <StyledForm onSubmit={handleSubmit(onSubmit)} noValidate>
 
         {/* Name */}
-        <div className="row formRow">
-          <div className="col-6">
+        <div className='row formRow'>
+          <div className='col-6'>
             <StyledInput
-              type="text"
-              name="name"
-              {...register("name", {
+              type='text'
+              name='name'
+              {...register('name', {
                 required: {
                   value: true,
-                  message: "Please enter your name",
+                  message: 'Please enter your name',
                 },
                 maxLength: {
                   value: 30,
-                  message: "Please use 30 characters or less",
+                  message: 'Please use 30 characters or less',
                 },
               })}
-              placeholder="Name"
+              placeholder='Name'
             />
             {errors.name && <StyledError>{errors.name.message}</StyledError>}
           </div>
 
           {/* Email */}
-          <div className="col-6">
+          <div className='col-6'>
             <StyledInput
-              type="email"
-              name="email"
-              {...register("email", {
+              type='email'
+              name='email'
+              {...register('email', {
                 required: true,
                 pattern:
                           /^[a-zA-Z0-9.!#$%&’*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
               })}
-              placeholder="Email address"
+              placeholder='Email address'
             />
             {errors.email && (
             <StyledError>Please enter a valid email address</StyledError>
@@ -110,22 +110,22 @@ function ContactForm() {
         </div>
 
         {/* subject */}
-        <div className="row formRow">
-          <div className="col">
+        <div className='row formRow'>
+          <div className='col'>
             <StyledInput
-              type="text"
-              name="subject"
-              {...register("subject", {
+              type='text'
+              name='subject'
+              {...register('subject', {
                 required: {
                   value: true,
-                  message: "Please enter a subject",
+                  message: 'Please enter a subject',
                 },
                 maxLength: {
                   value: 75,
-                  message: "Subject cannot exceed 75 characters",
+                  message: 'Subject cannot exceed 75 characters',
                 },
               })}
-              placeholder="Subject"
+              placeholder='Subject'
             />
             {errors.subject && (
             <StyledError>{errors.subject.message}</StyledError>
@@ -134,21 +134,21 @@ function ContactForm() {
         </div>
 
         {/* message */}
-        <div className="row formRow">
-          <div className="col">
+        <div className='row formRow'>
+          <div className='col'>
             <StyledTextArea
               rows={3}
-              name="message"
-              {...register("message", {
+              name='message'
+              {...register('message', {
                 required: true,
               })}
-              placeholder="Message"
+              placeholder='Message'
             />
             {errors.message && <StyledError>Please enter a message</StyledError>}
           </div>
         </div>
 
-        <StyledButton disabled={disabled} type="submit">
+        <StyledButton disabled={disabled} type='submit'>
           Submit
         </StyledButton>
 

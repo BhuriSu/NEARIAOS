@@ -1,4 +1,5 @@
-import { Schema, model } from 'mongoose';
+import pkg from 'mongoose';
+const { Schema, model } = pkg;
 
 const profileSchema = new Schema({
   person: {
@@ -23,9 +24,15 @@ const profileSchema = new Schema({
     type: String,
     minlength: 1,
   },
-  topics: String,
-  drinks: String,
-  avatar: String,
+  topics: {
+    type: String,
+    minlength: 1,
+  },
+  drinks: {
+    type: String,
+    minlength: 1,
+  },
+  avatar: { type: String, default: '' },
   latitude: Number,
   longitude: Number,
 },

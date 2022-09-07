@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { GetChat , FindChat } from '../controllers/database';
+import { GetChat , FindChat } from '../controllers/database.js';
 
 const userRouter = Router();
 

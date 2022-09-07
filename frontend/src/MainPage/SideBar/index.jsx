@@ -1,10 +1,16 @@
-import React from "react";
+import React from 'react';
 import {
   SidebarContainer, Icon, CloseIcon, SidebarWrapper,
   SidebarMenu, SidebarLink, SidebarRoute, SideBtnWrap,
-} from "./SidebarElements";
+} from './SidebarElements';
+import ListPage from '../../ListPage';
+import { useValue } from '../../Context';
 
 function Sidebar({ isOpen, toggle }) {
+  const {
+    state: { currentUser },
+    dispatch,
+  } = useValue();
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
       <Icon onClick={toggle}>
@@ -13,12 +19,16 @@ function Sidebar({ isOpen, toggle }) {
       <SidebarWrapper>
 
         <SidebarMenu>
-          <SidebarLink to="/contact" onClick={toggle}>Contact</SidebarLink>
-          <SidebarLink to="/premium" onClick={toggle}>Premium</SidebarLink>
+          <SidebarLink to='/contact' onClick={toggle}>Contact</SidebarLink>
+          <SidebarLink to='/premium' onClick={toggle}>Premium</SidebarLink>
         </SidebarMenu>
 
         <SideBtnWrap>
-          <SidebarRoute to="/login">Start</SidebarRoute>
+        {!currentUser ? (
+          <SidebarRoute onClick={() => dispatch({ type: 'OPEN_LOGIN' })} >Start</SidebarRoute>
+          ) : (
+            <ListPage />
+        )}
         </SideBtnWrap>
 
       </SidebarWrapper>

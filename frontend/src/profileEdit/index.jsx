@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate, useParams } from "react-router-dom";
@@ -30,7 +30,7 @@ function ProfileEdit(props) {
   const [url, setUrl] = useState("./images/UploadPic.svg");
   const [save, setSave] = useState("");
   const id = cookies.userName;
-  const { profileInit, user } = props;
+  const { user } = props;
   const [image, setImage] = useState(null);
   const navigate = useNavigate();
   const { _id } = useParams();
@@ -123,27 +123,6 @@ function ProfileEdit(props) {
     removeCookies("userNickname");
   }
 
-  useEffect(() => {
-    const storage = getStorage();
-    getDownloadURL(ref(storage, `images/${cookies.userName}`))
-      .then((url) => {
-        setUrl(url);
-      });
-    axios
-    .post('/users/profileEdit', {
-      id,
-    })
-    .then(({ data }) => {
-      setWorkplace(data.profileId.workplace);
-      setBeverage(data.profileId.beverage);
-      setAbout(data.profileId.about);
-      setFavorite(data.profileId.favorite);
-      profileInit(data.profileId);
-    })
-    .catch(({error}) => {
-      console.log(error);
-    });
-  }, [profileInit, id]);
 
   function photoDownload(e) {
     if (e.target.files[0]) {

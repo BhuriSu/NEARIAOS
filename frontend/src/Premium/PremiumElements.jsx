@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const PremiumContainer = styled.div`
   background-color: #000;
@@ -101,7 +101,7 @@ export const PremiumH1 = styled.h1`
   background: linear-gradient(to right, #ba00ff, #ff1d00);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  font-family: "Berkshire Swash", cursive;
+  font-family: 'Berkshire Swash', cursive;
   @media screen and (max-width: 480px) {
     font-size: 2rem;
   }  
@@ -116,7 +116,7 @@ export const TextBelow = styled.h1`
 color: #fff;
 margin-top: 20px;
 font-size: 2.5rem;
-font-family: "Berkshire Swash", cursive;
+font-family: 'Berkshire Swash', cursive;
 @media screen and (max-width: 480px) {
   font-size: 2rem;
 }  

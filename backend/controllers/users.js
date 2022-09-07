@@ -1,6 +1,7 @@
-
-import Person from '../models/modelPerson'; 
-import Profile from '../models/modelProfile';
+import bcrypt from 'bcrypt';
+import Person from '../models/modelPerson.js'; 
+import Profile from '../models/modelProfile.js';
+import tryCatch from './utils/tryCatch.js';
 
 export const Users = tryCatch(async(req, res) => {
   res.send('respond with a resource');
@@ -8,25 +9,32 @@ export const Users = tryCatch(async(req, res) => {
 
 export const Register = tryCatch(async (req, res) => {
   const { nickname, email, password } = req.body;
-  if (nickname === '' || email === '' || password === '') {
-    return res.send({
+  if (password.length < 6){
+    return res.status(400).json({
       success: false,
-      err: 'Wrong data',
+      message: 'Password must be 6 characters or more',
     });
   }
+  if (nickname === '' || email === '' || password === '') {
+      return res.status(400).json({
+        success: false,
+        err: 'Wrong data',
+      });
+  }
+  const hashedPassword = await bcrypt.hash(password, 10);
   const user = await Person.findOne({ email });
   if (!user) {
     const userNew = await Person.create({
       nickname,
       email,
-      password
+      password:hashedPassword
     });
     return res.send({
       success: true,
       id: userNew._id,
     });
   }
-  return res.send({
+  return res.status(400).json({
     success: false,
     err: 'Email is already registered',
   });
@@ -34,7 +42,14 @@ export const Register = tryCatch(async (req, res) => {
 
 export const Login = tryCatch(async (req, res) => {
   const { email, password } = req.body;
-  const user = await Person.findOne({ email, password });
+  const user = await Person.findOne({ email});
+  if (!user) {
+  return res.status(404).json({ success: false, message: 'User does not exist!' });
+  }
+  const correctPassword = await bcrypt.compare(password, user.password);
+  if (!correctPassword) {
+  return res.status(400).json({ success: false, message: 'Invalid credentials' });
+  }
   if (user) {
     const { profileId } = await Person.findOne({ email, password }).populate('profileId');
     return res.send({
@@ -44,7 +59,7 @@ export const Login = tryCatch(async (req, res) => {
       profileId,
     });
   }
-  return res.send({
+  return res.status(400).json({
     success: false,
     err: 'No such user or incorrect pair login password',
   });
@@ -106,16 +121,6 @@ export const UpdateUsers = tryCatch( async (req, res) => {
     res.send({ success: true });
   } else {
     res.send({ success: false, err: 'Try again' });
-  }
-});
-
-router.post('/profileEdit', async (req, res) => {
-  const { id } = req.body;
-  const response = await Profile.findOne({ person: id });
-  if (response) {
-    res.send({ success: true, profileId: response });
-  } else {
-    res.send({ success: false, err: 'Something went wrong' });
   }
 });
 

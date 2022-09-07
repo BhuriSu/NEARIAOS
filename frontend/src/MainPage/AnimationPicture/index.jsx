@@ -1,6 +1,6 @@
-import React from "react";
-import "./animation.css";
-import { motion } from "framer-motion";
+import React from 'react';
+import './animation.css';
+import { motion } from 'framer-motion';
 import { Container } from './AnimationElements';
 
 const cardVariants = {
@@ -11,7 +11,7 @@ const cardVariants = {
     y: 50,
     rotate: -10,
     transition: {
-      type: "spring",
+      type: 'spring',
       bounce: 0.4,
       duration: 0.8
     }
@@ -27,13 +27,13 @@ function Card({ text, hueA, hueB }) {
     <Container>
   
     <motion.div
-      className="card-container"
-      initial="offscreen"
-      whileInView="onscreen"
+      className='card-container'
+      initial='offscreen'
+      whileInView='onscreen'
       viewport={{ once: false, amount: 0.8 }}
     >
-      <div className="splash" style={{ background }} />
-      <motion.div className="card" variants={cardVariants}>
+      <div className='splash' style={{ background }} />
+      <motion.div className='card' variants={cardVariants}>
         {text}
       </motion.div>
     </motion.div>
@@ -43,14 +43,14 @@ function Card({ text, hueA, hueB }) {
 }
 
 const food = [
-  ["Want", 340, 10],
-  ["New", 20, 40],
-  ["Friend", 60, 90],
-  ["At", 80, 120],
-  ["Some", 150, 140],
-  ["Place", 205, 245],
-  ["Right?", 260, 290],
-  ["👾", 290, 320]
+  ['Want', 340, 10],
+  ['New', 20, 40],
+  ['Friend', 60, 90],
+  ['At', 80, 120],
+  ['Some', 150, 140],
+  ['Place', 205, 245],
+  ['Right?', 260, 290],
+  ['👾', 290, 320]
 ];
 
 export default function Animation() {

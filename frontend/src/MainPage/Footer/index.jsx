@@ -1,11 +1,11 @@
-import React from "react";
-import { FaTwitter } from "react-icons/fa";
-import { animateScroll as scroll } from "react-scroll";
+import React from 'react';
+import { FaTwitter } from 'react-icons/fa';
+import { animateScroll as scroll } from 'react-scroll';
 import {
   FooterContainer, FooterWrap, FooterLinkWrapper, FooterLinkItems, FooterLinkContainer,
   FooterLinkTitle, FooterLink, SocialIconLink, SocialIcons, SocialLogo, SocialMedia,
   SocialMediaWrap, WebsiteRights,
-} from "./FooterElements";
+} from './FooterElements';
 
 function Footer() {
   const ToggleHome = () => {
@@ -21,17 +21,17 @@ function Footer() {
 
             <FooterLinkItems>
               <FooterLinkTitle>About Us</FooterLinkTitle>
-              <FooterLink to="/privacy" >Privacy and Cookie Policy</FooterLink>
+              <FooterLink to='/privacy' >Privacy and Cookie Policy</FooterLink>
             </FooterLinkItems>
 
             <FooterLinkItems>
               <FooterLinkTitle>Contact Us</FooterLinkTitle>
-              <FooterLink to="/contact">Sponsorships</FooterLink>
+              <FooterLink to='/contact'>Sponsorships</FooterLink>
             </FooterLinkItems>
 
             <FooterLinkItems>
               <FooterLinkTitle>Social Media</FooterLinkTitle>
-              <FooterLink to="/">Twitter</FooterLink>
+              <FooterLink to='/'>Twitter</FooterLink>
             </FooterLinkItems>
 
           </FooterLinkWrapper>
@@ -41,18 +41,18 @@ function Footer() {
         <SocialMedia>
           <SocialMediaWrap>
 
-            <SocialLogo to="/" onClick={ToggleHome}>
-              Redunda
+            <SocialLogo to='/' onClick={ToggleHome}>
+              NEARIAOS
             </SocialLogo>
 
             <WebsiteRights>
-              Redunda ©
+              NEARIAOS ©
               {new Date().getFullYear()}
               All rights reserved.
             </WebsiteRights>
 
             <SocialIcons>
-            <SocialIconLink href="/" target="_blank" aria-label="Twitter">
+            <SocialIconLink href='/' target='_blank' aria-label='Twitter'>
             <FaTwitter />
             </SocialIconLink>
             </SocialIcons>

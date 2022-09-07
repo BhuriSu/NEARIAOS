@@ -1,11 +1,11 @@
-import cookieParser from "cookie-parser";
-import morgan from "morgan";
-import cors from "cors";
-import usersRouter from "./routes/userRouter.js";
-import listsRouter from "./routes/listsRouter.js"; 
-import databaseRouter from "./routes/databaseRouter.js";
-import helmet from "helmet";
-import express, { json, urlencoded } from "express";
+import cookieParser from 'cookie-parser';
+import morgan from 'morgan';
+import cors from 'cors';
+import usersRouter from './routes/userRouter.js';
+import listsRouter from './routes/listsRouter.js'; 
+import databaseRouter from './routes/databaseRouter.js';
+import helmet from 'helmet';
+import express, { json, urlencoded } from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
@@ -19,7 +19,7 @@ app.use(helmet());
 app.use(cors());
 
 // collect log http 
-app.use(morgan("dev"));
+app.use(morgan('dev'));
 
 //when you want to use POST and PUT/PATCH method
 app.use(json());
@@ -28,9 +28,9 @@ app.use(urlencoded({ extended: false }));
 // session in server
 app.use(cookieParser());
 
-app.use("/users", usersRouter);
-app.use("/database", databaseRouter);
-app.use("/list", listsRouter); 
+app.use('/users', usersRouter);
+app.use('/database', databaseRouter);
+app.use('/list', listsRouter); 
 
 app.use((req, res) =>
   res.status(404).json({ success: false, message: 'Not Found' })
@@ -45,5 +45,5 @@ mongoose.connection.once('open', () => {
 });
 
 mongoose.connection.on('error', err => {
-  logError(err);
+  console.log('Error happened: ', err.message);
 });
