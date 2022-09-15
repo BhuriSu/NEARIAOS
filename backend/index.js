@@ -1,4 +1,4 @@
-import cookieParser from 'cookie-parser';
+
 import morgan from 'morgan';
 import cors from 'cors';
 import usersRouter from './routes/userRouter.js';
@@ -16,7 +16,11 @@ const port = process.env.PORT || 4000;
 app.use(helmet());
 
 //prevent COR access error
-app.use(cors());
+const corsOptions = {
+  origin: true, 
+  credentials: true, 
+};
+app.use(cors(corsOptions));
 
 // collect log http 
 app.use(morgan('dev'));
@@ -25,8 +29,6 @@ app.use(morgan('dev'));
 app.use(json());
 app.use(urlencoded({ extended: false }));
 
-// session in server
-app.use(cookieParser());
 
 app.use('/users', usersRouter);
 app.use('/database', databaseRouter);

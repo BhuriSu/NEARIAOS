@@ -1,13 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
-import { LogIn } from "../redux/action";
-import { connect } from "react-redux";
 import ImageUpload from "./PhotoUpload";
 import { useNavigate } from "react-router-dom";
 import { FromProcess, FromProcessContainer, ButtonCreate } from "./CreatingElements";
 
 function CreatingAccount (props) {
-  const navigate = useNavigate();
+  let navigate = useNavigate();
   const [state,setState] = useState({
     currentStep: 1,
     name: "",
@@ -27,29 +25,35 @@ function CreatingAccount (props) {
   };
 
   const handleSubmit = async e => {
+    console.log('submitted')
     e.preventDefault();
     const { user } = props;
     let { name, doB, workplace, favorite, beverage, about } = state;
-    await axios.post("/users/profile", {
-      name,
-      doB,
-      workplace,
-      favorite,
-      beverage,
-      about,
-      id: user.id
-    });
-    const profileId = {
-      person: user.id,
-      name,
-      doB,
-      workplace,
-      about,
-      favorite,
-      beverage
-    };  
+    try {
+        const response = await axios.post('/users/profile', 
+        { name,
+          doB,
+          workplace,
+          favorite,
+          beverage,
+          about,
+          id: user.id });
+        const profileId = {
+            person: user.id,
+            name,
+            doB,
+            workplace,
+            favorite,
+            beverage,
+            about,
+          };
+        console.log(response)
+        const success = response.status === 200
+        if (success) navigate('/listUsers')
+    } catch (err) {
+        console.log(err)
+    }
    props.LogIn(user.id, user.nickname, profileId);
-   navigate("/listUsers");
   };
 
   const _next = () => {
@@ -251,10 +255,5 @@ function Step3(props) {
   );
 }
 
-const mapStateToProps = state => ({
-  user: state.user
-});
-const mapDispatchToProps = dispatch => ({
-  LogIn: (id, nickname, profileId) => dispatch(LogIn(id, nickname, profileId))
-});
-export default connect(mapStateToProps, mapDispatchToProps)(CreatingAccount);
+
+export default CreatingAccount;

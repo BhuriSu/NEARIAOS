@@ -1,4 +1,3 @@
-import React, { useEffect, useRef, useState } from "react";
 import { Close, Send } from '@mui/icons-material';
 import {
   Button,
@@ -10,52 +9,71 @@ import {
   IconButton,
   TextField,
 } from '@mui/material';
-import { login, register } from '../actions/user';
-import { useValue } from '../Context';
+import React, { useEffect, useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import GoogleOneTapLogin from './GoogleOneTapLogin';
 import PasswordField from './PasswordField';
-import GoogleLogin from './GoogleLogin';
+import { UserAuth } from '../Context';
 
 const Login = () => {
-  const {
-    state: { openLogin },
-    dispatch,
-  } = useValue();
+  const { LogIn } = UserAuth();
+  const { createUser } = UserAuth();
+  const navigate = useNavigate();
   const [title, setTitle] = useState('Login');
   const [isRegister, setIsRegister] = useState(false);
   const nameRef = useRef();
   const emailRef = useRef();
   const passwordRef = useRef();
   const confirmPasswordRef = useRef();
+  const [open, setOpen] = useState(false);
+  const handleClose = () => setOpen(false);
 
-  const handleClose = () => {
-    dispatch({ type: 'CLOSE_LOGIN' });
-  };
-
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    const name = nameRef.current.value;
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
-    if (!isRegister) return login({ email, password }, dispatch);
-    const name = nameRef.current.value;
     const confirmPassword = confirmPasswordRef.current.value;
-    if (password !== confirmPassword)
-      return dispatch({
-        type: 'UPDATE_ALERT',
-        payload: {
+    const LogInLogic = async (e) => {
+      e.preventDefault();
+      try {
+        await LogIn(email, password)
+        navigate('/listUsers')
+      } catch (e) {
+        console.log(e.message)
+      }
+    };
+    const SignInLogic = async (e) => {
+      e.preventDefault();
+      try {
+        await createUser(name, email, password);
+        navigate('/process')
+      } catch (e) {
+        console.log(e.message);
+      }
+    };
+    if (!isRegister) {
+      return <LogInLogic /> 
+    }
+    if (isRegister) { 
+      return <SignInLogic /> 
+    }
+    if (password !== confirmPassword) {
+      return {
           open: true,
           severity: 'error',
           message: 'Passwords do not match',
-        },
-      });
-    register({ name, email, password }, dispatch);
+        }
+    }
   };
 
   useEffect(() => {
     isRegister ? setTitle('Register') : setTitle('Login');
   }, [isRegister]);
 
+
   return (
-    <Dialog open={openLogin} onClose={handleClose}>
+    <Dialog open={open} onClose={handleClose}>
       <DialogTitle>
         {title}
         <IconButton
@@ -124,7 +142,7 @@ const Login = () => {
         </Button>
       </DialogActions>
       <DialogActions sx={{ justifyContent: 'center', py: '24px' }}>
-      <GoogleLogin />
+        <GoogleOneTapLogin />
       </DialogActions>
     </Dialog>
   );

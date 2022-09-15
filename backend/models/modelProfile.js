@@ -11,11 +11,11 @@ const profileSchema = new Schema({
     required: true,
     minlength: 1,
   },
-  DoB: {
+  doB: {
     type: Date,
     required: true,
   },
-  activity: {
+  workplace: {
     type: String,
     required: true,
     minlength: 1,
@@ -24,11 +24,11 @@ const profileSchema = new Schema({
     type: String,
     minlength: 1,
   },
-  topics: {
+  favorite: {
     type: String,
     minlength: 1,
   },
-  drinks: {
+  beverage: {
     type: String,
     minlength: 1,
   },

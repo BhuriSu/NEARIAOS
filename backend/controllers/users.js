@@ -7,65 +7,6 @@ export const Users = tryCatch(async(req, res) => {
   res.send('respond with a resource');
 });
 
-export const Register = tryCatch(async (req, res) => {
-  const { nickname, email, password } = req.body;
-  if (password.length < 6){
-    return res.status(400).json({
-      success: false,
-      message: 'Password must be 6 characters or more',
-    });
-  }
-  if (nickname === '' || email === '' || password === '') {
-      return res.status(400).json({
-        success: false,
-        err: 'Wrong data',
-      });
-  }
-  const hashedPassword = await bcrypt.hash(password, 10);
-  const user = await Person.findOne({ email });
-  if (!user) {
-    const userNew = await Person.create({
-      nickname,
-      email,
-      password:hashedPassword
-    });
-    return res.send({
-      success: true,
-      id: userNew._id,
-    });
-  }
-  return res.status(400).json({
-    success: false,
-    err: 'Email is already registered',
-  });
-});
-
-export const Login = tryCatch(async (req, res) => {
-  const { email, password } = req.body;
-  const user = await Person.findOne({ email});
-  if (!user) {
-  return res.status(404).json({ success: false, message: 'User does not exist!' });
-  }
-  const correctPassword = await bcrypt.compare(password, user.password);
-  if (!correctPassword) {
-  return res.status(400).json({ success: false, message: 'Invalid credentials' });
-  }
-  if (user) {
-    const { profileId } = await Person.findOne({ email, password }).populate('profileId');
-    return res.send({
-      success: true,
-      name: user.name,
-      id: user._id,
-      profileId,
-    });
-  }
-  return res.status(400).json({
-    success: false,
-    err: 'No such user or incorrect pair login password',
-  });
-
-});
-
 export const DetailUsers = tryCatch(async (req, res) => {
   const {
     name,

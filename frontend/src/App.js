@@ -13,8 +13,8 @@ import ChatPage from './pages/chat';
 import MessagePage from './pages/message';
 import ListPage from './pages/listUsers';
 import PrivacyPage from './pages/privacy';
-import { AuthContextProvider } from './Context/';
-
+import { AuthContextProvider } from './Context/AuthContext';
+import ProtectedRoute from './LogInAndSignIn/ProtectedRoute';
 
 function App() {
 
@@ -26,7 +26,14 @@ function App() {
           <Route path='/' element={<Home/>} exact />
           <Route path='/premium' element={<PremiumPage/>} />
           <Route path='/contact' element={<ContactPage/>} />
-          <Route path='/process' element={<CreatingAccountPage/>} />
+          <Route 
+          path='/process' 
+          element={
+          <ProtectedRoute>
+          <CreatingAccountPage/>
+          </ProtectedRoute>
+          } 
+          />
           <Route path='/profile' element={<ProfileEditPage/>} />
           <Route path='/allChat' element={<AllChatPage/>} />
           <Route path='/chat' element={<ChatPage/>} />
