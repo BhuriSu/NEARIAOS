@@ -1,12 +1,10 @@
 import React, { useState } from "react";
-import { connect } from "react-redux";
 import { useCookies } from "react-cookie";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
 } from "firebase/storage";
-import { profileInit } from "../redux/action";
 import "./profileEdit.css";
 import styled from "styled-components";
 const Avatar = styled.div`
@@ -269,13 +267,4 @@ function ProfileEdit(props) {
   );
 }
 
-const mapStateToProps = (state) => ({
-  profileId: state.user.profileId,
-  user: state.user,
-  err: state.error,
-});
-const mapDispatchToProps = (dispatch) => ({
-  profileInit: (profileId) => dispatch(profileInit(profileId)),
-});
-
-export default connect(mapStateToProps, mapDispatchToProps)(ProfileEdit);
+export default ProfileEdit;

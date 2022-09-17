@@ -1,12 +1,15 @@
 import React, { useState } from "react";
 import axios from "axios";
 import ImageUpload from "./PhotoUpload";
+import { useCookies } from 'react-cookie'
 import { useNavigate } from "react-router-dom";
 import { FromProcess, FromProcessContainer, ButtonCreate } from "./CreatingElements";
 
-function CreatingAccount (props) {
+function CreatingAccount () {
   let navigate = useNavigate();
-  const [state,setState] = useState({
+  const [cookies] = useCookies(null)
+  const [state, setState] = useState({
+    user: cookies.UserId,
     currentStep: 1,
     name: "",
     doB: "",
@@ -27,33 +30,15 @@ function CreatingAccount (props) {
   const handleSubmit = async e => {
     console.log('submitted')
     e.preventDefault();
-    const { user } = props;
-    let { name, doB, workplace, favorite, beverage, about } = state;
+ 
     try {
-        const response = await axios.post('/users/profile', 
-        { name,
-          doB,
-          workplace,
-          favorite,
-          beverage,
-          about,
-          id: user.id });
-        const profileId = {
-            person: user.id,
-            name,
-            doB,
-            workplace,
-            favorite,
-            beverage,
-            about,
-          };
+        const response = await axios.post('/users/profile', { state });
         console.log(response)
         const success = response.status === 200
         if (success) navigate('/listUsers')
     } catch (err) {
         console.log(err)
     }
-   props.LogIn(user.id, user.nickname, profileId);
   };
 
   const _next = () => {

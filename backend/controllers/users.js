@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+
 import Person from '../models/modelPerson.js'; 
 import Profile from '../models/modelProfile.js';
 import tryCatch from './utils/tryCatch.js';
@@ -8,42 +8,25 @@ export const Users = tryCatch(async(req, res) => {
 });
 
 export const DetailUsers = tryCatch(async (req, res) => {
-  const {
-    name,
-    doB,
-    workplace,
-    favorite,
-    about,
-    beverage,
-    avatar,
-    id,
-  } = req.body;
-  const user = await Person.findOne({ _id: id }).exec();
-  if (!user.profileId) {
-    const newProfile = await Profile.create({
-      person: id,
-      name,
-      doB,
-      workplace,
-      favorite,
-      about,
-      beverage,
-      avatar,
-    });
-    await Person.updateOne(user, { $set: { profileId: newProfile._id } });
-    return res.send({
-      success: true,
-    });
-  }
-  await Person.updateOne({ _id: user.profileId }, {
+  const state = req.body.state;
+  try {
+  const query = { user: state.user };
+  const updateDocument = {
     $set: {
-      workplace,
-      favorite,
-      about,
-      beverage,
-      avatar,
+        name: state.name,
+        doB: state.doB,
+        workplace: state.workplace,
+        favorite: state.favorite,
+        about: state.about,
+        beverage: state.beverage,
+        avatar: state.avatar
     },
-  });
+} 
+  const insertedUser = await Person.updateOne(query, updateDocument);
+  res.json(insertedUser);
+} catch(error) {
+  console.error(error);
+}
 });
 
 export const UpdateUsers = tryCatch( async (req, res) => {
