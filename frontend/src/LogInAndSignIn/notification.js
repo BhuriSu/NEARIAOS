@@ -1,16 +1,12 @@
 import { Alert, Snackbar } from '@mui/material';
 import React from 'react';
-import { useValue } from '../Context';
 
 const Notification = () => {
-  const {
-    state: { alert },
-    dispatch,
-  } = useValue();
 
   const handleClose = (event, reason) => {
-    if (reason === 'click away') return;
-    dispatch({ type: 'UPDATE_ALERT', payload: { ...alert, open: false } });
+    if (reason === 'clickaway') {
+      return;
+    }
   };
   return (
     <Snackbar

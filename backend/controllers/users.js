@@ -1,5 +1,4 @@
 
-import Person from '../models/modelPerson.js'; 
 import Profile from '../models/modelProfile.js';
 import tryCatch from './utils/tryCatch.js';
 
@@ -22,7 +21,7 @@ export const DetailUsers = tryCatch(async (req, res) => {
         avatar: state.avatar
     },
 } 
-  const insertedUser = await Person.updateOne(query, updateDocument);
+  const insertedUser = await Profile.updateOne(query, updateDocument);
   res.json(insertedUser);
 } catch(error) {
   console.error(error);
@@ -50,7 +49,7 @@ export const UpdateUsers = tryCatch( async (req, res) => {
 
 export const DeleteUsers = tryCatch(async (req, res) => {
   const id  = req.params.id;
-  const user = await Person.findById(id).exec();
+  const user = await Profile.findById(id).exec();
   if (!user) {
     return res.status(400).json("User not found");
   }

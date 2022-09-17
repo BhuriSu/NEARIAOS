@@ -3,14 +3,11 @@ import {
   SidebarContainer, Icon, CloseIcon, SidebarWrapper,
   SidebarMenu, SidebarLink, SidebarRoute, SideBtnWrap,
 } from './SidebarElements';
-import ListPage from '../../ListPage';
-import { useValue } from '../../Context';
+import LogInAndSignIn from '../../LogInAndSignIn';
+
 
 function Sidebar({ isOpen, toggle }) {
-  const {
-    state: { currentUser },
-    dispatch,
-  } = useValue();
+  const handleClick = <LogInAndSignIn />;
   return (
     <SidebarContainer isOpen={isOpen} onClick={toggle}>
       <Icon onClick={toggle}>
@@ -24,11 +21,9 @@ function Sidebar({ isOpen, toggle }) {
         </SidebarMenu>
 
         <SideBtnWrap>
-        {!currentUser ? (
-          <SidebarRoute onClick={() => dispatch({ type: 'OPEN_LOGIN' })} >Start</SidebarRoute>
-          ) : (
-            <ListPage />
-        )}
+     
+          <SidebarRoute onClick={handleClick} >Start</SidebarRoute>
+       
         </SideBtnWrap>
 
       </SidebarWrapper>

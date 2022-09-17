@@ -1,7 +1,7 @@
 import React from 'react';
 import App from './App';
 import { createRoot } from 'react-dom/client';
-import ContextProvider from './Context/AuthContext';
+import { AuthContextProvider } from './Context/AuthContext';
 
 
 
@@ -11,13 +11,13 @@ root.render(
   <React.StrictMode>
    
  
-    <ContextProvider>
+    <AuthContextProvider>
   
       
         <App />
       
    
-    </ContextProvider>
+    </AuthContextProvider>
 
 
   </React.StrictMode>

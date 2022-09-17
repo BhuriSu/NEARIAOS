@@ -7,8 +7,8 @@ import Navbar from '../MainPage/Navbar';
 import OurPlatForm from '../MainPage/OurPlatform';
 import Sidebar from '../MainPage/SideBar';
 import Animation from '../MainPage/AnimationPicture';
-import Loading from '../LoginPopUp/loading';
-import Notification from '../LoginPopUp/notification';
+import Loading from '../LogInAndSignIn/loading';
+import Notification from '../LogInAndSignIn/notification';
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);

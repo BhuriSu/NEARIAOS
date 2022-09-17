@@ -3,7 +3,6 @@ import morgan from 'morgan';
 import cors from 'cors';
 import usersRouter from './routes/userRouter.js';
 import listsRouter from './routes/listsRouter.js'; 
-import databaseRouter from './routes/databaseRouter.js';
 import helmet from 'helmet';
 import express, { json, urlencoded } from 'express';
 import mongoose from 'mongoose';
@@ -31,7 +30,6 @@ app.use(urlencoded({ extended: false }));
 
 
 app.use('/users', usersRouter);
-app.use('/database', databaseRouter);
 app.use('/list', listsRouter); 
 
 app.use((req, res) =>

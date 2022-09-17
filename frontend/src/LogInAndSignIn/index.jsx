@@ -11,9 +11,9 @@ import {
 } from '@mui/material';
 import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import GoogleOneTapLogin from './GoogleOneTapLogin';
+import GoogleOneTapLogin from './GoogleLogin';
 import PasswordField from './PasswordField';
-import { UserAuth } from '../Context';
+import { UserAuth } from '../Context/AuthContext';
 
 const Login = () => {
   const { LogIn } = UserAuth();

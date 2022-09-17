@@ -1,9 +1,0 @@
-
-.ChatBar {
-  align-self: center;
-  z-index: 1;
-}
-.ChatBar:hover {
-  transform: scale(1.1);
-}
-

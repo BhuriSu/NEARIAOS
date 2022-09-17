@@ -8,12 +8,10 @@ import PremiumPage from './pages/premium';
 import ContactPage from './pages/contact';
 import CreatingAccountPage from './pages/process';
 import ProfileEditPage from './pages/profile';
-import AllChatPage from './pages/allChat';
 import ChatPage from './pages/chat';
 import MessagePage from './pages/message';
 import ListPage from './pages/listUsers';
 import PrivacyPage from './pages/privacy';
-import { AuthContextProvider } from './Context/AuthContext';
 import ProtectedRoute from './LogInAndSignIn/ProtectedRoute';
 
 function App() {
@@ -21,7 +19,7 @@ function App() {
   return (
 
     <Router>
-      <AuthContextProvider>
+
         <Routes>
           <Route path='/' element={<Home/>} exact />
           <Route path='/premium' element={<PremiumPage/>} />
@@ -35,13 +33,12 @@ function App() {
           } 
           />
           <Route path='/profile' element={<ProfileEditPage/>} />
-          <Route path='/allChat' element={<AllChatPage/>} />
           <Route path='/chat' element={<ChatPage/>} />
           <Route path='/message' element={<MessagePage/>} />
           <Route path='/listUsers' element={<ListPage/>} />
           <Route path='/privacy' element={<PrivacyPage/>} />
         </Routes>
-        </AuthContextProvider>
+
     </Router>
    
 
