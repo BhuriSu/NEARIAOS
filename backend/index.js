@@ -1,4 +1,3 @@
-
 import morgan from 'morgan';
 import cors from 'cors';
 import usersRouter from './routes/userRouter.js';
@@ -36,8 +35,7 @@ app.use((req, res) =>
   res.status(404).json({ success: false, message: 'Not Found' })
 );
 
-mongoose.connect(process.env.MONGO_DB_URI).
-  catch(error => handleError(error));
+mongoose.connect(process.env.MONGO_DB_URI);
 
 mongoose.connection.once('open', () => {
   console.log('Connected to MongoDB')

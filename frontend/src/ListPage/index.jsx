@@ -5,7 +5,6 @@ import {  getDownloadURL, getStorage } from "firebase/storage";
 import { ref, getDatabase, child, onValue } from "firebase/database";
 import Map from "./Map";
 import ModalWindow from "../NewFeedComponents/Modal";
-import AnnouncementMessage from "../NewFeedComponents/Announcement";
 import "./listUsers.css";
 import { ListPageBackground, ToggleBox } from "./ListPageElement";
 
@@ -23,7 +22,7 @@ function ListUsers() {
 
   const [isColorBtn, setColorBtn] = useState("FindMe");
   const [isShowMap, setShowMap] = useState(false);
-  const [user, setUser] = useState("");
+  const [setUser] = useState("");
   const [url, setUrl] = useState("");
 
   const database = ref(getDatabase());
@@ -250,7 +249,6 @@ function ListUsers() {
       
         </div>
 
-       <AnnouncementMessage user={user} />
     </ListPageBackground>
   );
 }

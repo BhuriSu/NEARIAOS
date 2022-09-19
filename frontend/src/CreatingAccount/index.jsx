@@ -240,5 +240,4 @@ function Step3(props) {
   );
 }
 
-
 export default CreatingAccount;

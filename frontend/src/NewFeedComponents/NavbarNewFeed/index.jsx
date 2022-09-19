@@ -25,7 +25,7 @@ function NavbarNewFeed({ toggle }) {
               <Find src={FindPic} width="100" height="100" alt="" /> 
               </NavLinks>
               {' '}
-              <NavLinks to="/allChat">
+              <NavLinks to="/chat">
               <Chat src={ChatPic} width="100" height="100" alt="" /> 
               </NavLinks>
 

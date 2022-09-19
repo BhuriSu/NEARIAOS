@@ -9,36 +9,28 @@ import ContactPage from './pages/contact';
 import CreatingAccountPage from './pages/process';
 import ProfileEditPage from './pages/profile';
 import ChatPage from './pages/chat';
-import MessagePage from './pages/message';
 import ListPage from './pages/listUsers';
 import PrivacyPage from './pages/privacy';
-import ProtectedRoute from './LogInAndSignIn/ProtectedRoute';
-
+import LogInAndSignUpPage from './pages/startForm';
+import { UserAuthContextProvider } from "./Context/UserAuthContext";
 function App() {
 
   return (
 
     <Router>
-
+        <UserAuthContextProvider>
         <Routes>
           <Route path='/' element={<Home/>} exact />
           <Route path='/premium' element={<PremiumPage/>} />
           <Route path='/contact' element={<ContactPage/>} />
-          <Route 
-          path='/process' 
-          element={
-          <ProtectedRoute>
-          <CreatingAccountPage/>
-          </ProtectedRoute>
-          } 
-          />
+          <Route path='/startForm' element={<LogInAndSignUpPage/>} />
+          <Route path='/process' element={<CreatingAccountPage/>} />
           <Route path='/profile' element={<ProfileEditPage/>} />
           <Route path='/chat' element={<ChatPage/>} />
-          <Route path='/message' element={<MessagePage/>} />
           <Route path='/listUsers' element={<ListPage/>} />
           <Route path='/privacy' element={<PrivacyPage/>} />
         </Routes>
-
+        </UserAuthContextProvider>
     </Router>
    
 

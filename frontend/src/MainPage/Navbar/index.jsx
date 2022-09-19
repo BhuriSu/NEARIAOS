@@ -2,8 +2,6 @@ import React from 'react';
 import { FaBars } from 'react-icons/fa';
 import { IconContext } from 'react-icons/lib';
 import { animateScroll as scroll } from 'react-scroll';
-import LogInAndSignIn from '../../LogInAndSignIn';
-
 import {
   Nav, NavbarContainer, NavLogo, MobileIcon, NavMenu, NavLinks, NavItem, NavBtn, NavBtnLink,
 } from './NavbarElements';
@@ -12,7 +10,6 @@ function Navbar({ toggle }) {
   const ToggleHome = () => {
     scroll.scrollToTop();
   };
-  const handleClick = <LogInAndSignIn />;
 
   return (
     <IconContext.Provider value={{ color: '#fff' }}>
@@ -36,12 +33,11 @@ function Navbar({ toggle }) {
 
           </NavMenu>
 
+
           <NavBtn>
-    
-            <NavBtnLink onClick={handleClick} data-cy='start-button'>Start</NavBtnLink>
-        
+            <NavBtnLink to='/startForm' data-cy='start-button'>Start</NavBtnLink>
           </NavBtn>
-           
+        
         </NavbarContainer>
       </Nav>
     </IconContext.Provider>

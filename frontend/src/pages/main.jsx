@@ -7,8 +7,6 @@ import Navbar from '../MainPage/Navbar';
 import OurPlatForm from '../MainPage/OurPlatform';
 import Sidebar from '../MainPage/SideBar';
 import Animation from '../MainPage/AnimationPicture';
-import Loading from '../LogInAndSignIn/loading';
-import Notification from '../LogInAndSignIn/notification';
 
 function Home() {
   const [isOpen, setIsOpen] = useState(false);
@@ -20,8 +18,7 @@ function Home() {
   return (
 
     <>
-      <Loading />
-      <Notification />
+      
       <Sidebar isOpen={isOpen} toggle={toggle} />
       <Navbar toggle={toggle} />
       <FirstPage />
