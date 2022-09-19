@@ -4,15 +4,16 @@ import { Google } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
-import { useUserAuth } from "../Context/UserAuthContext";
-import { useNavigate } from "react-router-dom";
-
+import { useUserAuth } from '../Context/UserAuthContext';
+import { useNavigate } from 'react-router-dom';
+import Alert from '@mui/material/Alert';
+import Stack from '@mui/material/Stack';
 const LogIn=({handleChange})=>{
 
-    const paperStyle={padding :20,height:'73vh',width:300, margin:"0 auto"};
+    const paperStyle={padding :20,height:'73vh',width:300, margin:'0 auto'};
     const avatarStyle={backgroundColor:'#7300ff'};
     const btnStyle={margin:'8px 0',backgroundColor:'#7300ff'};
-    
+    const btnGoogleStyle={backgroundColor:'#ff003f'};
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [error, setError] = useState(null);
@@ -21,10 +22,9 @@ const LogIn=({handleChange})=>{
 
     const handleSubmit = async (e) => { 
         e.preventDefault();
-
         try {
             await logIn(email, password);
-            navigate("/listUsers");
+            navigate('/listUsers');
         } catch (error) {
             setError(error);
         }
@@ -34,9 +34,9 @@ const LogIn=({handleChange})=>{
         e.preventDefault();
         try {
           await googleSignIn();
-          navigate("/listUsers");
+          navigate('/listUsers');
         } catch (error) {
-          console.log(error.message);
+          console.log(error);
         }
       };
 
@@ -46,18 +46,18 @@ const LogIn=({handleChange})=>{
             <Paper  style={paperStyle}>
                 <Grid align='center'>
                      <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
-                    <h2>Sign In</h2>
+                     <h2>Sign In</h2>
                 </Grid>
 
                 <TextField  
-                variant="standard" 
+                variant='standard' 
                 label='Email' 
                 placeholder='Enter Email' 
                 fullWidth required
                 onChange={(e) => setEmail(e.target.value)}  
                 />
                 <TextField  
-                variant="standard" 
+                variant='standard' 
                 label='Password' 
                 placeholder='Enter password' 
                 type='password' 
@@ -67,31 +67,35 @@ const LogIn=({handleChange})=>{
                 <FormControlLabel
                     control={
                     <Checkbox
-                        name="checkedB"
-                        color="primary"
+                        name='checkedB'
+                        color='primary'
                     />
                     }
-                    label="Remember me"
+                    label='Remember me'
                  />
-                <Button onSubmit={handleSubmit} type='submit' color='primary' variant="contained" style={btnStyle} fullWidth>Log In</Button>
+                <Button onSubmit={handleSubmit} type='submit' color='primary' variant='contained' style={btnStyle} fullWidth>Log In</Button>
                 <Typography >
-                     <Link href="#" >
+                     <Link href='#' >
                         Forgot password ?
                      </Link>
                 </Typography>
                 <Typography > Do you have an account ?
-                     <Link href="#" onClick={()=>handleChange("event",1)} >
+                     <Link href='#' onClick={()=>handleChange('event',1)} >
                         Sign Up 
                      </Link>
                 </Typography>
+                <br/>
                 <Button
-                 variant="outlined"
+                 style={btnGoogleStyle}
+                 variant='contained'
                  startIcon={<Google />}
                  onClick={handleGoogleSignIn}
                 >
                 Login with Google
                 </Button>
-                <p>{error}</p>
+                <Stack sx={{ width: '100%' }} >
+                {error && <Alert severity="error">{error}</Alert>}
+                </Stack>
             </Paper>
         </Grid>
     )

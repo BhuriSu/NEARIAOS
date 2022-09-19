@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useEffect, useState } from "react";
+import React, { createContext, useContext, useEffect, useState } from 'react';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -6,8 +6,8 @@ import {
   signOut,
   GoogleAuthProvider,
   signInWithPopup,
-} from "firebase/auth";
-import { auth } from "../firebase";
+} from 'firebase/auth';
+import { auth } from '../Firebase/firebase';
 
 const userAuthContext = createContext();
 
@@ -30,7 +30,7 @@ export function UserAuthContextProvider({ children }) {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      console.log("Auth", currentUser);
+      console.log('Auth', currentUser);
       setUser(currentUser);
     });
 
