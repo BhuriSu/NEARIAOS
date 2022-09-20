@@ -50,7 +50,6 @@ const SignUp = () => {
                     <Typography variant='caption' gutterBottom>Please fill this form to create an account !</Typography>
                 </Grid>
                 <form onSubmit={handleSubmit}>
-
                     <TextField  
                     variant='standard' 
                     fullWidth label='Email' 
