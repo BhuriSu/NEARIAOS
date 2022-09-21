@@ -8,7 +8,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 dotenv.config();
 const app = express();
-const port = process.env.PORT || 4000;
 
 //secure by setting various http headers
 app.use(helmet());
@@ -36,12 +35,12 @@ app.use((req, res) =>
 );
 
 mongoose.connect(process.env.MONGO_DB_URI);
-
-mongoose.connection.once('open', () => {
-  console.log('Connected to MongoDB')
-  app.listen(port, () => console.log(`Server running on port ${port}`))
+const db = mongoose.connection;
+db.on("error", ()=>{console.log("Error connecting to db")});
+db.once("open", function(){
+  console.log("Successfully connection with db")
 });
 
-mongoose.connection.on('error', err => {
-  console.log('Error happened: ', err.message);
+app.listen(4000, ()=>{
+  console.log("Server running at 4000")
 });

@@ -9,12 +9,12 @@ import SignIn from './SignUp';
 import { BackgroundContainer, Logo } from './BackgroundStyle';
 
 const SignInOutContainer=()=>{
-  const [value,setValue]=useState(0)
+  const [value,setValue]=useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
 
-  const paperStyle={width:300,margin:'20px auto'}
+  const paperStyle={width:300, margin:'20px auto'};
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;

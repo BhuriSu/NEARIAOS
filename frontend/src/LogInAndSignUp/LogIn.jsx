@@ -11,7 +11,7 @@ import Alert from '@mui/material/Alert';
 import Stack from '@mui/material/Stack';
 const LogIn=({handleChange})=>{
 
-    const paperStyle={padding :20,width:300, margin:'0 auto'};
+    const paperStyle={padding :20, width:300, margin:'0 auto'};
     const avatarStyle={backgroundColor:'#7300ff'};
     const btnStyle={margin:'8px 0',backgroundColor:'#7300ff'};
     const btnGoogleStyle={backgroundColor:'#ff003f'};
@@ -28,6 +28,7 @@ const LogIn=({handleChange})=>{
             navigate('/listUsers');
         } catch (error) {
             setError(error);
+            console.log(error);
         }
     }
     
@@ -37,6 +38,7 @@ const LogIn=({handleChange})=>{
           await googleSignIn();
           navigate('/listUsers');
         } catch (error) {
+          setError(error);
           console.log(error);
         }
       };
