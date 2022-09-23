@@ -77,10 +77,10 @@ const LogIn=({handleChange})=>{
                  />
                 <Button type='submit' color='primary' variant='contained' style={btnStyle} fullWidth>Log In</Button>
                 <Typography >
-                     <Link to='/ForgotPass' component={RouterLink} >
+                     <Link to='/forgotPass' component={RouterLink} >
                         Forgot password ?
                      </Link>
-                </Typography>
+                </Typography >
                 <Typography > Do you have an account ?
                      <Link href='#' onClick={()=>handleChange('event',1)} >
                         Sign Up 

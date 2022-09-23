@@ -7,7 +7,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
-  confirmPasswordReset,
 } from 'firebase/auth';
 import { auth } from '../Firebase/firebase';
 
@@ -41,18 +40,16 @@ export function UserAuthContextProvider({ children }) {
     };
   }, []);
 
-  const forgotPassword = (email) => {
-    return sendPasswordResetEmail(auth, email);
-  };
-
-  function resetPassword(oobCode, newPassword) {
-    return confirmPasswordReset(auth, oobCode, newPassword)
+  function forgotPassword(email) {
+    return sendPasswordResetEmail(auth, email, {
+      url: `http://localhost:3000//startForm`,
+    })
   }
 
 
   return (
     <userAuthContext.Provider
-      value={{ user, logIn, signUp, logOut, googleSignIn, forgotPassword, resetPassword }}
+      value={{ user, logIn, signUp, logOut, googleSignIn, forgotPassword }}
     >
       {children}
     </userAuthContext.Provider>

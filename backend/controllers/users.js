@@ -1,12 +1,12 @@
 
 import Profile from '../models/modelProfile.js';
-import tryCatch from './utils/tryCatch.js';
+import asyncHandler from 'express-async-handler';
 
-export const Users = tryCatch(async(req, res) => {
-  res.send('respond with a resource');
+export const Users = asyncHandler(async(req, res) => {
+  res.json('respond with a resource');
 });
 
-export const DetailUsers = tryCatch(async (req, res) => {
+export const DetailUsers = asyncHandler(async (req, res) => {
   const state = req.body.state;
   try {
   const query = { user: state.user };
@@ -28,7 +28,7 @@ export const DetailUsers = tryCatch(async (req, res) => {
 }
 });
 
-export const UpdateUsers = tryCatch( async (req, res) => {
+export const UpdateUsers = asyncHandler( async (req, res) => {
   const {
     workplace,
     favorite,
@@ -47,7 +47,7 @@ export const UpdateUsers = tryCatch( async (req, res) => {
   }
 });
 
-export const DeleteUsers = tryCatch(async (req, res) => {
+export const DeleteUsers = asyncHandler(async (req, res) => {
   const id  = req.params.id;
   const user = await Profile.findById(id).exec();
   if (!user) {

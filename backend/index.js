@@ -1,11 +1,15 @@
+import createError from 'http-errors';
 import morgan from 'morgan';
+import path from 'path';
 import cors from 'cors';
 import usersRouter from './routes/userRouter.js';
 import listsRouter from './routes/listsRouter.js'; 
 import helmet from 'helmet';
-import express, { json, urlencoded } from 'express';
+import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import {fileURLToPath} from 'url';
+
 dotenv.config();
 const app = express();
 
@@ -23,16 +27,36 @@ app.use(cors(corsOptions));
 app.use(morgan('dev'));
 
 //when you want to use POST and PUT/PATCH method
-app.use(json());
-app.use(urlencoded({ extended: false }));
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+const publicPath = path.join(__dirname, 'build');
+app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(publicPath));
+app.get('*', (req, res) => {
+  res.send(path.join(publicPath, 'index.html'));
+});
 
 app.use('/users', usersRouter);
 app.use('/list', listsRouter); 
 
-app.use((req, res) =>
-  res.status(404).json({ success: false, message: 'Not Found' })
-);
+// catch 404 and forward to error handler
+app.use((req, res, next) => {
+  next(createError(404));
+});
+
+// error handler
+app.use((err, req, res) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
 
 mongoose.connect(process.env.MONGO_DB_URI);
 const db = mongoose.connection;
@@ -41,6 +65,5 @@ db.once("open", function(){
   console.log("Successfully connection with db")
 });
 
-app.listen(4000, ()=>{
-  console.log("Server running at 4000")
-});
+const PORT = process.env.PORT || 4000;
+app.listen(PORT, () => console.log('server running on PORT ' + PORT));

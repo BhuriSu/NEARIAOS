@@ -6,7 +6,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import LogIn from './LogIn';
 import SignIn from './SignUp'; 
-import { BackgroundContainer, Logo } from './BackgroundStyle';
+import { BackgroundContainer, Logo } from './FormElements';
 
 const SignInOutContainer=()=>{
   const [value,setValue]=useState(0);

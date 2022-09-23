@@ -12,7 +12,9 @@ import ChatPage from './pages/chat';
 import ListPage from './pages/listUsers';
 import PrivacyPage from './pages/privacy';
 import LogInAndSignUpPage from './pages/startForm';
+import ForgotPassPage from './pages/forgotPass';
 import { UserAuthContextProvider } from "./Context/UserAuthContext";
+
 function App() {
 
   return (
@@ -29,6 +31,7 @@ function App() {
           <Route path='/chat' element={<ChatPage/>} />
           <Route path='/listUsers' element={<ListPage/>} />
           <Route path='/privacy' element={<PrivacyPage/>} />
+          <Route path='/forgotPass' element={<ForgotPassPage/>} />
         </Routes>
         </UserAuthContextProvider>
     </Router>
