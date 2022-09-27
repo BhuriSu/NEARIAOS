@@ -12,11 +12,11 @@ import {
 } from 'firebase/firestore';
 import { db } from '../Firebase/firebase';
 import { userAuthContext } from '../context/UserAuthContext';
+import { SearchContainer, SearchForm, UserChat, UserChatInfo } from './ChatElements';
 const Search = () => {
   const [username, setUsername] = useState('');
   const [user, setUser] = useState(null);
   const [err, setErr] = useState(false);
-
   const { currentUser } = useContext(userAuthContext);
 
   const handleSearch = async () => {
@@ -78,8 +78,8 @@ const Search = () => {
     setUsername('')
   };
   return (
-    <div className='search'>
-      <div className='searchForm'>
+    <SearchContainer>
+      <SearchForm>
         <input
           type='text'
           placeholder='Find a user'
@@ -87,17 +87,17 @@ const Search = () => {
           onChange={(e) => setUsername(e.target.value)}
           value={username}
         />
-      </div>
+      </SearchForm>
       {err && <span>User not found!</span>}
       {user && (
-        <div className='userChat' onClick={handleSelect}>
+        <UserChat onClick={handleSelect}>
           <img src={user.photoURL} alt='' />
-          <div className='userChatInfo'>
+          <UserChatInfo>
             <span>{user.displayName}</span>
-          </div>
-        </div>
+          </UserChatInfo>
+        </UserChat>
       )}
-    </div>
+    </SearchContainer>
   );
 };
 

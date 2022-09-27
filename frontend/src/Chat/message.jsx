@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useRef } from 'react';
 import { userAuthContext } from '../context/UserAuthContext';
 import { ChatContext } from '../context/ChatContext';
-
+import { MessageInfo, MessageContent, MessageContainer } from './ChatElements'
 const Message = ({ message }) => {
   const { currentUser } = useContext(userAuthContext);
   const { data } = useContext(ChatContext);
@@ -12,11 +12,11 @@ const Message = ({ message }) => {
   }, [message]);
 
   return (
-    <div
+    <MessageContainer
       ref={ref}
-      className={`message ${message.senderId === currentUser.uid && 'owner'}`}
+      className={`${message.senderId === currentUser.uid && 'owner'}`}
     >
-      <div className='messageInfo'>
+      <MessageInfo>
         <img
           src={
             message.senderId === currentUser.uid
@@ -26,12 +26,12 @@ const Message = ({ message }) => {
           alt=''
         />
         <span>just now</span>
-      </div>
-      <div className='messageContent'>
+      </MessageInfo>
+      <MessageContent>
         <p>{message.text}</p>
         {message.img && <img src={message.img} alt='' />}
-      </div>
-    </div>
+      </MessageContent>
+    </MessageContainer>
   );
 };
 

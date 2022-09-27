@@ -13,7 +13,7 @@ import {
 import { db, storage } from '../Firebase/firebase';
 import { v4 as uuid } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
-
+import { InputChatContainer, SendContainer } from './ChatElements';
 const Input = () => {
   const [text, setText] = useState('');
   const [img, setImg] = useState(null);
@@ -85,14 +85,14 @@ const Input = () => {
     setImg(null);
   };
   return (
-    <div className='input'>
+    <InputChatContainer>
       <input
         type='text'
         placeholder='Type something...'
         onChange={(e) => setText(e.target.value)}
         value={text}
       />
-      <div className='send'>
+      <SendContainer>
         <img src={Attach} alt='' />
         <input
           type='file'
@@ -104,8 +104,8 @@ const Input = () => {
           <img src={Img} alt='' />
         </label>
         <button onClick={handleSend}>Send</button>
-      </div>
-    </div>
+      </SendContainer>
+    </InputChatContainer>
   );
 };
 

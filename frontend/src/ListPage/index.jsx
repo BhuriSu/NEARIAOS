@@ -1,29 +1,29 @@
-import React, { useState, useEffect } from "react";
-import { useCookies } from "react-cookie";
-import axios from "axios";
-import {  getDownloadURL, getStorage } from "firebase/storage";
-import { ref, getDatabase, child, onValue } from "firebase/database";
-import Map from "./Map";
-import ModalWindow from "../NewFeedComponents/Modal";
-import "./listUsers.css";
-import { ListPageBackground, ToggleBox } from "./ListPageElement";
+import React, { useState, useEffect } from 'react';
+import { useCookies } from 'react-cookie';
+import axios from 'axios';
+import {  getDownloadURL, getStorage } from 'firebase/storage';
+import { ref, getDatabase, child, onValue } from 'firebase/database';
+import Map from './Map';
+import ModalWindow from '../NewFeedComponents/Modal';
+import './listUsers.css';
+import { ListPageBackground, ToggleBox } from './ListPageElement';
 
 /**
  * @param {*} props
  */
 
 function ListUsers() {
-  const [cookies] = useCookies(["userName"]);
-  const [radius, setRadius] = useState("");
+  const [cookies] = useCookies(['userName']);
+  const [radius, setRadius] = useState('');
   const [list, setList] = useState({
     success: false,
-    err: "",
+    err: '',
   });
 
-  const [isColorBtn, setColorBtn] = useState("FindMe");
+  const [isColorBtn, setColorBtn] = useState('FindMe');
   const [isShowMap, setShowMap] = useState(false);
-  const [setUser] = useState("");
-  const [url, setUrl] = useState("");
+  const [setUser] = useState('');
+  const [url, setUrl] = useState('');
   const database = ref(getDatabase());
   const pushRoom = child(database, `${cookies.userName}`);
 
@@ -45,8 +45,8 @@ function ListUsers() {
   const ChangeOnMap = () => {
     setShowMap(!isShowMap);
   };
-  const [latitude, setLatitude] = useState("");
-  const [longitude, setLongitude] = useState("");
+  const [latitude, setLatitude] = useState('');
+  const [longitude, setLongitude] = useState('');
 
   /**
    * @param {String} id
@@ -57,7 +57,7 @@ function ListUsers() {
 
   const requestListUsers = (id, latitude, longitude, radius) => {
     axios
-      .post("/list/users", {
+      .post('/list/users', {
         id,
         latitude,
         longitude,
@@ -96,13 +96,13 @@ function ListUsers() {
       .catch(() => {
         setList({
           success: false,
-          err: "Runtime error",
+          err: 'Runtime error',
         });
       });
   };
 
   const geoFindLocation = () => {
-    setColorBtn("whiteBorder");
+    setColorBtn('whiteBorder');
     const success = (position) => {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
@@ -118,14 +118,14 @@ function ListUsers() {
     const error = () => {
       setList({
         success: false,
-        err: "Unable to retrieve your location",
+        err: 'Unable to retrieve your location',
       });
     };
 
     if (!navigator.geolocation) {
       setList({
         success: false,
-        err: "Geolocation is not supported by your browser",
+        err: 'Geolocation is not supported by your browser',
       });
     } else {
       /**
@@ -139,33 +139,33 @@ function ListUsers() {
 
   return (
     <ListPageBackground>
-         <div className="input-form-UserList">
+         <div className='input-form-UserList'>
           <input
-            title="radius"
-            className="inputFind"
+            title='radius'
+            className='inputFind'
             onChange={(event) => {
               setRadius(event.target.value);
             }}
-            type="range"
+            type='range'
             style={{
-              minWidth: "300px",
-              display: "block",
-              width: "30%",
-              height: "50px",
-              margin: "0 auto",
-              border: "none",
-              paddingBottom: "0",
-              borderBottom: "solid #FFF 2px",
-              borderRadius: "0",
-              boxShadow: "none",
-              marginBottom: "20px",
+              minWidth: '300px',
+              display: 'block',
+              width: '30%',
+              height: '50px',
+              margin: '0 auto',
+              border: 'none',
+              paddingBottom: '0',
+              borderBottom: 'solid #FFF 2px',
+              borderRadius: '0',
+              boxShadow: 'none',
+              marginBottom: '20px',
             }}
-            min="200"
-            max="10000"
-            step="200"
+            min='200'
+            max='10000'
+            step='200'
             value={radius}
           />
-          <label className="label">
+          <label className='label'>
             {radius !== null ? (
               <div>
                  Just touch the line and move right or left
@@ -179,22 +179,22 @@ function ListUsers() {
                 {' '}
               </div>
             ) : (
-              <div style={{ margin: "auto 0" }}>Choose the radius</div>
+              <div style={{ margin: 'auto 0' }}>Choose the radius</div>
             )}
             &nbsp;
           </label>
           <button
-            id="find-me"
+            id='find-me'
             className={isColorBtn}
             onClick={() => geoFindLocation()}
             style={{
-              display: "block",
-              color: "#FFF",
-              backgroundColor: "transparent",
-              position: "relative",
-              margin: "0 auto",
-              width: "25rem",
-              textShadow: "none",
+              display: 'block',
+              color: '#FFF',
+              backgroundColor: 'transparent',
+              position: 'relative',
+              margin: '0 auto',
+              width: '25rem',
+              textShadow: 'none',
             }}
           >
             FIND ME SOMEONE
@@ -202,8 +202,8 @@ function ListUsers() {
 
           {list.success ? (
           <ToggleBox>
-            <input type="checkbox" name="toggle" className="sw" id="toggle-2" />
-            <label htmlFor="toggle-2" onClick={ChangeOnMap}>
+            <input type='checkbox' name='toggle' className='sw' id='toggle-2' />
+            <label htmlFor='toggle-2' onClick={ChangeOnMap}>
               <span>Use a map</span>
             </label>
           </ToggleBox>
@@ -218,26 +218,26 @@ function ListUsers() {
                 longitude={longitude}
                 list={list}
                 style={{
-                  marginTop: "10%",
-                  alignSelf: "center",
-                  width: "100%",
-                  justifyContent: "center",
+                  marginTop: '10%',
+                  alignSelf: 'center',
+                  width: '100%',
+                  justifyContent: 'center',
                 }}
                 radius={radius}
               />
             ) : (
               <ul
                 style={{
-                  display: "flex",
-                  listStyle: "none",
-                  padding: "0",
-                  justifyContent: "space-around",
-                  flexWrap: "wrap",
+                  display: 'flex',
+                  listStyle: 'none',
+                  padding: '0',
+                  justifyContent: 'space-around',
+                  flexWrap: 'wrap',
                 }}
               >
                 {list.success
                   ? list.list?.map((obj) => (
-                    <div key={obj._id} className="map">
+                    <div key={obj._id} className='map'>
                       <ModalWindow obj={obj} url={url} />
                     </div>
                   ))

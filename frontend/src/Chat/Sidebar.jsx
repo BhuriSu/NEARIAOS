@@ -2,14 +2,14 @@ import React from 'react';
 import Navbar from './Navbar';
 import Search from './Search';
 import Chats from './Chats';
-
+import SidebarChat from './ChatElements';
 const Sidebar = () => {
   return (
-    <div className='sidebar'>
+    <SidebarChat>
       <Navbar />
       <Search/>
       <Chats/>
-    </div>
+    </SidebarChat>
   );
 };
 

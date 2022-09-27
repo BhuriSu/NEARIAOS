@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { ChatContext } from '../context/ChatContext';
 import { db } from '../Firebase/firebase';
 import Message from './Message';
+import { MessagesContainer } from './ChatElements';
 
 const Messages = () => {
   const [messages, setMessages] = useState([]);
@@ -21,11 +22,11 @@ const Messages = () => {
   console.log(messages)
 
   return (
-    <div className='messages'>
+    <MessagesContainer>
       {messages.map((m) => (
         <Message message={m} key={m.id} />
       ))}
-    </div>
+    </MessagesContainer>
   );
 };
 

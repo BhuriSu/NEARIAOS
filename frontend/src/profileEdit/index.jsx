@@ -1,12 +1,12 @@
-import React, { useState } from "react";
-import { useCookies } from "react-cookie";
-import { Link, useNavigate, useParams } from "react-router-dom";
-import axios from "axios";
+import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import axios from 'axios';
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
-} from "firebase/storage";
-import "./profileEdit.css";
-import styled from "styled-components";
+} from 'firebase/storage';
+import './profileEdit.css';
+import styled from 'styled-components';
 const Avatar = styled.div`
 width: 250px;
 height: 250px;
@@ -18,15 +18,15 @@ cursor: pointer;
 
 function ProfileEdit(props) {
   const [cookies, removeCookies] = useCookies([
-    "userName",
-    "userNickname",
+    'userName',
+    'userNickname',
   ]);
-  const [workplace, setWorkplace] = useState("");
-  const [beverage, setBeverage] = useState("");
-  const [favorite, setFavorite] = useState("");
-  const [about, setAbout] = useState("");
-  const [url, setUrl] = useState("./images/UploadPic.svg");
-  const [save, setSave] = useState("");
+  const [workplace, setWorkplace] = useState('');
+  const [beverage, setBeverage] = useState('');
+  const [favorite, setFavorite] = useState('');
+  const [about, setAbout] = useState('');
+  const [url, setUrl] = useState('./images/UploadPic.svg');
+  const [save, setSave] = useState('');
   const id = cookies.userName;
   const { user } = props;
   const [image, setImage] = useState(null);
@@ -36,7 +36,7 @@ function ProfileEdit(props) {
   function patchData(event) {
     event.preventDefault();
     axios
-      .patch("/users/profile", {
+      .patch('/users/profile', {
         workplace,
         beverage,
         favorite,
@@ -45,32 +45,32 @@ function ProfileEdit(props) {
       })
       .then(({ data }) => {
         if (data.success) {
-          setSave("Changes were saved");
+          setSave('Changes were saved');
         } else {
           setSave(data.err);
         }
       });
     const storage = getStorage();
-    const storageRef = ref(storage, `images/${cookies.userName || "./images/infoUser.svg"}`);
+    const storageRef = ref(storage, `images/${cookies.userName || './images/infoUser.svg'}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on(
-      "state_changed",
+      'state_changed',
       () => {
-        setUrl("./loading.gif");
+        setUrl('./loading.gif');
       },
       (error) => {
         switch (error.code) {
-          case "storage/unauthorized":
-            console.log("storage is unauthorized");
+          case 'storage/unauthorized':
+            console.log('storage is unauthorized');
             break;
-          case "storage/canceled":
-            console.log("storage is canceled");
+          case 'storage/canceled':
+            console.log('storage is canceled');
             break;
-          case "storage/unknown":
-            console.log("storage is unknown");
+          case 'storage/unknown':
+            console.log('storage is unknown');
             break;
           default:
-            console.log("sorry it is not about storage");
+            console.log('sorry it is not about storage');
         }
       },
       () => {
@@ -81,7 +81,7 @@ function ProfileEdit(props) {
     );
     if (setUrl !== null || setUrl == null) {
       axios
-        .patch("/users/profile", {
+        .patch('/users/profile', {
           workplace,
           beverage,
           favorite,
@@ -91,7 +91,7 @@ function ProfileEdit(props) {
         })
         .then(({ data }) => {
           if (data.success) {
-            setSave("Saved");
+            setSave('Saved');
           } else {
             setSave(data.err);
           }
@@ -117,8 +117,8 @@ function ProfileEdit(props) {
   }
   function LogOut() {
     user.id = null;
-    removeCookies("userName");
-    removeCookies("userNickname");
+    removeCookies('userName');
+    removeCookies('userNickname');
   }
 
 
@@ -129,9 +129,9 @@ function ProfileEdit(props) {
       const storageRef = ref(storage, `images/${cookies.userName}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(
-        "state_changed",
+        'state_changed',
         () => {
-          setUrl("./loading.gif");
+          setUrl('./loading.gif');
         },
         (error) => {
           console.log(error);
@@ -149,7 +149,7 @@ function ProfileEdit(props) {
   async function handleDelete(){
     try {
 			await axios.delete(`/users/delete/${_id}`);
-			navigate("/");
+			navigate('/');
 		} catch (error) {
 			console.error(error);
 		}
@@ -158,107 +158,107 @@ function ProfileEdit(props) {
   return (
     <>
      
-      <div className="profile-container">
-        <div style={{ alignSelf: "center" }}>
-          <label htmlFor="file-input">
+      <div className='profile-container'>
+        <div style={{ alignSelf: 'center' }}>
+          <label htmlFor='file-input'>
           <Avatar style={{ backgroundImage: `url(${url})` }} />
-          <input id="file-input" type="file" title="upload" onChange={photoDownload} />
+          <input id='file-input' type='file' title='upload' onChange={photoDownload} />
           </label>
          
         </div>
 
-        <form onSubmit={patchData} className="edit">
+        <form onSubmit={patchData} className='edit'>
           <span
-            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
+            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
           >
             Workplace:
           </span>
           <label>
             <input
-              title="workplace"
+              title='workplace'
               value={workplace}
               onChange={handleChangeWorkplace}
-              type="text"
-              name="workplace"
-              className="profileInput"
+              type='text'
+              name='workplace'
+              className='profileInput'
               required
             />
           </label>
           <span
-            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
+            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
           >
             Favorite:
           </span>
           <label>
             <input
-              title="favorite"
+              title='favorite'
               value={favorite}
               onChange={handleChangeFavorite}
-              type="text"
-              name="favorite"
-              className="profileInput"
+              type='text'
+              name='favorite'
+              className='profileInput'
               required
             />
           </label>
           <span
-            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
+            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
           >
             About:
           </span>
           <label>
             <input
-              title="about"
+              title='about'
               value={about}
               onChange={handleChangeAbout}
-              type="text"
-              name="about"
-              className="profileInput"
+              type='text'
+              name='about'
+              className='profileInput'
               required
             />
           </label>
           <span
-            style={{ textShadow: "none", marginBottom: "8px", color: "#fff" }}
+            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
           >
             Beverage:
           </span>
           <label>
             <input
-              title="beverage"
+              title='beverage'
               value={beverage}
               onChange={handleChangeBeverage}
-              type="text"
-              name="beverage"
-              className="profileInput"
+              type='text'
+              name='beverage'
+              className='profileInput'
               required
             />
           </label>
           <button
-            style={{ margin: "0 auto" }}
-            className="saveButton"
+            style={{ margin: '0 auto' }}
+            className='saveButton'
           >
-            {" "}
+            {' '}
             Save changes
-            {" "}
+            {' '}
           </button>
-          <div style={{ marginTop: "15px", color: "#fff" }}>
-            {" "}
+          <div style={{ marginTop: '15px', color: '#fff' }}>
+            {' '}
             {save}
           </div>
         </form>
 
-        <div className="quitEdit" style={{ margin: "0 auto" }}>
-          <Link to="/listUsers" style={{ position: "relative" }}>
-           <img src="./images/back.svg" width="100" height="100" alt="BackToListPage" title="BackToListPage" />
+        <div className='quitEdit' style={{ margin: '0 auto' }}>
+          <Link to='/listUsers' style={{ position: 'relative' }}>
+           <img src='./images/back.svg' width='100' height='100' alt='BackToListPage' title='BackToListPage' />
           </Link>
         </div>
 
-        <div className="exit" style={{ margin: "0 auto" }}>
-          <Link to="/login" onClick={LogOut} style={{ position: "relative" }}>
-            <img src="./images/exit.svg" width="100" height="100" alt="Logout" title="Logout" />
+        <div className='exit' style={{ margin: '0 auto' }}>
+          <Link to='/login' onClick={LogOut} style={{ position: 'relative' }}>
+            <img src='./images/exit.svg' width='100' height='100' alt='Logout' title='Logout' />
           </Link>
         </div>
   
-        <button onClick={handleDelete} className="deleteAccount">
+        <button onClick={handleDelete} className='deleteAccount'>
 					Delete
 				</button>
        

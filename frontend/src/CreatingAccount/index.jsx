@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import axios from "axios";
-import ImageUpload from "./PhotoUpload";
+import React, { useState } from 'react';
+import axios from 'axios';
+import ImageUpload from './PhotoUpload';
 import { useCookies } from 'react-cookie'
-import { useNavigate } from "react-router-dom";
-import { FromProcess, FromProcessContainer, ButtonCreate } from "./CreatingElements";
+import { useNavigate } from 'react-router-dom';
+import { FromProcess, FromProcessContainer, ButtonCreate } from './CreatingElements';
 
 function CreatingAccount () {
   let navigate = useNavigate();
@@ -11,12 +11,12 @@ function CreatingAccount () {
   const [state, setState] = useState({
     user: cookies.UserId,
     currentStep: 1,
-    name: "",
-    doB: "",
-    workplace: "",
-    favorite: "",
-    beverage: "",
-    about: ""
+    name: '',
+    doB: '',
+    workplace: '',
+    favorite: '',
+    beverage: '',
+    about: ''
   });
 
   const handleChange = e => {
@@ -65,9 +65,9 @@ function CreatingAccount () {
       return (
         <>
           <ButtonCreate
-            style={{ color: "#3103ff" }}
-            className="btn"
-            type="button"
+            style={{ color: '#3103ff' }}
+            className='btn'
+            type='button'
             onClick={_prev}
           >
             Previous
@@ -84,14 +84,14 @@ function CreatingAccount () {
     if (currentStep < 3) {
       return (
         <ButtonCreate
-          className="btn"
-          type="button"
+          className='btn'
+          type='button'
           onClick={_next}
-          data-cy="next-process"
+          data-cy='next-process'
           style={{
-            marginBottom: "25px",
-            color: "#FFF",
-            backgroundColor: "#3103ff"
+            marginBottom: '25px',
+            color: '#FFF',
+            backgroundColor: '#3103ff'
           }}
         >
           Next
@@ -137,39 +137,39 @@ function Step1(props) {
     return null;
   }
   return (
-    <div className="form-group">
+    <div className='form-group'>
       <label>
         <input
           value={props.name}
           onChange={props.handleChange}
-          type="text"
-          name="name"
-          placeholder="Your name"
+          type='text'
+          name='name'
+          placeholder='Your name'
           required
-          data-cy="input-name-process"
+          data-cy='input-name-process'
         />
       </label>
       <label>
         <input
           value={props.doB}
           onChange={props.handleChange}
-          type="date"
-          name="doB"
-          placeholder="Date of Birth"
-          max="2010-01-01"
-          min="1930-12-31"
+          type='date'
+          name='doB'
+          placeholder='Date of Birth'
+          max='2010-01-01'
+          min='1930-12-31'
           required
-          data-cy="input-dob-process"
+          data-cy='input-dob-process'
         />
       </label>
       <label>
         <input
           value={props.workplace}
           onChange={props.handleChange}
-          type="text"
-          name="workplace"
-          placeholder="Workplace or study: (Optional)"
-          data-cy="input-workplace-process"
+          type='text'
+          name='workplace'
+          placeholder='Workplace or study: (Optional)'
+          data-cy='input-workplace-process'
         />
       </label>
     </div>
@@ -181,23 +181,23 @@ function Step2(props) {
     return null;
   }
   return (
-    <div className="form-group">
+    <div className='form-group'>
       <label>
         <input
           value={props.favorite}
           onChange={props.handleChange}
-          type="text"
-          name="favorite"
-          placeholder="Favorite: (Optional)" 
+          type='text'
+          name='favorite'
+          placeholder='Favorite: (Optional)' 
         />
       </label>
       <label>
         <input
-          type="text"
+          type='text'
           value={props.beverage}
           onChange={props.handleChange}
-          name="beverage"
-          placeholder="Beverage: (Optional)"
+          name='beverage'
+          placeholder='Beverage: (Optional)'
         />
       </label>
     </div>
@@ -211,26 +211,26 @@ function Step3(props) {
   return (
     <>
       <ImageUpload/>
-      <div className="form-group">
+      <div className='form-group'>
         <label>
           <input
             value={props.about}
             onChange={props.handleChange}
-            className="form-control"
-            type="text"
-            name="about"
-            placeholder="Caption (Optional)"
+            className='form-control'
+            type='text'
+            name='about'
+            placeholder='Caption (Optional)'
           />
         </label>
       </div>
       <button
-        type="submit"
-        className="btn"
-        data-cy="submit-process"
+        type='submit'
+        className='btn'
+        data-cy='submit-process'
         style={{
-          backgroundColor: "#3103ff",
-          marginBottom: "25px",
-          color: "#FFF"
+          backgroundColor: '#3103ff',
+          marginBottom: '25px',
+          color: '#FFF'
         }}
       >
         Save it

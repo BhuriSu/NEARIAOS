@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { useCookies } from "react-cookie";
+import React, { useState } from 'react';
+import { useCookies } from 'react-cookie';
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
-} from "firebase/storage";
-import styled from "styled-components";
+} from 'firebase/storage';
+import styled from 'styled-components';
 
 const Avatar = styled.div`
 width: 250px;
@@ -15,9 +15,9 @@ cursor: pointer;
 `;
 
 function Photo() {
-  const [cookies] = useCookies(["userName"]);
+  const [cookies] = useCookies(['userName']);
   const [image, setImage] = useState(null);
-  const [url, setUrl] = useState("./images/UploadPic.svg");
+  const [url, setUrl] = useState('./images/UploadPic.svg');
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -27,23 +27,23 @@ function Photo() {
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(
-        "state_changed",
+        'state_changed',
         () => {
-          setUrl("./loading.gif");
+          setUrl('./loading.gif');
         },
         (error) => {
           switch (error.code) {
-            case "storage/unauthorized":
-              console.log("storage is unauthorized");
+            case 'storage/unauthorized':
+              console.log('storage is unauthorized');
               break;
-            case "storage/canceled":
-              console.log("storage is canceled");
+            case 'storage/canceled':
+              console.log('storage is canceled');
               break;
-            case "storage/unknown":
-              console.log("storage is unknown");
+            case 'storage/unknown':
+              console.log('storage is unknown');
               break;
             default:
-              console.log("sorry it is not about storage");
+              console.log('sorry it is not about storage');
           }
         },
         () => {
@@ -56,10 +56,10 @@ function Photo() {
   };
 
   return (
-    <div style={{ alignSelf: "center" }}>
-      <label htmlFor="file-input">
+    <div style={{ alignSelf: 'center' }}>
+      <label htmlFor='file-input'>
         <Avatar style={{ backgroundImage: `url(${url})` }} />
-        <input id="file-input" type="file" title="upload" onChange={handleChange} />
+        <input id='file-input' type='file' title='upload' onChange={handleChange} />
       </label>
      
     </div>
