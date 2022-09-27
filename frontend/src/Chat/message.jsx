@@ -1,23 +1,35 @@
-import React from 'react';
-import { auth } from '../Firebase/firebase';
-const style = {
-  message: `flex items-center shadow-xl m-4 py-2 px-3 rounded-tl-full rounded-tr-full`,
-  name: `absolute mt-[-4rem] text-gray-600 text-xs`,
-  sent: `bg-[#395dff] text-white flex-row-reverse text-end float-right rounded-bl-full`,
-  received: `bg-[#e5e5ea] text-black float-left rounded-br-full`,
-};
+import React, { useContext, useEffect, useRef } from 'react';
+import { userAuthContext } from '../context/UserAuthContext';
+import { ChatContext } from '../context/ChatContext';
 
 const Message = ({ message }) => {
-  const messageClass = 
-  message.uid === auth.currentUser.uid
-  ? `${style.sent}`
-  : `${style.received}`
+  const { currentUser } = useContext(userAuthContext);
+  const { data } = useContext(ChatContext);
+  const ref = useRef();
+
+  useEffect(() => {
+    ref.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [message]);
 
   return (
-    <div>
-      <div className={`${style.message} ${messageClass}`}>
-        <p className={style.name}>{message.name}</p>
+    <div
+      ref={ref}
+      className={`message ${message.senderId === currentUser.uid && 'owner'}`}
+    >
+      <div className='messageInfo'>
+        <img
+          src={
+            message.senderId === currentUser.uid
+              ? currentUser.photoURL
+              : data.user.photoURL
+          }
+          alt=''
+        />
+        <span>just now</span>
+      </div>
+      <div className='messageContent'>
         <p>{message.text}</p>
+        {message.img && <img src={message.img} alt='' />}
       </div>
     </div>
   );

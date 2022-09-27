@@ -24,7 +24,6 @@ function ListUsers() {
   const [isShowMap, setShowMap] = useState(false);
   const [setUser] = useState("");
   const [url, setUrl] = useState("");
-
   const database = ref(getDatabase());
   const pushRoom = child(database, `${cookies.userName}`);
 

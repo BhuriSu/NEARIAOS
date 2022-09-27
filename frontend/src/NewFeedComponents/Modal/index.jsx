@@ -85,9 +85,9 @@ function ModalWindow(props) {
               }}
             />
             <List style={{ padding: "0 3rem", fontSize: "large" }}>
-              <List.Item icon="briefcase" content={profile.activity} />
-              <List.Item icon="glass martini" content={profile.drinks} />
-              <List.Item icon="comments" content={profile.topics} />
+              <List.Item icon="briefcase" content={profile.workplace} />
+              <List.Item icon="glass martini" content={profile.beverage} />
+              <List.Item icon="comments" content={profile.favorite} />
               <List.Item icon="info circle" content={profile.about} />
             </List>
           </Modal.Description>
