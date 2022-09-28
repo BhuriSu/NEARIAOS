@@ -96,9 +96,8 @@ export const MessageContainer = styled.div`
 display: flex;
 gap: 20px;
 margin-bottom: 20px;
-&.owner {
+{props=>props.owner && 
   flex-direction: row-reverse;
-
   .messageContent {
     align-items: flex-end;
     p {
@@ -108,7 +107,7 @@ margin-bottom: 20px;
     }
   }
 }
-`
+`;
 export const MessageInfo = styled.div`
 display: flex;
 flex-direction: column;

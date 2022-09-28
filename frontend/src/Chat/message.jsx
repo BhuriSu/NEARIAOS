@@ -14,7 +14,7 @@ const Message = ({ message }) => {
   return (
     <MessageContainer
       ref={ref}
-      className={`${message.senderId === currentUser.uid && 'owner'}`}
+      owner={message.senderId === currentUser.uid}  
     >
       <MessageInfo>
         <img
