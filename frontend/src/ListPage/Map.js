@@ -2,8 +2,6 @@ import React from 'react';
 import {
   Button, Header, Modal, List,
 } from 'semantic-ui-react';
-import axios from 'axios';
-import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { GoogleMap, Marker, Circle, LoadScript } from '@react-google-maps/api';
 import styles from './GoogleMapStyles.json';
@@ -16,21 +14,6 @@ function Map({
   radius,
   url,
  }) {
-  const [cookies] = useCookies(['userName']);
- 
-  function sendRequest(id) {
-    axios.post('/database', {
-      ID1: cookies.userName,
-      ID2: id,
-    });
-  }
-
-  function getChatName(a, b) {
-    if (a > b) {
-      return `${a}+${b}`;
-    }
-    return `${b}+${a}`;
-  }
   
   function CMap(props) {
    
@@ -105,11 +88,9 @@ function Map({
               style={{ backgroundColor: '#0f4667', textAlign: 'center' }}
             >
               <Link
-                onClick={() => sendRequest(profile._id)}
                 to={{
                   pathname: '/chat',
-                  state: {
-                    chats: getChatName(cookies.userName, profile.person),
+                  state: { 
                     name: profile.name,
                     url,
                     friend: profile.person,

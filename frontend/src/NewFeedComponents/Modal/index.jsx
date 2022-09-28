@@ -1,10 +1,7 @@
 import React from 'react';
-import axios from 'axios';
 import {
   Button, Header, Modal, List, Card
 } from 'semantic-ui-react';
-import './modal.css';
-import { useCookies } from 'react-cookie';
 import { Link } from 'react-router-dom';
 import { Mini, AvatarModal } from './ModalElements';
 
@@ -14,20 +11,7 @@ function ModalWindow(props) {
   const age = Math.floor(
     (new Date() - new Date(profile.DoB)) / (24 * 3600 * 365.25 * 1000),
   );
-  const [cookies] = useCookies(['userName']);
-  function sendRequest() {
-    axios.post('/database', {
-      ID1: cookies.userName,
-      ID2: profile.person,
-    });
-  }
 
-  function getChatName(a, b) {
-    if (a > b) {
-      return `${a}+${b}`;
-    }
-    return `${b}+${a}`;
-  }
   return (
     <div>
       <Modal
@@ -95,19 +79,15 @@ function ModalWindow(props) {
         <Modal.Actions
           style={{ backgroundColor: 'rgb(124, 42, 255)', textAlign: 'center' }}
         >
-          <Link
-            onClick={sendRequest}
-            to={{
+          <Link  to={{
               pathname: '/chat',
               state: {
-                chats: getChatName(cookies.userName, profile.person),
                 name: profile.name,
                 url,
                 friend: profile.person,
                 urlFriend: profile.url,
               },
-            }}
-          >
+            }} >
             <Button
               style={{
                 color: 'rgb(124, 42, 255)',
