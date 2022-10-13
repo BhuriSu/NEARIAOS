@@ -6,27 +6,23 @@ import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
 import FormLabel from '@mui/material/FormLabel';
-import Checkbox from '@mui/material/Checkbox';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 const SignUp = () => {
     const paperStyle = { padding: 20, width: 300, margin: '0 auto' };
     const headerStyle = { margin: 0 };
     const avatarStyle = { backgroundColor: '#ff0593' };
-    const btnStyle = {backgroundColor: '#ff0593'};
-    const marginTop = { marginTop: 5 };
+    const btnStyle = {  marginTop: 5,backgroundColor: '#ff0593' };
+    const marginTop = { marginTop: 4 };
     
     const { signUp } = useUserAuth();
     let navigate = useNavigate();
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
-    const [error, setError] = useState(null);
+    const [ setError] = useState(null);
     const handleSubmit = async (e) => { 
         e.preventDefault()
-
         try {
             await signUp(email, password);
             navigate('/process');
@@ -81,16 +77,12 @@ const SignUp = () => {
                     required={true}
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     />
-                    <FormControlLabel
-                        control={<Checkbox name='checkedA' />}
-                        label='I accept the terms and conditions.'
-                    />
-                    <Button type='submit' variant='contained' style={btnStyle}>Sign up</Button>
+                    
+                    <Button type='submit'
+                     variant='contained' style={btnStyle}>Sign up</Button>
                 
                 </form>
-                <Stack sx={{ width: '100%' }} >
-                {error && <Alert severity="error">{error}</Alert>}
-                </Stack>
+               
             </Paper>
         </Grid>
     )

@@ -3,18 +3,18 @@ import React, {
     useContext,
     useReducer,
   } from 'react';
-  import { AuthContext } from './UserAuthContext';
+import { userAuthContext } from './UserAuthContext';
   
-  export const ChatContext = createContext();
+export const ChatContext = createContext();
   
-  export const ChatContextProvider = ({ children }) => {
-    const { currentUser } = useContext(AuthContext);
+export const ChatContextProvider = ({ children }) => {
+    const { currentUser } = useContext(userAuthContext);
     const INITIAL_STATE = {
       chatId: 'null',
       user: {},
     };
   
-    const chatReducer = (state, action) => {
+const chatReducer = (state, action) => {
       switch (action.type) {
         case 'CHANGE_USER':
           return {
@@ -30,7 +30,7 @@ import React, {
       }
     };
   
-    const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
+const [state, dispatch] = useReducer(chatReducer, INITIAL_STATE);
   
     return (
       <ChatContext.Provider value={{ data:state, dispatch }}>

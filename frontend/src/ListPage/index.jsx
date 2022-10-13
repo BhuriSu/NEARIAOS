@@ -7,12 +7,14 @@ import Map from './Map';
 import ModalWindow from '../NewFeedComponents/Modal';
 import './listUsers.css';
 import { ListPageBackground, ToggleBox } from './ListPageElement';
+import { Button } from '@mui/material';
 
 /**
  * @param {*} props
  */
 
 function ListUsers() {
+  const btnStyle = { marginTop: 5,backgroundColor: '#00eeff',color:'#000' };
   const [cookies] = useCookies(['userName']);
   const [radius, setRadius] = useState('');
   const [list, setList] = useState({
@@ -20,7 +22,6 @@ function ListUsers() {
     err: '',
   });
 
-  const [isColorBtn, setColorBtn] = useState('FindMe');
   const [isShowMap, setShowMap] = useState(false);
   const [setUser] = useState('');
   const [url, setUrl] = useState('');
@@ -102,7 +103,6 @@ function ListUsers() {
   };
 
   const geoFindLocation = () => {
-    setColorBtn('whiteBorder');
     const success = (position) => {
       setLatitude(position.coords.latitude);
       setLongitude(position.coords.longitude);
@@ -183,22 +183,14 @@ function ListUsers() {
             )}
             &nbsp;
           </label>
-          <button
+          <Button  
+            variant='contained' 
             id='find-me'
-            className={isColorBtn}
             onClick={() => geoFindLocation()}
-            style={{
-              display: 'block',
-              color: '#FFF',
-              backgroundColor: 'transparent',
-              position: 'relative',
-              margin: '0 auto',
-              width: '25rem',
-              textShadow: 'none',
-            }}
+            style={btnStyle}
           >
             FIND ME SOMEONE
-          </button>
+          </Button>
 
           {list.success ? (
           <ToggleBox>

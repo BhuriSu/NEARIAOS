@@ -3,9 +3,11 @@ import axios from 'axios';
 import ImageUpload from './PhotoUpload';
 import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom';
-import { FromProcess, FromProcessContainer, ButtonCreate } from './CreatingElements';
-
+import { FromProcess, FromProcessContainer } from './CreatingElements';
+import { TextField, Button } from '@mui/material';
+import Stack from '@mui/material/Stack';
 function CreatingAccount () {
+  const btnStyle={margin:'8px 0',backgroundColor:'#7300ff'};
   let navigate = useNavigate();
   const [cookies] = useCookies(null)
   const [state, setState] = useState({
@@ -64,14 +66,14 @@ function CreatingAccount () {
     if (currentStep !== 1) {
       return (
         <>
-          <ButtonCreate
-            style={{ color: '#3103ff' }}
-            className='btn'
+          <Button
+            style={btnStyle}
+            variant='contained'
             type='button'
             onClick={_prev}
           >
             Previous
-          </ButtonCreate>
+          </Button>
           <br />
         </>
       );
@@ -83,19 +85,15 @@ function CreatingAccount () {
     let currentStep = state.currentStep;
     if (currentStep < 3) {
       return (
-        <ButtonCreate
-          className='btn'
+        <Button
+          style={btnStyle}
           type='button'
           onClick={_next}
           data-cy='next-process'
-          style={{
-            marginBottom: '25px',
-            color: '#FFF',
-            backgroundColor: '#3103ff'
-          }}
+          variant='contained'
         >
           Next
-        </ButtonCreate>
+        </Button>
       );
     }
     return null;
@@ -137,9 +135,10 @@ function Step1(props) {
     return null;
   }
   return (
-    <div className='form-group'>
+ 
+    <Stack spacing={3}>
       <label>
-        <input
+        <TextField
           value={props.name}
           onChange={props.handleChange}
           type='text'
@@ -149,30 +148,31 @@ function Step1(props) {
           data-cy='input-name-process'
         />
       </label>
+
       <label>
-        <input
-          value={props.doB}
+      <TextField
+          value={props.DoB}
           onChange={props.handleChange}
-          type='date'
-          name='doB'
-          placeholder='Date of Birth'
-          max='2010-01-01'
-          min='1930-12-31'
+          className="form-control"
+          type="date"
+          name="DoB"
+          placeholder="Date of Birth"
           required
-          data-cy='input-dob-process'
         />
       </label>
+     
       <label>
-        <input
+        <TextField
           value={props.workplace}
           onChange={props.handleChange}
           type='text'
           name='workplace'
-          placeholder='Workplace or study: (Optional)'
+          placeholder='Workplace: (Optional)'
           data-cy='input-workplace-process'
         />
       </label>
-    </div>
+    </Stack>
+    
   );
 }
 
@@ -181,9 +181,9 @@ function Step2(props) {
     return null;
   }
   return (
-    <div className='form-group'>
+    <Stack spacing={2}>
       <label>
-        <input
+        <TextField
           value={props.favorite}
           onChange={props.handleChange}
           type='text'
@@ -192,7 +192,7 @@ function Step2(props) {
         />
       </label>
       <label>
-        <input
+        <TextField
           type='text'
           value={props.beverage}
           onChange={props.handleChange}
@@ -200,7 +200,7 @@ function Step2(props) {
           placeholder='Beverage: (Optional)'
         />
       </label>
-    </div>
+      </Stack>
   );
 }
 
@@ -210,10 +210,11 @@ function Step3(props) {
   }
   return (
     <>
+      <Stack spacing={2}>
       <ImageUpload/>
-      <div className='form-group'>
+     
         <label>
-          <input
+          <TextField
             value={props.about}
             onChange={props.handleChange}
             className='form-control'
@@ -222,20 +223,18 @@ function Step3(props) {
             placeholder='Caption (Optional)'
           />
         </label>
-      </div>
-      <button
+ 
+      <Button
         type='submit'
-        className='btn'
+        variant='contained'
         data-cy='submit-process'
         style={{
-          backgroundColor: '#3103ff',
-          marginBottom: '25px',
-          color: '#FFF'
+         margin:'8px 0',backgroundColor:'#7300ff'
         }}
       >
         Save it
-      </button>
-      
+      </Button>
+      </Stack>
     </>
   );
 }

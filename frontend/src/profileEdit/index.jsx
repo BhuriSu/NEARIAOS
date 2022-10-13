@@ -6,17 +6,13 @@ import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
 } from 'firebase/storage';
 import './profileEdit.css';
-import styled from 'styled-components';
-const Avatar = styled.div`
-width: 250px;
-height: 250px;
-border-radius: 50%;
-background-size: cover;
-background-position: center;
-cursor: pointer;
-`;
+import { BackgroundProfileContainer, Avatar, BackToListPage, LogOutLine, StyledInput} from './profileEditsElements'
+import { Button } from '@mui/material';
+
 
 function ProfileEdit(props) {
+  const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
+  const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'}
   const [cookies, removeCookies] = useCookies([
     'userName',
     'userNickname',
@@ -158,111 +154,115 @@ function ProfileEdit(props) {
   return (
     <>
      
-      <div className='profile-container'>
+      <BackgroundProfileContainer>
         <div style={{ alignSelf: 'center' }}>
           <label htmlFor='file-input'>
           <Avatar style={{ backgroundImage: `url(${url})` }} />
           <input id='file-input' type='file' title='upload' onChange={photoDownload} />
           </label>
-         
         </div>
-
-        <form onSubmit={patchData} className='edit'>
+        <br/>
+        <form onSubmit={patchData}>
+        
+          
           <span
-            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
+            style={{ textShadow: 'none', color: '#fff' }}
           >
-            Workplace:
-          </span>
-          <label>
-            <input
+            Workplace: 
+            <label>
+            <StyledInput
               title='workplace'
               value={workplace}
               onChange={handleChangeWorkplace}
               type='text'
               name='workplace'
-              className='profileInput'
               required
             />
           </label>
+          </span>
+          <br/>
           <span
-            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
+            style={{ textShadow: 'none',  color: '#fff' }}
           >
             Favorite:
-          </span>
-          <label>
-            <input
+            <label>
+            <StyledInput
               title='favorite'
               value={favorite}
               onChange={handleChangeFavorite}
               type='text'
               name='favorite'
-              className='profileInput'
               required
             />
           </label>
+          </span>
+          <br/>
           <span
-            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
+            style={{ textShadow: 'none', color: '#fff' }}
           >
             About:
-          </span>
-          <label>
-            <input
+            <label>
+            <StyledInput
               title='about'
               value={about}
               onChange={handleChangeAbout}
               type='text'
               name='about'
-              className='profileInput'
               required
             />
           </label>
+          </span>
+          <br/>
           <span
-            style={{ textShadow: 'none', marginBottom: '8px', color: '#fff' }}
+            style={{ textShadow: 'none', color: '#fff' }}
           >
             Beverage:
-          </span>
-          <label>
-            <input
+            <label>
+            <StyledInput
               title='beverage'
               value={beverage}
               onChange={handleChangeBeverage}
               type='text'
               name='beverage'
-              className='profileInput'
               required
             />
           </label>
-          <button
-            style={{ margin: '0 auto' }}
-            className='saveButton'
-          >
-            {' '}
+          </span>
+     
+       
+        </form>
+        <br/>
+        <br/>
+        <Button style={SaveBtnStyle}  variant='contained'>
             Save changes
-            {' '}
-          </button>
-          <div style={{ marginTop: '15px', color: '#fff' }}>
+        </Button>
+        <div style={{ marginTop: '15px', color: '#fff' }}>
             {' '}
             {save}
-          </div>
-        </form>
-
-        <div className='quitEdit' style={{ margin: '0 auto' }}>
+        </div>
+        <br/>
+        <br/>
           <Link to='/listUsers' style={{ position: 'relative' }}>
-           <img src='./images/back.svg' width='100' height='100' alt='BackToListPage' title='BackToListPage' />
+          <BackToListPage>
+          Back to ListPage
+          </BackToListPage>
           </Link>
-        </div>
-
-        <div className='exit' style={{ margin: '0 auto' }}>
-          <Link to='/login' onClick={LogOut} style={{ position: 'relative' }}>
-            <img src='./images/exit.svg' width='100' height='100' alt='Logout' title='Logout' />
+   
+        <br/>
+      
+          <Link to='/startForm' onClick={LogOut} style={{ position: 'relative' }}>
+          <LogOutLine>
+           Log out
+          </LogOutLine>
           </Link>
-        </div>
-  
-        <button onClick={handleDelete} className='deleteAccount'>
+    
+        <br/>
+        <Button variant='contained' style={btnStyle} onClick={handleDelete} >
 					Delete
-				</button>
+				</Button>
        
-      </div>
+      </BackgroundProfileContainer>
+      
     </>
   );
 }

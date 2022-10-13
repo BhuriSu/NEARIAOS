@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
-import { userAuthContext } from '../context/UserAuthContext';
+import { userAuthContext } from '../Context/UserAuthContext';
 import { NavbarChat, LogoChat, User } from './ChatElements';
 const Navbar = () => {
   const {currentUser} = useContext(userAuthContext)

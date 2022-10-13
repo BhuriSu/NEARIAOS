@@ -75,7 +75,6 @@ export const StyledTextArea = styled.textarea`
     color: #000;
   }
 `;
-
 export const StyledInput = styled.input`
   width: 100%;
   background-color: #00ffa6;

@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import Img from '../images/ImagesInChatPage/img.svg';
 import Attach from '../images/ImagesInChatPage/attach.svg';
-import { userAuthContext } from '../context/UserAuthContext';
-import { ChatContext } from '../context/ChatContext';
+import { userAuthContext } from '../Context/UserAuthContext';
+import { ChatContext } from '../Context/ChatContext';
 import {
   arrayUnion,
   doc,
@@ -10,7 +10,8 @@ import {
   Timestamp,
   updateDoc,
 } from 'firebase/firestore';
-import { db, storage } from '../Firebase/firebase';
+import  db  from '../Firebase/firebase';
+import { storage } from '../Firebase/firebase';
 import { v4 as uuid } from 'uuid';
 import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
 import { InputChatContainer, SendContainer } from './ChatElements';

@@ -3,12 +3,11 @@ import { Link as LinkR } from 'react-router-dom';
 
 export const BackgroundContainer = styled.div`
 background-color: #000;
-height: 700px;
+height: 800px;
 display: flex;
 flex-direction: column;
 justify-content: center;
 align-items: center;
-
 
 @media screen and (max-width: 1024px) {
   height: 1400px;

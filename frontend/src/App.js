@@ -13,14 +13,14 @@ import ListPage from './pages/listUsers';
 import PrivacyPage from './pages/privacy';
 import LogInAndSignUpPage from './pages/startForm';
 import ForgotPassPage from './pages/forgotPass';
-import { UserAuthContextProvider } from "./Context/UserAuthContext";
+
 
 function App() {
 
   return (
 
     <Router>
-        <UserAuthContextProvider>
+      
         <Routes>
           <Route path='/' element={<Home/>} exact />
           <Route path='/premium' element={<PremiumPage/>} />
@@ -33,7 +33,7 @@ function App() {
           <Route path='/privacy' element={<PrivacyPage/>} />
           <Route path='/forgotPass' element={<ForgotPassPage/>} />
         </Routes>
-        </UserAuthContextProvider>
+      
     </Router>
    
 

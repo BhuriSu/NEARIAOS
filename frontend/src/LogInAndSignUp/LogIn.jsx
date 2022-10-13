@@ -7,8 +7,7 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { useNavigate } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+
 const LogIn=({handleChange})=>{
 
     const paperStyle={padding :20, width:300, margin:'0 auto'};
@@ -17,7 +16,7 @@ const LogIn=({handleChange})=>{
     const btnGoogleStyle={backgroundColor:'#ff003f'};
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const [error, setError] = useState(null);
+    const [setError] = useState(null);
     const { logIn, googleSignIn } = useUserAuth();
     const navigate = useNavigate();
 
@@ -96,9 +95,7 @@ const LogIn=({handleChange})=>{
                 Login with Google
                 </Button>
                 </form>
-                <Stack sx={{ width: '100%' }} >
-                {error && <Alert severity="error">{error}</Alert>}
-                </Stack>
+               
             </Paper>
         </Grid>
     )

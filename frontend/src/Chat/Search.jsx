@@ -11,7 +11,7 @@ import {
   getDoc,
 } from 'firebase/firestore';
 import { db } from '../Firebase/firebase';
-import { userAuthContext } from '../context/UserAuthContext';
+import { userAuthContext } from '../Context/UserAuthContext';
 import { SearchContainer, SearchForm, UserChat, UserChatInfo } from './ChatElements';
 const Search = () => {
   const [username, setUsername] = useState('');

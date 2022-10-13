@@ -9,7 +9,7 @@ import SignIn from './SignUp';
 import { BackgroundContainer, Logo } from './FormElements';
 
 const SignInOutContainer=()=>{
-  const [value,setValue]=useState(0);
+  const [value, setValue]=useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };

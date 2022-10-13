@@ -30,9 +30,4 @@ background:#afdbfa;
   height: 900px;
 }
 `;
-export const ButtonCreate = styled.button`
-border: 0;
-outline: 0;
-font-size: 16px;
-text-align: center;
-`;
+
