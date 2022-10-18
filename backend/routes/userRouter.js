@@ -4,7 +4,7 @@ import { Users, DetailUsers, UpdateUsers, DeleteUsers } from '../controllers/use
 const userRouter = Router();
 
 userRouter.get('/', Users);
-userRouter.post('/profile', DetailUsers);
+userRouter.put('/profile', DetailUsers);
 userRouter.patch('/profile', UpdateUsers);
 userRouter.delete('/delete/:id', DeleteUsers);
 

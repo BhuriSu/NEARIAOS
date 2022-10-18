@@ -30,11 +30,7 @@ function SidebarNewFeed({ isOpen, toggle }) {
               </NavLinks>
               <br/>
 
-              <div className='quitEdit' style={{ margin: '0 auto' }}>
-              <NavLinks to='/listUsers' style={{ position: 'relative' }}>
-              <img src='./images/back.svg' width='100' height='100' alt='BackToListPage' title='BackToListPage' />
-              </NavLinks>
-              </div>
+              
         </SidebarNewFeedMenu>
        
       </SidebarNewFeedWrapper>

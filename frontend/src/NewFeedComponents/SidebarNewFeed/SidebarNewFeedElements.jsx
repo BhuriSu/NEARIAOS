@@ -4,6 +4,7 @@ import { FaTimes } from "react-icons/fa";
 
 export const SidebarNewFeedContainer = styled.aside`
   position: fixed;
+  margin-top:24px;
   z-index: 800;
   width: 100%;
   height: 100%;

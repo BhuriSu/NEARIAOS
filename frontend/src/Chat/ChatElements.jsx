@@ -190,3 +190,8 @@ justify-content: space-between;
 padding: 10px;
 color: lightgray;
 `;
+export const BackToListPage = styled.p`
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+`;

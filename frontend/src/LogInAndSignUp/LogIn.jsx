@@ -16,7 +16,6 @@ const LogIn=({handleChange})=>{
     const btnGoogleStyle={backgroundColor:'#ff003f'};
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
-    const [setError] = useState(null);
     const { logIn, googleSignIn } = useUserAuth();
     const navigate = useNavigate();
 
@@ -26,7 +25,6 @@ const LogIn=({handleChange})=>{
             await logIn(email, password);
             navigate('/listUsers');
         } catch (error) {
-            setError(error);
             console.log(error);
         }
     }
@@ -37,7 +35,6 @@ const LogIn=({handleChange})=>{
           await googleSignIn();
           navigate('/listUsers');
         } catch (error) {
-          setError(error);
           console.log(error);
         }
       };
