@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
@@ -26,8 +26,7 @@ function ProfileEdit(props) {
   const id = cookies.userName;
   const { user } = props;
   const [image, setImage] = useState(null);
-  const navigate = useNavigate();
-  const { _id } = useParams();
+  
 
   function patchData(event) {
     event.preventDefault();
@@ -143,12 +142,7 @@ function ProfileEdit(props) {
   }
 
   async function handleDelete(){
-    try {
-			await axios.delete(`/users/delete/${_id}`);
-			navigate('/');
-		} catch (error) {
-			console.error(error);
-		}
+ 
   }
 
   return (

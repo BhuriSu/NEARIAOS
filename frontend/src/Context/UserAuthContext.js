@@ -8,7 +8,7 @@ import {
   signInWithPopup,
   sendPasswordResetEmail,
 } from 'firebase/auth';
-import { auth } from '../Firebase/firebase';
+import  auth  from '../Firebase/firebase';
 
 export const userAuthContext = createContext();
 

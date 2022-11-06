@@ -47,14 +47,4 @@ export const UpdateUsers = asyncHandler( async (req, res) => {
   }
 });
 
-export const DeleteUsers = asyncHandler(async (req, res) => {
-  const id  = req.params.id;
-  const user = await Profile.findById(id).exec();
-  if (!user) {
-    return res.status(400).json("User not found");
-  }
-  const result = await user.deleteOne();
-  const reply = `Note '${result.title}' with ID ${result._id} deleted`
-  res.json(reply);
-});
 
