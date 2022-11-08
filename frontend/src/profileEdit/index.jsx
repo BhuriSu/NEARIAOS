@@ -5,10 +5,10 @@ import axios from 'axios';
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
 } from 'firebase/storage';
+import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
-import { BackgroundProfileContainer, Avatar, BackToListPage, LogOutLine, StyledInput} from './profileEditsElements'
+import { BackgroundProfileContainer, Avatar, BackToListPage, LogOutLine, StyledInput, BelowDelete } from './profileEditsElements'
 import { Button } from '@mui/material';
-
 
 function ProfileEdit(props) {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
@@ -26,7 +26,6 @@ function ProfileEdit(props) {
   const id = cookies.userName;
   const { user } = props;
   const [image, setImage] = useState(null);
-  
 
   function patchData(event) {
     event.preventDefault();
@@ -142,7 +141,7 @@ function ProfileEdit(props) {
   }
 
   async function handleDelete(){
- 
+    deleteUser(getAuth().currentUser)
   }
 
   return (
@@ -254,6 +253,9 @@ function ProfileEdit(props) {
         <Button variant='contained' style={btnStyle} onClick={handleDelete} >
 					Delete
 				</Button>
+        <BelowDelete>
+        After click button your account will be deleted when log out
+        </BelowDelete>
        
       </BackgroundProfileContainer>
       

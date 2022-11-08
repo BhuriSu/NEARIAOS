@@ -28,7 +28,7 @@ export const DetailUsers = asyncHandler(async (req, res) => {
 }
 });
 
-export const UpdateUsers = asyncHandler( async (req, res) => {
+export const UpdateUsers = asyncHandler(async (req, res) => {
   const {
     workplace,
     favorite,
@@ -46,5 +46,6 @@ export const UpdateUsers = asyncHandler( async (req, res) => {
     res.send({ success: false, err: 'Try again' });
   }
 });
+
 
 

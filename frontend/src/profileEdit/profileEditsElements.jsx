@@ -56,3 +56,8 @@ export const StyledInput = styled.input`
     color: #000;
   }
 `;
+export const BelowDelete = styled.h2`
+  font-size: 1rem;
+  margin: 10px;
+  color: #ff0000;
+`;

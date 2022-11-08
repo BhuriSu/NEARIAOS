@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { Grid, Paper, Avatar, TextField, Button, Typography, Link } from '@mui/material';
+import { Grid, Paper, Avatar,  TextField, Button, Typography, Link } from '@mui/material';
 import { Google } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -25,7 +25,7 @@ const LogIn=({handleChange})=>{
             await logIn(email, password);
             navigate('/listUsers');
         } catch (error) {
-            console.log(error);
+           console.log(error);
         }
     }
     
@@ -92,7 +92,7 @@ const LogIn=({handleChange})=>{
                 Login with Google
                 </Button>
                 </form>
-               
+                
             </Paper>
         </Grid>
     )
