@@ -3,8 +3,6 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Grid, Paper, Avatar,  TextField, Button, Typography, Link } from '@mui/material';
 import { Google } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -62,15 +60,6 @@ const LogIn=({handleChange})=>{
                 fullWidth required
                 onChange={(e) => setPassword(e.target.value)}
                 />
-                <FormControlLabel
-                    control={
-                    <Checkbox
-                        name='checkedB'
-                        color='primary'
-                    />
-                    }
-                    label='Remember me'
-                 />
                 <Button type='submit' color='primary' variant='contained' style={btnStyle} fullWidth>Log In</Button>
                 <Typography >
                      <Link to='/forgotPass' component={RouterLink} >

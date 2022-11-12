@@ -61,7 +61,6 @@ function Photo() {
         <Avatar style={{ backgroundImage: `url(${url})` }} />
         <input id='file-input' type='file' title='upload' onChange={handleChange} />
       </label>
-     
     </div>
   );
 }
