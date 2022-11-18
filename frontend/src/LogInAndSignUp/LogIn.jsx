@@ -23,7 +23,8 @@ const LogIn=({handleChange})=>{
             await logIn(email, password);
             navigate('/listUsers');
         } catch (error) {
-           console.log(error);
+           const errorMessage = error.message;
+           alert(errorMessage);
         }
     }
     

@@ -7,24 +7,21 @@ export const Users = asyncHandler(async(req, res) => {
 });
 
 export const DetailUsers = asyncHandler(async (req, res) => {
-  const state = req.body.state;
   try {
-  const query = { user: state.user };
-  const updateDocument = {
-    $set: {
-        name: state.name,
-        doB: state.doB,
-        workplace: state.workplace,
-        favorite: state.favorite,
-        about: state.about,
-        beverage: state.beverage,
-        avatar: state.avatar
-    },
-} 
-  const insertedUser = await Profile.updateOne(query, updateDocument);
-  res.json(insertedUser);
-} catch(error) {
-  console.error(error);
+    const {
+      name,
+      doB,
+      workplace,
+      favorite,
+      beverage,
+      avatar
+    } = req.body;
+    await Profile.findOneAndUpdate({_id: req.user._id}, {
+      avatar, name, doB, workplace, favorite, beverage
+  })
+  res.json({msg: "Update Success!"})
+} catch (err) {
+  return res.status(500).json({msg: err.message})
 }
 });
 

@@ -34,7 +34,7 @@ function CreatingAccount () {
     e.preventDefault();
  
     try {
-        const response = await axios.put('/users/profile', { state });
+        const response = await axios.post('/users/profile', { state });
         console.log(response)
         const success = response.status === 200
         if (success) navigate('/listUsers')
