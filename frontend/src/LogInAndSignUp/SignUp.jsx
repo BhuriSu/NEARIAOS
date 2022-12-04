@@ -1,11 +1,6 @@
 import React, {useState} from 'react';
 import { Grid, Paper, Avatar, Typography, TextField, Button } from '@mui/material';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import Radio from '@mui/material/Radio';
-import RadioGroup from '@mui/material/RadioGroup';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import FormControl from '@mui/material/FormControl';
-import FormLabel from '@mui/material/FormLabel';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { useNavigate } from 'react-router-dom';
 const SignUp = () => {
@@ -13,7 +8,7 @@ const SignUp = () => {
     const headerStyle = { margin: 0 };
     const avatarStyle = { backgroundColor: '#ff0593' };
     const btnStyle = {  marginTop: 5,backgroundColor: '#ff0593' };
-    const marginTop = { marginTop: 4 };
+
     
     const { signUp } = useUserAuth();
     let navigate = useNavigate();
@@ -31,7 +26,16 @@ const SignUp = () => {
                 return
             }
         } catch (error) {
-            console.log(error)
+            const errorMessage = error.message;
+            if (errorMessage) {
+              alert("The email address is already in use");
+            } else if (errorMessage == "auth/invalid-email") {
+              alert("The email address is not valid.");
+            } else if (errorMessage == "auth/operation-not-allowed") {
+              alert("Operation not allowed.");
+            } else if (errorMessage == "auth/weak-password") {
+              alert("The password is too weak.");
+            }
         }
     }
   
@@ -53,15 +57,6 @@ const SignUp = () => {
                     required={true}
                     onChange={(e) => setEmail(e.target.value)}  
                     />
-
-                    <FormControl component='fieldset' style={marginTop}>
-                        <FormLabel component='legend'>Gender</FormLabel>
-                        <RadioGroup aria-label='gender' name='gender' style={{ display: 'initial' }}>
-                            <FormControlLabel value='female' control={<Radio />} label='Female' />
-                            <FormControlLabel value='male' control={<Radio />} label='Male' />
-                            <FormControlLabel value='lgbt' control={<Radio />} label='Lgbt' />
-                        </RadioGroup>
-                    </FormControl>
 
                     <TextField  
                     variant='standard' 

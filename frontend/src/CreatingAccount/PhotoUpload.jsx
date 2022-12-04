@@ -15,7 +15,7 @@ cursor: pointer;
 `;
 
 function Photo() {
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(['user'])
   const [image, setImage] = useState(null);
   const [url, setUrl] = useState('./images/UploadPic.svg');
 
@@ -23,7 +23,7 @@ function Photo() {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
       const storage = getStorage();
-      const storageRef = ref(storage, `images/${cookies.userName}`);
+      const storageRef = ref(storage, `images/${cookies.user}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
 
       uploadTask.on(

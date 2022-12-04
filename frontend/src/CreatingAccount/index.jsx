@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useCookies } from 'react-cookie';
 import ImageUpload from './PhotoUpload';
-import { useCookies } from 'react-cookie'
 import { useNavigate } from 'react-router-dom';
 import { FromProcess, FromProcessContainer } from './CreatingElements';
 import { TextField, Button } from '@mui/material';
@@ -11,7 +11,7 @@ function CreatingAccount () {
   let navigate = useNavigate();
   const [cookies] = useCookies(null)
   const [state, setState] = useState({
-    user: cookies.UserId,
+    user_id: cookies.UserId,
     currentStep: 1,
     name: '',
     doB: '',
@@ -23,16 +23,15 @@ function CreatingAccount () {
 
   const handleChange = e => {
     const { name, value } = e.target;
-    setState(state => ({
+    setState((state) => ({
       ...state,    // <-- copy previous state
-      [name]: value, // <-- update property
+      [name]: value // <-- update property
     }));
   };
 
   const handleSubmit = async e => {
     console.log('submitted')
     e.preventDefault();
- 
     try {
         const response = await axios.post('/users/profile', { state });
         console.log(response)
@@ -142,6 +141,7 @@ function Step1(props) {
           value={props.name}
           onChange={props.handleChange}
           type='text'
+          id='name'
           name='name'
           placeholder='Your name'
           required
@@ -155,6 +155,7 @@ function Step1(props) {
           onChange={props.handleChange}
           className="form-control"
           type="date"
+          id='date'
           name="DoB"
           placeholder="Date of Birth"
           required
@@ -166,6 +167,7 @@ function Step1(props) {
           value={props.workplace}
           onChange={props.handleChange}
           type='text'
+          id='text'
           name='workplace'
           placeholder='Workplace: (Optional)'
           data-cy='input-workplace-process'
@@ -187,15 +189,17 @@ function Step2(props) {
           value={props.favorite}
           onChange={props.handleChange}
           type='text'
+          id='favorite'
           name='favorite'
           placeholder='Favorite: (Optional)' 
         />
       </label>
       <label>
         <TextField
-          type='text'
           value={props.beverage}
           onChange={props.handleChange}
+          type='text'
+          id='beverage'
           name='beverage'
           placeholder='Beverage: (Optional)'
         />
@@ -219,6 +223,7 @@ function Step3(props) {
             onChange={props.handleChange}
             className='form-control'
             type='text'
+            id='about'
             name='about'
             placeholder='Caption (Optional)'
           />

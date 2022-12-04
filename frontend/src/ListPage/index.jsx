@@ -15,7 +15,7 @@ import { Button } from '@mui/material';
 
 function ListUsers() {
   const btnStyle = { marginTop: 5,backgroundColor: '#00eeff',color:'#000' };
-  const [cookies] = useCookies(['userName']);
+  const [cookies] = useCookies(['user']);
   const [radius, setRadius] = useState('');
   const [list, setList] = useState({
     success: false,
@@ -26,7 +26,7 @@ function ListUsers() {
   const [setUser] = useState('');
   const [url, setUrl] = useState('');
   const database = ref(getDatabase());
-  const pushRoom = child(database, `${cookies.userName}`);
+  const pushRoom = child(database, `${cookies.user}`);
 
 
   useEffect(() => {
@@ -82,7 +82,7 @@ function ListUsers() {
             });
 
             result.forEach((el) => {
-              if (el.person === cookies.userName) {
+              if (el.person === cookies.user) {
                 setUrl(el.url);
               }
             });
@@ -108,7 +108,7 @@ function ListUsers() {
       setLongitude(position.coords.longitude);
 
       requestListUsers(
-        cookies.userName,
+        cookies.user,
         position.coords.latitude,
         position.coords.longitude,
         radius || 200,

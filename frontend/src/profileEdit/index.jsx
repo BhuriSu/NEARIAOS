@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useCookies } from 'react-cookie';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
   ref, uploadBytesResumable, getDownloadURL, getStorage
@@ -9,23 +9,22 @@ import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
 import { BackgroundProfileContainer, Avatar, BackToListPage, LogOutLine, StyledInput, BelowDelete } from './profileEditsElements'
 import { Button } from '@mui/material';
+import { useUserAuth } from '../Context/UserAuthContext';
 
-function ProfileEdit(props) {
+function ProfileEdit() {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'}
-  const [cookies, removeCookies] = useCookies([
-    'userName',
-    'userNickname',
-  ]);
+  const [ cookies ] = useCookies(['user'])
   const [workplace, setWorkplace] = useState('');
   const [beverage, setBeverage] = useState('');
   const [favorite, setFavorite] = useState('');
   const [about, setAbout] = useState('');
   const [url, setUrl] = useState('./images/UploadPic.svg');
   const [save, setSave] = useState('');
-  const id = cookies.userName;
-  const { user } = props;
+  const id = cookies.user;
   const [image, setImage] = useState(null);
+  const { logout } = useUserAuth();
+  const navigate = useNavigate();
 
   function patchData(event) {
     event.preventDefault();
@@ -45,7 +44,7 @@ function ProfileEdit(props) {
         }
       });
     const storage = getStorage();
-    const storageRef = ref(storage, `images/${cookies.userName || './images/infoUser.svg'}`);
+    const storageRef = ref(storage, `images/${cookies.user || './images/infoUser.svg'}`);
     const uploadTask = uploadBytesResumable(storageRef, image);
     uploadTask.on(
       'state_changed',
@@ -109,10 +108,14 @@ function ProfileEdit(props) {
     event.preventDefault();
     setWorkplace(event.target.value);
   }
-  function LogOut() {
-    user.id = null;
-    removeCookies('userName');
-    removeCookies('userNickname');
+  const LogOut = async () => {
+    try {
+      await logout();
+      navigate('/');
+      console.log('You are logged out')
+    } catch (e) {
+      console.log(e.message);
+    }
   }
 
 
@@ -120,7 +123,7 @@ function ProfileEdit(props) {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
       const storage = getStorage();
-      const storageRef = ref(storage, `images/${cookies.userName}`);
+      const storageRef = ref(storage, `images/${cookies.user}`);
       const uploadTask = uploadBytesResumable(storageRef, image);
       uploadTask.on(
         'state_changed',
@@ -140,8 +143,16 @@ function ProfileEdit(props) {
     }
   }
 
-  async function handleDelete(){
-    deleteUser(getAuth().currentUser)
+   function handleDelete(){
+    const auth = getAuth();
+    const user = auth.currentUser;
+    deleteUser(user).then(() => {
+    }).catch((error) => {
+      const errorMessage = error.message;
+      if (errorMessage) {
+        alert("storage and user account were deleted");
+      }
+    });
   }
 
   return (
