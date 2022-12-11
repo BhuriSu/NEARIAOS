@@ -3,13 +3,13 @@ import { Grid, Paper, Avatar, Typography, TextField, Button } from '@mui/materia
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { useNavigate } from 'react-router-dom';
+
 const SignUp = () => {
+
     const paperStyle = { padding: 20, width: 300, margin: '0 auto' };
     const headerStyle = { margin: 0 };
     const avatarStyle = { backgroundColor: '#ff0593' };
     const btnStyle = {  marginTop: 5,backgroundColor: '#ff0593' };
-
-    
     const { signUp } = useUserAuth();
     let navigate = useNavigate();
     const [email, setEmail] = useState(null);
@@ -38,6 +38,8 @@ const SignUp = () => {
             }
         }
     }
+
+
   
     return (
         <Grid>

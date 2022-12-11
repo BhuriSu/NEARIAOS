@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  ref, uploadBytesResumable, getDownloadURL, getStorage
+  ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject
 } from 'firebase/storage';
 import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
@@ -15,6 +15,8 @@ function ProfileEdit() {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'}
   const [ cookies ] = useCookies(['user'])
+  const userId = cookies.UserId
+  const [user, setUser] = useState(null)
   const [workplace, setWorkplace] = useState('');
   const [beverage, setBeverage] = useState('');
   const [favorite, setFavorite] = useState('');
@@ -118,7 +120,6 @@ function ProfileEdit() {
     }
   }
 
-
   function photoDownload(e) {
     if (e.target.files[0]) {
       setImage(e.target.files[0]);
@@ -142,6 +143,20 @@ function ProfileEdit() {
       );
     }
   }
+ 
+  const getUser = async () => {
+    try {
+        const response = await axios.get('/users/:id', {
+            params: {userId}
+        })
+        setUser(response.data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+  useEffect(() => {
+    getUser();
+  }, []); 
 
    function handleDelete(){
     const auth = getAuth();
@@ -150,15 +165,21 @@ function ProfileEdit() {
     }).catch((error) => {
       const errorMessage = error.message;
       if (errorMessage) {
-        alert("storage and user account were deleted");
+        alert("user account was deleted");
       }
     });
+    const storage = getStorage();
+    const storageRef = ref(storage, `images/${cookies.user || './images/infoUser.svg'}`);
+    deleteObject(storageRef).then(() => {
+   }).catch((error) => {
+      console.log(error)
+  });
   }
 
   return (
     <>
-     
-      <BackgroundProfileContainer>
+        {user &&
+      <BackgroundProfileContainer user={user} >
         <div style={{ alignSelf: 'center' }}>
           <label htmlFor='file-input'>
           <Avatar style={{ backgroundImage: `url(${url})` }} />
@@ -268,7 +289,7 @@ function ProfileEdit() {
         After click button your account will be deleted when log out
         </BelowDelete>
        
-      </BackgroundProfileContainer>
+      </BackgroundProfileContainer>}
       
     </>
   );

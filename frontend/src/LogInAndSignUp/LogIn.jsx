@@ -6,7 +6,9 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { useNavigate } from 'react-router-dom';
 
+
 const LogIn=({handleChange})=>{
+
     const paperStyle={padding :20, width:300, margin:'0 auto'};
     const avatarStyle={backgroundColor:'#7300ff'};
     const btnStyle={margin:'8px 0',backgroundColor:'#7300ff'};
@@ -37,8 +39,12 @@ const LogIn=({handleChange})=>{
         }
       };
 
+     
+
     return(
+      
         <Grid>
+       
             <Paper  style={paperStyle}>
                 <Grid align='center'>
                      <Avatar style={avatarStyle}><LockOutlinedIcon/></Avatar>
