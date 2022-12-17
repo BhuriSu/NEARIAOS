@@ -32,9 +32,18 @@ function CreatingAccount () {
   const handleSubmit = async e => {
     console.log('submitted')
     e.preventDefault();
+    const user_id = state;
+    let { name, doB, workplace, favorite, beverage, about } = state;
     try {
-        const response = await axios.post('/users/profile', { state });
-        console.log(response)
+        const response = await axios.post('/users/profile', {
+          name,
+          doB,
+          workplace,
+          favorite,
+          beverage,
+          about, 
+          user_id
+        });
         const success = response.status === 200
         if (success) navigate('/listUsers')
     } catch (err) {
