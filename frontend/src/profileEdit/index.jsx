@@ -3,7 +3,7 @@ import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import {
-  ref, uploadBytesResumable, getDownloadURL, getStorage, deleteObject
+  ref, uploadBytesResumable, getDownloadURL, getStorage
 } from 'firebase/storage';
 import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
@@ -168,12 +168,6 @@ function ProfileEdit() {
         alert("user account was deleted");
       }
     });
-    const storage = getStorage();
-    const storageRef = ref(storage, `images/${cookies.user || './images/infoUser.svg'}`);
-    deleteObject(storageRef).then(() => {
-   }).catch((error) => {
-      console.log(error)
-  });
   }
 
   return (
