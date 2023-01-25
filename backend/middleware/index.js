@@ -1,2 +1,2 @@
 
-export { rateLimiterUsingThirdParty } from './rateLimiter';
+export { customRedisRateLimiter } from './rateLimiter.js';

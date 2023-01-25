@@ -4,7 +4,7 @@ import path from 'path';
 import cors from 'cors';
 import usersRouter from './routes/userRouter.js';
 import listsRouter from './routes/listsRouter.js'; 
-import { rateLimiterUsingThirdParty } from './middleware';
+import { customRedisRateLimiter } from './middleware/index.js';
 import helmet from 'helmet';
 import express from 'express';
 import mongoose from 'mongoose';
@@ -49,8 +49,9 @@ app.use((req, res, next) => {
   next(createError(404));
 });
 
+// implement rate limit
+app.use(customRedisRateLimiter);
 
-app.use(rateLimiterUsingThirdParty);
 // error handler
 app.use((err, req, res) => {
   // set locals, only providing error in development
