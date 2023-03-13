@@ -24,15 +24,6 @@ export const FirstLineCreateAccount = styled.h1`
   color: #000;
   font-size: 24px;
   text-align: center;
-  @media screen and (max-width: 768px) {
-    font-size: 24px
-  }
-  @media screen and (max-width: 480px) {
-    font-size: 18px
-  }
-  @media screen and (max-width: 375px) {
-    font-size: 16px
-  }
 `;
 export const FormAccount = styled.form`
 display: flex;
