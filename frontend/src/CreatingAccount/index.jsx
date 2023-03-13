@@ -3,254 +3,161 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import ImageUpload from './PhotoUpload';
 import { useNavigate } from 'react-router-dom';
-import { FromProcess, FromProcessContainer } from './CreatingElements';
-import { TextField, Button } from '@mui/material';
-import Stack from '@mui/material/Stack';
-function CreatingAccount () {
-  const btnStyle={margin:'8px 0',backgroundColor:'#7300ff'};
-  let navigate = useNavigate();
-  const [cookies] = useCookies(null)
-  const [state, setState] = useState({
+import { FirstLineCreateAccount,CreatingContainer,FormAccount,
+    FormSection,LabelAccount,InputAccount,InputAccountSubmit,
+     MultipleContainer,MultipleInputAccount,MultipleLabelAccount,
+     LabelAccountPhoto,PhotoContainer } from './CreateElements';
+
+const CreatingAccount = () => {
+  const [cookies] = useCookies(null);
+  const [formData, setFormData] = useState({
     user_id: cookies.UserId,
-    currentStep: 1,
     name: '',
-    doB: '',
+    dob_day: '',
+    dob_month: '',
+    dob_year: '',
     workplace: '',
     favorite: '',
     beverage: '',
     about: ''
-  });
+  })
 
-  const handleChange = e => {
-    const { name, value } = e.target;
-    setState((state) => ({
-      ...state,    // <-- copy previous state
-      [name]: value // <-- update property
-    }));
-  };
+  let navigate = useNavigate()
 
-  const handleSubmit = async e => {
-    console.log('submitted')
-    e.preventDefault();
-    const user_id = state;
-    let { name, doB, workplace, favorite, beverage, about } = state;
-    try {
-        const response = await axios.post('/users/profile', {
-          name,
-          doB,
-          workplace,
-          favorite,
-          beverage,
-          about, 
-          user_id
-        });
-        const success = response.status === 200
-        if (success) navigate('/listUsers')
-    } catch (err) {
-        console.log(err)
-    }
-  };
-
-  const _next = () => {
-    let currentStep = state.currentStep;
-    currentStep = currentStep >= 2 ? 3 : currentStep + 1;
-    setState(state => ({
-      ...state,    // <-- copy previous state
-      currentStep: currentStep// <-- update property
-    }));
-  };
-
-  const _prev = () => {
-    let currentStep = state.currentStep;
-    currentStep = currentStep <= 1 ? 1 : currentStep - 1;
-    setState(state => ({
-      ...state,    // <-- copy previous state
-      currentStep: currentStep// <-- update property
-    }));
-  };
-  
-  function previousButton() {
-    let currentStep = state.currentStep;
-    if (currentStep !== 1) {
-      return (
-        <>
-          <Button
-            style={btnStyle}
-            variant='contained'
-            type='button'
-            onClick={_prev}
-          >
-            Previous
-          </Button>
-          <br />
-        </>
-      );
-    }
-    return null;
+  const handleSubmit = async (e) => {
+      console.log('submitted')
+      e.preventDefault()
+      try {
+          const response = await axios.put('http://localhost:8000/user', {formData})
+          console.log(response)
+          const success = response.status === 200
+          if (success) navigate('/listUsers')
+      } catch (err) {
+          console.log(err)
+      }
   }
-  
-  function nextButton() {
-    let currentStep = state.currentStep;
-    if (currentStep < 3) {
-      return (
-        <Button
-          style={btnStyle}
-          type='button'
-          onClick={_next}
-          data-cy='next-process'
-          variant='contained'
-        >
-          Next
-        </Button>
-      );
-    }
-    return null;
+
+  const handleChange = (e) => {
+      const { name, value } = e.target;
+      setFormData((prevState) => ({
+          ...prevState,
+          [name]: value
+      }))
   }
+
   return (
-    <>
-     <FromProcessContainer>
-      <FromProcess onSubmit={handleSubmit} >
-        <p>Step {state.currentStep}</p>
-        <br/>
-        <Step1
-          currentStep={state.currentStep}
-          handleChange={handleChange}
-          name={state.name}
-          doB={state.doB}
-          workplace={state.workplace}
-        />
-        <Step2
-          currentStep={state.currentStep}
-          handleChange={handleChange}
-          favorite={state.favorite}
-          beverage={state.beverage}
-        />
-        <Step3
-          currentStep={state.currentStep}
-          handleChange={handleChange}
-          about={state.about}
-        />
-        {previousButton()}
-        {nextButton()}
-      </FromProcess>
-      </FromProcessContainer>
-    </>
-  );
+      <>
+          <CreatingContainer>
+         
+              <FirstLineCreateAccount>CREATE ACCOUNT</FirstLineCreateAccount>
+
+              <FormAccount onSubmit={handleSubmit}>
+                  <FormSection>
+                      <LabelAccount htmlFor="name">First Name</LabelAccount>
+                      <InputAccount
+                          id="name"
+                          type='text'
+                          name="name"
+                          placeholder="name"
+                          required={true}
+                          value={formData.name}
+                          onChange={handleChange}
+                      />
+
+                      <MultipleLabelAccount>Birthday</MultipleLabelAccount>
+                      <MultipleContainer>
+                          <MultipleInputAccount
+                              id="dob_day"
+                              type="number"
+                              name="dob_day"
+                              placeholder="DD"
+                              required={true}
+                              value={formData.dob_day}
+                              onChange={handleChange}
+                          />
+
+                          <MultipleInputAccount
+                              id="dob_month"
+                              type="number"
+                              name="dob_month"
+                              placeholder="MM"
+                              required={true}
+                              value={formData.dob_month}
+                              onChange={handleChange}
+                          />
+
+                          <MultipleInputAccount
+                              id="dob_year"
+                              type="number"
+                              name="dob_year"
+                              placeholder="YYYY"
+                              required={true}
+                              value={formData.dob_year}
+                              onChange={handleChange}
+                          />
+                      </MultipleContainer>
+
+                      <LabelAccount htmlFor="workplace">Workplace</LabelAccount>
+                      <InputAccount
+                          id="workplace"
+                          type="text"
+                          name="workplace"
+                          required={true}
+                          placeholder="Corporation..."
+                          value={formData.workplace}
+                          onChange={handleChange}
+                      />
+
+
+                      <LabelAccount htmlFor="beverage">Beverage</LabelAccount>
+                      <InputAccount
+                          id="beverage"
+                          type="text"
+                          name="beverage"
+                          required={true}
+                          placeholder="Aberlour..."
+                          value={formData.beverage}
+                          onChange={handleChange}
+                      />
+
+                      <LabelAccount htmlFor="favorite">Favorite</LabelAccount>
+                      <InputAccount
+                          id="favorite"
+                          type="text"
+                          name="favorite"
+                          required={true}
+                          placeholder="Gaming..."
+                          value={formData.favorite}
+                          onChange={handleChange}
+                      />
+
+                      <LabelAccount htmlFor="about">About me</LabelAccount>
+                      <InputAccount
+                          id="about"
+                          type="text"
+                          name="about"
+                          required={true}
+                          placeholder="Software engineer..."
+                          value={formData.about}
+                          onChange={handleChange}
+                      />
+
+                      <InputAccountSubmit type="submit"/>
+                  </FormSection>
+
+                  <FormSection>
+
+                      <LabelAccountPhoto htmlFor="url">Profile</LabelAccountPhoto>
+                      <PhotoContainer>
+                      <ImageUpload/>
+                      </PhotoContainer>
+
+                  </FormSection>
+
+              </FormAccount>
+        
+          </CreatingContainer>
+      </>
+  )
 }
-
-function Step1(props) {
-  if (props.currentStep !== 1) {
-    return null;
-  }
-  return (
- 
-    <Stack spacing={3}>
-      <label>
-        <TextField
-          value={props.name}
-          onChange={props.handleChange}
-          type='text'
-          id='name'
-          name='name'
-          placeholder='Your name'
-          required
-          data-cy='input-name-process'
-        />
-      </label>
-
-      <label>
-      <TextField
-          value={props.DoB}
-          onChange={props.handleChange}
-          className="form-control"
-          type="date"
-          id='date'
-          name="DoB"
-          placeholder="Date of Birth"
-          required
-        />
-      </label>
-     
-      <label>
-        <TextField
-          value={props.workplace}
-          onChange={props.handleChange}
-          type='text'
-          id='text'
-          name='workplace'
-          placeholder='Workplace: (Optional)'
-          data-cy='input-workplace-process'
-        />
-      </label>
-    </Stack>
-    
-  );
-}
-
-function Step2(props) {
-  if (props.currentStep !== 2) {
-    return null;
-  }
-  return (
-    <Stack spacing={2}>
-      <label>
-        <TextField
-          value={props.favorite}
-          onChange={props.handleChange}
-          type='text'
-          id='favorite'
-          name='favorite'
-          placeholder='Favorite: (Optional)' 
-        />
-      </label>
-      <label>
-        <TextField
-          value={props.beverage}
-          onChange={props.handleChange}
-          type='text'
-          id='beverage'
-          name='beverage'
-          placeholder='Beverage: (Optional)'
-        />
-      </label>
-      </Stack>
-  );
-}
-
-function Step3(props) {
-  if (props.currentStep !== 3) {
-    return null;
-  }
-  return (
-    <>
-      <Stack spacing={2}>
-      <ImageUpload/>
-     
-        <label>
-          <TextField
-            value={props.about}
-            onChange={props.handleChange}
-            className='form-control'
-            type='text'
-            id='about'
-            name='about'
-            placeholder='Caption (Optional)'
-          />
-        </label>
- 
-      <Button
-        type='submit'
-        variant='contained'
-        data-cy='submit-process'
-        style={{
-         margin:'8px 0',backgroundColor:'#7300ff'
-        }}
-      >
-        Save it
-      </Button>
-      </Stack>
-    </>
-  );
-}
-
 export default CreatingAccount;
