@@ -6,7 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { FirstLineCreateAccount,CreatingContainer,FormAccount,
     FormSection,LabelAccount,InputAccount,InputAccountSubmit,
      MultipleContainer,MultipleInputAccount,MultipleLabelAccount,
-     LabelAccountPhoto,PhotoContainer } from './CreateElements';
+     PhotoContainer } from './CreateElements';
 
 const CreatingAccount = () => {
   const [cookies] = useCookies(null);
@@ -28,7 +28,7 @@ const CreatingAccount = () => {
       console.log('submitted')
       e.preventDefault()
       try {
-          const response = await axios.put('http://localhost:8000/user', {formData})
+          const response = await axios.put('/user', {formData})
           console.log(response)
           const success = response.status === 200
           if (success) navigate('/listUsers')
@@ -46,14 +46,14 @@ const CreatingAccount = () => {
   }
 
   return (
-      <>
+
           <CreatingContainer>
          
               <FirstLineCreateAccount>CREATE ACCOUNT</FirstLineCreateAccount>
 
               <FormAccount onSubmit={handleSubmit}>
                   <FormSection>
-                      <LabelAccount htmlFor="name">First Name</LabelAccount>
+                      <LabelAccount htmlFor="name">Name</LabelAccount>
                       <InputAccount
                           id="name"
                           type='text'
@@ -142,22 +142,17 @@ const CreatingAccount = () => {
                           onChange={handleChange}
                       />
 
+                     <LabelAccount htmlFor="url">Profile</LabelAccount>
+                     <PhotoContainer>
+                      <ImageUpload/>
+                     </PhotoContainer>
+
                       <InputAccountSubmit type="submit"/>
                   </FormSection>
-
-                  <FormSection>
-
-                      <LabelAccountPhoto htmlFor="url">Profile</LabelAccountPhoto>
-                      <PhotoContainer>
-                      <ImageUpload/>
-                      </PhotoContainer>
-
-                  </FormSection>
-
               </FormAccount>
         
           </CreatingContainer>
-      </>
+    
   )
 }
 export default CreatingAccount;

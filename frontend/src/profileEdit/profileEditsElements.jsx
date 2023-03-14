@@ -60,3 +60,9 @@ export const BelowDelete = styled.h2`
   margin: 10px;
   color: #ff0000;
 `;
+export const InputPhoto = styled.input`
+outline: 0;
+opacity: 0;
+pointer-events: none;
+user-select: none;
+`;

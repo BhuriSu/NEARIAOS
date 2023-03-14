@@ -7,7 +7,8 @@ import {
 } from 'firebase/storage';
 import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
-import { BackgroundProfileContainer, Avatar, BackToListPage, LogOutLine, StyledInput, BelowDelete } from './profileEditsElements'
+import { BackgroundProfileContainer, Avatar, BackToListPage,
+   LogOutLine, InputPhoto, StyledInput, BelowDelete } from './profileEditsElements'
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
 
@@ -31,7 +32,7 @@ function ProfileEdit() {
   function patchData(event) {
     event.preventDefault();
     axios
-      .patch('/users/profile', {
+      .put('/users/:id', {
         workplace,
         beverage,
         favorite,
@@ -76,7 +77,7 @@ function ProfileEdit() {
     );
     if (setUrl !== null || setUrl == null) {
       axios
-        .patch('/users/profile', {
+        .put('/users/:id', {
           workplace,
           beverage,
           favorite,
@@ -177,7 +178,7 @@ function ProfileEdit() {
         <div style={{ alignSelf: 'center' }}>
           <label htmlFor='file-input'>
           <Avatar style={{ backgroundImage: `url(${url})` }} />
-          <input id='file-input' type='file' title='upload' onChange={photoDownload} />
+          <InputPhoto id='file-input' type='file' title='upload' onChange={photoDownload} />
           </label>
         </div>
         <br/>

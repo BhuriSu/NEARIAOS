@@ -6,8 +6,8 @@ import {
 import styled from 'styled-components';
 
 const Avatar = styled.div`
-width: 250px;
-height: 250px;
+width: 150px;
+height: 150px;
 border-radius: 50%;
 background-size: cover;
 background-position: center;
@@ -17,7 +17,7 @@ cursor: pointer;
 function Photo() {
   const [cookies] = useCookies(['user'])
   const [image, setImage] = useState(null);
-  const [url, setUrl] = useState('./images/UploadPic.svg');
+  const [url, setUrl] = useState('./images/UploadPic.png');
 
   const handleChange = (e) => {
     if (e.target.files[0]) {
@@ -47,7 +47,7 @@ function Photo() {
           }
         },
         () => {
-          getDownloadURL(storageRef).then((url) => {
+          getDownloadURL(uploadTask.ref).then((url) => {
             setUrl(url);
           });
         },

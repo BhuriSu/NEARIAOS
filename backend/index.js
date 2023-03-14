@@ -3,6 +3,7 @@ import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
 import listsRouter from './routes/listsRouter.js'; 
+import usersRouter from './routes/usersRouter.js'; 
 import { customRedisRateLimiter } from './middleware/index.js';
 import helmet from 'helmet';
 import express from 'express';
@@ -95,6 +96,7 @@ app.put('/user', async (req, res) => {
   }
 })
 
+app.use('/users', usersRouter);
 app.use('/list', listsRouter); 
 
 // catch 404 and forward to error handler
@@ -124,3 +126,4 @@ db.once("open", function(){
 
 const PORT = process.env.PORT || 4000;
 app.listen(PORT, () => console.log('server running on PORT ' + PORT));
+

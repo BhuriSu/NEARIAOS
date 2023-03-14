@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { Lists, FindUsers } from '../controllers/list.js';
 
-const userRouter = Router();
+const listRouter = Router();
 
-userRouter.get('/', Lists);
-userRouter.post('/users', FindUsers);
+listRouter.get('/', Lists);
+listRouter.post('/users', FindUsers);
 
-export default userRouter;
+export default listRouter;
