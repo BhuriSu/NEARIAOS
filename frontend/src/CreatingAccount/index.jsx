@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useCookies } from 'react-cookie';
-import ImageUpload from './PhotoUpload';
 import { useNavigate } from 'react-router-dom';
 import { FirstLineCreateAccount,CreatingContainer,FormAccount,
     FormSection,LabelAccount,InputAccount,InputAccountSubmit,
-     MultipleContainer,MultipleInputAccount,MultipleLabelAccount,
-     PhotoContainer } from './CreateElements';
+     MultipleContainer,MultipleInputAccount,MultipleLabelAccount
+      } from './CreateElements';
 
 const CreatingAccount = () => {
   const [cookies] = useCookies(null);
@@ -19,7 +18,7 @@ const CreatingAccount = () => {
     workplace: '',
     favorite: '',
     beverage: '',
-    about: ''
+    about: '',
   })
 
   let navigate = useNavigate()
@@ -30,8 +29,7 @@ const CreatingAccount = () => {
       try {
           const response = await axios.put('/user', {formData})
           console.log(response)
-          const success = response.status === 200
-          if (success) navigate('/listUsers')
+          if (response.status === 200) navigate('/listUsers')
       } catch (err) {
           console.log(err)
       }
@@ -103,7 +101,7 @@ const CreatingAccount = () => {
                           type="text"
                           name="workplace"
                           required={true}
-                          placeholder="Corporation..."
+                          placeholder="workplace..."
                           value={formData.workplace}
                           onChange={handleChange}
                       />
@@ -115,7 +113,7 @@ const CreatingAccount = () => {
                           type="text"
                           name="beverage"
                           required={true}
-                          placeholder="Aberlour..."
+                          placeholder="Beverage..."
                           value={formData.beverage}
                           onChange={handleChange}
                       />
@@ -126,27 +124,22 @@ const CreatingAccount = () => {
                           type="text"
                           name="favorite"
                           required={true}
-                          placeholder="Gaming..."
+                          placeholder="Favorite..."
                           value={formData.favorite}
                           onChange={handleChange}
                       />
 
-                      <LabelAccount htmlFor="about">About me</LabelAccount>
+                      <LabelAccount htmlFor="about">About</LabelAccount>
                       <InputAccount
                           id="about"
                           type="text"
                           name="about"
                           required={true}
-                          placeholder="Software engineer..."
+                          placeholder="About..."
                           value={formData.about}
                           onChange={handleChange}
                       />
-
-                     <LabelAccount htmlFor="url">Profile</LabelAccount>
-                     <PhotoContainer>
-                      <ImageUpload/>
-                     </PhotoContainer>
-
+   
                       <InputAccountSubmit type="submit"/>
                   </FormSection>
               </FormAccount>

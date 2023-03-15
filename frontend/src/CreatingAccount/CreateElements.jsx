@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 export const CreatingContainer = styled.div`
-background: linear-gradient(90deg, rgba(255,127,37,1) 0%, rgba(255,0,174,1) 100%);
-height: 1100px;
+background: #96ffe7;
+height: 800px;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -27,7 +27,8 @@ export const FirstLineCreateAccount = styled.h1`
 `;
 export const FormAccount = styled.form`
 display: flex;
-margin-right:60px;
+margin-right:140px;
+text-align: center;
 `;
 export const FormSection = styled.div`
 display: flex;
@@ -46,7 +47,7 @@ export const InputAccount = styled.input`
 padding: 10px;
 border: solid 2px #000;
 border-radius: 10px;
-margin-right: -180px;
+margin-right: -250px;
 `;
 export const InputAccountSubmit = styled.input`
 background-color: #7033ff;
@@ -55,7 +56,7 @@ border: solid 2px #000;
 border-radius: 10px;
 transition: all 0.3s;
 margin-top: 20px;
-margin-right: -180px;
+margin-right: -250px;
 &:hover {
     transition: all 0.2s ease-in-out;
     background: #5cff6f;
@@ -72,7 +73,4 @@ border: solid 2px #000;
 border-radius: 10px;
 margin-right: -180px;
 margin-top: 10px;
-`;
-export const PhotoContainer = styled.div`
-margin: auto 0;
 `;

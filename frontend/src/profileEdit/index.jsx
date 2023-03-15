@@ -2,97 +2,45 @@ import React, { useState, useEffect } from 'react';
 import { useCookies } from 'react-cookie';
 import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import {
-  ref, uploadBytesResumable, getDownloadURL, getStorage
-} from 'firebase/storage';
 import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
-import { BackgroundProfileContainer, Avatar, BackToListPage,
-   LogOutLine, InputPhoto, StyledInput, BelowDelete } from './profileEditsElements'
+import { BackgroundProfileContainer, BackToListPage,
+   LogOutLine, StyledInput, BelowDelete } from './profileEditsElements'
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
-
+import UploadPhoto from './UploadPhoto';
 function ProfileEdit() {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'}
   const [ cookies ] = useCookies(['user'])
   const userId = cookies.UserId
   const [user, setUser] = useState(null)
+
   const [workplace, setWorkplace] = useState('');
   const [beverage, setBeverage] = useState('');
   const [favorite, setFavorite] = useState('');
   const [about, setAbout] = useState('');
-  const [url, setUrl] = useState('./images/UploadPic.svg');
-  const [save, setSave] = useState('');
-  const id = cookies.user;
-  const [image, setImage] = useState(null);
+  
+  const [setSave] = useState('');
   const { logout } = useUserAuth();
   const navigate = useNavigate();
 
   function patchData(event) {
     event.preventDefault();
     axios
-      .put('/users/:id', {
+      .put('/userUpdate', {
         workplace,
         beverage,
         favorite,
         about,
-        id,
       })
-      .then(({ data }) => {
+      .then((data) => {
         if (data.success) {
           setSave('Changes were saved');
         } else {
           setSave(data.err);
         }
       });
-    const storage = getStorage();
-    const storageRef = ref(storage, `images/${cookies.user || './images/infoUser.svg'}`);
-    const uploadTask = uploadBytesResumable(storageRef, image);
-    uploadTask.on(
-      'state_changed',
-      () => {
-        setUrl('./loading.gif');
-      },
-      (error) => {
-        switch (error.code) {
-          case 'storage/unauthorized':
-            console.log('storage is unauthorized');
-            break;
-          case 'storage/canceled':
-            console.log('storage is canceled');
-            break;
-          case 'storage/unknown':
-            console.log('storage is unknown');
-            break;
-          default:
-            console.log('sorry it is not about storage');
-        }
-      },
-      () => {
-        getDownloadURL(storageRef).then((url) => {
-          setUrl(url);
-        });
-      },
-    );
-    if (setUrl !== null || setUrl == null) {
-      axios
-        .put('/users/:id', {
-          workplace,
-          beverage,
-          favorite,
-          about,
-          id,
-          avatar: url,
-        })
-        .then(({ data }) => {
-          if (data.success) {
-            setSave('Saved');
-          } else {
-            setSave(data.err);
-          }
-        });
-    }
   }
 
   function handleChangeAbout(event) {
@@ -121,33 +69,10 @@ function ProfileEdit() {
     }
   }
 
-  function photoDownload(e) {
-    if (e.target.files[0]) {
-      setImage(e.target.files[0]);
-      const storage = getStorage();
-      const storageRef = ref(storage, `images/${cookies.user}`);
-      const uploadTask = uploadBytesResumable(storageRef, image);
-      uploadTask.on(
-        'state_changed',
-        () => {
-          setUrl('./loading.gif');
-        },
-        (error) => {
-          console.log(error);
-        },
-        () => {
-          getDownloadURL(storageRef)
-            .then((url) => {
-              setUrl(url);
-            });
-        },
-      );
-    }
-  }
  
   const getUser = async () => {
     try {
-        const response = await axios.get('/users/:id', {
+        const response = await axios.get('/user', {
             params: {userId}
         })
         setUser(response.data)
@@ -170,15 +95,14 @@ function ProfileEdit() {
       }
     });
   }
-
+  
   return (
     <>
-        {user &&
+      {user &&
       <BackgroundProfileContainer user={user} >
         <div style={{ alignSelf: 'center' }}>
           <label htmlFor='file-input'>
-          <Avatar style={{ backgroundImage: `url(${url})` }} />
-          <InputPhoto id='file-input' type='file' title='upload' onChange={photoDownload} />
+          <UploadPhoto />
           </label>
         </div>
         <br/>
@@ -253,13 +177,9 @@ function ProfileEdit() {
         </form>
         <br/>
         <br/>
-        <Button style={SaveBtnStyle}  variant='contained'>
+        <Button style={SaveBtnStyle}  variant='contained' onClick={patchData}>
             Save changes
         </Button>
-        <div style={{ marginTop: '15px', color: '#fff' }}>
-            {' '}
-            {save}
-        </div>
         <br/>
         <br/>
           <Link to='/listUsers' style={{ position: 'relative' }}>
@@ -277,7 +197,8 @@ function ProfileEdit() {
           </Link>
     
         <br/>
-        <Button variant='contained' style={btnStyle} onClick={handleDelete} >
+        <Button variant='contained' style={btnStyle} 
+        onClick={handleDelete}>
 					Delete
 				</Button>
         <BelowDelete>

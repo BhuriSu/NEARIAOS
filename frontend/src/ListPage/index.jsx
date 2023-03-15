@@ -28,7 +28,6 @@ function ListUsers() {
   const database = ref(getDatabase());
   const pushRoom = child(database, `${cookies.user}`);
 
-
   useEffect(() => {
     const handleNewMessages = async (snap) => {
       if (snap.val()) {

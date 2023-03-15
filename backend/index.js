@@ -2,14 +2,15 @@ import createError from 'http-errors';
 import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
+import {MongoClient} from 'mongodb';
 import listsRouter from './routes/listsRouter.js'; 
-import usersRouter from './routes/usersRouter.js'; 
 import { customRedisRateLimiter } from './middleware/index.js';
 import helmet from 'helmet';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import {fileURLToPath} from 'url';
+import Profile from './models/modelProfile.js';
 
 dotenv.config();
 const app = express();
@@ -47,20 +48,20 @@ app.get('/', (req, res) => {
 
 app.get('/user', async (req, res) => {
   const client = new MongoClient(uri)
-    const userId = req.query.userId
+  const userId = req.query.userId
 
-    try {
-        await client.connect()
-        const database = client.db('app-data')
-        const users = database.collection('users')
+  try {
+      await client.connect()
+      const database = client.db('app-data')
+      const users = database.collection('users')
 
-        const query = {user_id: userId}
-        const user = await users.findOne(query)
-        res.send(user)
+      const query = {user_id: userId}
+      const user = await users.findOne(query)
+      res.send(user)
 
-    } finally {
-        await client.close()
-    }
+  } finally {
+      await client.close()
+  }
 })
 
 app.put('/user', async (req, res) => {
@@ -71,9 +72,7 @@ app.put('/user', async (req, res) => {
       await client.connect()
       const database = client.db('app-data')
       const users = database.collection('users')
-
       const query = {user_id: formData.user_id}
-
       const updateDocument = {
           $set: {
               name: formData.name,
@@ -83,20 +82,40 @@ app.put('/user', async (req, res) => {
               workplace: formData.workplace,
               favorite: formData.favorite,
               beverage: formData.beverage,
-              about: formData.about
+              about: formData.about,
           },
       }
-
-      const insertedUser = await users.updateOne(query, updateDocument)
-
+      const insertedUser = await users.create(query, updateDocument)
       res.json(insertedUser)
-
   } finally {
       await client.close()
   }
 })
 
-app.use('/users', usersRouter);
+app.put('/userUpdate', async (req, res) => {
+  const client = new MongoClient(uri)
+  const formData = req.body.formData
+
+  try {
+      await client.connect()
+      const database = client.db('app-data')
+      const users = database.collection('users')
+      const query = {user_id: formData.user_id}
+      const updateDocument = {
+          $set: {
+              workplace: formData.workplace,
+              favorite: formData.favorite,
+              beverage: formData.beverage,
+              about: formData.about,
+          },
+      }
+      const insertedUser = await users.updateOne(query, updateDocument)
+      res.json(insertedUser)
+  } finally {
+      await client.close()
+  }
+})
+
 app.use('/list', listsRouter); 
 
 // catch 404 and forward to error handler

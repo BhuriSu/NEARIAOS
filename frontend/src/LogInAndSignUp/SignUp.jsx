@@ -28,7 +28,7 @@ const SignUp = () => {
         } catch (error) {
             const errorMessage = error.message;
             if (errorMessage) {
-              alert("The email address should add @gmail.com");
+              alert("The email address should add @gmail.com or password not match");
             } else if (errorMessage == "auth/invalid-email") {
               alert("The email address is not valid.");
             } else if (errorMessage == "auth/operation-not-allowed") {

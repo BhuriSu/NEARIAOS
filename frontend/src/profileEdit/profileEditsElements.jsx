@@ -21,14 +21,6 @@ align-items: center;
   height: 812px;
 }
 `;
-export const Avatar = styled.div`
-width: 200px;
-height: 200px;
-border-radius: 50%;
-background-size: cover;
-background-position: center;
-cursor: pointer;
-`;
 export const BackToListPage = styled.p`
   color: #fff;
   font-size: 24px;
@@ -59,10 +51,4 @@ export const BelowDelete = styled.h2`
   font-size: 1rem;
   margin: 10px;
   color: #ff0000;
-`;
-export const InputPhoto = styled.input`
-outline: 0;
-opacity: 0;
-pointer-events: none;
-user-select: none;
 `;
