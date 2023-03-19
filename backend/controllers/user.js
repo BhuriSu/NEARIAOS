@@ -1,14 +1,5 @@
 import Profile from "../models/modelProfile";
 
-export const getUsers = async (req, res) => {
-    try {
-        const users = await Profile.find();
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({message: error.message});
-    }
-}
-
 export const getUserById = async (req, res) => {
     try {
         const user = await Profile.findById(req.params.id);
