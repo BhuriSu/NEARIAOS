@@ -21,7 +21,7 @@ function ListUsers() {
     success: false,
     err: '',
   });
-
+  const userId = cookies.UserId
   const [isShowMap, setShowMap] = useState(false);
   const [setUser] = useState('');
   const [url, setUrl] = useState('');
@@ -135,7 +135,20 @@ function ListUsers() {
       navigator.geolocation.getCurrentPosition(success, error);
     }
   };
-
+  
+  const getUser = async () => {
+    try {
+        const response = await axios.get('/user', {
+            params: {userId}
+        })
+        setUser(response.data)
+    } catch (error) {
+        console.log(error)
+    }
+}
+  useEffect(() => {
+    getUser();
+  }, []); 
   return (
     <ListPageBackground>
          <div className='input-form-UserList'>

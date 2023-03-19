@@ -40,9 +40,6 @@ text-align: start;
 export const LabelAccount = styled.div`
 margin: 10px 0;
 `;
-export const MultipleLabelAccount = styled.div`
-margin: 10px 0;
-`;
 export const InputAccount = styled.input`
 padding: 10px;
 border: solid 2px #000;
@@ -62,15 +59,4 @@ margin-right: -250px;
     background: #5cff6f;
     color: #000;
   }
-`;
-export const MultipleContainer = styled.div`
-display: flex;
-flex-direction: column;
-`;
-export const MultipleInputAccount = styled.input`
-padding: 10px;
-border: solid 2px #000;
-border-radius: 10px;
-margin-right: -180px;
-margin-top: 10px;
 `;

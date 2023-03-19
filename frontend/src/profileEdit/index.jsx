@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
@@ -11,104 +10,95 @@ import { useUserAuth } from '../Context/UserAuthContext';
 import UploadPhoto from './UploadPhoto';
 function ProfileEdit() {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
-  const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'}
-  const [ cookies ] = useCookies(['user'])
-  const userId = cookies.UserId
-  const [user, setUser] = useState(null)
-
+  const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'};
   const [workplace, setWorkplace] = useState('');
   const [beverage, setBeverage] = useState('');
   const [favorite, setFavorite] = useState('');
   const [about, setAbout] = useState('');
-  
-  const [setSave] = useState('');
   const { logout } = useUserAuth();
   const navigate = useNavigate();
-
-  function patchData(event) {
-    event.preventDefault();
-    axios
-      .put('/userUpdate', {
+  const { id } = useParams();
+        
+  const updateUser = async (e) => {
+    e.preventDefault();
+    try {
+      await axios.patch(`users/${id}`, {
         workplace,
         beverage,
         favorite,
         about,
-      })
-      .then((data) => {
-        if (data.success) {
-          setSave('Changes were saved');
-        } else {
-          setSave(data.err);
-        }
       });
+      navigate("/profile");
+    } catch (error) {
+      console.log(error);
+    }
   }
 
-  function handleChangeAbout(event) {
-    event.preventDefault();
-    setAbout(event.target.value);
+  const getUserById = async () => {
+    const response = await axios.get(`http://localhost:5000/users/${id}`);
+    setWorkplace(response.data.workplace);
+    setBeverage(response.data.beverage);
+    setFavorite(response.data.favorite);
+    setAbout(response.data.about);
+  };
+
+  useEffect(() => {
+    getUserById();
+  }, []);
+
+  function handleChangeAbout(e) {
+    e.preventDefault();
+    setAbout(e.target.value);
   }
-  function handleChangeBeverage(event) {
-    event.preventDefault();
-    setBeverage(event.target.value);
+  function handleChangeBeverage(e) {
+    e.preventDefault();
+    setBeverage(e.target.value);
   }
-  function handleChangeFavorite(event) {
-    event.preventDefault();
-    setFavorite(event.target.value);
+  function handleChangeFavorite(e) {
+    e.preventDefault();
+    setFavorite(e.target.value);
   }
-  function handleChangeWorkplace(event) {
-    event.preventDefault();
-    setWorkplace(event.target.value);
+  function handleChangeWorkplace(e) {
+    e.preventDefault();
+    setWorkplace(e.target.value);
   }
+
   const LogOut = async () => {
     try {
       await logout();
       navigate('/');
       console.log('You are logged out')
     } catch (e) {
-      console.log(e.message);
-    }
-  }
-
- 
-  const getUser = async () => {
-    try {
-        const response = await axios.get('/user', {
-            params: {userId}
-        })
-        setUser(response.data)
-    } catch (error) {
-        console.log(error)
-    }
-}
-  useEffect(() => {
-    getUser();
-  }, []); 
-
-   function handleDelete(){
-    const auth = getAuth();
-    const user = auth.currentUser;
-    deleteUser(user).then(() => {
-    }).catch((error) => {
-      const errorMessage = error.message;
+      const errorMessage = e.message;
       if (errorMessage) {
         alert("user account was deleted");
       }
-    });
+    }
   }
+
+  const DeleteUser = async (id) => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      deleteUser(user);
+      await axios.delete(`users/${id}`);
+      navigate("/");
+    } catch (error) {
+      console.log(error);
+    }
+  };
   
   return (
     <>
-      {user &&
-      <BackgroundProfileContainer user={user} >
+      
+      <BackgroundProfileContainer >
         <div style={{ alignSelf: 'center' }}>
           <label htmlFor='file-input'>
           <UploadPhoto />
           </label>
         </div>
         <br/>
-        <form onSubmit={patchData}>
-        
-          
+        <form onSubmit={updateUser}>
           <span
             style={{ textShadow: 'none', color: '#fff' }}
           >
@@ -177,7 +167,7 @@ function ProfileEdit() {
         </form>
         <br/>
         <br/>
-        <Button style={SaveBtnStyle}  variant='contained' onClick={patchData}>
+        <Button style={SaveBtnStyle} type="submit"  variant='contained'>
             Save changes
         </Button>
         <br/>
@@ -198,14 +188,14 @@ function ProfileEdit() {
     
         <br/>
         <Button variant='contained' style={btnStyle} 
-        onClick={handleDelete}>
+        onClick={DeleteUser}>
 					Delete
 				</Button>
         <BelowDelete>
         After click button your account will be deleted when log out
         </BelowDelete>
        
-      </BackgroundProfileContainer>}
+      </BackgroundProfileContainer>
       
     </>
   );

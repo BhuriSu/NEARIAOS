@@ -2,19 +2,18 @@ import createError from 'http-errors';
 import morgan from 'morgan';
 import path from 'path';
 import cors from 'cors';
-import {MongoClient} from 'mongodb';
-import listsRouter from './routes/listsRouter.js'; 
 import { customRedisRateLimiter } from './middleware/index.js';
 import helmet from 'helmet';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import {fileURLToPath} from 'url';
-import Profile from './models/modelProfile.js';
+import { fileURLToPath } from 'url';
+import usersRouter from "./routes/usersRouter.js";
+import listsRouter from "./routes/listsRouter.js";
 
 dotenv.config();
 const app = express();
-const uri = process.env.MONGO_DB_URI
+
 //secure by setting various http headers
 app.use(helmet());
 
@@ -32,7 +31,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const publicPath = path.join(__dirname, 'build');
@@ -42,81 +40,9 @@ app.get('*', (req, res) => {
   res.send(path.join(publicPath, 'index.html'));
 });
 
-app.get('/', (req, res) => {
-  res.json('Hello to my app')
-})
-
-app.get('/user', async (req, res) => {
-  const client = new MongoClient(uri)
-  const userId = req.query.userId
-
-  try {
-      await client.connect()
-      const database = client.db('app-data')
-      const users = database.collection('users')
-
-      const query = {user_id: userId}
-      const user = await users.findOne(query)
-      res.send(user)
-
-  } finally {
-      await client.close()
-  }
-})
-
-app.put('/user', async (req, res) => {
-  const client = new MongoClient(uri)
-  const formData = req.body.formData
-
-  try {
-      await client.connect()
-      const database = client.db('app-data')
-      const users = database.collection('users')
-      const query = {user_id: formData.user_id}
-      const updateDocument = {
-          $set: {
-              name: formData.name,
-              dob_day: formData.dob_day,
-              dob_month: formData.dob_month,
-              dob_year: formData.dob_year,
-              workplace: formData.workplace,
-              favorite: formData.favorite,
-              beverage: formData.beverage,
-              about: formData.about,
-          },
-      }
-      const insertedUser = await users.create(query, updateDocument)
-      res.json(insertedUser)
-  } finally {
-      await client.close()
-  }
-})
-
-app.put('/userUpdate', async (req, res) => {
-  const client = new MongoClient(uri)
-  const formData = req.body.formData
-
-  try {
-      await client.connect()
-      const database = client.db('app-data')
-      const users = database.collection('users')
-      const query = {user_id: formData.user_id}
-      const updateDocument = {
-          $set: {
-              workplace: formData.workplace,
-              favorite: formData.favorite,
-              beverage: formData.beverage,
-              about: formData.about,
-          },
-      }
-      const insertedUser = await users.updateOne(query, updateDocument)
-      res.json(insertedUser)
-  } finally {
-      await client.close()
-  }
-})
-
-app.use('/list', listsRouter); 
+// api 
+app.use(usersRouter)
+app.use(listsRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

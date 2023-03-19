@@ -3,8 +3,7 @@ import axios from 'axios';
 import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { FirstLineCreateAccount,CreatingContainer,FormAccount,
-    FormSection,LabelAccount,InputAccount,InputAccountSubmit,
-     MultipleContainer,MultipleInputAccount,MultipleLabelAccount
+    FormSection,LabelAccount,InputAccount,InputAccountSubmit
       } from './CreateElements';
 
 const CreatingAccount = () => {
@@ -12,9 +11,7 @@ const CreatingAccount = () => {
   const [formData, setFormData] = useState({
     user_id: cookies.UserId,
     name: '',
-    dob_day: '',
-    dob_month: '',
-    dob_year: '',
+    dob: '',
     workplace: '',
     favorite: '',
     beverage: '',
@@ -22,18 +19,15 @@ const CreatingAccount = () => {
   })
 
   let navigate = useNavigate()
-
   const handleSubmit = async (e) => {
-      console.log('submitted')
-      e.preventDefault()
-      try {
-          const response = await axios.put('/user', {formData})
-          console.log(response)
-          if (response.status === 200) navigate('/listUsers')
-      } catch (err) {
-          console.log(err)
-      }
-  }
+    e.preventDefault();
+    try {
+      await axios.post("/users", {formData});
+      navigate("/listUsers");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleChange = (e) => {
       const { name, value } = e.target;
@@ -62,38 +56,18 @@ const CreatingAccount = () => {
                           onChange={handleChange}
                       />
 
-                      <MultipleLabelAccount>Birthday</MultipleLabelAccount>
-                      <MultipleContainer>
-                          <MultipleInputAccount
-                              id="dob_day"
+                      <LabelAccount htmlFor="birthday">Birthday</LabelAccount>
+                      <InputAccount
+                              id="dob"
                               type="number"
-                              name="dob_day"
-                              placeholder="DD"
+                              name="dob"
+                              placeholder="Date of birth"
                               required={true}
-                              value={formData.dob_day}
+                              value={formData.dob}
+                              max="2002-03-13"
+                              min="1920-12-31"
                               onChange={handleChange}
                           />
-
-                          <MultipleInputAccount
-                              id="dob_month"
-                              type="number"
-                              name="dob_month"
-                              placeholder="MM"
-                              required={true}
-                              value={formData.dob_month}
-                              onChange={handleChange}
-                          />
-
-                          <MultipleInputAccount
-                              id="dob_year"
-                              type="number"
-                              name="dob_year"
-                              placeholder="YYYY"
-                              required={true}
-                              value={formData.dob_year}
-                              onChange={handleChange}
-                          />
-                      </MultipleContainer>
 
                       <LabelAccount htmlFor="workplace">Workplace</LabelAccount>
                       <InputAccount
