@@ -22,7 +22,7 @@ function ProfileEdit() {
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`users/${id}`, {
+      await axios.patch(`/users/${id}`, {
         workplace,
         beverage,
         favorite,
@@ -35,7 +35,7 @@ function ProfileEdit() {
   }
 
   const getUserById = async () => {
-    const response = await axios.get(`http://localhost:5000/users/${id}`);
+    const response = await axios.get(`/users/${id}`);
     setWorkplace(response.data.workplace);
     setBeverage(response.data.beverage);
     setFavorite(response.data.favorite);
