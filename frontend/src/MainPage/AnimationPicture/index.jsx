@@ -42,19 +42,19 @@ function Card({ text, hueA, hueB }) {
   );
 }
 
-const food = [
-  ['Want', 340, 10],
-  ['New', 20, 40],
-  ['Friend', 60, 90],
-  ['At', 80, 120],
-  ['Some', 150, 140],
-  ['Place', 205, 245],
+const word = [
+  ['No', 340, 10],
+  ['Need', 20, 40],
+  ['To', 60, 90],
+  ['Be', 80, 120],
+  ['So', 150, 140],
+  ['Lonely', 205, 245],
   ['Right?', 260, 290],
   ['👾', 290, 320]
 ];
 
 export default function Animation() {
-  return food.map(([text, hueA, hueB]) => (
+  return word.map(([text, hueA, hueB]) => (
   
     <Card text={text} hueA={hueA} hueB={hueB} key={text} />
 
