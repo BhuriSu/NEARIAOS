@@ -8,7 +8,7 @@ import { BackgroundProfileContainer, BackToListPage,
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
 import UploadPhoto from './UploadPhoto';
-function ProfileEdit() {
+function ProfileEdit({formData}) {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'};
   const [workplace, setWorkplace] = useState('');
@@ -106,7 +106,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='workplace'
-              value={workplace}
+              value={formData.workplace}
               onChange={handleChangeWorkplace}
               type='text'
               name='workplace'
@@ -122,7 +122,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='favorite'
-              value={favorite}
+              value={formData.favorite}
               onChange={handleChangeFavorite}
               type='text'
               name='favorite'
@@ -138,7 +138,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='about'
-              value={about}
+              value={formData.about}
               onChange={handleChangeAbout}
               type='text'
               name='about'
@@ -154,7 +154,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='beverage'
-              value={beverage}
+              value={formData.beverage}
               onChange={handleChangeBeverage}
               type='text'
               name='beverage'

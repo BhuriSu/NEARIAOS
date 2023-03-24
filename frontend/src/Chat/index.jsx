@@ -1,7 +1,7 @@
 import React from 'react';
 import SendbirdApp from "@sendbird/uikit-react/App";
 import "@sendbird/uikit-react/dist/index.css";
-import ChatContainer from './ChatElement';
+import {ChatContainer} from './ChatElement';
 
 const Chat = ({name,UploadPhoto}) => {
     return (

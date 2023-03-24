@@ -1,4 +1,4 @@
-import Profile from "../models/modelProfile";
+import Profile from "../models/modelProfile.js";
 
 export const getUserById = async (req, res) => {
     try {
