@@ -3,6 +3,6 @@ import { Lists, FindUsers } from '../controllers/list.js';
 const router = express.Router();
 
 router.get('/', Lists);
-router.post('/users', FindUsers);
+router.post('/users/:id', FindUsers);
 
 export default router;

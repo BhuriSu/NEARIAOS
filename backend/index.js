@@ -18,11 +18,7 @@ const app = express();
 app.use(helmet());
 
 //prevent COR access error
-const corsOptions = {
-  origin: true, 
-  credentials: true, 
-};
-app.use(cors(corsOptions));
+app.use(cors());
 
 // collect log http 
 app.use(morgan('dev'));

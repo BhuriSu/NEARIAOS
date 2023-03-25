@@ -9,7 +9,7 @@ function ModalWindow(props) {
   const { url } = props;
   const profile = props.obj;
   const age = Math.floor(
-    (new Date() - new Date(profile.dob_day.dob_month.dob_year)) / (24 * 3600 * 365.25 * 1000),
+    (new Date() - new Date(profile.dob)) / (24 * 3600 * 365.25 * 1000),
   );
 
   return (

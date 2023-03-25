@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate,useParams } from 'react-router-dom';
 import axios from 'axios';
 import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
@@ -34,6 +34,7 @@ function ProfileEdit({formData}) {
     }
   }
 
+// if it's not working I will put formData in getUserById and set...
   const getUserById = async () => {
     const response = await axios.get(`/users/${id}`);
     setWorkplace(response.data.workplace);
@@ -66,7 +67,7 @@ function ProfileEdit({formData}) {
   const LogOut = async () => {
     try {
       await logout();
-      navigate('/');
+      navigate("/");
       console.log('You are logged out')
     } catch (e) {
       const errorMessage = e.message;

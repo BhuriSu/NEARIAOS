@@ -46,6 +46,12 @@ border: solid 2px #000;
 border-radius: 10px;
 margin-right: -250px;
 `;
+export const ContainerDob = styled.div`
+padding: 10px;
+border: solid 2px #000;
+border-radius: 10px;
+margin-right: -250px;
+`;
 export const InputAccountSubmit = styled.input`
 background-color: #7033ff;
 padding: 10px;

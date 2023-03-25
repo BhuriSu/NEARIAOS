@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useCookies } from 'react-cookie';
 import { useNavigate } from 'react-router-dom';
 import { FirstLineCreateAccount,CreatingContainer,FormAccount,
-    FormSection,LabelAccount,InputAccount,InputAccountSubmit
+    FormSection,LabelAccount,InputAccount,InputAccountSubmit,ContainerDob
       } from './CreateElements';
 
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 const CreatingAccount = () => {
-  const [cookies] = useCookies(null);
   const [formData, setFormData] = useState({
-    user_id: cookies.UserId,
     name: '',
     dob: '',
     workplace: '',
@@ -57,17 +58,20 @@ const CreatingAccount = () => {
                       />
 
                       <LabelAccount htmlFor="birthday">Birthday</LabelAccount>
-                      <InputAccount
-                              id="dob"
-                              type="number"
-                              name="dob"
-                              placeholder="Date of birth"
-                              required={true}
-                              value={formData.dob}
-                              max="2002-03-13"
-                              min="1920-12-31"
-                              onChange={handleChange}
-                          />
+
+                      <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <ContainerDob>
+                      <DatePicker 
+                      label="Date of birth" 
+                      id="dob"
+                      type="number"
+                      name="dob"
+                      value={formData.dob}
+                      onChange={formData => handleChange({ target: { value: formData, name: 'dob' } })}
+                      required={true}
+                      />
+                      </ContainerDob>
+                      </LocalizationProvider>
 
                       <LabelAccount htmlFor="workplace">Workplace</LabelAccount>
                       <InputAccount

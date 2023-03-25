@@ -1,5 +1,4 @@
 import Profile from '../models/modelProfile.js'; 
-import asyncHandler from 'express-async-handler';
 
 // geolocation formula
 const rad = x => (x * Math.PI) / 180;
@@ -18,11 +17,11 @@ const distHaversine = (p1, p2) => {
   return d.toFixed(3) * 1000; 
 };
 
-export const Lists = asyncHandler(async (req, res) => {
+export const Lists = async (req, res) => {
   res.json('respond with a resource');
-});
+};
 
-export const FindUsers = asyncHandler(async (req, res) => {
+export const FindUsers = async (req, res) => {
   const { id, latitude, longitude, radius } = req.body;
   if ([id, latitude, longitude, radius].some(el => el === undefined)) {
     return res.send({
@@ -50,7 +49,7 @@ export const FindUsers = asyncHandler(async (req, res) => {
  
   await Profile.updateOne(
     {
-      person: id
+      userId: id
     },
     {
       // $set operator replaces the value of a field with the specified value.
@@ -70,4 +69,4 @@ export const FindUsers = asyncHandler(async (req, res) => {
     success: false,
     err: 'No such a user from this geolocation'
   });
-});
+};
