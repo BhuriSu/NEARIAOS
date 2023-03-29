@@ -5,9 +5,9 @@ import {
 import { Link } from 'react-router-dom';
 import { Mini, AvatarModal } from './ModalElements';
 
-function ModalWindow(props) {
-  const { url } = props;
-  const profile = props.obj;
+function ModalWindow(formData) {
+  const { url } = formData;
+  const profile = formData.obj;
   const age = Math.floor(
     (new Date() - new Date(profile.dob)) / (24 * 3600 * 365.25 * 1000),
   );
@@ -97,7 +97,7 @@ function ModalWindow(props) {
                 backgroundColor: '#FFF',
               }}
             >
-              Write
+              Chat
             </Button>
           </Link>
         </Modal.Actions>

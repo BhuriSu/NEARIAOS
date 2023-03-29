@@ -27,7 +27,7 @@ function Premium() {
 
         <PremiumCard3>
           <PremiumIcon src={Card3} width='400' height='400' alt='' />
-          <PremiumH2>Randomly receiving payback 100%</PremiumH2>
+          <PremiumH2>effect around card</PremiumH2>
         </PremiumCard3>
 
       </PremiumWrapper>

@@ -1,5 +1,6 @@
 import express from "express";
 import { 
+    getUser,
     getUserById,
     saveUser,
     updateUser,
@@ -7,6 +8,7 @@ import {
 } from "../controllers/user.js";
 const router = express.Router();
 
+router.get('/users', getUser);
 router.get('/users/:id', getUserById);
 router.post('/users', saveUser);
 router.patch('/users/:id', updateUser);

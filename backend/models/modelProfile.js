@@ -28,9 +28,6 @@ const profileSchema = new Schema({
     type: String,
     minlength: 1,
   },
-  avatar: { 
-    type: String 
-  },
   latitude: Number,
   longitude: Number,
 },

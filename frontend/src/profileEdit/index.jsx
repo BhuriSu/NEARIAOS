@@ -4,17 +4,17 @@ import axios from 'axios';
 import { getAuth, deleteUser } from "firebase/auth";
 import './profileEdit.css';
 import { BackgroundProfileContainer, BackToListPage,
-   LogOutLine, StyledInput, BelowDelete } from './profileEditsElements'
+   LogOutLine, StyledInput, BelowDelete } from './profileEditsElements';
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
 import UploadPhoto from './UploadPhoto';
-function ProfileEdit({formData}) {
+function ProfileEdit() {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'};
-  const [workplace, setWorkplace] = useState('');
-  const [beverage, setBeverage] = useState('');
-  const [favorite, setFavorite] = useState('');
-  const [about, setAbout] = useState('');
+  const [workplace, setWorkplace] = useState("");
+  const [beverage, setBeverage] = useState("");
+  const [favorite, setFavorite] = useState("");
+  const [about, setAbout] = useState("");
   const { logout } = useUserAuth();
   const navigate = useNavigate();
   const { id } = useParams();
@@ -22,7 +22,7 @@ function ProfileEdit({formData}) {
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`/users/${id}`, {
+      await axios.patch(`/user/profile/${id}`, {
         workplace,
         beverage,
         favorite,
@@ -33,14 +33,24 @@ function ProfileEdit({formData}) {
       console.log(error);
     }
   }
+  const getUser = async () => {
+    const response = await axios.get('/user/users');
+    setWorkplace(response.data);
+    setBeverage(response.data);
+    setFavorite(response.data);
+    setAbout(response.data);
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
 
-// if it's not working I will put formData in getUserById and set...
+
   const getUserById = async () => {
-    const response = await axios.get(`/users/${id}`);
-    setWorkplace(response.data.workplace);
-    setBeverage(response.data.beverage);
-    setFavorite(response.data.favorite);
-    setAbout(response.data.about);
+    const response = await axios.get(`/user/profile/${id}`);
+    setWorkplace(response.data);
+    setBeverage(response.data);
+    setFavorite(response.data);
+    setAbout(response.data);
   };
 
   useEffect(() => {
@@ -82,7 +92,7 @@ function ProfileEdit({formData}) {
       const auth = getAuth();
       const user = auth.currentUser;
       deleteUser(user);
-      await axios.delete(`users/${id}`);
+      await axios.delete(`/user/profile/${id}`);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -107,7 +117,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='workplace'
-              value={formData.workplace}
+              value={workplace}
               onChange={handleChangeWorkplace}
               type='text'
               name='workplace'
@@ -123,7 +133,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='favorite'
-              value={formData.favorite}
+              value={favorite}
               onChange={handleChangeFavorite}
               type='text'
               name='favorite'
@@ -139,7 +149,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='about'
-              value={formData.about}
+              value={about}
               onChange={handleChangeAbout}
               type='text'
               name='about'
@@ -155,7 +165,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='beverage'
-              value={formData.beverage}
+              value={beverage}
               onChange={handleChangeBeverage}
               type='text'
               name='beverage'
@@ -168,7 +178,7 @@ function ProfileEdit({formData}) {
         </form>
         <br/>
         <br/>
-        <Button style={SaveBtnStyle} type="submit"  variant='contained'>
+        <Button style={SaveBtnStyle} type="submit" variant='contained'>
             Save changes
         </Button>
         <br/>

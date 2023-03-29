@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { useCookies } from 'react-cookie';
 import axios from 'axios';
 import {  getDownloadURL, getStorage } from 'firebase/storage';
 import { ref, getDatabase, child, onValue } from 'firebase/database';
@@ -13,9 +12,8 @@ import { Button } from '@mui/material';
  * @param {*} props
  */
 
-function ListUsers() {
+function ListUsers(formData) {
   const btnStyle = { marginTop: 5,backgroundColor: '#00eeff',color:'#000' };
-  const [cookies] = useCookies(['user']);
   const [radius, setRadius] = useState('');
   const [list, setList] = useState({
     success: false,
@@ -25,7 +23,7 @@ function ListUsers() {
   const [setUser] = useState('');
   const [url, setUrl] = useState('');
   const database = ref(getDatabase());
-  const pushRoom = child(database, `${cookies.user}`);
+  const pushRoom = child(database, `${formData.name}`);
 
   useEffect(() => {
     const handleNewMessages = async (snap) => {
@@ -64,12 +62,12 @@ function ListUsers() {
       .then(async (response) => {
         if (response.data.success) {
 
-          const promisesArr = response.data.list.map(async (user) => {
+          const promisesArr = response.data.list.map(async (name) => {
             const storage = getStorage();
-            const pic = await getDownloadURL(ref(storage, `images/${user.person}`))
+            const pic = await getDownloadURL(ref(storage, `images/${name.person}`))
               .catch((e) => console.log(e));
-            user.url = pic;
-            return user;
+              name.url = pic;
+            return name;
           });
 
           Promise.all(promisesArr).then((result) => {
@@ -79,7 +77,7 @@ function ListUsers() {
             });
 
             result.forEach((el) => {
-              if (el.person === cookies.user) {
+              if (el.name === formData.name) {
                 setUrl(el.url);
               }
             });
@@ -105,7 +103,7 @@ function ListUsers() {
       setLongitude(position.coords.longitude);
 
       requestListUsers(
-        cookies.user,
+        formData.name,
         position.coords.latitude,
         position.coords.longitude,
         radius || 200,

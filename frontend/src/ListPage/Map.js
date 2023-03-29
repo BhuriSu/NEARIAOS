@@ -6,16 +6,16 @@ import { Link } from 'react-router-dom';
 import { GoogleMap, Marker, Circle, LoadScript } from '@react-google-maps/api';
 import styles from './GoogleMapStyles.json';
 
-function Map({
+const Map = ({
   googleMapURL = process.env.REACT_APP_GOOGLE_MAP_URI,
   latitude,
   longitude,
   list,
   radius,
   url,
- }) {
+ }) => {
   
-  function CMap(props) {
+  const CMap = (formData) => {
    
     return (
       <LoadScript googleMapsApiKey={googleMapURL}>
@@ -31,7 +31,7 @@ function Map({
           styles,
         }}
       >
-        {props.children}
+        {formData.children}
       </GoogleMap>
       </LoadScript>
     );
@@ -108,7 +108,7 @@ function Map({
                     backgroundColor: '#FFF',
                   }}
                 >
-                  Write
+                  Chat
                 </Button>
               </Link>
             </Modal.Actions>

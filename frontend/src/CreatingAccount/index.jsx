@@ -4,7 +4,6 @@ import { useNavigate } from 'react-router-dom';
 import { FirstLineCreateAccount,CreatingContainer,FormAccount,
     FormSection,LabelAccount,InputAccount,InputAccountSubmit,ContainerDob
       } from './CreateElements';
-
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -17,13 +16,13 @@ const CreatingAccount = () => {
     favorite: '',
     beverage: '',
     about: '',
-  })
+  });
 
-  let navigate = useNavigate()
+  const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/users", {formData});
+      await axios.post("/user/users", formData);
       navigate("/listUsers");
     } catch (error) {
       console.log(error);
@@ -31,12 +30,11 @@ const CreatingAccount = () => {
   };
 
   const handleChange = (e) => {
-      const { name, value } = e.target;
-      setFormData((prevState) => ({
-          ...prevState,
-          [name]: value
-      }))
-  }
+    setFormData({
+        ...formData,
+        [e.target.name]: e.target.value
+    });
+  };
 
   return (
 

@@ -49,7 +49,7 @@ export const FindUsers = async (req, res) => {
  
   await Profile.updateOne(
     {
-      userId: id
+      _id:req.params.id
     },
     {
       // $set operator replaces the value of a field with the specified value.
