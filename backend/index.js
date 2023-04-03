@@ -25,7 +25,6 @@ app.use(morgan('dev'));
 
 //when you want to use POST and PUT/PATCH method
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

@@ -2,13 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate,useParams } from 'react-router-dom';
 import axios from 'axios';
 import { getAuth, deleteUser } from "firebase/auth";
+import {
+  ref, uploadBytesResumable, getDownloadURL
+} from 'firebase/storage';
+import {storage} from '../Firebase/firebase';
 import './profileEdit.css';
 import { BackgroundProfileContainer, BackToListPage,
-   LogOutLine, StyledInput, BelowDelete } from './profileEditsElements';
+   LogOutLine, StyledInput, Avatar, BelowDelete } from './profileEditsElements';
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
-import UploadPhoto from './UploadPhoto';
-function ProfileEdit() {
+
+
+function ProfileEdit({formData}) {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'};
   const [workplace, setWorkplace] = useState("");
@@ -18,6 +23,7 @@ function ProfileEdit() {
   const { logout } = useUserAuth();
   const navigate = useNavigate();
   const { id } = useParams();
+  const [url, setUrl] = useState('./images/UploadPic.png');
         
   const updateUser = async (e) => {
     e.preventDefault();
@@ -27,14 +33,18 @@ function ProfileEdit() {
         beverage,
         favorite,
         about,
+        avatar: url
       });
       navigate("/profile");
     } catch (error) {
       console.log(error);
     }
   }
+
+
+
   const getUser = async () => {
-    const response = await axios.get('/user/users');
+    const response = await axios.get('/user/profile');
     setWorkplace(response.data);
     setBeverage(response.data);
     setFavorite(response.data);
@@ -74,6 +84,48 @@ function ProfileEdit() {
     setWorkplace(e.target.value);
   }
 
+  function Photo() {
+    const [formData, setFormData] = useState({
+      image: "",
+    })
+  
+        const storageRef = ref(storage, `/images/${formData.image.name}`);
+        const uploadImage = uploadBytesResumable(storageRef, formData.image);
+        uploadImage.on("state_changed", (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log('Upload is ' + progress + '% done');
+          switch (snapshot.state) {
+            case 'paused':
+              console.log('Upload is paused');
+              break;
+            case 'running':
+              console.log('Upload is running');
+              break;
+          }
+      }, (error) => {
+        switch (error.code) {
+          case 'storage/unauthorized':
+            console.log('storage is unauthorized');
+            break;
+          case 'storage/canceled':
+            console.log('storage is canceled');
+            break;
+          case 'storage/unknown':
+            console.log('storage is unknown');
+            break;
+          default:
+            console.log('sorry it is not about storage');
+        }
+      },
+          (e) => {
+            setFormData({ ...formData, image: e.target.files[0] });
+            getDownloadURL(uploadImage.snapshot.ref).then((url) => {
+              setUrl(url)
+            });
+          },
+        );
+    }
+
   const LogOut = async () => {
     try {
       await logout();
@@ -103,11 +155,12 @@ function ProfileEdit() {
     <>
       
       <BackgroundProfileContainer >
-        <div style={{ alignSelf: 'center' }}>
-          <label htmlFor='file-input'>
-          <UploadPhoto />
-          </label>
-        </div>
+      <div style={{ alignSelf: 'center' }}>
+      <label htmlFor='file-input'>
+        <Avatar style={{ backgroundImage: `url(${url})` }} />
+        </label>
+        <input id='file-input' type='file' title='upload' onChange={Photo} />
+    </div>
         <br/>
         <form onSubmit={updateUser}>
           <span
@@ -117,7 +170,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='workplace'
-              value={workplace}
+              value={formData.workplace}
               onChange={handleChangeWorkplace}
               type='text'
               name='workplace'
@@ -133,7 +186,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='favorite'
-              value={favorite}
+              value={formData.favorite}
               onChange={handleChangeFavorite}
               type='text'
               name='favorite'
@@ -149,7 +202,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='about'
-              value={about}
+              value={formData.about}
               onChange={handleChangeAbout}
               type='text'
               name='about'
@@ -165,7 +218,7 @@ function ProfileEdit() {
             <label>
             <StyledInput
               title='beverage'
-              value={beverage}
+              value={formData.beverage}
               onChange={handleChangeBeverage}
               type='text'
               name='beverage'

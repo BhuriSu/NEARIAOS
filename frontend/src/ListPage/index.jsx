@@ -12,7 +12,7 @@ import { Button } from '@mui/material';
  * @param {*} props
  */
 
-function ListUsers(formData) {
+function ListUsers({formData}) {
   const btnStyle = { marginTop: 5,backgroundColor: '#00eeff',color:'#000' };
   const [radius, setRadius] = useState('');
   const [list, setList] = useState({
@@ -54,7 +54,7 @@ function ListUsers(formData) {
 
   const requestListUsers = (id, latitude, longitude, radius) => {
     axios
-      .post(`users/${id}`, {
+      .post(`/list/users/${id}`, {
         latitude,
         longitude,
         radius,

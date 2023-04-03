@@ -47,6 +47,14 @@ export const StyledInput = styled.input`
     color: #000;
   }
 `;
+export const Avatar = styled.div`
+width: 200px;
+height: 200px;
+border-radius: 50%;
+background-size: cover;
+background-position: center;
+cursor: pointer;
+`;
 export const BelowDelete = styled.h2`
   font-size: 1rem;
   margin: 10px;

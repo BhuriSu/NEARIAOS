@@ -22,7 +22,7 @@ const CreatingAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/user/users", formData);
+      await axios.post("/user/profile", {formData});
       navigate("/listUsers");
     } catch (error) {
       console.log(error);
@@ -30,9 +30,10 @@ const CreatingAccount = () => {
   };
 
   const handleChange = (e) => {
+    const {name, value} = e.target;
     setFormData({
         ...formData,
-        [e.target.name]: e.target.value
+        [name]: value
     });
   };
 
@@ -42,7 +43,7 @@ const CreatingAccount = () => {
          
               <FirstLineCreateAccount>CREATE ACCOUNT</FirstLineCreateAccount>
 
-              <FormAccount onSubmit={handleSubmit}>
+              <FormAccount onSubmit={handleSubmit} >
                   <FormSection>
                       <LabelAccount htmlFor="name">Name</LabelAccount>
                       <InputAccount

@@ -42,6 +42,7 @@ export const updateUser = async (req, res) => {
          beverage:req.body.beverage,
          favorite:req.body.favorite,
          about:req.body.about,
+         avatar:req.body.avatar,
         }
     });
         res.status(200).json(updatedUser);
