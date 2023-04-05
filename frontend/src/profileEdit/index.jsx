@@ -41,8 +41,6 @@ function ProfileEdit({formData}) {
     }
   }
 
-
-
   const getUser = async () => {
     const response = await axios.get('/user/profile');
     setWorkplace(response.data);

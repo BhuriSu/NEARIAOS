@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {  getDownloadURL, getStorage } from 'firebase/storage';
+import { getDownloadURL, getStorage } from 'firebase/storage';
 import { ref, getDatabase, child, onValue } from 'firebase/database';
 import Map from './Map';
 import ModalWindow from '../NewFeedComponents/Modal';
