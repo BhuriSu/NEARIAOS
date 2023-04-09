@@ -51,7 +51,8 @@ const LogIn=({handleChange})=>{
                      <h2>Sign In</h2>
                 </Grid>
                 <form onSubmit={handleSubmit}>
-                <TextField  
+                <TextField
+                data-cy='login-email'  
                 variant='standard' 
                 label='Email' 
                 placeholder='Enter Email' 
@@ -59,6 +60,7 @@ const LogIn=({handleChange})=>{
                 onChange={(e) => setEmail(e.target.value)}  
                 />
                 <TextField  
+                data-cy='login-password'
                 variant='standard' 
                 label='Password' 
                 placeholder='Enter password' 

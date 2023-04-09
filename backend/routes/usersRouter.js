@@ -1,6 +1,5 @@
 import express from "express";
 import { 
-    getUser,
     getUserById,
     saveUser,
     updateUser,
@@ -8,7 +7,6 @@ import {
 } from "../controllers/user.js";
 const router = express.Router();
 
-router.get('/profile', getUser);
 router.get('/profile/:id', getUserById);
 router.post('/profile', saveUser);
 router.patch('/profile/:id', updateUser);

@@ -12,8 +12,7 @@ import { BackgroundProfileContainer, BackToListPage,
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
 
-
-function ProfileEdit({formData}) {
+function ProfileEdit(props) {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'};
   const [workplace, setWorkplace] = useState("");
@@ -24,16 +23,21 @@ function ProfileEdit({formData}) {
   const navigate = useNavigate();
   const { id } = useParams();
   const [url, setUrl] = useState('./images/UploadPic.png');
-        
-  const updateUser = async (e) => {
+  const formData = props.location.state;
+
+const updateUser = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`/user/profile/${id}`, {
+      await axios.patch(`/users/profile/${id}`, {
         workplace,
         beverage,
         favorite,
         about,
         avatar: url
+      }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       });
       navigate("/profile");
     } catch (error) {
@@ -41,29 +45,35 @@ function ProfileEdit({formData}) {
     }
   }
 
-  const getUser = async () => {
-    const response = await axios.get('/user/profile');
-    setWorkplace(response.data);
-    setBeverage(response.data);
-    setFavorite(response.data);
-    setAbout(response.data);
-  };
-  useEffect(() => {
-    getUser();
-  }, []);
+ useEffect(() => {
+    if (formData) {
+      setWorkplace(formData.workplace);
+      setBeverage(formData.beverage);
+      setFavorite(formData.favorite);
+      setAbout(formData.about);
+    }
+  }, [formData]);
 
 
   const getUserById = async () => {
-    const response = await axios.get(`/user/profile/${id}`);
-    setWorkplace(response.data);
-    setBeverage(response.data);
-    setFavorite(response.data);
-    setAbout(response.data);
+    try {
+      const response = await axios.get(`/users/profile/${id}`, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      setWorkplace(response.data.workplace);
+      setBeverage(response.data.beverage);
+      setFavorite(response.data.favorite);
+      setAbout(response.data.about);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
     getUserById();
-  }, []);
+  }, [id]);
 
   function handleChangeAbout(e) {
     e.preventDefault();
@@ -142,7 +152,7 @@ function ProfileEdit({formData}) {
       const auth = getAuth();
       const user = auth.currentUser;
       deleteUser(user);
-      await axios.delete(`/user/profile/${id}`);
+      await axios.delete(`/users/profile/${id}`);
       navigate("/");
     } catch (error) {
       console.log(error);
@@ -168,7 +178,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='workplace'
-              value={formData.workplace}
+              value={workplace}
               onChange={handleChangeWorkplace}
               type='text'
               name='workplace'
@@ -184,7 +194,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='favorite'
-              value={formData.favorite}
+              value={favorite}
               onChange={handleChangeFavorite}
               type='text'
               name='favorite'
@@ -200,7 +210,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='about'
-              value={formData.about}
+              value={about}
               onChange={handleChangeAbout}
               type='text'
               name='about'
@@ -216,7 +226,7 @@ function ProfileEdit({formData}) {
             <label>
             <StyledInput
               title='beverage'
-              value={formData.beverage}
+              value={beverage}
               onChange={handleChangeBeverage}
               type='text'
               name='beverage'

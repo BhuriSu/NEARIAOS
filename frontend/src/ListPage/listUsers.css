@@ -8,14 +8,6 @@
   background-color: black;
 }
 
-.input-form-UserList {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-
 /*------------------------toggle---------------------------*/
 input.sw {
   opacity: 0;
@@ -90,14 +82,7 @@ input.sw:checked + label {
 
 
 /*-------------------------------------input-range-----------------------------------------*/
-.label {
-  font: 1rem "Fira Sans", sans-serif;
-  text-align: center;
-  text-shadow: none;
-  font-size: 20px;
-  margin-top: 10px;
-  color: #fff;
-}
+
 input[type="range"] {
   background-color: transparent;
 }

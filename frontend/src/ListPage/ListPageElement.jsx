@@ -30,3 +30,19 @@ background: transparent;
 margin-top:20px;
 -webkit-font-smoothing: antialiased;
 `;
+
+export const InputFormUserList = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+`;
+
+export const LabelRadius = styled.div`
+font: 1rem "Fira Sans", sans-serif;
+text-align: center;
+text-shadow: none;
+font-size: 20px;
+margin-top: 10px;
+color: #fff;
+`;

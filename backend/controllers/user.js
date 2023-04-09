@@ -1,13 +1,5 @@
 import Profile from "../models/modelProfile.js";
 
-export const getUser = async (req, res) => {
-    try {
-        const user = await Profile.find();
-        res.json(user);
-    } catch (error) {
-        res.status(404).json({message: error.message});
-    }
-}
 export const getUserById = async (req, res) => {
     try {
         const user = await Profile.findById(req.params.id);
@@ -16,40 +8,47 @@ export const getUserById = async (req, res) => {
         res.status(404).json({message: error.message});
     }
 }
-
 export const saveUser = async (req, res) => {
+    const { name, dob, workplace, favorite, beverage, about } = req.body;
+    if (!name || !dob || !workplace || !favorite || !beverage || !about) {
+      return res.status(400).json({ message: "All fields are required" });
+    }
     const user = new Profile({
-        name: req.body.name,
-        dob: req.body.dob,
-        workplace: req.body.workplace,
-        favorite: req.body.favorite,
-        beverage: req.body.beverage,
-        about: req.body.about,
+      name,
+      dob,
+      workplace,
+      favorite,
+      beverage,
+      about,
     });
     try {
-        const insertedUser = await user.save();
-        res.status(201).json(insertedUser);
+      const insertedUser = await user.save();
+      res.status(201).json(insertedUser);
     } catch (error) {
-        res.status(400).json({message: error.message});
+      res.status(400).json({ message: error.message });
     }
-}
+  };
 
-export const updateUser = async (req, res) => {
+  export const updateUser = async (req, res) => {
     try {
-        const updatedUser = await Profile.updateOne({_id:req.params.id}, {$set: 
+      const updatedUser = await Profile.findOneAndUpdate(
+        { _id: req.params.id },
         {
-         workplace:req.body.workplace,
-         beverage:req.body.beverage,
-         favorite:req.body.favorite,
-         about:req.body.about,
-         avatar:req.body.avatar,
-        }
-    });
-        res.status(200).json(updatedUser);
+          $set: {
+            workplace: req.body.workplace,
+            beverage: req.body.beverage,
+            favorite: req.body.favorite,
+            about: req.body.about,
+            avatar: req.body.avatar,
+          },
+        },
+        { new: true }
+      );
+      res.status(200).json(updatedUser);
     } catch (error) {
-        res.status(400).json({message: error.message});
+      res.status(400).json({ message: error.message });
     }
-}
+  };
 
 export const deleteUser = async (req, res) => {
     try {

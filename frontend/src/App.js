@@ -6,7 +6,7 @@ import {
 import Home from './pages/main';
 import PremiumPage from './pages/premium';
 import ContactPage from './pages/contact';
-import CreatingAccountPage from './pages/process';
+import Create_a_accountPage from './pages/process';
 import ProfileEditPage from './pages/profile';
 import ChatPage from './pages/chat';
 import ListPage from './pages/listUsers';
@@ -26,7 +26,7 @@ function App() {
           <Route path='/premium' element={<PremiumPage/>} />
           <Route path='/contact' element={<ContactPage/>} />
           <Route path='/startForm' element={<LogInAndSignUpPage/>} />
-          <Route path='/process' element={<CreatingAccountPage/>} />
+          <Route path='/process' element={<Create_a_accountPage/>} />
           <Route path='/profile' element={<ProfileEditPage/>} />
           <Route path='/chat' element={<ChatPage/>} />
           <Route path='/listUsers' element={<ListPage/>} />

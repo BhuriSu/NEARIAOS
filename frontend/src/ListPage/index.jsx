@@ -1,43 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import axios from 'axios';
 import { getDownloadURL, getStorage } from 'firebase/storage';
-import { ref, getDatabase, child, onValue } from 'firebase/database';
+import { ref} from 'firebase/database';
 import Map from './Map';
 import ModalWindow from '../NewFeedComponents/Modal';
 import './listUsers.css';
-import { ListPageBackground, ToggleBox } from './ListPageElement';
+import { ListPageBackground, ToggleBox, InputFormUserList,
+  LabelRadius } from './ListPageElement';
 import { Button } from '@mui/material';
 
 /**
  * @param {*} props
  */
 
-function ListUsers({formData}) {
-  const btnStyle = { marginTop: 5,backgroundColor: '#00eeff',color:'#000' };
+function ListUsers() {
+  const btnStyle = { backgroundColor: '#00eeff',color:'#000' };
   const [radius, setRadius] = useState('');
   const [list, setList] = useState({
     success: false,
     err: '',
   });
   const [isShowMap, setShowMap] = useState(false);
-  const [setUser] = useState('');
-  const [url, setUrl] = useState('');
-  const database = ref(getDatabase());
-  const pushRoom = child(database, `${formData.name}`);
 
-  useEffect(() => {
-    const handleNewMessages = async (snap) => {
-      if (snap.val()) {
-        Object.entries(snap.val()).forEach((el) => {
-          const [, obj] = el;
-          obj && setUser(obj);
-        });
-        pushRoom.remove();
-      }
-    };
-    const unsubscribe = onValue(pushRoom, handleNewMessages);
-    return () => unsubscribe();
-  });
+  const [url, setUrl] = useState('');
+
+
 
   const ChangeOnMap = () => {
     setShowMap(!isShowMap);
@@ -54,7 +41,7 @@ function ListUsers({formData}) {
 
   const requestListUsers = (id, latitude, longitude, radius) => {
     axios
-      .post(`/list/users/${id}`, {
+      .post(`/lists/users/${id}`, {
         latitude,
         longitude,
         radius,
@@ -62,12 +49,12 @@ function ListUsers({formData}) {
       .then(async (response) => {
         if (response.data.success) {
 
-          const promisesArr = response.data.list.map(async (name) => {
+          const promisesArr = response.data.list.map(async (user) => {
             const storage = getStorage();
-            const pic = await getDownloadURL(ref(storage, `images/${name.person}`))
+            const pic = await getDownloadURL(ref(storage, `images/${user._id}`))
               .catch((e) => console.log(e));
-              name.url = pic;
-            return name;
+              user.url = pic;
+            return user;
           });
 
           Promise.all(promisesArr).then((result) => {
@@ -77,7 +64,7 @@ function ListUsers({formData}) {
             });
 
             result.forEach((el) => {
-              if (el.name === formData.name) {
+              if (el._id) {
                 setUrl(el.url);
               }
             });
@@ -103,7 +90,6 @@ function ListUsers({formData}) {
       setLongitude(position.coords.longitude);
 
       requestListUsers(
-        formData.name,
         position.coords.latitude,
         position.coords.longitude,
         radius || 200,
@@ -134,7 +120,7 @@ function ListUsers({formData}) {
 
   return (
     <ListPageBackground>
-         <div className='input-form-UserList'>
+         <InputFormUserList>
           <input
             title='radius'
             className='inputFind'
@@ -160,7 +146,7 @@ function ListUsers({formData}) {
             step='200'
             value={radius}
           />
-          <label className='label'>
+          <LabelRadius>
             {radius !== null ? (
               <div>
                  Just touch the line and move right or left
@@ -177,7 +163,7 @@ function ListUsers({formData}) {
               <div style={{ margin: 'auto 0' }}>Choose the radius</div>
             )}
             &nbsp;
-          </label>
+          </LabelRadius>
           <Button  
             variant='contained' 
             id='find-me'
@@ -189,7 +175,7 @@ function ListUsers({formData}) {
 
           {list.success ? (
           <ToggleBox>
-            <input type='checkbox' name='toggle' className='sw' id='toggle-2' />
+            <input type='checkbox' user='toggle' className='sw' id='toggle-2' />
             <label htmlFor='toggle-2' onClick={ChangeOnMap}>
               <span>Use a map</span>
             </label>
@@ -233,7 +219,7 @@ function ListUsers({formData}) {
             )}
           </div>
       
-        </div>
+        </InputFormUserList>
 
     </ListPageBackground>
   );

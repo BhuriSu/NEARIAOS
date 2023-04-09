@@ -1,14 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FirstLineCreateAccount,CreatingContainer,FormAccount,
+import { FirstLineCreateAccount,Create_a_accountContainer,FormAccount,
     FormSection,LabelAccount,InputAccount,InputAccountSubmit,ContainerDob
       } from './CreateElements';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const CreatingAccount = () => {
+const Create_a_account = () => {
   const [formData, setFormData] = useState({
     name: '',
     dob: '',
@@ -22,27 +22,47 @@ const CreatingAccount = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("/user/profile", {formData});
-      navigate("/listUsers");
+      const headers = {
+        'X-CSRF-Token': csrfToken,
+        'Content-Type': 'application/json',
+      };
+      await axios.post("/users/profile", { formData }, { headers });
+      navigate("/listUsers", { state: formData });
     } catch (error) {
       console.log(error);
     }
   };
+ 
+  const [csrfToken, setCsrfToken] = useState('');
+  useEffect(() => {
+    const fetchCsrfToken = async () => {
+      const response = await axios.get("/api/csrf-token");
+      setCsrfToken(response.data.csrfToken);
+    };
+    fetchCsrfToken();
+  }, []);
+
+  const validateName = (name) => {
+    const regex = /^[a-zA-Z\s]*$/;
+    return regex.test(name);
+  }
 
   const handleChange = (e) => {
-    const {name, value} = e.target;
-    setFormData({
-        ...formData,
-        [name]: value
-    });
-  };
+  const {name, value} = e.target;
+  let isValid = true;
+  if (name === 'name') {
+    isValid = validateName(value);
+  }
+  setFormData({
+      ...formData,
+      [name]: value,
+      [`${name}Error`]: !isValid
+  });
+};
 
   return (
-
-          <CreatingContainer>
-         
+          <Create_a_accountContainer>
               <FirstLineCreateAccount>CREATE ACCOUNT</FirstLineCreateAccount>
-
               <FormAccount onSubmit={handleSubmit} >
                   <FormSection>
                       <LabelAccount htmlFor="name">Name</LabelAccount>
@@ -57,7 +77,6 @@ const CreatingAccount = () => {
                       />
 
                       <LabelAccount htmlFor="birthday">Birthday</LabelAccount>
-
                       <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <ContainerDob>
                       <DatePicker 
@@ -82,7 +101,6 @@ const CreatingAccount = () => {
                           value={formData.workplace}
                           onChange={handleChange}
                       />
-
 
                       <LabelAccount htmlFor="beverage">Beverage</LabelAccount>
                       <InputAccount
@@ -120,9 +138,7 @@ const CreatingAccount = () => {
                       <InputAccountSubmit type="submit"/>
                   </FormSection>
               </FormAccount>
-        
-          </CreatingContainer>
-    
+          </Create_a_accountContainer>
   )
 }
-export default CreatingAccount;
+export default Create_a_account;

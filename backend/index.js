@@ -10,6 +10,13 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
+import csrf from 'csurf';
+
+// apply csrf middleware
+app.use(csrf({ cookie: true }));
+app.get('/api/csrf-token', (req, res) => {
+  res.json({ csrfToken: req.csrfToken() });
+});
 
 dotenv.config();
 const app = express();
@@ -37,8 +44,8 @@ app.get('*', (req, res) => {
 });
 
 // api 
-app.use('/user',usersRouter)
-app.use('/list',listsRouter)
+app.use('/users',usersRouter)
+app.use('/lists',listsRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
