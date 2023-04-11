@@ -23,7 +23,7 @@ function Services() {
 
           <ServicesCard2>
             <ServicesIcon src={Icon2} width='200' height='200' alt='' />
-            <ServicesH2>Let share a fee</ServicesH2>
+            <ServicesH2>Just share a fee</ServicesH2>
             <ServicesP>Just use our service before using other share-riding app</ServicesP>
           </ServicesCard2>
 
