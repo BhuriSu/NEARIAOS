@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-export const Create_a_accountContainer = styled.div`
+export const CreateAccountContainer = styled.div`
 background: #96ffe7;
 height: 800px;
 display: flex;

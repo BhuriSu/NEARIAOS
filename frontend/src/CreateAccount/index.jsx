@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
-import { FirstLineCreateAccount,Create_a_accountContainer,FormAccount,
+import { FirstLineCreateAccount,CreateAccountContainer,FormAccount,
     FormSection,LabelAccount,InputAccount,InputAccountSubmit,ContainerDob
       } from './CreateElements';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-const Create_a_account = () => {
+const CreateAccount = () => {
   const [formData, setFormData] = useState({
     name: '',
     dob: '',
@@ -61,7 +61,7 @@ const Create_a_account = () => {
 };
 
   return (
-          <Create_a_accountContainer>
+          <CreateAccountContainer>
               <FirstLineCreateAccount>CREATE ACCOUNT</FirstLineCreateAccount>
               <FormAccount onSubmit={handleSubmit} >
                   <FormSection>
@@ -138,7 +138,7 @@ const Create_a_account = () => {
                       <InputAccountSubmit type="submit"/>
                   </FormSection>
               </FormAccount>
-          </Create_a_accountContainer>
+          </CreateAccountContainer>
   )
 }
-export default Create_a_account;
+export default CreateAccount;

@@ -8,7 +8,7 @@ import {
   from './InfoElements';
 
 function Info({
-  imgStart, topLine, lightText, headline, darkText, description, buttonLabel, alt, img,
+  imgStart, topLine, headline, description, buttonLabel, alt, img,
 }) {
   return (
     <InfoContainer>
@@ -20,8 +20,8 @@ function Info({
             <Column1>
               <TextWrapper>
                 <TopLine>{topLine}</TopLine>
-                <Heading lightText={lightText}>{headline}</Heading>
-                <Subtitle darkText={darkText}>{description}</Subtitle>
+                <Heading >{headline}</Heading>
+                <Subtitle>{description}</Subtitle>
                 <BtnWrap>
                   <Button to='/startForm'>
                     {buttonLabel}

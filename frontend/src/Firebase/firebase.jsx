@@ -5,14 +5,14 @@ import { getDatabase } from 'firebase/database';
 import { getAuth } from 'firebase/auth';
 
 const firebaseConfig = {
-  apiKey: process.env.VITE_DB_API,
-  authDomain: process.env.VITE_authDomain,
-  projectId: process.env.VITE_projectId,
-  databaseURL: process.env.VITE_databaseURL,
-  storageBucket: process.env.VITE_storageBucket,
-  messagingSenderId: process.env.VITE_messagingSenderId,
-  appId: process.env.VITE_database_AppId,
-  measurementId: process.env.VITE_measurementId,
+  apiKey: import.meta.env.VITE_DB_API,
+  authDomain: import.meta.env.VITE_authDomain,
+  projectId: import.meta.env.VITE_projectId,
+  databaseURL: import.meta.env.VITE_databaseURL,
+  storageBucket: import.meta.env.VITE_storageBucket,
+  messagingSenderId: import.meta.env.VITE_messagingSenderId,
+  appId: import.meta.env.VITE_database_AppId,
+  measurementId: import.meta.env.VITE_measurementId,
 };
 
  const firebase = initializeApp(firebaseConfig);

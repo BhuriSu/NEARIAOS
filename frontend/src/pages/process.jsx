@@ -1,10 +1,10 @@
 import React from "react";
-import Create_a_account from "../StartCreateAccount";
+import CreateAccount from "../CreateAccount";
 
-function Create_a_accountPage() {
+function CreateAccountPage() {
   return (
-    <Create_a_account />
+    <CreateAccount/>
   );
 }
 
-export default Create_a_accountPage;
+export default CreateAccountPage;
