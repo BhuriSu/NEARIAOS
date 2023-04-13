@@ -1,6 +1,5 @@
 import createError from 'http-errors';
 import morgan from 'morgan';
-import path from 'path';
 import cors from 'cors';
 import { customRedisRateLimiter } from './middleware/index.js';
 import helmet from 'helmet';
@@ -11,15 +10,16 @@ import { fileURLToPath } from 'url';
 import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
 import csrf from 'csurf';
+import path from 'path';
+
+dotenv.config();
+const app = express();
 
 // apply csrf middleware
 app.use(csrf({ cookie: true }));
 app.get('/api/csrf-token', (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });
-
-dotenv.config();
-const app = express();
 
 //secure by setting various http headers
 app.use(helmet());

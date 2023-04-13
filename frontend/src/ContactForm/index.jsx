@@ -46,10 +46,10 @@ function ContactForm() {
 
       // Use emailjs to email contact form data
       await emailjs.send(
-        process.env.REACT_APP_SERVICE_ID,
-        process.env.REACT_APP_TEMPLATE_ID,
+        import.meta.env.VITE_SERVICE_ID,
+        import.meta.env.VITE_TEMPLATE_ID,
         templateParams,
-        process.env.REACT_APP_USER_ID,
+        import.meta.env.VITE_USER_ID,
       );
 
       // Reset contact form fields after submission

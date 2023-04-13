@@ -5,8 +5,8 @@ const Chat = ({name,UploadPhoto}) => {
     return (
         <div className="Chat">
         <SendbirdApp
-            appId={process.env.APP_ID}
-            userId={process.env.USER_ID}
+            appId={import.meta.env.APP_ID}
+            userId={import.meta.env.USER_ID}
             nickname={name}
             profileUrl={UploadPhoto}
             allowProfileEdit={true}

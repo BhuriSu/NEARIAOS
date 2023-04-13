@@ -7,7 +7,7 @@ import { GoogleMap, Marker, Circle, LoadScript } from '@react-google-maps/api';
 import styles from './GoogleMapStyles.json';
 
 const Map = ({
-  googleMapURL = process.env.REACT_APP_GOOGLE_MAP_URI,
+  googleMapURL = process.env.VITE_GOOGLE_MAP_URI,
   latitude,
   longitude,
   list,
