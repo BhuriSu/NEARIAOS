@@ -22,7 +22,7 @@ const LogIn=({handleChange})=>{
         e.preventDefault();
         try {
             await logIn(email, password);
-            navigate('/listUsers');
+            navigate('/profile');
         } catch (error) {
            const errorMessage = error.message;
            alert(errorMessage);
@@ -33,7 +33,7 @@ const LogIn=({handleChange})=>{
         e.preventDefault();
         try {
           await googleSignIn();
-          navigate('/listUsers');
+          navigate('/profile');
         } catch (error) {
           console.log(error);
         }

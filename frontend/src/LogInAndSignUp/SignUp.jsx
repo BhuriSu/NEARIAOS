@@ -20,7 +20,7 @@ const SignUp = () => {
         e.preventDefault()
         try {
             await signUp(email, password);
-            navigate('/process');
+            navigate('/profile');
             if (password !== confirmPassword) {
                 setError('Passwords need to match!')
                 return
@@ -29,11 +29,11 @@ const SignUp = () => {
             const errorMessage = error.message;
             if (errorMessage) {
               alert("The email address should add @gmail.com or password not match");
-            } else if (errorMessage == "auth/invalid-email") {
+            } else if (errorMessage === "auth/invalid-email") {
               alert("The email address is not valid.");
-            } else if (errorMessage == "auth/operation-not-allowed") {
+            } else if (errorMessage === "auth/operation-not-allowed") {
               alert("Operation not allowed.");
-            } else if (errorMessage == "auth/weak-password") {
+            } else if (errorMessage === "auth/weak-password") {
               alert("The password is too weak.");
             }
         }

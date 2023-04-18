@@ -11,127 +11,131 @@ import { BackgroundProfileContainer, BackToListPage,
    LogOutLine, StyledInput, Avatar, BelowDelete } from './profileEditsElements';
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-function ProfileEdit(props) {
+function ProfileEdit() {
   const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
   const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'};
-  const [workplace, setWorkplace] = useState("");
-  const [beverage, setBeverage] = useState("");
-  const [favorite, setFavorite] = useState("");
-  const [about, setAbout] = useState("");
   const { logout } = useUserAuth();
   const navigate = useNavigate();
   const { id } = useParams();
   const [url, setUrl] = useState('./images/UploadPic.png');
-  const formData = props.location.state;
+  const [workplace, setWorkplace] = useState("");
+  const [beverage, setBeverage] = useState("");
+  const [favorite, setFavorite] = useState("");
+  const [about, setAbout] = useState("");
+  const [name, setName] = useState("");
+  const [dob, setDob] = useState("");
 
 const updateUser = async (e) => {
-    e.preventDefault();
-    try {
-      await axios.patch(`/users/profile/${id}`, {
-        workplace,
-        beverage,
-        favorite,
-        about,
-        avatar: url
-      }, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      navigate("/profile");
-    } catch (error) {
-      console.log(error);
-    }
+  e.preventDefault();
+  try {
+    axios.patch(`/users/profile/${id}`, {
+      workplace,
+      beverage,
+      favorite,
+      about,
+      name,
+      dob,
+      avatar: url
+    }, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    navigate("/profile");
+  } catch (error) {
+    console.log(error);
+  }
   }
 
- useEffect(() => {
-    if (formData) {
-      setWorkplace(formData.workplace);
-      setBeverage(formData.beverage);
-      setFavorite(formData.favorite);
-      setAbout(formData.about);
-    }
-  }, [formData]);
-
-
-  const getUserById = async () => {
-    try {
-      const response = await axios.get(`/users/profile/${id}`, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      });
-      setWorkplace(response.data.workplace);
-      setBeverage(response.data.beverage);
-      setFavorite(response.data.favorite);
-      setAbout(response.data.about);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
   useEffect(() => {
+    const getUserById = async () => {
+      try {
+        const response = await axios.get(`/users/profile/${id}`);
+        setWorkplace(response.data.workplace);
+        setBeverage(response.data.beverage);
+        setFavorite(response.data.favorite);
+        setAbout(response.data.about);
+        setName(response.data.name);
+        setDob(response.data.dob);
+        setUrl(response.data.avatar);
+      } catch (error) {
+        console.log(error);
+      }
+    };
     getUserById();
   }, [id]);
 
-  function handleChangeAbout(e) {
-    e.preventDefault();
-    setAbout(e.target.value);
-  }
-  function handleChangeBeverage(e) {
-    e.preventDefault();
-    setBeverage(e.target.value);
-  }
-  function handleChangeFavorite(e) {
-    e.preventDefault();
-    setFavorite(e.target.value);
-  }
+ 
   function handleChangeWorkplace(e) {
-    e.preventDefault();
     setWorkplace(e.target.value);
   }
 
-  function Photo() {
-    const [formData, setFormData] = useState({
-      image: "",
-    })
-  
-        const storageRef = ref(storage, `/images/${formData.image.name}`);
-        const uploadImage = uploadBytesResumable(storageRef, formData.image);
-        uploadImage.on("state_changed", (snapshot) => {
-          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          console.log('Upload is ' + progress + '% done');
-          switch (snapshot.state) {
-            case 'paused':
-              console.log('Upload is paused');
-              break;
-            case 'running':
-              console.log('Upload is running');
-              break;
-          }
-      }, (error) => {
-        switch (error.code) {
-          case 'storage/unauthorized':
-            console.log('storage is unauthorized');
+  function handleChangeBeverage(e) {
+    setBeverage(e.target.value);
+  }
+
+  function handleChangeFavorite(e) {
+    setFavorite(e.target.value);
+  }
+
+  function handleChangeAbout(e) {
+    setAbout(e.target.value);
+  }
+
+  function handleChangeName(e) {
+    setName(e.target.value);
+  }
+
+  function handleChangeDob(e) {
+    setDob(e.target.value);
+  }
+
+  function Photo(e) {
+    const file = e.target.files[0];
+    const storageRef = ref(storage, `/images/${file.name}`);
+    const uploadTask = uploadBytesResumable(storageRef, file);
+
+    uploadTask.on(
+      "state_changed",
+      (snapshot) => {
+        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        console.log("Upload is " + progress + "% done");
+        switch (snapshot.state) {
+          case "paused":
+            console.log("Upload is paused");
             break;
-          case 'storage/canceled':
-            console.log('storage is canceled');
-            break;
-          case 'storage/unknown':
-            console.log('storage is unknown');
+          case "running":
+            console.log("Upload is running");
             break;
           default:
-            console.log('sorry it is not about storage');
+            console.log("sorry it is not working");
         }
       },
-          (e) => {
-            setFormData({ ...formData, image: e.target.files[0] });
-            getDownloadURL(uploadImage.snapshot.ref).then((url) => {
-              setUrl(url)
-            });
-          },
-        );
+      (error) => {
+        switch (error.code) {
+          case "storage/unauthorized":
+            console.log("storage is unauthorized");
+            break;
+          case "storage/canceled":
+            console.log("storage is canceled");
+            break;
+          case "storage/unknown":
+            console.log("storage is unknown");
+            break;
+          default:
+            console.log("sorry it is not about storage");
+        }
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
+          setUrl(url);
+        });
+      }
+    );
     }
 
   const LogOut = async () => {
@@ -151,11 +155,12 @@ const updateUser = async (e) => {
     try {
       const auth = getAuth();
       const user = auth.currentUser;
-      deleteUser(user);
+      await deleteUser(user);
       await axios.delete(`/users/profile/${id}`);
       navigate("/");
     } catch (error) {
-      console.log(error);
+      console.error(error);
+      alert("There was an error deleting your account. Please try again later.");
     }
   };
   
@@ -168,9 +173,42 @@ const updateUser = async (e) => {
         <Avatar style={{ backgroundImage: `url(${url})` }} />
         </label>
         <input id='file-input' type='file' title='upload' onChange={Photo} />
-    </div>
+      </div>
         <br/>
         <form onSubmit={updateUser}>
+        <span
+            style={{ textShadow: 'none', color: '#fff' }}
+          >
+            Name: 
+            <label>
+            <StyledInput
+                type="text"
+                id="name"
+                name="name"
+                value={name}
+                onChange={handleChangeName}
+              required
+            />
+          </label>
+          </span>
+          <br/>
+          <span
+            style={{ textShadow: 'none', color: '#fff' }}
+          >
+            Date of birth: 
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                      <DatePicker 
+                      label="Date of birth" 
+                      id="dob"
+                      type="text"
+                      name="dob"
+                      value={dob}
+                      onChange={date => handleChangeDob({ target: { value: date, name: 'dob' } })}
+                      required={true}
+                      />
+            </LocalizationProvider>
+          </span>
+          <br/>
           <span
             style={{ textShadow: 'none', color: '#fff' }}
           >
@@ -240,7 +278,7 @@ const updateUser = async (e) => {
         <br/>
         <br/>
         <Button style={SaveBtnStyle} type="submit" variant='contained'>
-            Save changes
+            Save 
         </Button>
         <br/>
         <br/>

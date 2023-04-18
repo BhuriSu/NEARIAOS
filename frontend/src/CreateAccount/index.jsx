@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { FirstLineCreateAccount,CreateAccountContainer,FormAccount,
     FormSection,LabelAccount,InputAccount,InputAccountSubmit,ContainerDob
       } from './CreateElements';
@@ -18,29 +18,20 @@ const CreateAccount = () => {
     about: '',
   });
 
+  const { id } = useParams();
   const navigate = useNavigate()
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
       const headers = {
-        'X-CSRF-Token': csrfToken,
         'Content-Type': 'application/json',
       };
-      await axios.post("/users/profile", { formData }, { headers });
-      navigate("/listUsers", { state: formData });
+      await axios.post("/users/profiles", formData, { headers });
+      navigate(`/profile/${id}`)
     } catch (error) {
       console.log(error);
     }
   };
- 
-  const [csrfToken, setCsrfToken] = useState('');
-  useEffect(() => {
-    const fetchCsrfToken = async () => {
-      const response = await axios.get("/api/csrf-token");
-      setCsrfToken(response.data.csrfToken);
-    };
-    fetchCsrfToken();
-  }, []);
 
   const validateName = (name) => {
     const regex = /^[a-zA-Z\s]*$/;
@@ -48,17 +39,21 @@ const CreateAccount = () => {
   }
 
   const handleChange = (e) => {
-  const {name, value} = e.target;
-  let isValid = true;
-  if (name === 'name') {
-    isValid = validateName(value);
-  }
-  setFormData({
-      ...formData,
-      [name]: value,
-      [`${name}Error`]: !isValid
-  });
-};
+    const {name, value} = e.target;
+    let isValid = true;
+    if (name === 'name') {
+      isValid = validateName(value);
+    } else if (name === 'dob') {
+      const date = new Date(value);
+      const currentDate = new Date();
+      isValid = date <= currentDate;
+    }
+    setFormData({
+        ...formData,
+        [name]: value,
+        [`${name}Error`]: !isValid
+    });
+  };
 
   return (
           <CreateAccountContainer>
@@ -82,10 +77,10 @@ const CreateAccount = () => {
                       <DatePicker 
                       label="Date of birth" 
                       id="dob"
-                      type="number"
+                      type="text"
                       name="dob"
                       value={formData.dob}
-                      onChange={formData => handleChange({ target: { value: formData, name: 'dob' } })}
+                      onChange={date => handleChange({ target: { value: date, name: 'dob' } })}
                       required={true}
                       />
                       </ContainerDob>

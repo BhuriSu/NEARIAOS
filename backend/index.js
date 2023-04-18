@@ -9,17 +9,12 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
-import csrf from 'csurf';
 import path from 'path';
 
 dotenv.config();
 const app = express();
 
-// apply csrf middleware
-app.use(csrf({ cookie: true }));
-app.get('/api/csrf-token', (req, res) => {
-  res.json({ csrfToken: req.csrfToken() });
-});
+
 
 //secure by setting various http headers
 app.use(helmet());
@@ -72,6 +67,6 @@ db.once("open", function(){
   console.log("Successfully connection with db")
 });
 
-const PORT = process.env.PORT || 4000;
+const PORT = process.env.PORT || 5173;
 app.listen(PORT, () => console.log('server running on PORT ' + PORT));
 

@@ -7,9 +7,9 @@ import {
 } from "../controllers/user.js";
 const router = express.Router();
 
-router.get('/profile/:id', getUserById);
-router.post('/profile', saveUser);
-router.patch('/profile/:id', updateUser);
-router.delete('/profile/:id', deleteUser);
+router.get('/profiles/:id', getUserById);
+router.post('/profiles', saveUser);
+router.patch('/profiles/:id', updateUser);
+router.delete('/profiles/:id', deleteUser);
 
 export default router;
