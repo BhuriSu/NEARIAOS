@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const BackgroundProfileContainer = styled.div`
 background-color: #000;
-height: 850px;
+height: 1000px;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -59,4 +59,20 @@ export const BelowDelete = styled.h2`
   font-size: 1rem;
   margin: 10px;
   color: #ff0000;
+`;
+export const DobContainer = styled.div`
+background-color: #00ffa6;
+border-radius: 20px;
+padding: 10px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+margin-top: 10px;
+`;
+export const FormEditProfile = styled.div`
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
 `;

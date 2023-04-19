@@ -35,6 +35,8 @@ export const updateUser = async (req, res) => {
         { _id: req.params.id },
         {
           $set: {
+            name: req.body.name,
+            dob: req.body.dob,
             workplace: req.body.workplace,
             beverage: req.body.beverage,
             favorite: req.body.favorite,

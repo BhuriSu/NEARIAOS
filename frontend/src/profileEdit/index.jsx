@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate,useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { getAuth, deleteUser } from "firebase/auth";
 import {
   ref, uploadBytesResumable, getDownloadURL
 } from 'firebase/storage';
 import {storage} from '../Firebase/firebase';
-import './profileEdit.css';
-import { BackgroundProfileContainer, BackToListPage,
-   LogOutLine, StyledInput, Avatar, BelowDelete } from './profileEditsElements';
+import './profileEdit.css'; 
+import { BackgroundProfileContainer, BackToListPage, DobContainer,
+   LogOutLine, FormEditProfile, StyledInput, Avatar, BelowDelete } from './profileEditsElements';
 import { Button } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -29,39 +29,42 @@ function ProfileEdit() {
   const [name, setName] = useState("");
   const [dob, setDob] = useState("");
 
-const updateUser = async (e) => {
-  e.preventDefault();
-  try {
-    axios.patch(`/users/profile/${id}`, {
-      workplace,
-      beverage,
-      favorite,
-      about,
-      name,
-      dob,
-      avatar: url
-    }, {
-      headers: {
-        'Content-Type': 'application/json'
+  const updateUser = async (e) => {
+    e.preventDefault();
+    try {
+      if (id) {
+        await  axios.patch(`/users/profile/${id}`, {
+          workplace,
+          beverage,
+          favorite,
+          about,
+          name,
+          dob,
+          avatar: url
+        }, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        navigate("/profile");
       }
-    });
-    navigate("/profile");
-  } catch (error) {
-    console.log(error);
+    } catch (error) {
+      console.log(error);
+    }
   }
-  }
-
   useEffect(() => {
     const getUserById = async () => {
       try {
-        const response = await axios.get(`/users/profile/${id}`);
-        setWorkplace(response.data.workplace);
-        setBeverage(response.data.beverage);
-        setFavorite(response.data.favorite);
-        setAbout(response.data.about);
-        setName(response.data.name);
-        setDob(response.data.dob);
-        setUrl(response.data.avatar);
+        if (id) {
+          const response = await axios.get(`/users/profile/${id}`);
+          setWorkplace(response.data.workplace);
+          setBeverage(response.data.beverage);
+          setFavorite(response.data.favorite);
+          setAbout(response.data.about);
+          setName(response.data.name);
+          setDob(response.data.dob);
+          setUrl(response.data.avatar);
+        }
       } catch (error) {
         console.log(error);
       }
@@ -69,7 +72,6 @@ const updateUser = async (e) => {
     getUserById();
   }, [id]);
 
- 
   function handleChangeWorkplace(e) {
     setWorkplace(e.target.value);
   }
@@ -136,7 +138,7 @@ const updateUser = async (e) => {
         });
       }
     );
-    }
+  }
 
   const LogOut = async () => {
     try {
@@ -166,7 +168,6 @@ const updateUser = async (e) => {
   
   return (
     <>
-      
       <BackgroundProfileContainer >
       <div style={{ alignSelf: 'center' }}>
       <label htmlFor='file-input'>
@@ -175,7 +176,7 @@ const updateUser = async (e) => {
         <input id='file-input' type='file' title='upload' onChange={Photo} />
       </div>
         <br/>
-        <form onSubmit={updateUser}>
+        <FormEditProfile onSubmit={updateUser}>
         <span
             style={{ textShadow: 'none', color: '#fff' }}
           >
@@ -196,6 +197,7 @@ const updateUser = async (e) => {
             style={{ textShadow: 'none', color: '#fff' }}
           >
             Date of birth: 
+           <DobContainer>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                       <DatePicker 
                       label="Date of birth" 
@@ -207,6 +209,7 @@ const updateUser = async (e) => {
                       required={true}
                       />
             </LocalizationProvider>
+            </DobContainer>
           </span>
           <br/>
           <span
@@ -272,41 +275,31 @@ const updateUser = async (e) => {
             />
           </label>
           </span>
-     
-       
-        </form>
-        <br/>
-        <br/>
-        <Button style={SaveBtnStyle} type="submit" variant='contained'>
+          <br/>
+            <Button style={SaveBtnStyle} type="submit" variant='contained'>
             Save 
-        </Button>
-        <br/>
+           </Button>
+        </FormEditProfile>
         <br/>
           <Link to='/listUsers' style={{ position: 'relative' }}>
           <BackToListPage>
           Back to ListPage
           </BackToListPage>
           </Link>
-   
         <br/>
-      
           <Link to='/startForm' onClick={LogOut} style={{ position: 'relative' }}>
           <LogOutLine>
            Log out
           </LogOutLine>
           </Link>
-    
         <br/>
-        <Button variant='contained' style={btnStyle} 
-        onClick={DeleteUser}>
+        <Button variant='contained' style={btnStyle} onClick={DeleteUser}>
 					Delete
 				</Button>
         <BelowDelete>
         After click button your account will be deleted when log out
         </BelowDelete>
-       
-      </BackgroundProfileContainer>
-      
+      </BackgroundProfileContainer>   
     </>
   );
 }

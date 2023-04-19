@@ -14,8 +14,6 @@ import path from 'path';
 dotenv.config();
 const app = express();
 
-
-
 //secure by setting various http headers
 app.use(helmet());
 

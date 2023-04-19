@@ -6,7 +6,7 @@ const profileSchema = new Schema({
     type: String,
     minlength: 1,
   },
-  doB: {
+  dob: {
     type: Date,
   },
   workplace: {
