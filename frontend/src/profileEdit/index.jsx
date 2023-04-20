@@ -34,21 +34,22 @@ function ProfileEdit() {
     try {
       if (id) {
         await  axios.patch(`/users/profile/${id}`, {
+          name,
+          dob,
           workplace,
           beverage,
           favorite,
-          about,
-          name,
-          dob,
-          avatar: url
+          about
         }, {
           headers: {
             'Content-Type': 'application/json'
           }
         });
+        alert("successfully updated");
         navigate("/profile");
       }
     } catch (error) {
+      alert("something wrong");
       console.log(error);
     }
   }
@@ -63,7 +64,6 @@ function ProfileEdit() {
           setAbout(response.data.about);
           setName(response.data.name);
           setDob(response.data.dob);
-          setUrl(response.data.avatar);
         }
       } catch (error) {
         console.log(error);
@@ -158,25 +158,21 @@ function ProfileEdit() {
       const auth = getAuth();
       const user = auth.currentUser;
       await deleteUser(user);
-      await axios.delete(`/users/profile/${id}`);
-      navigate("/");
     } catch (error) {
-      console.error(error);
-      alert("There was an error deleting your account. Please try again later.");
+      console.log(error);
     }
   };
   
   return (
     <>
       <BackgroundProfileContainer >
-      <div style={{ alignSelf: 'center' }}>
-      <label htmlFor='file-input'>
+        <FormEditProfile onSubmit={updateUser}>
+        <div style={{ alignSelf: 'center' }}>
+        <label htmlFor='file-input'>
         <Avatar style={{ backgroundImage: `url(${url})` }} />
         </label>
         <input id='file-input' type='file' title='upload' onChange={Photo} />
-      </div>
-        <br/>
-        <FormEditProfile onSubmit={updateUser}>
+        </div>
         <span
             style={{ textShadow: 'none', color: '#fff' }}
           >

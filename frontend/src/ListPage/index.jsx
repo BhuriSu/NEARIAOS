@@ -1,12 +1,11 @@
 import React, { useState} from 'react';
 import axios from 'axios';
 import { getDownloadURL, getStorage } from 'firebase/storage';
-import { ref} from 'firebase/database';
+import { ref } from 'firebase/database';
 import Map from './Map';
 import ModalWindow from '../NewFeedComponents/Modal';
 import './listUsers.css';
-import { ListPageBackground, ToggleBox, InputFormUserList,
-  LabelRadius } from './ListPageElement';
+import { ListPageBackground, ToggleBox, InputFormUserList, LabelRadius } from './ListPageElement';
 import { Button } from '@mui/material';
 
 /**

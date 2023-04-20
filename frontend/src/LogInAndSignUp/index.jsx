@@ -1,9 +1,5 @@
 import React, { useState } from 'react';
-import Paper from '@mui/material/Paper';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Typography from '@mui/material/Typography';
-import Box from '@mui/material/Box';
+import { Paper, Tabs, Tab, Typography, Box } from '@mui/material';
 import LogIn from './LogIn';
 import SignIn from './SignUp'; 
 import { BackgroundContainer, Logo } from './FormElements';
@@ -17,7 +13,7 @@ const SignInOutContainer=()=>{
 
   function TabPanel(props) {
     const { children, value, index, ...other } = props;
-  
+
     return (
       <div
         role='tabpanel'

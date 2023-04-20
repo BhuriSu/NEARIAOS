@@ -13,7 +13,7 @@ const profileSchema = new Schema({
     type: String,
     minlength: 1,
   },
-  about: {
+  beverage: {
     type: String,
     minlength: 1,
   },
@@ -21,7 +21,7 @@ const profileSchema = new Schema({
     type: String,
     minlength: 1,
   },
-  beverage: {
+  about: {
     type: String,
     minlength: 1,
   },

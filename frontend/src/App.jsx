@@ -6,7 +6,6 @@ import {
 import Home from './pages/main';
 import PremiumPage from './pages/premium';
 import ContactPage from './pages/contact';
-import CreateAccountPage from './pages/process';
 import ProfileEditPage from './pages/profile';
 import ChatPage from './pages/chat';
 import ListPage from './pages/listUsers';
@@ -20,20 +19,17 @@ function App() {
   return (
 
     <Router>
-      
         <Routes>
           <Route path='/' element={<Home/>} exact />
           <Route path='/premium' element={<PremiumPage/>} />
           <Route path='/contact' element={<ContactPage/>} />
           <Route path='/startForm' element={<LogInAndSignUpPage/>} />
-          <Route path='/process' element={<CreateAccountPage/>} />
           <Route path='/profile' element={<ProfileEditPage/>} />
           <Route path='/chat' element={<ChatPage/>} />
           <Route path='/listUsers' element={<ListPage/>} />
           <Route path='/privacy' element={<PrivacyPage/>} />
           <Route path='/forgotPass' element={<ForgotPassPage/>} />
         </Routes>
-      
     </Router>
    
 

@@ -1,9 +1,7 @@
-import React, {useState} from 'react';
-import { Grid, Paper, TextField, Button, Link } from '@mui/material';
+import React, { useState } from 'react';
+import { Grid, Paper, TextField, Button, Link, Alert, Stack } from '@mui/material';
 import { useUserAuth } from '../Context/UserAuthContext';
 import { Link as RouterLink } from 'react-router-dom';
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
 import { ForgotContainer } from './ForgotElements';
 const SignUp = () => {
     const paperStyle = { padding: 20, width: 300, margin: '0 auto' };
