@@ -1,36 +1,41 @@
-import pkg from 'mongoose';
-const { Schema, model } = pkg;
+import { Pool } from 'pg';
 
-const profileSchema = new Schema({
-  name: {
-    type: String,
-    minlength: 1,
-  },
-  dob: {
-    type: Date,
-  },
-  workplace: {
-    type: String,
-    minlength: 1,
-  },
-  beverage: {
-    type: String,
-    minlength: 1,
-  },
-  favorite: {
-    type: String,
-    minlength: 1,
-  },
-  about: {
-    type: String,
-    minlength: 1,
-  },
-  latitude: Number,
-  longitude: Number,
-},
-{
-  versionKey: false,
+const pool = new Pool({
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
 });
 
-const modelProfile = model('Profile', profileSchema);
-export default modelProfile;
+pool.on('error', (err, client) => {
+  console.error('Unexpected error on idle client', err);
+  process.exit(-1);
+});
+
+const createProfileTable = async () => {
+  const createTableQuery = `
+    CREATE TABLE IF NOT EXISTS profile (
+      id SERIAL PRIMARY KEY,
+      name VARCHAR(255) NOT NULL,
+      dob DATE NOT NULL,
+      workplace VARCHAR(255),
+      beverage VARCHAR(255),
+      favorite VARCHAR(255),
+      about VARCHAR(255),
+      latitude NUMERIC,
+      longitude NUMERIC
+    );
+  `;
+  const client = await pool.connect();
+  try {
+    await client.query(createTableQuery);
+    console.log('Profiles table created successfully');
+  } catch (err) {
+    console.error('Error creating profiles table', err);
+  } finally {
+    client.release();
+  }
+};
+
+createProfileTable();

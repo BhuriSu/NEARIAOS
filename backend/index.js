@@ -4,12 +4,12 @@ import cors from 'cors';
 import { customRedisRateLimiter } from './middleware/index.js';
 import helmet from 'helmet';
 import express from 'express';
-import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
 import path from 'path';
+import pgPromise from 'pg-promise';
 
 dotenv.config();
 const app = express();
@@ -40,6 +40,10 @@ app.get('*', (req, res) => {
 app.use('/users',usersRouter)
 app.use('/lists',listsRouter)
 
+
+app.get('/', (request, response) => {
+  response.json({ info: 'PERN STACK' })
+})
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
@@ -49,22 +53,21 @@ app.use((req, res, next) => {
 app.use(customRedisRateLimiter);
 
 // error handler
-app.use((err, req, res) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
+app.use((err, req, res, next) => {
   res.status(err.status || 500);
-  res.render('error');
+  res.json({ error: err.message });
 });
 
-mongoose.connect(process.env.MONGO_DB_URI);
-const db = mongoose.connection;
-db.on("error", ()=>{console.log("Error connecting to db")});
-db.once("open", function(){
-  console.log("Successfully connection with db")
-});
+const pgp = pgPromise();
+const pgConfig = {
+  user: process.env.DB_USER,
+  host: process.env.DB_HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: process.env.DB_PORT,
+};
+const db = pgp(pgConfig);
 
-const PORT = process.env.PORT || 5173;
-app.listen(PORT, () => console.log('server running on PORT ' + PORT));
-
+db.connect()
+  .then(() => console.log('Successfully connection with db'))
+  .catch(() => console.log('Error connecting to db'));
