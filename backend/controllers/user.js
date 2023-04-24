@@ -11,7 +11,7 @@ export const getUserById = async (req, res) => {
 
 export const updateUser = async (req, res) => {
     try {
-      const updatedUser = await Profile.findOneAndUpdate(
+      const updatedUser = await Profile.updateOne(
         { _id: req.params.id },
         {
           $set: {
@@ -31,11 +31,3 @@ export const updateUser = async (req, res) => {
     }
   };
 
-export const deleteUser = async (req, res) => {
-    try {
-        const deletedUser = await Profile.deleteOne({_id:req.params.id});
-        res.status(200).json(deletedUser);
-    } catch (error) {
-        res.status(400).json({message: error.message});
-    }
-}

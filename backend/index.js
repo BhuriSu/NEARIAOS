@@ -58,11 +58,9 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-mongoose.connect(process.env.MONGO_DB_URI);
-const db = mongoose.connection;
-db.on("error", ()=>{console.log("Error connecting to db")});
-db.once("open", function(){
-  console.log("Successfully connection with db")
+mongoose.set("strictQuery", false);
+mongoose.connect(process.env.MONGO_URL, () => {
+  console.log("Connected to MongoDB");
 });
 
 const PORT = process.env.PORT || 5173;

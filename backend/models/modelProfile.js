@@ -1,9 +1,8 @@
-import pkg from 'mongoose';
-const { Schema, model } = pkg;
+import mongoose from "mongoose";
 
-const profileSchema = new Schema({
+const profileSchema = mongoose.Schema({
   name: {
-    type: String,
+    type: mongoose.Schema.Types.ObjectId,
     minlength: 1,
   },
   dob: {
@@ -32,5 +31,4 @@ const profileSchema = new Schema({
   versionKey: false,
 });
 
-const modelProfile = model('Profile', profileSchema);
-export default modelProfile;
+export default mongoose.model('Profile', profileSchema);

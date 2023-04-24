@@ -1,69 +1,64 @@
-import React, { useState, useEffect } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-import axios from 'axios';
+import React, { useState, useEffect } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
 import { getAuth, deleteUser } from "firebase/auth";
 import {
-  ref, uploadBytesResumable, getDownloadURL
-} from 'firebase/storage';
-import {storage} from '../Firebase/firebase';
-import './profileEdit.css'; 
+  ref, uploadBytesResumable, getDownloadURL, deleteObject
+} from "firebase/storage";
+import { db, storage } from "../Firebase/firebase";
+import { doc, deleteDoc } from "firebase/firestore";
 import { BackgroundProfileContainer, BackToListPage, DobContainer,
-   LogOutLine, FormEditProfile, StyledInput, Avatar, BelowDelete } from './profileEditsElements';
-import { Button } from '@mui/material';
-import { useUserAuth } from '../Context/UserAuthContext';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+   LogOutLine, FormEditProfile, StyledInput, Avatar, InputAvatar,
+   SaveBtnStyle, BelowDelete } from "./profileEditsElements";
+import { Button } from "@mui/material";
+import { useUserAuth } from "../Context/UserAuthContext";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
 function ProfileEdit() {
-  const btnStyle = { marginTop: 5,backgroundColor: '#ff0000',color:'#000' };
-  const SaveBtnStyle = { marginTop: 5,backgroundColor: '#2f00ff',color:'#fff'};
+  const BtnStyle = { marginTop: 5,backgroundColor: "#ff0000",color:"#000" };
   const { logout } = useUserAuth();
   const navigate = useNavigate();
   const { id } = useParams();
-  const [url, setUrl] = useState('./images/UploadPic.png');
-  const [workplace, setWorkplace] = useState("");
-  const [beverage, setBeverage] = useState("");
-  const [favorite, setFavorite] = useState("");
-  const [about, setAbout] = useState("");
-  const [name, setName] = useState("");
-  const [dob, setDob] = useState("");
+  const [url, setUrl] = useState("./images/UploadPic.png");
+  const [formData, setFormData] = useState({
+    workplace: '',
+    beverage: '',
+    favorite: '',
+    about: '',
+    name: '',
+    dob: ''
+  });
+  const { name, dob, workplace, beverage, favorite, about } = formData;
+  const setName = (e) => setFormData({ ...formData, name: e.target.value });
+  const setDob = (date) => setFormData({ ...formData, dob: date });
+  const setWorkplace = (e) => setFormData({ ...formData, workplace: e.target.value });
+  const setBeverage = (e) => setFormData({ ...formData, beverage: e.target.value });
+  const setFavorite = (e) => setFormData({ ...formData, favorite: e.target.value });
+  const setAbout = (e) => setFormData({ ...formData, about: e.target.value });
 
   const updateUser = async (e) => {
     e.preventDefault();
     try {
-      if (id) {
-        await  axios.patch(`/users/profile/${id}`, {
-          name,
-          dob,
-          workplace,
-          beverage,
-          favorite,
-          about
-        }, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        });
-        alert("successfully updated");
-        navigate("/profile");
-      }
+      await axios.patch(`/users/profiles/${id}`, formData);
+      console.log('Profile updated successfully.');
     } catch (error) {
-      alert("something wrong");
-      console.log(error);
+      console.log('Error', error);
     }
-  }
+  };
+  
   useEffect(() => {
     const getUserById = async () => {
       try {
         if (id) {
-          const response = await axios.get(`/users/profile/${id}`);
-          setWorkplace(response.data.workplace);
-          setBeverage(response.data.beverage);
-          setFavorite(response.data.favorite);
-          setAbout(response.data.about);
-          setName(response.data.name);
-          setDob(response.data.dob);
+          const res = await axios.get(`/users/profiles/${id}`);
+          setWorkplace(res.data.workplace);
+          setBeverage(res.data.beverage);
+          setFavorite(res.data.favorite);
+          setAbout(res.data.about);
+          setName(res.data.name);
+          setDob(res.data.dob);
         }
       } catch (error) {
         console.log(error);
@@ -72,35 +67,10 @@ function ProfileEdit() {
     getUserById();
   }, [id]);
 
-  function handleChangeWorkplace(e) {
-    setWorkplace(e.target.value);
-  }
-
-  function handleChangeBeverage(e) {
-    setBeverage(e.target.value);
-  }
-
-  function handleChangeFavorite(e) {
-    setFavorite(e.target.value);
-  }
-
-  function handleChangeAbout(e) {
-    setAbout(e.target.value);
-  }
-
-  function handleChangeName(e) {
-    setName(e.target.value);
-  }
-
-  function handleChangeDob(e) {
-    setDob(e.target.value);
-  }
-
   function Photo(e) {
     const file = e.target.files[0];
     const storageRef = ref(storage, `/images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
-
     uploadTask.on(
       "state_changed",
       (snapshot) => {
@@ -144,7 +114,7 @@ function ProfileEdit() {
     try {
       await logout();
       navigate("/");
-      console.log('You are logged out')
+      console.log("You are logged out")
     } catch (e) {
       const errorMessage = e.message;
       if (errorMessage) {
@@ -155,9 +125,20 @@ function ProfileEdit() {
 
   const DeleteUser = async (id) => {
     try {
+      // Delete Firebase account
       const auth = getAuth();
       const user = auth.currentUser;
       await deleteUser(user);
+  
+      // Delete database information
+      const userRef = doc(db, "users", id);
+      await deleteDoc(userRef);
+  
+      // Delete Firebase storage
+      const avatarRef = ref(storage, `avatars/${user.uid}`);
+      await deleteObject(avatarRef);
+  
+      console.log("User deleted successfully.");
     } catch (error) {
       console.log(error);
     }
@@ -166,134 +147,107 @@ function ProfileEdit() {
   return (
     <>
       <BackgroundProfileContainer >
-        <FormEditProfile onSubmit={updateUser}>
-        <div style={{ alignSelf: 'center' }}>
-        <label htmlFor='file-input'>
+        <FormEditProfile onSubmit={updateUser} >
+        <div style={{ alignSelf: "center" }}>
+        <label htmlFor="file-input">
         <Avatar style={{ backgroundImage: `url(${url})` }} />
         </label>
-        <input id='file-input' type='file' title='upload' onChange={Photo} />
+        <InputAvatar id="file-input" type="file" title="upload" onChange={Photo} />
         </div>
-        <span
-            style={{ textShadow: 'none', color: '#fff' }}
-          >
+        <span style={{ textShadow: "none", color: "#fff" }} >
             Name: 
             <label>
             <StyledInput
-                type="text"
-                id="name"
-                name="name"
-                value={name}
-                onChange={handleChangeName}
-              required
-            />
+            type="text"
+            value={name}
+            onChange={setName}
+            required
+           />
           </label>
           </span>
           <br/>
-          <span
-            style={{ textShadow: 'none', color: '#fff' }}
-          >
+          <span style={{ textShadow: "none", color: "#fff" }} >
             Date of birth: 
            <DobContainer>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                      <DatePicker 
-                      label="Date of birth" 
-                      id="dob"
-                      type="text"
-                      name="dob"
-                      value={dob}
-                      onChange={date => handleChangeDob({ target: { value: date, name: 'dob' } })}
-                      required={true}
-                      />
-            </LocalizationProvider>
+            
+           <LocalizationProvider dateAdapter={AdapterDayjs}>
+             <DatePicker
+                 label="DOB"
+                 inputFormat="YYYY-MM-DD"
+                 value={dob}
+                 onChange={setDob}
+                 renderInput={(props) => <StyledInput {...props} />}
+            />
+          </LocalizationProvider>
             </DobContainer>
           </span>
           <br/>
-          <span
-            style={{ textShadow: 'none', color: '#fff' }}
-          >
+          <span style={{ textShadow: "none", color: "#fff" }} >
             Workplace: 
             <label>
             <StyledInput
-              title='workplace'
+              type="text"
               value={workplace}
-              onChange={handleChangeWorkplace}
-              type='text'
-              name='workplace'
-              required
+              onChange={setWorkplace}
             />
           </label>
           </span>
           <br/>
-          <span
-            style={{ textShadow: 'none',  color: '#fff' }}
-          >
+          <span style={{ textShadow: "none", color: "#fff" }} >
             Favorite:
             <label>
             <StyledInput
-              title='favorite'
+              type="text"
               value={favorite}
-              onChange={handleChangeFavorite}
-              type='text'
-              name='favorite'
-              required
+              onChange={setFavorite}
             />
           </label>
           </span>
           <br/>
-          <span
-            style={{ textShadow: 'none', color: '#fff' }}
-          >
+          <span style={{ textShadow: "none", color: "#fff" }} >
             About:
             <label>
             <StyledInput
-              title='about'
+              type="text"
               value={about}
-              onChange={handleChangeAbout}
-              type='text'
-              name='about'
-              required
+              onChange={setAbout}
             />
           </label>
           </span>
           <br/>
-          <span
-            style={{ textShadow: 'none', color: '#fff' }}
-          >
+          <span style={{ textShadow: "none", color: "#fff" }} >
             Beverage:
             <label>
             <StyledInput
-              title='beverage'
+              type="text"
               value={beverage}
-              onChange={handleChangeBeverage}
-              type='text'
-              name='beverage'
-              required
+              onChange={setBeverage}
             />
           </label>
           </span>
           <br/>
-            <Button style={SaveBtnStyle} type="submit" variant='contained'>
+            <SaveBtnStyle type="submit" variant="contained">
             Save 
-           </Button>
+            </SaveBtnStyle>
         </FormEditProfile>
         <br/>
-          <Link to='/listUsers' style={{ position: 'relative' }}>
+          <Link to="/listUsers">
           <BackToListPage>
           Back to ListPage
           </BackToListPage>
           </Link>
         <br/>
-          <Link to='/startForm' onClick={LogOut} style={{ position: 'relative' }}>
+          <Link to="/startForm" onClick={LogOut}>
           <LogOutLine>
            Log out
           </LogOutLine>
           </Link>
         <br/>
-        <Button variant='contained' style={btnStyle} onClick={DeleteUser}>
+        <Button variant="contained" style={BtnStyle} onClick={DeleteUser}>
 					Delete
 				</Button>
         <BelowDelete>
-        After click button your account will be deleted when log out
+        Your account will be deleted when log out
         </BelowDelete>
       </BackgroundProfileContainer>   
     </>
