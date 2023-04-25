@@ -55,6 +55,9 @@ background-size: cover;
 background-position: center;
 cursor: pointer;
 `;
+export const InputAvatar = styled.input`
+display: none;
+`;
 export const BelowDelete = styled.h2`
   font-size: 1rem;
   margin: 10px;

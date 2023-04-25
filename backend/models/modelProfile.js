@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const profileSchema = mongoose.Schema({
   name: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: String,
     minlength: 1,
   },
   dob: {

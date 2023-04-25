@@ -12,7 +12,7 @@ export const getUserById = async (req, res) => {
 export const updateUser = async (req, res) => {
     try {
       const updatedUser = await Profile.updateOne(
-        { _id: req.params.id },
+        (req.params.id), // or (ObjectId(req.params.id))
         {
           $set: {
             name: req.body.name,
