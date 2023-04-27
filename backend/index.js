@@ -69,5 +69,5 @@ const pgConfig = {
 const db = pgp(pgConfig);
 
 db.connect()
-  .then(() => console.log('Successfully connection with db'))
+  .then(() => console.log('Successfully connected to db'))
   .catch(() => console.log('Error connecting to db'));
