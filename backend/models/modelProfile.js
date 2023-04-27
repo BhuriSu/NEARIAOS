@@ -1,4 +1,5 @@
-import { Pool } from 'pg';
+import pkg from 'pg';
+const { Pool } = pkg;
 
 const pool = new Pool({
   user: process.env.DB_USER,
@@ -39,3 +40,5 @@ const createProfileTable = async () => {
 };
 
 createProfileTable();
+
+export { pool };
