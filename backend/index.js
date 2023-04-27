@@ -58,11 +58,13 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-mongoose.set("strictQuery", false);
-mongoose.connect(process.env.MONGO_URL, () => {
-  console.log("Connected to MongoDB");
-});
-
-const PORT = process.env.PORT || 5173;
-app.listen(PORT, () => console.log('server running on PORT ' + PORT));
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    const PORT = process.env.PORT || 5173;
+    app.listen(PORT, () => console.log('server running on PORT ' + PORT));
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });
 
