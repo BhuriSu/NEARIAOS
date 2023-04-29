@@ -1,4 +1,4 @@
-import React, { useState} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 import { getDownloadURL, getStorage } from 'firebase/storage';
 import { ref } from 'firebase/database';
@@ -20,10 +20,7 @@ function ListUsers() {
     err: '',
   });
   const [isShowMap, setShowMap] = useState(false);
-
   const [url, setUrl] = useState('');
-
-
 
   const ChangeOnMap = () => {
     setShowMap(!isShowMap);
@@ -37,7 +34,7 @@ function ListUsers() {
    * @param {Number} longitude
    * @param {Number} radius
    */
-
+  
   const requestListUsers = (id, latitude, longitude, radius) => {
     axios
       .post(`/lists/users/${id}`, {
