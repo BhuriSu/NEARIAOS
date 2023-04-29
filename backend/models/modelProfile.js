@@ -18,9 +18,9 @@ pool.on('error', (err, client) => {
 
 const createProfileTable = async () => {
   const createTableQuery = `
-    CREATE TABLE IF NOT EXISTS profile (
+    CREATE TABLE IF NOT EXISTS profiles (
       id SERIAL PRIMARY KEY,
-      name VARCHAR(255) NOT NULL,
+      username VARCHAR(255) NOT NULL,
       dob DATE NOT NULL,
       workplace VARCHAR(255),
       beverage VARCHAR(255),

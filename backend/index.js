@@ -40,10 +40,6 @@ app.get('*', (req, res) => {
 app.use('/users',usersRouter)
 app.use('/lists',listsRouter)
 
-
-app.get('/', (request, response) => {
-  response.json({ info: 'PERN STACK' })
-})
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
-import { getAuth, deleteUser } from "firebase/auth";
+import { getAuth, deleteUser, signOut } from "firebase/auth";
 import {
   ref, uploadBytesResumable, getDownloadURL, deleteObject
 } from "firebase/storage";
@@ -11,61 +11,67 @@ import { BackgroundProfileContainer, BackToListPage, DobContainer,
    LogOutLine, FormEditProfile, StyledInput, Avatar, InputAvatar,
    SaveBtnStyle, BelowDelete } from "./profileEditsElements";
 import { Button } from "@mui/material";
-import { useUserAuth } from "../Context/UserAuthContext";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-function ProfileEdit() {
+function ProfileEdit({ onSubmit }) {
   const BtnStyle = { marginTop: 5,backgroundColor: "#ff0000",color:"#000" };
-  const { logout } = useUserAuth();
   const navigate = useNavigate();
-  const { id } = useParams();
   const [url, setUrl] = useState("./images/UploadPic.png");
-  const [formData, setFormData] = useState({
-    workplace: '',
-    beverage: '',
-    favorite: '',
-    about: '',
-    name: '',
-    dob: ''
-  });
-  const { name, dob, workplace, beverage, favorite, about } = formData;
-  const setName = (e) => setFormData({ ...formData, name: e.target.value });
-  const setDob = (date) => setFormData({ ...formData, dob: date });
-  const setWorkplace = (e) => setFormData({ ...formData, workplace: e.target.value });
-  const setBeverage = (e) => setFormData({ ...formData, beverage: e.target.value });
-  const setFavorite = (e) => setFormData({ ...formData, favorite: e.target.value });
-  const setAbout = (e) => setFormData({ ...formData, about: e.target.value });
+  const { id } =  useParams();
+  const [username, setUsername] = useState('');
+  const [dob, setDob] = useState('');
+  const [beverage, setBeverage] = useState('');
+  const [workplace, setWorkplace] = useState('');
+  const [favorite, setFavorite] = useState('');
+  const [about, setAbout] = useState('');
 
-  const updateUser = async (e) => {
+  useEffect(() => {
+    if (id) {
+    axios.get(`/users/profiles/${id}`)
+      .then(res => {
+        setUsername(res.data.username);
+        setDob(res.data.dob);
+        setBeverage(res.data.beverage);
+        setWorkplace(res.data.workplace);
+        setFavorite(res.data.favorite);
+        setAbout(res.data.about);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+ }}, [id]);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`/users/profiles/${id}`, formData);
-      console.log('Profile updated successfully.');
+    const { data } = await axios.post('/users/profiles', { username, dob, beverage, workplace, favorite, about });
+    onSubmit(data);
+    navigate('/profile');
+    } catch (err) {
+    console.error('Error creating profile', err);
+    }
+    };
+
+  const handleUpdate  = async (e) => {
+    e.preventDefault();
+    try {
+      const { data } = await axios.patch(`/users/profiles/${id}`,{
+        username,
+        dob,
+        beverage,
+        workplace,
+        favorite,
+        about
+      });
+      onSubmit(data);
+      navigate('/profile');
     } catch (error) {
-      console.log('Error', error);
+      console.error('Error updating profile', error);
     }
   };
-  
-  useEffect(() => {
-    const getUserById = async () => {
-      try {
-        if (id) {
-          const res = await axios.get(`/users/profiles/${id}`);
-          setWorkplace(res.data.workplace);
-          setBeverage(res.data.beverage);
-          setFavorite(res.data.favorite);
-          setAbout(res.data.about);
-          setName(res.data.name);
-          setDob(res.data.dob);
-        }
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getUserById();
-  }, [id]);
+
 
   function Photo(e) {
     const file = e.target.files[0];
@@ -112,14 +118,10 @@ function ProfileEdit() {
 
   const LogOut = async () => {
     try {
-      await logout();
-      navigate("/");
-      console.log("You are logged out")
-    } catch (e) {
-      const errorMessage = e.message;
-      if (errorMessage) {
-        alert("user account was deleted");
-      }
+      const auth = getAuth();
+      signOut(auth);
+    } catch (error) {
+      console.log(error);
     }
   }
 
@@ -137,7 +139,7 @@ function ProfileEdit() {
       // Delete Firebase storage
       const avatarRef = ref(storage, `avatars/${user.uid}`);
       await deleteObject(avatarRef);
-  
+      navigate('/');
       console.log("User deleted successfully.");
     } catch (error) {
       console.log(error);
@@ -147,7 +149,7 @@ function ProfileEdit() {
   return (
     <>
       <BackgroundProfileContainer >
-        <FormEditProfile onSubmit={updateUser} >
+        <FormEditProfile onSubmit={id ? handleUpdate : handleSubmit} >
         <div style={{ alignSelf: "center" }}>
         <label htmlFor="file-input">
         <Avatar style={{ backgroundImage: `url(${url})` }} />
@@ -155,12 +157,13 @@ function ProfileEdit() {
         <InputAvatar id="file-input" type="file" title="upload" onChange={Photo} />
         </div>
         <span style={{ textShadow: "none", color: "#fff" }} >
-            Name: 
+            username: 
             <label>
             <StyledInput
              type="text"
-             value={name}
-             onChange={setName}
+             name = "username"
+             value={username}
+             onChange={(e) => setUsername(e.target.value)}
              required
            />
           </label>
@@ -174,12 +177,25 @@ function ProfileEdit() {
              <DatePicker
                  label="DOB"
                  inputFormat="YYYY-MM-DD"
+                 name = "date of birth"
                  value={dob}
-                 onChange={setDob}
-                 renderInput={(props) => <StyledInput {...props} />}
+                 onChange={(date) => setDob(date)}
+                 textField={(props) => <StyledInput {...props} />}
             />
           </LocalizationProvider>
             </DobContainer>
+          </span>
+          <br/>
+          <span style={{ textShadow: "none", color: "#fff" }} >
+            Beverage:
+            <label>
+            <StyledInput
+              type="text"
+              name = "beverage"
+              value={beverage}
+              onChange={(e) => setBeverage(e.target.value)}
+            />
+          </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
@@ -187,8 +203,9 @@ function ProfileEdit() {
             <label>
             <StyledInput
               type="text"
+              name = "workplace"
               value={workplace}
-              onChange={setWorkplace}
+              onChange={(e) => setWorkplace(e.target.value)}
             />
           </label>
           </span>
@@ -198,8 +215,9 @@ function ProfileEdit() {
             <label>
             <StyledInput
               type="text"
+              name = "favorite"
               value={favorite}
-              onChange={setFavorite}
+              onChange={(e) => setFavorite(e.target.value)}
             />
           </label>
           </span>
@@ -209,25 +227,15 @@ function ProfileEdit() {
             <label>
             <StyledInput
               type="text"
+              name = "about"
               value={about}
-              onChange={setAbout}
-            />
-          </label>
-          </span>
-          <br/>
-          <span style={{ textShadow: "none", color: "#fff" }} >
-            Beverage:
-            <label>
-            <StyledInput
-              type="text"
-              value={beverage}
-              onChange={setBeverage}
+              onChange={(e) => setAbout(e.target.value)}
             />
           </label>
           </span>
           <br/>
             <SaveBtnStyle type="submit" variant="contained">
-            Save 
+            {id ? 'Update' : 'Create'} 
             </SaveBtnStyle>
         </FormEditProfile>
         <br/>
