@@ -79,3 +79,8 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 `;
+export const SaveBtnStyle = styled.div`
+font-size: 1rem;
+margin: 10px;
+color: #fff;
+`
