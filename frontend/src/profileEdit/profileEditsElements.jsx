@@ -40,7 +40,7 @@ export const StyledInput = styled.input`
   height: 10px;
   border-radius: 20px;
   margin: auto 0;
-  padding: 20px;
+  padding: 20px 40px;
   border-color:#000 ;
   box-sizing: border-box;
   ::placeholder { 
@@ -48,8 +48,8 @@ export const StyledInput = styled.input`
   }
 `;
 export const Avatar = styled.div`
-width: 200px;
-height: 200px;
+width: 140px;
+height: 140px;
 border-radius: 50%;
 background-size: cover;
 background-position: center;
@@ -57,7 +57,7 @@ cursor: pointer;
 `;
 export const InputAvatar = styled.input`
 display: none;
-`;
+`
 export const BelowDelete = styled.h2`
   font-size: 1rem;
   margin: 10px;
@@ -79,8 +79,22 @@ flex-direction: column;
 justify-content: center;
 align-items: center;
 `;
-export const SaveBtnStyle = styled.div`
-font-size: 1rem;
-margin: 10px;
-color: #fff;
-`
+export const SaveBtnStyle = styled.button`
+  border-radius: 50px;
+  background: #05fff3;
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #000;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: #8c2eff;
+    color: #fff;
+  }
+`;
