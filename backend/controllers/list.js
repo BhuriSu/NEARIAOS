@@ -1,4 +1,4 @@
-import Profile from '../models/modelProfile.js'; 
+import { pool } from '../models/modelProfile.js';
 
 // geolocation formula
 const rad = x => (x * Math.PI) / 180;
@@ -29,44 +29,58 @@ export const FindUsers = async (req, res) => {
       err: 'Arguments is undefined'
     });
   }
- 
-  const listAll = await Profile.find({});
-  const list = [];
-  listAll.forEach(el => {
-    const dist = distHaversine(
-      {
-        lat: latitude,
-        lng: longitude
-      },
-      {
-        lat: el.latitude,
-        lng: el.longitude
-      }
-    );
 
-    if (dist < radius) list.push(el);
-  });
- 
-  await Profile.updateOne(
-    {
-      _id:req.params.id
-    },
-    {
-      // $set operator replaces the value of a field with the specified value.
-      $set: {
-        latitude,
-        longitude
-      }
-    }
-  );
-  if (list) {
-    return res.send({
-      success: true,
-      list
+  const client = await pool.connect();
+  try {
+    await client.query('BEGIN');
+
+    const getAllQuery = 'SELECT * FROM profiles';
+    const getAllResult = await client.query(getAllQuery);
+
+    const list = [];
+    getAllResult.rows.forEach(el => {
+      const dist = distHaversine(
+        {
+          lat: latitude,
+          lng: longitude
+        },
+        {
+          lat: el.latitude,
+          lng: el.longitude
+        }
+      );
+
+      if (dist < radius) list.push(el);
     });
+
+    const updateQuery = 'UPDATE profiles SET latitude = $1, longitude = $2 WHERE id = $3';
+    await client.query(updateQuery, [latitude, longitude, id]);
+
+    await client.query('COMMIT');
+    
+    if (list) {
+      return res.send({
+        success: true,
+        list
+      });
+    }
+    return res.send({
+      success: false,
+      err: 'No such a user from this geolocation'
+    });
+  } catch (error) {
+    await client.query('ROLLBACK');
+    return res.send({
+      success: false,
+      err: error.message
+    });
+  } finally {
+    client.release();
   }
-  return res.send({
-    success: false,
-    err: 'No such a user from this geolocation'
-  });
 };
+
+
+
+
+
+
