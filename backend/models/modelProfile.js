@@ -1,34 +1,14 @@
 import mongoose from "mongoose";
 
-const profileSchema = mongoose.Schema({
-  name: {
-    type: String,
-    minlength: 1,
-  },
-  dob: {
-    type: Date,
-  },
-  workplace: {
-    type: String,
-    minlength: 1,
-  },
-  beverage: {
-    type: String,
-    minlength: 1,
-  },
-  favorite: {
-    type: String,
-    minlength: 1,
-  },
-  about: {
-    type: String,
-    minlength: 1,
-  },
-  latitude: Number,
-  longitude: Number,
-},
-{
-  versionKey: false,
+const profileSchema = new mongoose.Schema({
+  name: { type: String, required: true },
+  dob: { type: Date, required: true },
+  beverage: { type: String, required: true },
+  workplace: { type: String },
+  favorite: { type: String },
+  about: { type: String }
 });
 
-export default mongoose.model('Profile', profileSchema);
+const Profile = mongoose.model('Profile', profileSchema);
+
+export default Profile;

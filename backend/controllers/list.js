@@ -1,6 +1,5 @@
-import { pool } from '../models/modelProfile.js';
+import Profile from '../models/modelProfile.js';
 
-// geolocation formula
 const rad = x => (x * Math.PI) / 180;
 const distHaversine = (p1, p2) => {
   const R = 6371; 
@@ -24,21 +23,17 @@ export const Lists = async (req, res) => {
 export const FindUsers = async (req, res) => {
   const { id, latitude, longitude, radius } = req.body;
   if ([id, latitude, longitude, radius].some(el => el === undefined)) {
-    return res.send({
+    return res.status(400).json({
       success: false,
-      err: 'Arguments is undefined'
+      err: 'Arguments are undefined'
     });
   }
 
-  const client = await pool.connect();
   try {
-    await client.query('BEGIN');
-
-    const getAllQuery = 'SELECT * FROM profiles';
-    const getAllResult = await client.query(getAllQuery);
+    const allProfiles = await Profile.find({});
 
     const list = [];
-    getAllResult.rows.forEach(el => {
+    allProfiles.forEach(el => {
       const dist = distHaversine(
         {
           lat: latitude,
@@ -53,34 +48,22 @@ export const FindUsers = async (req, res) => {
       if (dist < radius) list.push(el);
     });
 
-    const updateQuery = 'UPDATE profiles SET latitude = $1, longitude = $2 WHERE id = $3';
-    await client.query(updateQuery, [latitude, longitude, id]);
-
-    await client.query('COMMIT');
+    const user = await Profile.findByIdAndUpdate(id, { latitude, longitude }, { new: true });
     
-    if (list) {
-      return res.send({
+    if (list.length) {
+      return res.json({
         success: true,
         list
       });
     }
-    return res.send({
+    return res.status(404).json({
       success: false,
-      err: 'No such a user from this geolocation'
+      err: 'No user found in this geolocation'
     });
   } catch (error) {
-    await client.query('ROLLBACK');
-    return res.send({
+    return res.status(500).json({
       success: false,
       err: error.message
     });
-  } finally {
-    client.release();
   }
 };
-
-
-
-
-
-
