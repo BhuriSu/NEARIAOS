@@ -1,57 +1,65 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+
+//firebase
 import { getAuth, deleteUser, signOut } from "firebase/auth";
 import {
   ref, uploadBytesResumable, getDownloadURL, deleteObject
 } from "firebase/storage";
-import { db, storage } from "../Firebase/firebase";
-import { doc, deleteDoc } from "firebase/firestore";
+import { storage } from "../Firebase/firebase";
+
+// css 
 import { BackgroundProfileContainer, BackToListPage, DobContainer,
    LogOutLine, FormEditProfile, StyledInput, Avatar, InputAvatar,
    SaveBtnStyle, BelowDelete } from "./profileEditsElements";
 import { Button } from "@mui/material";
-import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
-import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
-import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 
-function ProfileEdit(props) {
+//date of birth 
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
+function ProfileEdit() {
   const BtnStyle = { marginTop: 5,backgroundColor: "#ff0000",color:"#000" };
   const navigate = useNavigate();
-  const { register, handleSubmit, setValue } = useForm();
+  const { register, handleSubmit} = useForm();
   const [url, setUrl] = useState("./images/UploadPic.png");
-  const [, setUser] = useState({});
 
- useEffect(() => {
-  const userId = props.match.params.id;
-  if (userId) {
-    axios.get(`/users/profiles/${userId}`).then((res) => {
-      setUser(res.data);
-      Object.keys(res.data).forEach((key) =>
-        setValue(key, res.data[key])
-      );
-    });
-  }
-}, [props.match.params.id, setValue]);
+  const onSubmit = (data) => {
+    if (data._id) {
+      // If form data contains an ID, update the document in MongoDB
+      updateData(data);
+    } else {
+      // If form data doesn't contain an ID, create a new document in MongoDB
+      createData(data);
+    }
+  };
 
-const onSubmit = (data) => {
-  const userId = props.match.params.id;
-  if (userId) {
-    axios.put(`/users/profiles/${userId}`, data).then(() => {
-      navigate("/profile");
-    });
-  } else {
+  const createData = (data) => {
     axios.post(`/users/profiles`, data).then(() => {
       navigate("/profile");
+    }).catch((error) => {
+      console.log("Error creating data:", error);
+      // Handle error
     });
-  }
-};
+  };
 
-
+  const updateData = (data) => {
+    axios.patch(`/users/profiles/${data._id}`, data).then((response) => {
+      console.log("Data updated:", response.data);
+      // Handle success or redirect to another page
+    }).catch((error) => {
+      console.log("Error updating data:", error);
+      // Handle error
+    });
+  };
+  
+ 
   function Photo(e) {
     const file = e.target.files[0];
-    const storageRef = ref(storage, `/images/${file.name}`);
+    const storageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
     uploadTask.on(
       "state_changed",
@@ -103,19 +111,15 @@ const onSubmit = (data) => {
 
   const DeleteUser = async (id) => {
     try {
-      // Delete Firebase account
       const auth = getAuth();
       const user = auth.currentUser;
-      await deleteUser(user);
-  
-      // Delete database information
-      const userRef = doc(db, "users", id);
-      await deleteDoc(userRef);
-  
       // Delete Firebase storage
-      const avatarRef = ref(storage, `/images/${user.uid}`);
+      const avatarRef = ref(storage, `images/${user.uid}`);
       await deleteObject(avatarRef);
       navigate('/');
+      // Delete Firebase account
+      await deleteUser(user);
+  
       console.log("User deleted successfully.");
     } catch (error) {
       console.log(error);
@@ -125,37 +129,32 @@ const onSubmit = (data) => {
   return (
     <>
       <BackgroundProfileContainer >
-        <h2>{props.match.params.id ? "Edit" : "Create"} User</h2>
         <FormEditProfile onSubmit={handleSubmit(onSubmit)} >
+
         <div style={{ alignSelf: "center" }}>
         <label htmlFor="file-input">
         <Avatar style={{ backgroundImage: `url(${url})` }} />
         </label>
         <InputAvatar id="file-input" type="file" title="upload" onChange={Photo} />
         </div>
-        <span style={{ textShadow: "none", color: "#fff" }} >
+
+          <span style={{ textShadow: "none", color: "#fff" }} >
             username: 
             <label>
             <StyledInput
-            type="text" {...register("username", { required: true })}
-           />
+            type="text"
+            {...register("username", { required: true, pattern: /^[A-Za-z]+$/i })}
+            />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Date of birth: 
            <DobContainer>
-            
            <LocalizationProvider dateAdapter={AdapterDayjs}>
-             <DatePicker
-                 label="DOB"
-                 inputFormat="YYYY-MM-DD"
-                 name = "date of birth"
-                 type="date" {...register("dob", { required: true })}
-                 textField={(props) => <StyledInput {...props} />}
-            />
-          </LocalizationProvider>
-            </DobContainer>
+           <DatePicker />
+           </LocalizationProvider>
+           </DobContainer>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
@@ -202,6 +201,7 @@ const onSubmit = (data) => {
             save
             </SaveBtnStyle>
         </FormEditProfile>
+
         <br/>
           <Link to="/listUsers">
           <BackToListPage>

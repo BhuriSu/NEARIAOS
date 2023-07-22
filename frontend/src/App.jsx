@@ -6,7 +6,7 @@ import {
 import Home from './pages/main';
 import PremiumPage from './pages/premium';
 import ContactPage from './pages/contact';
-import ProfileEditPage from './pages/profile';
+import ProfileEditPage from './pages/profiles';
 import ChatPage from './pages/chat';
 import ListPage from './pages/listUsers';
 import PrivacyPage from './pages/privacy';

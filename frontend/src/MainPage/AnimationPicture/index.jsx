@@ -43,9 +43,9 @@ function Card({ text, hueA, hueB }) {
 }
 
 const word = [
-  ['So', 340, 10],
-  ['Lonely', 20, 40],
-  ['Right?', 60, 90],
+  ['Why', 340, 10],
+  ['Dont', 20, 40],
+  ['You', 60, 90],
   ['Just', 80, 120],
   ['Find', 150, 140],
   ['Some', 205, 245],
