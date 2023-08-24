@@ -1,5 +1,5 @@
 import React from "react";
-import ProfileEdit from "../profileEdit";
+import ProfileEdit from "../ProfileEdit";
 
 function ProfileEditPage() {
   return (

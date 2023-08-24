@@ -1,18 +1,18 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
-
+import AvatarUser from "./avatar";
 //firebase
 import { getAuth, deleteUser, signOut } from "firebase/auth";
 import {
-  ref, uploadBytesResumable, getDownloadURL, deleteObject
+  ref, deleteObject
 } from "firebase/storage";
 import { storage } from "../Firebase/firebase";
 
 // css 
 import { BackgroundProfileContainer, BackToListPage, DobContainer,
-   LogOutLine, FormEditProfile, StyledInput, Avatar, InputAvatar,
+   LogOutLine, FormEditProfile, StyledInput,
    SaveBtnStyle, BelowDelete } from "./profileEditsElements";
 import { Button } from "@mui/material";
 
@@ -24,11 +24,10 @@ import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 function ProfileEdit() {
   const BtnStyle = { marginTop: 5,backgroundColor: "#ff0000",color:"#000" };
   const navigate = useNavigate();
-  const { register, handleSubmit} = useForm();
-  const [url, setUrl] = useState("./images/UploadPic.png");
+  const { register, handleSubmit } = useForm();
 
   const onSubmit = (data) => {
-    if (data._id) {
+    if (data.id) {
       // If form data contains an ID, update the document in MongoDB
       updateData(data);
     } else {
@@ -42,64 +41,18 @@ function ProfileEdit() {
       navigate("/profile");
     }).catch((error) => {
       console.log("Error creating data:", error);
-      // Handle error
     });
   };
 
   const updateData = (data) => {
-    axios.patch(`/users/profiles/${data._id}`, data).then((response) => {
+    axios.patch(`/users/profiles/${data.id}`, data).then((response) => {
       console.log("Data updated:", response.data);
-      // Handle success or redirect to another page
     }).catch((error) => {
       console.log("Error updating data:", error);
-      // Handle error
     });
   };
   
  
-  function Photo(e) {
-    const file = e.target.files[0];
-    const storageRef = ref(storage, `images/${file.name}`);
-    const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            console.log("sorry it is not working");
-        }
-      },
-      (error) => {
-        switch (error.code) {
-          case "storage/unauthorized":
-            console.log("storage is unauthorized");
-            break;
-          case "storage/canceled":
-            console.log("storage is canceled");
-            break;
-          case "storage/unknown":
-            console.log("storage is unknown");
-            break;
-          default:
-            console.log("sorry it is not about storage");
-        }
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setUrl(url);
-        });
-      }
-    );
-  }
-
   const LogOut = async () => {
     try {
       const auth = getAuth();
@@ -131,15 +84,10 @@ function ProfileEdit() {
       <BackgroundProfileContainer >
         <FormEditProfile onSubmit={handleSubmit(onSubmit)} >
 
-        <div style={{ alignSelf: "center" }}>
-        <label htmlFor="file-input">
-        <Avatar style={{ backgroundImage: `url(${url})` }} />
-        </label>
-        <InputAvatar id="file-input" type="file" title="upload" onChange={Photo} />
-        </div>
+          <AvatarUser/>
 
           <span style={{ textShadow: "none", color: "#fff" }} >
-            username: 
+            Username: 
             <label>
             <StyledInput
             type="text"
