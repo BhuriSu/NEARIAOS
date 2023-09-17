@@ -1,8 +1,8 @@
 import mongoose from "mongoose";
 
 const profileSchema = new mongoose.Schema({
-  name: { type: String, default: Date.now, required: true },
-  dob: { type: Date, required: true },
+  name: { type: String, required: true },
+  dob: { type: Date, default: Date.now, required: true },
   beverage: { type: String },
   workplace: { type: String },
   favorite: { type: String },

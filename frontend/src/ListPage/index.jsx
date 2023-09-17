@@ -145,7 +145,7 @@ function ListUsers() {
           <LabelRadius>
             {radius !== null ? (
               <div>
-                 Just touch the line and move right or left
+                 Touch the line and move right or left
                  <br/>
                  <br/>
                 {' '}

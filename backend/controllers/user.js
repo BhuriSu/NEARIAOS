@@ -1,48 +1,59 @@
-import Profile from "../models/modelProfile.js";
+import Profile from "../models/Profile.js";
 
 export const getUsers = async (req, res) => {
   try {
-    const profiles = await Profile.find({});
-    res.send(profiles);
+    const profiles = await Profile.find();
+    res.status(200).json(profiles);
   } catch (error) {
-    res.status(500).json({ 
-      error: error.message
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
 export const getUserById = async (req, res) => {
   try {
     const profile = await Profile.findById(req.params.id);
-    res.send(profile);
+    res.status(200).json(profile);
   } catch (error) {
-    res.status(404).json({ 
-      error: error.message
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
 export const createUser = async (req, res) => {
-  const { username, dob, beverage, workplace, favorite, about } = req.body;
   try {
-    const profile = new Profile({ username, dob, beverage, workplace, favorite, about });
-    await profile.save();
-    res.send(profile);
+    if (
+      !req.body.username ||
+      !req.body.dob 
+    ) {
+      return res.status(400).send({
+        message: 'Send all required fields: title, author, publishYear',
+      });
+    }
+    const CreateProfile = {
+      username: req.body.username,
+      dob: req.body.dob,
+      beverage: req.body.beverage,
+      workplace: req.body.workplace,
+      favorite: req.body.favorite,
+      about: req.body.about
+    };
+    const profile = await Profile.create(CreateProfile);
+    return res.status(201).send(profile);
   } catch (error) {
-    res.status(404).json({ 
-      error: error.message
-    });
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
   }
 };
 
 export const updateUser = async (req, res) => {
-  const { username, dob, beverage, workplace, favorite, about } = req.body;
   try {
-    const profile = await Profile.findByIdAndUpdate(req.params.id, { username, dob, beverage, workplace, favorite, about }, { new: true });
-    res.send(profile);
+    const { id } = req.params;
+    const result = await Profile.findByIdAndUpdate(id, req.body);
+    if (!result) {
+      return res.status(404).json({ message: 'Book not found' });
+    }
+    return res.status(200).send({ message: 'Book updated successfully' });
   } catch (error) {
-    res.status(500).json({ 
-      error: error.message
-    });
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
   }
 };

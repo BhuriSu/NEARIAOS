@@ -1,4 +1,4 @@
-import Profile from '../models/modelProfile.js';
+import  Profile  from '../models/Profile.js';
 
 const rad = x => (x * Math.PI) / 180;
 const distHaversine = (p1, p2) => {

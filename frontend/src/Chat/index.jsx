@@ -1,11 +1,10 @@
-
-import "@sendbird/uikit-react/dist/index.css";
-import './ChatElements.css';
 import React from 'react';
 import SendbirdProvider from "@sendbird/uikit-react/SendbirdProvider";
+import "@sendbird/uikit-react/dist/index.css";
+import './ChatElements.css';
 import CustomizedChat from './CustomizedChat';
 
-const Chat = ({username,AvatarUser}) => {
+const Chat = ({username,Photo}) => {
 
     return (
         <div className="Chat">
@@ -13,7 +12,7 @@ const Chat = ({username,AvatarUser}) => {
           appId={import.meta.env.APP_ID}
           userId={import.meta.env.USER_ID}
           nickname={username}
-          profileUrl={AvatarUser}
+          profileUrl={Photo}
           allowProfileEdit={true}
         >
         <CustomizedChat/>
