@@ -60,7 +60,7 @@ function ProfileEdit() {
       about
     };
     axios
-      .post('/users', data)
+      .post('http://localhost:5432/profile', data)
       .then(() => {
         <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="success">Profile Edited successfully</Alert>
@@ -76,7 +76,7 @@ function ProfileEdit() {
   };
 
   useEffect(() => {
-    axios.get(`/users/${id}`)
+    axios.get(`http://localhost:5432/profile/${id}`)
     .then((response) => {
         setUsername(response.data.username);
         setDob(response.data.dob)
@@ -102,7 +102,7 @@ function ProfileEdit() {
       about
     };
     axios
-      .put(`/users/${id}`, data)
+      .patch(`http://localhost:5432/profile/${id}`, data)
       .then(() => {
         <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="success">Profile Edited successfully</Alert>

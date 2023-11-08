@@ -33,11 +33,12 @@ const publicPath = path.join(__dirname, 'build');
 app.use(express.static(path.join(__dirname, 'index.html')));
 app.use(express.static(publicPath));
 app.get('/', (req, res) => {
+  console.log(req);
   res.send(path.join(publicPath, 'index.html'));
 });
 
 // api 
-app.use('/users',usersRouter)
+app.use('/profile',usersRouter)
 app.use('/lists',listsRouter)
 
 // catch 404 and forward to error handler
@@ -61,7 +62,7 @@ app.use((err, req, res) => {
 mongoose.connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to MongoDB");
-    const PORT = process.env.PORT || 5173;
+    const PORT = process.env.PORT || 5432;
     app.listen(PORT, () => console.log('server running on PORT ' + PORT));
   })
   .catch((error) => {

@@ -34,7 +34,7 @@ function ListUsers() {
    * @param {Number} longitude
    * @param {Number} radius
    */
-  
+
   const requestListUsers = (id, latitude, longitude, radius) => {
     axios
       .post(`/lists/${id}`, {

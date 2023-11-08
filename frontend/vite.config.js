@@ -7,6 +7,9 @@ export default defineConfig(() => {
     build: {
       outDir: 'build',
     },
+    server: {
+      '/profile': 'http://localhost:5432',
+    },
     plugins: [
         react(),
         eslint(),
