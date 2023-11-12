@@ -60,7 +60,7 @@ function ProfileEdit() {
       about
     };
     axios
-      .post('http://localhost:5432/profile', data)
+      .post('http://localhost:5432/profiles', data)
       .then(() => {
         <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="success">Profile Edited successfully</Alert>
@@ -76,14 +76,15 @@ function ProfileEdit() {
   };
 
   useEffect(() => {
-    axios.get(`http://localhost:5432/profile/${id}`)
+    axios
+    .get(`http://localhost:5432/profiles/${id}`)
     .then((response) => {
-        setUsername(response.data.username);
-        setDob(response.data.dob)
-        setBeverage(response.data.beverage)
-        setBeverage(response.data.workplace)
-        setBeverage(response.data.favorite)
-        setBeverage(response.data.about)
+      setUsername(response.data.username);
+      setDob(response.data.dob);
+      setBeverage(response.data.beverage);
+      setWorkplace(response.data.workplace); 
+      setFavorite(response.data.favorite); 
+      setAbout(response.data.about); 
       }).catch((error) => {
         <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="error">Username and date of birth require!</Alert>
@@ -102,7 +103,7 @@ function ProfileEdit() {
       about
     };
     axios
-      .patch(`http://localhost:5432/profile/${id}`, data)
+      .patch(`http://localhost:5432/profiles/${id}`, data)
       .then(() => {
         <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="success">Profile Edited successfully</Alert>

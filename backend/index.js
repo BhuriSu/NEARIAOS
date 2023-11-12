@@ -38,7 +38,7 @@ app.get('/', (req, res) => {
 });
 
 // api 
-app.use('/profile',usersRouter)
+app.use('/profiles',usersRouter)
 app.use('/lists',listsRouter)
 
 // catch 404 and forward to error handler

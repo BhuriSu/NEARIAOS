@@ -1,6 +1,5 @@
 import Profile from "../models/Profile.js";
 
-
 export const getUserById = async (req, res) => {
   try {
     const profile = await Profile.findById(req.params.id);
@@ -17,7 +16,7 @@ export const createUser = async (req, res) => {
       !req.body.dob 
     ) {
       return res.status(400).send({
-        message: 'Send all required fields: title, author, publishYear',
+        message: 'Send all required fields: username, date of birth',
       });
     }
     const CreateProfile = {
