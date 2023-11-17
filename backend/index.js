@@ -9,6 +9,7 @@ import dotenv from 'dotenv';
 import { fileURLToPath } from 'url';
 import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
+import messageRouter from "./routes/messageRouter.js";
 import path from 'path';
 
 dotenv.config();
@@ -40,6 +41,7 @@ app.get('/', (req, res) => {
 // api 
 app.use('/profiles',usersRouter)
 app.use('/lists',listsRouter)
+app.use('/messages',messageRouter)
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {

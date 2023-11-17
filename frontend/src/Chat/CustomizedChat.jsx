@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 const UserProfile = ({ user }) => {
   return (
@@ -27,6 +28,12 @@ const CustomizedChat = () => {
     about: 'Hello, I am John Doe!',
   });
 
+  useEffect(() => {
+    axios.get('/messages')
+      .then(response => setMessages(response.data))
+      .catch(error => console.error(error));
+  }, []);
+
   // Simulate a simple conversation
   useEffect(() => {
     setMessages([
@@ -35,6 +42,7 @@ const CustomizedChat = () => {
     ]);
   }, []);
 
+
   const handleInputChange = (e) => {
     setNewMessage(e.target.value);
   };
@@ -42,9 +50,13 @@ const CustomizedChat = () => {
   const handleSendMessage = () => {
     if (newMessage.trim() === '') return;
 
-    const newMessages = [...messages, { id: messages.length + 1, text: newMessage }];
-    setMessages(newMessages);
-    setNewMessage('');
+    // Send message to the server
+    axios.post('/messages', { text: newMessage })
+      .then(response => {
+        setMessages([...messages, response.data]);
+        setNewMessage('');
+      })
+      .catch(error => console.error(error));
   };
 
   return (
