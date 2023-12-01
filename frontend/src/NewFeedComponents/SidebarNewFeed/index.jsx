@@ -17,7 +17,7 @@ function SidebarNewFeed({ isOpen, toggle }) {
       <SidebarNewFeedWrapper>
 
         <SidebarNewFeedMenu>
-              <NavLinks to='/profile'>
+              <NavLinks to='/profiles'>
               <Profile src={profile} width='100' height='100' alt='' onClick={toggle} /> 
               </NavLinks>
               {' '} 

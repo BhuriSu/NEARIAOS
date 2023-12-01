@@ -19,7 +19,7 @@ const CustomizedChat = () => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   const [currentUser, ] = useState({
-    photo: './images/DefaultAvatar.png', // You can set a default avatar image
+    photo: './images/ImagesInListPage/profile.svg', // You can set a default avatar image
     username: 'JohnDoe',
     dob: '1990-01-01',
     beverage: 'Coffee',
@@ -29,7 +29,7 @@ const CustomizedChat = () => {
   });
 
   useEffect(() => {
-    axios.get('/messages')
+    axios.get('http://localhost:27017/messages')
       .then(response => setMessages(response.data))
       .catch(error => console.error(error));
   }, []);
@@ -49,9 +49,7 @@ const CustomizedChat = () => {
 
   const handleSendMessage = () => {
     if (newMessage.trim() === '') return;
-
-    // Send message to the server
-    axios.post('/messages', { text: newMessage })
+    axios.post('http://localhost:27017/messages', { text: newMessage })
       .then(response => {
         setMessages([...messages, response.data]);
         setNewMessage('');

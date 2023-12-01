@@ -37,14 +37,13 @@ function ListUsers() {
 
   const requestListUsers = (id, latitude, longitude, radius) => {
     axios
-      .post(`/lists/${id}`, {
+      .post(`http://localhost:27017/lists/${id}`, {
         latitude,
         longitude,
         radius,
       })
       .then(async (response) => {
         if (response.data.success) {
-
           const promisesArr = response.data.list.map(async (user) => {
             const storage = getStorage();
             const pic = await getDownloadURL(ref(storage, `images/${user._id}`))

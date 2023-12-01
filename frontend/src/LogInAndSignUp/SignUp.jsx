@@ -20,7 +20,7 @@ const SignUp = () => {
         e.preventDefault()
         try {
             await signUp(email, password);
-            navigate('/profile');
+            navigate('/profiles');
             if (password !== confirmPassword) {
                 setError('Passwords need to match!')
                 return

@@ -17,7 +17,7 @@ input.sw {
 
 input.sw + label {
   color: white;
-  user-select: none;
+  -webkit-user-select: none;
   transition: 0.2s ease;
   display: inline-block;
   height: 30px;

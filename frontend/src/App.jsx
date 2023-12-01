@@ -24,7 +24,7 @@ function App() {
           <Route path='/premium' element={<PremiumPage/>} />
           <Route path='/contact' element={<ContactPage/>} />
           <Route path='/startForm' element={<LogInAndSignUpPage/>} />
-          <Route path='/profile' element={<ProfileEditPage/>} />
+          <Route path='/profiles' element={<ProfileEditPage/>} />
           <Route path='/chat' element={<ChatPage/>} />
           <Route path='/listUsers' element={<ListPage/>} />
           <Route path='/privacy' element={<PrivacyPage/>} />

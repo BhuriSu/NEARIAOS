@@ -17,7 +17,7 @@ function NavbarNewFeed({ toggle }) {
 
           <NavElements>
 
-              <NavLinks to='/profile'>
+              <NavLinks to='/profiles'>
               <Profile src={profile} width='100' height='100' alt='' /> 
               </NavLinks>
               {' '} 

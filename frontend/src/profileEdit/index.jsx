@@ -60,24 +60,26 @@ function ProfileEdit() {
       about
     };
     axios
-      .post('http://localhost:5432/profiles', data)
-      .then(() => {
-        <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="success">Profile Edited successfully</Alert>
-        </Stack>
-        navigate('/profile');
-      })
-      .catch((error) => {
-        <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="error">Username and date of birth require!</Alert>
-        </Stack>
-        console.log(error);
-      });
+    .post('http://localhost:27017/profiles', data)
+    .then(() => {
+      <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="success">Profile Edited successfully</Alert>
+      </Stack>
+      navigate('/profiles');
+      console.log(data);
+    })
+    .catch((error) => {
+      <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="error">Username and date of birth require!</Alert>
+      </Stack>
+      console.log(error);
+    });
   };
 
   useEffect(() => {
+    if (id) {
     axios
-    .get(`http://localhost:5432/profiles/${id}`)
+    .get(`http://localhost:27017/profiles/${id}`)
     .then((response) => {
       setUsername(response.data.username);
       setDob(response.data.dob);
@@ -91,6 +93,7 @@ function ProfileEdit() {
         </Stack>
         console.log(error);
       });
+    }
   }, [])
 
   const updateData = async () => {
@@ -103,12 +106,12 @@ function ProfileEdit() {
       about
     };
     axios
-      .patch(`http://localhost:5432/profiles/${id}`, data)
+      .patch(`http://localhost:27017/profiles/${id}`, data)
       .then(() => {
         <Stack sx={{ width: '100%' }} spacing={2}>
         <Alert severity="success">Profile Edited successfully</Alert>
         </Stack>
-        navigate('/profile');
+        navigate('/profiles');
       })
       .catch((error) => {
         <Stack sx={{ width: '100%' }} spacing={2}>
@@ -202,7 +205,7 @@ function ProfileEdit() {
           <span style={{ textShadow: "none", color: "#fff" }} >
             Username: 
             <label>
-            <StyledInput type="text" name="username" value={username || ''} onChange={(e) => setUsername(e.target.value)} />
+            <StyledInput type="text" name="username" placeholder="name..." value={username || ''} onChange={(e) => setUsername(e.target.value)} />
           </label>
           </span>
           <br/>
@@ -218,28 +221,28 @@ function ProfileEdit() {
           <span style={{ textShadow: "none", color: "#fff" }} >
             Beverage:
             <label>
-            <StyledInput type="text" name="beverage" value={beverage || ''} onChange={(e) => setBeverage(e.target.value)} />
+            <StyledInput type="text" name="beverage" placeholder="beverage..." value={beverage || ''} onChange={(e) => setBeverage(e.target.value)} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Workplace: 
             <label>
-            <StyledInput type="text" name="workplace" value={workplace || ''} onChange={(e) => setWorkplace(e.target.value)} />
+            <StyledInput type="text" name="workplace" placeholder="workplace..." value={workplace || ''} onChange={(e) => setWorkplace(e.target.value)} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Favorite:
             <label>
-            <StyledInput type="text" name="favorite" value={favorite || ''} onChange={(e) => setFavorite(e.target.value)} />
+            <StyledInput type="text" name="favorite" placeholder="favorite..." value={favorite || ''} onChange={(e) => setFavorite(e.target.value)} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             About:
             <label>
-            <StyledInput type="text" name="about" value={about || ''} onChange={(e) => setAbout(e.target.value)} />
+            <StyledInput type="text" name="about" placeholder="about..." value={about || ''} onChange={(e) => setAbout(e.target.value)} />
           </label>
           </span>
           <br/>
