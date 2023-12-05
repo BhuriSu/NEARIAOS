@@ -7,7 +7,7 @@ import {
 const router = express.Router();
 
 router.get('/:id', getUserById);
-router.post('/', createUser);
+router.post('/create', createUser);
 router.patch('/:id', updateUser);
 
 

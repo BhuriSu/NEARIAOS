@@ -37,45 +37,6 @@ function ProfileEdit() {
 
   const {id} = useParams();
 
-  const onSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      if (id) {
-        await updateData();
-      } else {
-        await createData();
-      }
-    } catch (error) {
-      console.error('Error:', error);
-    }
-  };
-
-  const createData = async () => {
-    const data = {
-      username,
-      dob,
-      beverage,
-      workplace,
-      favorite,
-      about
-    };
-    axios
-    .post('http://localhost:27017/profiles', data)
-    .then(() => {
-      <Stack sx={{ width: '100%' }} spacing={2}>
-      <Alert severity="success">Profile Edited successfully</Alert>
-      </Stack>
-      navigate('/profiles');
-      console.log(data);
-    })
-    .catch((error) => {
-      <Stack sx={{ width: '100%' }} spacing={2}>
-      <Alert severity="error">Username and date of birth require!</Alert>
-      </Stack>
-      console.log(error);
-    });
-  };
-
   useEffect(() => {
     if (id) {
     axios
@@ -96,7 +57,33 @@ function ProfileEdit() {
     }
   }, [])
 
-  const updateData = async () => {
+  const createData = async () => {
+    const data = {
+      username,
+      dob,
+      beverage,
+      workplace,
+      favorite,
+      about
+    };
+    axios
+    .post('http://localhost:27017/profiles/create', data)
+    .then(() => {
+      <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="success">Profile Edited successfully</Alert>
+      </Stack>
+      navigate('/profiles');
+      console.log(data);
+    })
+    .catch((error) => {
+      <Stack sx={{ width: '100%' }} spacing={2}>
+      <Alert severity="error">Username and date of birth require!</Alert>
+      </Stack>
+      console.log(error);
+    });
+  };
+
+  const updateData = async (id) => {
     const data = {
       username,
       dob,
@@ -119,6 +106,19 @@ function ProfileEdit() {
         </Stack>
         console.log(error);
       });
+  };
+
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      if (id) {
+        await createData();
+      } else {
+        await updateData();
+      }
+    } catch (error) {
+      console.error('Error:', error);
+    }
   };
 
   function Photo(e) {

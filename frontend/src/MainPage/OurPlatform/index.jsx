@@ -18,7 +18,7 @@ function Services() {
           <ServicesCard1>
             <ServicesIcon src={Icon1} width='200' height='200' alt='' />
             <ServicesH2>Leisure friend</ServicesH2>
-            <ServicesP>Find new friend at specific time</ServicesP>
+            <ServicesP>Find new friend in specific time</ServicesP>
           </ServicesCard1>
 
           <ServicesCard2>
@@ -30,7 +30,7 @@ function Services() {
           <ServicesCard3>
             <ServicesIcon src={Icon3} width='200' height='200' alt='' />
             <ServicesH2>Make profit by helping</ServicesH2>
-            <ServicesP>Solve problem nearby you and take money</ServicesP>
+            <ServicesP>Solve problem close to you and take money</ServicesP>
           </ServicesCard3>
  
         </ServicesWrapper>
