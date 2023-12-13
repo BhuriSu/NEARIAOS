@@ -1,10 +1,10 @@
 import React from "react";
-import ProfileEdit from "../ProfileEdit";
+import Profile from "../Profile";
 
-function ProfileEditPage() {
+function ProfilePage() {
   return (
-    <ProfileEdit />
+    <Profile />
   );
 }
 
-export default ProfileEditPage;
+export default ProfilePage;

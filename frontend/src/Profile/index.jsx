@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 //firebase
@@ -12,7 +12,7 @@ import { storage } from "../Firebase/firebase";
 // css 
 import { BackgroundProfileContainer, BackToListPage, DobContainer,
    LogOutLine, FormEditProfile, StyledInput,
-   SaveBtnStyle, BelowDelete, Avatar, InputAvatar } from "./profileEditsElements";
+   SaveBtnStyle, BelowDelete, Avatar, InputAvatar } from "./profileElements";
 import { Button } from "@mui/material";
 
 //date of birth 
@@ -20,14 +20,13 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import Alert from '@mui/material/Alert';
-import Stack from '@mui/material/Stack';
+import { toast } from "react-toastify";
 
 function ProfileEdit() {
   const BtnStyle = { marginTop: 5,backgroundColor: "#ff0000",color:"#000" };
   const navigate = useNavigate();
   const [url, setUrl] = useState("./images/UploadPic.png");
-
+  const [isLoading, setIsLoading] = useState(false);
   const [username, setUsername] = useState('');
   const [dob, setDob] = useState('');
   const [beverage, setBeverage] = useState('');
@@ -35,91 +34,24 @@ function ProfileEdit() {
   const [favorite, setFavorite] = useState('');
   const [about, setAbout] = useState('');
 
-  const {id} = useParams();
-
-  useEffect(() => {
-    if (id) {
-    axios
-    .get(`http://localhost:27017/profiles/${id}`)
-    .then((response) => {
-      setUsername(response.data.username);
-      setDob(response.data.dob);
-      setBeverage(response.data.beverage);
-      setWorkplace(response.data.workplace); 
-      setFavorite(response.data.favorite); 
-      setAbout(response.data.about); 
-      }).catch((error) => {
-        <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="error">Username and date of birth require!</Alert>
-        </Stack>
-        console.log(error);
-      });
-    }
-  }, [])
-
-  const createData = async () => {
-    const data = {
-      username,
-      dob,
-      beverage,
-      workplace,
-      favorite,
-      about
-    };
-    axios
-    .post('http://localhost:27017/profiles/create', data)
-    .then(() => {
-      <Stack sx={{ width: '100%' }} spacing={2}>
-      <Alert severity="success">Profile Edited successfully</Alert>
-      </Stack>
-      navigate('/profiles');
-      console.log(data);
-    })
-    .catch((error) => {
-      <Stack sx={{ width: '100%' }} spacing={2}>
-      <Alert severity="error">Username and date of birth require!</Alert>
-      </Stack>
-      console.log(error);
-    });
-  };
-
-  const updateData = async (id) => {
-    const data = {
-      username,
-      dob,
-      beverage,
-      workplace,
-      favorite,
-      about
-    };
-    axios
-      .patch(`http://localhost:27017/profiles/${id}`, data)
-      .then(() => {
-        <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="success">Profile Edited successfully</Alert>
-        </Stack>
-        navigate('/profiles');
-      })
-      .catch((error) => {
-        <Stack sx={{ width: '100%' }} spacing={2}>
-        <Alert severity="error">Username and date of birth require!</Alert>
-        </Stack>
-        console.log(error);
-      });
-  };
-
-  const onSubmit = async (e) => {
+  const createData = async(e) => {
     e.preventDefault();
-    try {
-      if (id) {
-        await createData();
-      } else {
-        await updateData();
-      }
-    } catch (error) {
-      console.error('Error:', error);
+    if(username === "" || dob === ""){
+        toast.error('Please fill out username and date of birth completely');
+        return;
     }
-  };
+    try {
+        setIsLoading(true);
+        const response = await axios.post("http://localhost:27017/profiles", 
+        {username: username, dob: dob, beverage: beverage, workplace: workplace, favorite:favorite, about:about});
+        toast.success(`Save ${response.data.name} Successfully`);
+        setIsLoading(false);
+        navigate("/profiles");
+    } catch (error) {
+        toast.error(error.message);
+        setIsLoading(false);
+    }
+  }
 
   function Photo(e) {
     const file = e.target.files[0];
@@ -193,7 +125,7 @@ function ProfileEdit() {
   return (
     <>
       <BackgroundProfileContainer >
-        <FormEditProfile >
+        <FormEditProfile onSubmit={createData} >
 
         <div style={{ alignSelf: "center" }}>
         <label htmlFor="file-input">
@@ -246,11 +178,19 @@ function ProfileEdit() {
           </label>
           </span>
           <br/>
-            <SaveBtnStyle type="submit" variant="contained" onClick={onSubmit}>
+          { !isLoading && 
+            <SaveBtnStyle>
             save
             </SaveBtnStyle>
+          }
         </FormEditProfile>
 
+        <br/>
+          <Link to="/edit">
+          <LogOutLine>
+           Edit
+          </LogOutLine>
+          </Link>
         <br/>
           <Link to="/listUsers">
           <BackToListPage>
