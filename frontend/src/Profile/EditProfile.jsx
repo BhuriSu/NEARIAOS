@@ -2,7 +2,8 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-
+import { BackgroundEditContainer, BackgroundEditProfile, SubmitContainer,
+  StyledLabel, EditInput, EditButton } from "./profileElements";
 const EditPage = () => {
   let { id } = useParams();
   const navigate = useNavigate();
@@ -52,97 +53,91 @@ const EditPage = () => {
   }, []);
 
   return (
-    <div className="max-w-lg bg-white shadow-lg mx-auto p-7 rounded mt-6">
-      <h2 className="font-semibold text-2xl mb-4 block text-center">
+    <BackgroundEditContainer>
+      <BackgroundEditProfile>
         Edit a Product
-      </h2>
+      </BackgroundEditProfile>
       {isLoading ? (
         "Loading"
       ) : (
         <>
           <form onSubmit={updateProduct}>
-            <div className="space-y-2">
+            <SubmitContainer>
               <div>
-                <label className="text-gray-600 mb-2 block font-semibold">
+                <StyledLabel>
                   Username
-                </label>
-                <input
+                </StyledLabel>
+                <EditInput
                   type="text"
                   value={profile.username}
                   onChange={(e) =>
                     setProfile({ ...profile, username: e.target.value })
                   }
-                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="name..."
                 />
               </div>
               <div>
-                <label className="text-gray-600 mb-2 block font-semibold">
+                <StyledLabel>
                   Date of birth
-                </label>
-                <input
+                </StyledLabel>
+                <EditInput
                   type="date"
                   value={profile.dob}
                   onChange={(e) =>
                     setProfile({ ...profile, dob: e.target.value })
                   }
-                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Quantity"
                 />
               </div>
               <div>
-                <label className="text-gray-600 mb-2 block font-semibold">
+                <StyledLabel>
                   Beverage
-                </label>
-                <input
+                </StyledLabel>
+                <EditInput
                   type="text"
                   value={profile.beverage}
                   onChange={(e) =>
                     setProfile({ ...profile, beverage: e.target.value })
                   }
-                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Price"
                 />
               </div>
               <div>
-                <label className="text-gray-600 mb-2 block font-semibold">
+                <StyledLabel>
                   Workplace
-                </label>
-                <input
+                </StyledLabel>
+                <EditInput
                   type="text"
                   value={profile.workplace}
                   onChange={(e) =>
                     setProfile({ ...profile, workplace: e.target.value })
                   }
-                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Image URL"
                 />
                 </div>
                 <div>
-                <label className="text-gray-600 mb-2 block font-semibold">
+                <StyledLabel>
                   Favorite
-                </label>
-                <input
+                </StyledLabel>
+                <EditInput
                   type="text"
                   value={profile.favorite}
                   onChange={(e) =>
                     setProfile({ ...profile, favorite: e.target.value })
                   }
-                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Image URL"
                 />
                 </div>
                 <div>
-                <label className="text-gray-600 mb-2 block font-semibold">
+                <StyledLabel>
                   About
-                </label>
-                <input
+                </StyledLabel>
+                <EditInput
                   type="text"
                   value={profile.about}
                   onChange={(e) =>
                     setProfile({ ...profile, about: e.target.value })
                   }
-                  className="w-full block border p-3 text-gray-600  rounded focus:outline-none focus:shadow-outline focus:border-blue-200 placeholder-gray-400"
                   placeholder="Image URL"
                 />
                 </div>
@@ -152,16 +147,16 @@ const EditPage = () => {
                     <img className="w-full" src={profile.image} />
                   </div>
                 )}
-              </div>
+              </SubmitContainer>
               <div>
-                <button className="block w-full mt-6 bg-blue-700 text-white rounded-sm px-4 py-2 font-bold hover:bg-blue-600 hover:cursor-pointer">
+                <EditButton>
                   Update
-                </button>
+                </EditButton>
               </div>
           </form>
         </>
       )}
-    </div>
+    </BackgroundEditContainer>
   );
 };
 

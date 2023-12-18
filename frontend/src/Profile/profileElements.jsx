@@ -98,3 +98,75 @@ export const SaveBtnStyle = styled.button`
     color: #fff;
   }
 `;
+
+// EditProfile.jsx
+
+export const BackgroundEditContainer = styled.div`
+  max-width: 32rem; 
+  background-color: #fff; 
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0), 0 2px 4px -1px rgba(0, 0, 0); 
+  margin-left: auto; 
+  margin-right: auto; 
+  padding: 1.75rem; 
+  border-radius: 0.375rem; 
+  margin-top: 1.5rem; 
+
+@media screen and (max-width: 1024px) {
+  height: 1400px;
+}
+@media screen and (max-width: 768px) {
+  height: 1100px;
+}
+@media screen and (max-width: 412px) {
+  height: 914px;
+}
+@media screen and (max-width: 375px) {
+  height: 812px;
+}
+`;
+export const BackgroundEditProfile = styled.div`
+font-weight: 600; 
+font-size: 1.5rem; 
+margin-bottom: 1rem; 
+display: block; 
+text-align: center; 
+`;
+export const SubmitContainer = styled.div`
+gap: 0.5rem;
+`;
+export const StyledLabel = styled.label`
+  color: #6b7280; 
+  margin-bottom: 0.5rem; 
+  display: block; 
+  font-weight: 600; 
+`;
+export const EditInput = styled.input`
+  width: 100%; 
+  display: block; 
+  border: 1px solid #e2e8f0; 
+  padding: 0.75rem; 
+  color: #6b7280; 
+  border-radius: 0.375rem; 
+  outline: none; 
+  transition: box-shadow 0.2s, border-color 0.2s; 
+
+  &:focus {
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.5); 
+    border-color: #4299e1; 
+  }
+
+  &::placeholder {
+    color: #a0aec0; 
+  }
+`;
+export const EditButton = styled.button`
+  width: 100%; 
+  margin-top: 0.75rem; 
+  background-color: #4299e1; 
+  color: #fff; 
+  border-radius: 0.125rem; 
+  padding: 0.5rem 1rem;
+  &:hover {
+    background-color: #3182ce; 
+  }
+`;
