@@ -6,7 +6,8 @@ const profileSchema = new mongoose.Schema({
   beverage: { type: String },
   workplace: { type: String },
   favorite: { type: String },
-  about: { type: String }
+  about: { type: String },
+  imageUrl : {type: String}
 });
 
 const Profile = mongoose.model("Profile", profileSchema);

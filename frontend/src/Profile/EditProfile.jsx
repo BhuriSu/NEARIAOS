@@ -3,19 +3,20 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { BackgroundEditContainer, BackgroundEditProfile, SubmitContainer,
-  StyledLabel, EditInput, EditButton } from "./profileElements";
-const EditPage = () => {
+  StyledLabel, EditInput, EditButton, Avatar, InputAvatar } from "./profileElements";
+const EditPage = (url, handleImageChange) => {
   let { id } = useParams();
   const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
   const [profile, setProfile] = useState({
-    username: "",
-    dob: "",
-    beverage: "",
-    workplace: "",
-    favorite: "",
-    about: "" 
+    username: '',
+    dob: '',
+    beverage: '',
+    workplace: '',
+    favorite: '',
+    about: '',
+    image: null,
   });
 
   const getProduct = async () => {
@@ -55,7 +56,7 @@ const EditPage = () => {
   return (
     <BackgroundEditContainer>
       <BackgroundEditProfile>
-        Edit a Product
+        Edit a Profile
       </BackgroundEditProfile>
       {isLoading ? (
         "Loading"
@@ -63,6 +64,14 @@ const EditPage = () => {
         <>
           <form onSubmit={updateProduct}>
             <SubmitContainer>
+              
+        <div style={{ alignSelf: "center" }}>
+        <label htmlFor="file-input">
+        <Avatar style={{ backgroundImage: `url(${url})` } } />
+        </label>
+        <InputAvatar type="file" id="image" title="upload" onChange={handleImageChange}  />
+        </div>
+
               <div>
                 <StyledLabel>
                   Username
@@ -142,11 +151,6 @@ const EditPage = () => {
                 />
                 </div>
 
-                {profile.image && (
-                  <div className="w-1/2 border rounded p-2 mt-4 ">
-                    <img className="w-full" src={profile.image} />
-                  </div>
-                )}
               </SubmitContainer>
               <div>
                 <EditButton>

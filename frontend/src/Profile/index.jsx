@@ -20,39 +20,37 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
-import { toast } from "react-toastify";
-
 function ProfileEdit() {
   const BtnStyle = { marginTop: 5,backgroundColor: "#ff0000",color:"#000" };
   const navigate = useNavigate();
+  const [formData, setFormData] = useState({
+    username: '',
+    dob: '',
+    beverage: '',
+    workplace: '',
+    favorite: '',
+    about: '',
+    image: null,
+  });
+  const [isLoading, ] = useState(false);
+
   const [url, setUrl] = useState("./images/UploadPic.png");
-  const [isLoading, setIsLoading] = useState(false);
-  const [username, setUsername] = useState('');
-  const [dob, setDob] = useState('');
-  const [beverage, setBeverage] = useState('');
-  const [workplace, setWorkplace] = useState('');
-  const [favorite, setFavorite] = useState('');
-  const [about, setAbout] = useState('');
 
-  const createData = async(e) => {
-    e.preventDefault();
-    if(username === "" || dob === ""){
-        toast.error('Please fill out username and date of birth completely');
-        return;
-    }
-    try {
-        setIsLoading(true);
-        const response = await axios.post("http://localhost:27017/profiles", 
-        {username: username, dob: dob, beverage: beverage, workplace: workplace, favorite:favorite, about:about});
-        toast.success(`Save ${response.data.name} Successfully`);
-        setIsLoading(false);
-        navigate("/profiles");
-    } catch (error) {
-        toast.error(error.message);
-        setIsLoading(false);
-    }
-  }
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
 
+  const handleImageChange = (e) => {
+    setFormData({
+      ...formData,
+      image: e.target.files[0],
+    });
+  };
+  
   function Photo(e) {
     const file = e.target.files[0];
     const storageRef = ref(storage, `images/${file.name}`);
@@ -94,7 +92,34 @@ function ProfileEdit() {
         });
       }
     );
-  }
+}
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const imageUrl = Photo(formData.image);
+
+      const response = await axios.post('http://localhost:27017/profiles', {
+        username: formData.username,
+        dob: formData.dob,
+        beverage: formData.beverage,
+        workplace: formData.workplace,
+        favorite: formData.favorite,
+        about: formData.about,
+        imageUrl,
+      });
+
+      if (response.status === 200) {
+        alert('Profile created successfully');
+      } else {
+        alert('Failed to create profile');
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Internal Server Error');
+    }
+  };
+
  
   const LogOut = async () => {
     try {
@@ -125,26 +150,26 @@ function ProfileEdit() {
   return (
     <>
       <BackgroundProfileContainer >
-        <FormEditProfile onSubmit={createData} >
+        <FormEditProfile onSubmit={handleSubmit} >
 
         <div style={{ alignSelf: "center" }}>
         <label htmlFor="file-input">
-        <Avatar style={{ backgroundImage: `url(${url})` }} />
+        <Avatar style={{ backgroundImage: `url(${url})` } } />
         </label>
-        <InputAvatar id="file-input" type="file" title="upload" onChange={Photo} />
+        <InputAvatar type="file" id="image" title="upload" onChange={handleImageChange}  />
         </div>
 
           <span style={{ textShadow: "none", color: "#fff" }} >
             Username: 
             <label>
-            <StyledInput type="text" name="username" placeholder="name..." value={username || ''} onChange={(e) => setUsername(e.target.value)} />
+            <StyledInput type="text" id="username" name="username" placeholder="name..." value={formData.username} onChange={handleInputChange} required />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Date of birth: 
            <DobContainer>
-           <LocalizationProvider dateAdapter={AdapterDayjs} type="date" name="date" value={dob || ''} onChange={(e) => setDob(e.target.value)} >
+           <LocalizationProvider dateAdapter={AdapterDayjs} type="date" id="date" name="date" value={formData.dob} onChange={handleInputChange} required >
            <DatePicker />
            </LocalizationProvider>
            </DobContainer>
@@ -153,33 +178,33 @@ function ProfileEdit() {
           <span style={{ textShadow: "none", color: "#fff" }} >
             Beverage:
             <label>
-            <StyledInput type="text" name="beverage" placeholder="beverage..." value={beverage || ''} onChange={(e) => setBeverage(e.target.value)} />
+            <StyledInput type="text" id="beverage" name="beverage" placeholder="beverage..." value={formData.beverage} onChange={handleInputChange} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Workplace: 
             <label>
-            <StyledInput type="text" name="workplace" placeholder="workplace..." value={workplace || ''} onChange={(e) => setWorkplace(e.target.value)} />
+            <StyledInput type="text" id="workplace" name="workplace" placeholder="workplace..." value={formData.workplace} onChange={handleInputChange} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Favorite:
             <label>
-            <StyledInput type="text" name="favorite" placeholder="favorite..." value={favorite || ''} onChange={(e) => setFavorite(e.target.value)} />
+            <StyledInput type="text" id="favorite" name="favorite" placeholder="favorite..." value={formData.favorite} onChange={handleInputChange} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             About:
             <label>
-            <StyledInput type="text" name="about" placeholder="about..." value={about || ''} onChange={(e) => setAbout(e.target.value)} />
+            <StyledInput type="text" id="about" name="about" placeholder="about..." value={formData.about} onChange={handleInputChange} />
           </label>
           </span>
           <br/>
           { !isLoading && 
-            <SaveBtnStyle>
+            <SaveBtnStyle type="submit">
             save
             </SaveBtnStyle>
           }
