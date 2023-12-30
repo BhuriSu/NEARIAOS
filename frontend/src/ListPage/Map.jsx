@@ -64,7 +64,7 @@ const Map = ({
               <Modal.Description>
                 <Header style={{ color: '#0f4667', fontSize: 'x-large' }}>
                   {` ${profile.name}, ${Math.floor(
-                    (new Date() - new Date(profile.DoB))
+                    (new Date() - new Date(profile.date))
                         / (24 * 3600 * 365.25 * 1000),
                   )}`}
                 </Header>

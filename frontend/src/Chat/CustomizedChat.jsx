@@ -6,7 +6,7 @@ const UserProfile = ({ user }) => {
     <div>
       <img src={user.photo} alt="User Avatar" style={{ width: '50px', height: '50px', borderRadius: '50%' }} />
       <div>Username: {user.username}</div>
-      <div>Date of Birth: {user.dob}</div>
+      <div>Date of Birth: {user.date}</div>
       <div>Beverage: {user.beverage}</div>
       <div>Workplace: {user.workplace}</div>
       <div>Favorite: {user.favorite}</div>
@@ -21,7 +21,7 @@ const CustomizedChat = () => {
   const [currentUser, ] = useState({
     photo: './images/ImagesInListPage/profile.svg', // You can set a default avatar image
     username: 'JohnDoe',
-    dob: '1990-01-01',
+    date: '1990-01-01',
     beverage: 'Coffee',
     workplace: 'Company XYZ',
     favorite: 'Movies',

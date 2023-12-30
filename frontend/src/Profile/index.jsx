@@ -1,107 +1,58 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-
-//firebase
 import { getAuth, deleteUser, signOut } from "firebase/auth";
 import {
-  ref, deleteObject, uploadBytesResumable, getDownloadURL
+  ref,
+  deleteObject,
+  uploadBytesResumable,
+  getDownloadURL,
 } from "firebase/storage";
 import { storage } from "../Firebase/firebase";
-
-// css 
-import { BackgroundProfileContainer, BackToListPage, DobContainer,
-   LogOutLine, FormEditProfile, StyledInput,
-   SaveBtnStyle, BelowDelete, Avatar, InputAvatar } from "./profileElements";
+import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine, FormEditProfile, StyledInput, SaveBtnStyle, BelowDelete, Avatar, InputAvatar } from "./profileElements";
 import { Button } from "@mui/material";
-
-//date of birth 
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 
 function ProfileEdit() {
-  const BtnStyle = { marginTop: 5,backgroundColor: "#ff0000",color:"#000" };
+  const BtnStyle = { marginTop: 5, backgroundColor: "#ff0000", color: "#000" };
   const navigate = useNavigate();
+
   const [formData, setFormData] = useState({
     username: '',
-    dob: '',
+    date: '',
     beverage: '',
     workplace: '',
     favorite: '',
     about: '',
     image: null,
   });
-  const [isLoading, ] = useState(false);
 
   const [url, setUrl] = useState("./images/UploadPic.png");
 
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({
-      ...formData,
-      [name]: value,
-    });
-  };
-
-  const handleImageChange = (e) => {
-    setFormData({
-      ...formData,
-      image: e.target.files[0],
-    });
-  };
-  
-  function Photo(e) {
-    const file = e.target.files[0];
+  // Function to upload photo to Firebase storage
+  const uploadPhoto = async (file) => {
     const storageRef = ref(storage, `images/${file.name}`);
     const uploadTask = uploadBytesResumable(storageRef, file);
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        console.log("Upload is " + progress + "% done");
-        switch (snapshot.state) {
-          case "paused":
-            console.log("Upload is paused");
-            break;
-          case "running":
-            console.log("Upload is running");
-            break;
-          default:
-            console.log("sorry it is not working");
-        }
-      },
-      (error) => {
-        switch (error.code) {
-          case "storage/unauthorized":
-            console.log("storage is unauthorized");
-            break;
-          case "storage/canceled":
-            console.log("storage is canceled");
-            break;
-          case "storage/unknown":
-            console.log("storage is unknown");
-            break;
-          default:
-            console.log("sorry it is not about storage");
-        }
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-          setUrl(url);
-        });
-      }
-    );
-}
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
+    await uploadTask;
+
+    const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
+    setUrl(downloadURL);
+
+    return downloadURL;
+  };
+
+  // Function to save profile to MongoDB and Firebase
+  const saveProfile = async () => {
     try {
-      const imageUrl = Photo(formData.image);
+      const imageUrl = formData.image ? await uploadPhoto(formData.image) : null;
 
+      // Save data to MongoDB
       const response = await axios.post('http://localhost:27017/profiles', {
         username: formData.username,
-        dob: formData.dob,
+        date: formData.date,
         beverage: formData.beverage,
         workplace: formData.workplace,
         favorite: formData.favorite,
@@ -120,7 +71,66 @@ function ProfileEdit() {
     }
   };
 
- 
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await saveProfile();
+  };
+
+  // Handle input change
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  // Handle image change
+  const handleImageChange = (e) => {
+    setFormData({
+      ...formData,
+      image: e.target.files[0],
+    });
+    setUrl(URL.createObjectURL(e.target.files[0]));
+  };
+
+  // Function to delete user from MongoDB and Firebase
+  const deleteUserFromFirebaseAndMongo = async () => {
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+
+      // Delete Firebase storage
+      const avatarRef = ref(storage, `images/${user.uid}`);
+      await deleteObject(avatarRef);
+
+      // Delete from MongoDB
+      // Replace the following line with the actual API endpoint for deleting a user
+      const response = await axios.delete(`http://localhost:27017/profiles/${user.uid}`);
+
+      if (response.status === 200) {
+        console.log("User deleted successfully from MongoDB.");
+      } else {
+        console.log('Failed to delete user from MongoDB.');
+      }
+
+      navigate('/');
+      
+      // Delete Firebase account
+      await deleteUser(user);
+
+      console.log("User deleted successfully from Firebase.");
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  // Handle log out and delete user
+  const handleLogOutAndDeleteUser = async () => {
+    await deleteUserFromFirebaseAndMongo();
+  };
+   
   const LogOut = async () => {
     try {
       const auth = getAuth();
@@ -129,23 +139,6 @@ function ProfileEdit() {
       console.log(error);
     }
   }
-
-  const DeleteUser = async (id) => {
-    try {
-      const auth = getAuth();
-      const user = auth.currentUser;
-      // Delete Firebase storage
-      const avatarRef = ref(storage, `images/${user.uid}`);
-      await deleteObject(avatarRef);
-      navigate('/');
-      // Delete Firebase account
-      await deleteUser(user);
-  
-      console.log("User deleted successfully.");
-    } catch (error) {
-      console.log(error);
-    }
-  };
   
   return (
     <>
@@ -153,8 +146,8 @@ function ProfileEdit() {
         <FormEditProfile onSubmit={handleSubmit} >
 
         <div style={{ alignSelf: "center" }}>
-        <label htmlFor="file-input">
-        <Avatar style={{ backgroundImage: `url(${url})` } } />
+        <label htmlFor="image">
+        <Avatar style={{ backgroundImage: `url(${formData.image ? URL.createObjectURL(formData.image) : url})` }} />
         </label>
         <InputAvatar type="file" id="image" title="upload" onChange={handleImageChange}  />
         </div>
@@ -168,11 +161,11 @@ function ProfileEdit() {
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Date of birth: 
-           <DobContainer>
-           <LocalizationProvider dateAdapter={AdapterDayjs} type="date" id="date" name="date" value={formData.dob} onChange={handleInputChange} required >
+           <DateContainer>
+           <LocalizationProvider dateAdapter={AdapterDayjs} type="date" id="date" name="date" value={formData.date} onChange={handleInputChange} required >
            <DatePicker />
            </LocalizationProvider>
-           </DobContainer>
+           </DateContainer>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
@@ -203,11 +196,11 @@ function ProfileEdit() {
           </label>
           </span>
           <br/>
-          { !isLoading && 
+
             <SaveBtnStyle type="submit">
             save
             </SaveBtnStyle>
-          }
+          
         </FormEditProfile>
 
         <br/>
@@ -229,7 +222,7 @@ function ProfileEdit() {
           </LogOutLine>
           </Link>
         <br/>
-        <Button variant="contained" style={BtnStyle} onClick={DeleteUser}>
+        <Button variant="contained" style={BtnStyle} onClick={handleLogOutAndDeleteUser}>
 					Delete
 				</Button>
         <BelowDelete>

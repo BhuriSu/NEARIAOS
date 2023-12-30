@@ -2,16 +2,16 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { BackgroundEditContainer, BackgroundEditProfile, SubmitContainer,
-  StyledLabel, EditInput, EditButton, Avatar, InputAvatar } from "./profileElements";
-const EditPage = (url, handleImageChange) => {
-  let { id } = useParams();
+import { BackgroundEditContainer, BackgroundEditProfile, SubmitContainer, StyledLabel, EditInput, EditButton, Avatar, InputAvatar } from "./profileElements";
+
+const EditPage = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
   const [isLoading, setIsLoading] = useState(false);
 
   const [profile, setProfile] = useState({
     username: '',
-    dob: '',
+    date: '',
     beverage: '',
     workplace: '',
     favorite: '',
@@ -19,13 +19,25 @@ const EditPage = (url, handleImageChange) => {
     image: null,
   });
 
+  const [url, setUrl] = useState("");
+
+  const Photo = async (e) => {
+    // Your existing Photo function logic for Firebase storage
+  };
+
+  const handleImageChange = (e) => {
+    Photo(e).then((url) => {
+      setUrl(url);
+    });
+  };
+
   const getProduct = async () => {
     setIsLoading(true);
     try {
       const response = await axios.get(`http://localhost:27017/profiles/${id}`);
       setProfile({
         username: response.data.username,
-        dob: response.data.dob,
+        date: response.data.date,
         beverage: response.data.beverage,
         workplace: response.data.workplace,
         favorite: response.data.favorite,
@@ -38,11 +50,17 @@ const EditPage = (url, handleImageChange) => {
     }
   };
 
-  const updateProduct = async (e) => {
+  const updateProfile = async (e) => {
     e.preventDefault();
     try {
-      await axios.patch(`http://localhost:27017/profiles/${id}`, profile);
-      toast.success("Updated a product successfully");
+      const imageUrl = await Photo(profile.image);
+
+      await axios.patch(`http://localhost:27017/profiles/${id}`, {
+        ...profile,
+        image: imageUrl,
+      });
+
+      toast.success("Updated profile successfully");
       navigate("/profiles");
     } catch (error) {
       toast.error(error.message);
@@ -53,6 +71,7 @@ const EditPage = (url, handleImageChange) => {
     getProduct();
   }, []);
 
+  
   return (
     <BackgroundEditContainer>
       <BackgroundEditProfile>
@@ -62,11 +81,11 @@ const EditPage = (url, handleImageChange) => {
         "Loading"
       ) : (
         <>
-          <form onSubmit={updateProduct}>
+          <form onSubmit={updateProfile}>
             <SubmitContainer>
               
         <div style={{ alignSelf: "center" }}>
-        <label htmlFor="file-input">
+        <label htmlFor="image">
         <Avatar style={{ backgroundImage: `url(${url})` } } />
         </label>
         <InputAvatar type="file" id="image" title="upload" onChange={handleImageChange}  />
@@ -91,9 +110,9 @@ const EditPage = (url, handleImageChange) => {
                 </StyledLabel>
                 <EditInput
                   type="date"
-                  value={profile.dob}
+                  value={profile.date}
                   onChange={(e) =>
-                    setProfile({ ...profile, dob: e.target.value })
+                    setProfile({ ...profile, date: e.target.value })
                   }
                   placeholder="Quantity"
                 />
@@ -150,13 +169,13 @@ const EditPage = (url, handleImageChange) => {
                   placeholder="Image URL"
                 />
                 </div>
-
-              </SubmitContainer>
-              <div>
+                <div>
                 <EditButton>
                   Update
                 </EditButton>
               </div>
+
+              </SubmitContainer>
           </form>
         </>
       )}

@@ -63,7 +63,7 @@ export const BelowDelete = styled.h2`
   margin: 10px;
   color: #ff0000;
 `;
-export const DobContainer = styled.div`
+export const DateContainer = styled.div`
 background-color: #00ffa6;
 border-radius: 20px;
 padding: 10px;
