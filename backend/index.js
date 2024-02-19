@@ -11,7 +11,7 @@ import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
 import messageRouter from "./routes/messageRouter.js";
 import path from 'path';
-
+import multer from 'multer';
 dotenv.config();
 const app = express();
 
@@ -38,8 +38,10 @@ app.get('/', (req, res) => {
   res.send(path.join(publicPath, 'index.html'));
 });
 
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 // api 
-app.use('/profiles',usersRouter)
+app.use('/profiles',upload.single('image'), usersRouter)
 app.use('/lists',listsRouter)
 app.use('/messages',messageRouter)
 
@@ -64,7 +66,7 @@ app.use((err, req, res) => {
 mongoose.connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to MongoDB");
-    const PORT = process.env.PORT || 27017;
+    const PORT = process.env.PORT || 5000;
     app.listen(PORT, () => console.log('server running on PORT ' + PORT));
   })
   .catch((error) => {
