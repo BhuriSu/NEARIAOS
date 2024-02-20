@@ -33,25 +33,35 @@ function ProfileEdit() {
     workplace: '',
     favorite: '',
     about: '',
-    imageUrl: null,
+    image: null,
   });
    
   const [url, setUrl] = useState("./images/UploadPic.png");
 
-  const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
-  };
-
+    // Handle input change
+  const handleInputChange = (e) => {
+      const { name, value } = e.target;
+      setFormData({
+        ...formData,
+        [name]: value,
+      });
+    };
+  
+    // Handle image change
   const handleImageChange = (e) => {
-    setFormData({ ...formData, imageUrl: e.target.files[0] });
-  };
+      setFormData({
+        ...formData,
+        image: e.target.files[0],
+      });
+      setUrl(URL.createObjectURL(e.target.files[0]));
+    };
 
   const onSubmit = async (data) => {
     try {
     const storage = getStorage();
     const imageRef = ref(storage, `profile_images/${formData.username}`);
     // Upload the image to Firebase Storage
-    const uploadTask = uploadBytesResumable(imageRef, formData.imageUrl);
+    const uploadTask = uploadBytesResumable(imageRef, formData.image);
     uploadTask.on('state_changed', 
     (snapshot) => {
          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
@@ -90,7 +100,7 @@ function ProfileEdit() {
   }
 );
     const imageUrl = await imageRef.getDownloadURL();
-    await axios.post("http://localhost:27017/profiles",  {
+    await axios.post("http://localhost:5000/profiles",  {
       username: data.username,
       date: data.date,
       beverage: data.beverage,
@@ -99,12 +109,11 @@ function ProfileEdit() {
       about: data.about,
       image: imageUrl,
     });
-
       alert('Profile submitted successfully!');
     } catch (error) {
       console.error('Error submitting profile:', error);
     }
-  };
+};
 
   // Function to delete user from MongoDB and Firebase
   const deleteUserFromFirebaseAndMongo = async () => {
@@ -115,7 +124,7 @@ function ProfileEdit() {
       const avatarRef = ref(storage, `images/${user.uid}`);
       await deleteObject(avatarRef);
 
-      const response = await axios.delete(`http://localhost:27017/profiles/${user.uid}`);
+      const response = await axios.delete(`http://localhost:5000/profiles/${user.uid}`);
 
       if (response.status === 200) {
         console.log("User deleted successfully from MongoDB.");
@@ -151,7 +160,7 @@ function ProfileEdit() {
 
         <div style={{ alignSelf: "center" }}>
         <label htmlFor="image">
-        <Avatar style={{ backgroundImage: `url(${url})` }} />
+        <Avatar style={{ backgroundImage: `url(${formData.image ? URL.createObjectURL(formData.image) : url})` }} />
         </label>
         <InputAvatar type="file" id="image" title="upload" onChange={handleImageChange}  />
         </div>
@@ -159,14 +168,14 @@ function ProfileEdit() {
           <span style={{ textShadow: "none", color: "#fff" }} >
             Username: 
             <label>
-            <StyledInput type="text" id="username" name="username" placeholder="name..." {...register('username')}  onChange={handleChange} required />
+            <StyledInput type="text" id="username" name="username" placeholder="name..." {...register('username')}  onChange={handleInputChange} required />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Date of birth: 
-           <DateContainer>
-           <LocalizationProvider dateAdapter={AdapterDayjs} type="date" id="date" name="date" {...register('date')} onChange={handleChange} required >
+            <DateContainer>
+           <LocalizationProvider dateAdapter={AdapterDayjs} type="date" id="date" name="date" value={formData.date} onChange={handleInputChange} required >
            <DatePicker />
            </LocalizationProvider>
            </DateContainer>
@@ -175,28 +184,28 @@ function ProfileEdit() {
           <span style={{ textShadow: "none", color: "#fff" }} >
             Beverage:
             <label>
-            <StyledInput type="text" id="beverage" name="beverage" placeholder="beverage..." {...register('beverage')} onChange={handleChange} />
+            <StyledInput type="text" id="beverage" name="beverage" placeholder="beverage..." {...register('beverage')} onChange={handleInputChange} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Workplace: 
             <label>
-            <StyledInput type="text" id="workplace" name="workplace" placeholder="workplace..." {...register('workplace')} onChange={handleChange} />
+            <StyledInput type="text" id="workplace" name="workplace" placeholder="workplace..." {...register('workplace')} onChange={handleInputChange} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             Favorite:
             <label>
-            <StyledInput type="text" id="favorite" name="favorite" placeholder="favorite..." {...register('favorite')} onChange={handleChange} />
+            <StyledInput type="text" id="favorite" name="favorite" placeholder="favorite..." {...register('favorite')} onChange={handleInputChange} />
           </label>
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#fff" }} >
             About:
             <label>
-            <StyledInput type="text" id="about" name="about" placeholder="about..." {...register('about')} onChange={handleChange} />
+            <StyledInput type="text" id="about" name="about" placeholder="about..." {...register('about')} onChange={handleInputChange} />
           </label>
           </span>
           <br/>

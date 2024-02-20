@@ -37,7 +37,7 @@ function EditProfile() {
     // Fetch user data by user ID from MongoDB
     const fetchUserData = async () => {
       try {
-        const response = await axios.get(`http://localhost:27017/profiles/${userId}`);
+        const response = await axios.get(`http://localhost:5000/profiles/${userId}`);
         const userData = response.data;
 
         setFormData({
@@ -85,7 +85,7 @@ function EditProfile() {
       const imageUrl = formData.image ? await updatePhoto(formData.image) : null;
 
       // Update data in MongoDB
-      const response = await axios.put(`http://localhost:27017/profiles/${userId}`, {
+      const response = await axios.patch(`http://localhost:5000/profiles/${userId}`, {
         username: formData.username,
         date: formData.date,
         beverage: formData.beverage,

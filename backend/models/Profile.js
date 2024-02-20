@@ -7,7 +7,7 @@ const profileSchema = new mongoose.Schema({
   workplace: { type: String },
   favorite: { type: String },
   about: { type: String },
-  image: String
+  imageUrl: String
 });
 
 const Profile = mongoose.model("Profile", profileSchema);
