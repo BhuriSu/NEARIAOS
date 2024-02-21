@@ -11,7 +11,7 @@ import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
 import messageRouter from "./routes/messageRouter.js";
 import path from 'path';
-import multer from 'multer';
+
 dotenv.config();
 const app = express();
 
@@ -38,10 +38,9 @@ app.get('/', (req, res) => {
   res.send(path.join(publicPath, 'index.html'));
 });
 
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+
 // api 
-app.use('/profiles',upload.single('image'), usersRouter)
+app.use('/users', usersRouter)
 app.use('/lists',listsRouter)
 app.use('/messages',messageRouter)
 

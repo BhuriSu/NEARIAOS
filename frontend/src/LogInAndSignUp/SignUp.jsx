@@ -39,8 +39,6 @@ const SignUp = () => {
         }
     }
 
-
-  
     return (
         <Grid>
             <Paper style={paperStyle}>

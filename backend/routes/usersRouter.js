@@ -9,8 +9,7 @@ const router = express.Router();
 
 router.get('/:id', getUserById);
 router.post('/', createUser);
-router.patch('/:id', updateUser);
-router.delete('/:id', deleteUser);
-
+router.patch('/update/:userId', updateUser);
+router.delete('/delete/:userId', deleteUser);
 
 export default router;

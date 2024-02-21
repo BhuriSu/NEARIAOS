@@ -38,9 +38,7 @@ const LogIn=({handleChange})=>{
           console.log(error);
         }
       };
-
      
-
     return(
       
         <Grid>

@@ -58,11 +58,6 @@ cursor: pointer;
 export const InputAvatar = styled.input`
 display: none;
 `
-export const BelowDelete = styled.h2`
-  font-size: 1rem;
-  margin: 10px;
-  color: #ff0000;
-`;
 export const DateContainer = styled.div`
 background-color: #00ffa6;
 border-radius: 20px;
