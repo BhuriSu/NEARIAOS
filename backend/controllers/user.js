@@ -57,7 +57,7 @@ export const updateUser = async (req, res) => {
       { new: true }
     );
     const { profilePicture, username, date, workplace, beverage, favorite, about } = updatedUser._doc;
-    res.status(200).json(username, date, workplace, beverage, favorite, about);
+    res.status(200).json(profilePicture, username, date, workplace, beverage, favorite, about);
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error updating profile' });

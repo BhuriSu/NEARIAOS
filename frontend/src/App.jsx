@@ -12,10 +12,10 @@ import ListPage from './pages/listUsers';
 import PrivacyPage from './pages/privacy';
 import LogInAndSignUpPage from './pages/startForm';
 import ForgotPassPage from './pages/forgotPass';
-
+import { initiateSocketConnection } from "./socketHelper";
 
 function App() {
-
+  initiateSocketConnection();
   return (
 
     <Router>

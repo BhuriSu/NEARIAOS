@@ -1,29 +1,97 @@
 import Message from "../models/Messages.js";
-
-export const getMessage = async (req, res) => {
-    try {
-        const messages = await Message.find();
-        res.json(messages);
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ error: 'Internal Server Error' });
-      }
-};
+import Conversation from "../models/Conversation.js";
+import Profile from "../models/Profile.js";
 
 export const sendMessage = async (req, res) => {
-    const { text } = req.body;
+  try {
+    const recipientId = req.params.id;
+    const { content, userId } = req.body;
 
-    if (!text) {
-      return res.status(400).json({ error: 'Text is required' });
+    const recipient = await Profile.findById(recipientId);
+
+    if (!recipient) {
+      throw new Error("Recipient not found");
     }
-  
-    try {
-      const newMessage = new Message({ text });
-      await newMessage.save();
-      res.json(newMessage);
-    } catch (error) {
-      console.error(error);
-      res.status(500).json({ error: 'Internal Server Error' });
+
+    let conversation = await Conversation.findOne({
+      recipients: {
+        $all: [userId, recipientId],
+      },
+    });
+
+    if (!conversation) {
+      conversation = await Conversation.create({
+        recipients: [userId, recipientId],
+      });
     }
+
+    await Message.create({
+      conversation: conversation._id,
+      sender: userId,
+      content,
+    });
+
+    conversation.lastMessageAt = Date.now();
+
+    conversation.save();
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+export const getMessages = async (req, res) => {
+  try {
+    const conversationId = req.params.id;
+
+    const conversation = await Conversation.findById(conversationId);
+
+    if (!conversation) {
+      throw new Error("Conversation not found");
+    }
+
+    const messages = await Message.find({
+      conversation: conversation._id,
+    })
+      .populate("sender", "-password")
+      .sort("-createdAt")
+      .limit(12);
+
+    return res.json(messages);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ error: err.message });
+  }
+};
+
+export const getConversations = async (req, res) => {
+  try {
+    const { userId } = req.body;
+
+    const conversations = await Conversation.find({
+      recipients: {
+        $in: [userId],
+      },
+    })
+      .populate("recipients", "-password")
+      .sort("-updatedAt")
+      .lean();
+
+    for (let i = 0; i < conversations.length; i++) {
+      const conversation = conversations[i];
+      for (let j = 0; j < 2; j++) {
+        if (conversation.recipients[j]._id != userId) {
+          conversation.recipient = conversation.recipients[j];
+        }
+      }
+    }
+
+    return res.json(conversations);
+  } catch (err) {
+    console.log(err);
+    return res.status(400).json({ error: err.message });
+  }
 };
 

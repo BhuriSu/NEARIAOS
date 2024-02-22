@@ -6,11 +6,13 @@ import helmet from 'helmet';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
-import { fileURLToPath } from 'url';
 import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
 import messageRouter from "./routes/messageRouter.js";
 import path from 'path';
+import socketServer from "./socketServer.js";
+import { createServer } from "http";
+import { Server } from "socket.io";
 
 dotenv.config();
 const app = express();
@@ -27,17 +29,6 @@ app.use(morgan('dev'));
 //when you want to use POST and PUT/PATCH method
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
-const publicPath = path.join(__dirname, 'build');
-app.use(express.static(path.join(__dirname, 'index.html')));
-app.use(express.static(publicPath));
-app.get('/', (req, res) => {
-  console.log(req);
-  res.send(path.join(publicPath, 'index.html'));
-});
-
 
 // api 
 app.use('/users', usersRouter)
@@ -62,13 +53,35 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => {
-    console.log("Connected to MongoDB");
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => console.log('server running on PORT ' + PORT));
-  })
-  .catch((error) => {
-    console.error("Error connecting to MongoDB:", error);
+  mongoose.connect(
+    process.env.MONGO_URL,
+    { useNewUrlParser: true, useUnifiedTopology: true },
+    () => {
+      console.log("MongoDB connected");
+    }
+  );
+
+  const httpServer = createServer(app);
+  // Create a Socket.IO instance attached to the HTTP server
+  const io = new Server(httpServer, {
+    cors: {
+      origin: ["http://localhost:5000", "https://neariaos.com"],
+    },
+  });
+  
+  // Handle connection event
+  io.on("connection", (socket) => {
+    socketServer(socket);
   });
 
+  httpServer.listen(5000, () => {
+    console.log("Server is running on http://localhost:5000");
+  });
+
+  if (process.env.NODE_ENV == "production") {
+    app.use(express.static(path.join(__dirname, "/client/build")));
+  
+    app.get("*", (req, res) => {
+      res.sendFile(path.join(__dirname, "client/build", "index.html"));
+    });
+  }

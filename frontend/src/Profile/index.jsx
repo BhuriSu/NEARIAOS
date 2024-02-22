@@ -125,7 +125,7 @@ function ProfileEdit() {
       try {
         dispatch(updateStart());
         const res = await fetch(`/users/update/${currentUser._id}`, {
-          method: 'PUT',
+          method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -184,9 +184,8 @@ function ProfileEdit() {
           onChange={handleImageChange}
           ref={filePickerRef}
           hidden
-        />
-        <div
-          className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
+         />
+        <div className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
           onClick={() => filePickerRef.current.click()}
         >
           {imageFileUploadProgress && (

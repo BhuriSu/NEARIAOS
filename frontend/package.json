@@ -14,6 +14,7 @@
         "firebase": "^9.8.4",
         "flowbite-react": "^0.7.2",
         "framer-motion": "^6.4.3",
+        "moment": "^2.30.1",
         "postcss": "^8.4.35",
         "react": "^18.2.0",
         "react-awesome-reveal": "^3.8.1",
