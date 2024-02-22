@@ -47,14 +47,6 @@ export const StyledInput = styled.input`
     color: #000;
   }
 `;
-export const Avatar = styled.div`
-width: 140px;
-height: 140px;
-border-radius: 50%;
-background-size: cover;
-background-position: center;
-cursor: pointer;
-`;
 export const InputAvatar = styled.input`
 display: none;
 `

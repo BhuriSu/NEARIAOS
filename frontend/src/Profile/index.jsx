@@ -19,13 +19,13 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure
-} from '../redux/user/userSlice';
+} from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 
 // css 
 import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
-   FormEditProfile, StyledInput, SaveBtnStyle, Avatar, InputAvatar } from "./profileElements";
+   FormEditProfile, StyledInput, SaveBtnStyle, InputAvatar } from "./profileElements";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -59,6 +59,7 @@ function ProfileEdit() {
         uploadImage();
        }
      }, [imageFile]);
+
     // Handle input change
     const handleChange = (e) => {
       setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -86,10 +87,11 @@ function ProfileEdit() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-  
+
           setImageFileUploadProgress(progress.toFixed(0));
         },
         (error) => {
+    
           setImageFileUploadError(
             'Could not upload image (File must be less than 2MB)'
           );
@@ -122,7 +124,7 @@ function ProfileEdit() {
       }
       try {
         dispatch(updateStart());
-        const res = await fetch(`/api/user/update/${currentUser._id}`, {
+        const res = await fetch(`/users/update/${currentUser._id}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -147,7 +149,7 @@ function ProfileEdit() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/user/delete/${currentUser._id}`, {
+      const res = await fetch(`/users/delete/${currentUser._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -176,7 +178,7 @@ function ProfileEdit() {
      
         <FormEditProfile onSubmit={handleFormSubmit}>
        
-         <input
+         <InputAvatar
           type='file'
           accept='image/*'
           onChange={handleImageChange}
