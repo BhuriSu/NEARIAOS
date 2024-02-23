@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { getConversations } from "../api/conversationApi"; // Update this import based on your API functions
 
-// Define the initial state for conversations
+
 const initialState = {
   conversations: [],
   sender: null,
@@ -14,9 +14,8 @@ export const loadConversations = createAsyncThunk(
   "conversation/loadConversations",
   async (_, { dispatch }) => {
     try {
-      // Assuming you have an API function to fetch conversations
       const response = await getConversations(); // Adjust this based on your actual API
-      dispatch(loadConversationsSuccess(response.data)); // Assuming the data structure is { conversations: [...] }
+      dispatch(loadConversationsSuccess(response.data)); 
     } catch (error) {
       dispatch(loadConversationsFailure(error.message));
     }
@@ -38,8 +37,24 @@ const conversationSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
-    setSender: (state, action) => {
-      state.sender = action.payload;
+    setConversations: (state, action) => {
+      return action.payload; 
+    },
+    updateConversationMessages: (state, action) => {
+      const { conversationId, newMessages } = action.payload;
+      const conversationToUpdate = state.find((conversation) => conversation._id === conversationId);
+
+      if (conversationToUpdate) {
+        conversationToUpdate.messages = newMessages;
+      }
+    },
+    updateConversationLastMessage: (state, action) => {
+      const { conversationId, lastMessageAt } = action.payload;
+      const conversationToUpdate = state.find((conversation) => conversation._id === conversationId);
+
+      if (conversationToUpdate) {
+        conversationToUpdate.lastMessageAt = lastMessageAt;
+      }
     },
 
     // Add other reducers for handling conversation-related actions
@@ -66,7 +81,9 @@ const conversationSlice = createSlice({
 export const {
   loadConversationsSuccess,
   loadConversationsFailure,
-  setSender,
+  setConversations,
+  updateConversationMessages,
+  updateConversationLastMessage,
 } = conversationSlice.actions;
 
 export const selectConversations = (state) => state.conversation.conversations;

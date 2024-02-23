@@ -4,9 +4,9 @@ import {
     MenuItem,
   } from "@mui/material";
 import React from "react";
-import UserAvatar from "./UserAvatar"
+import UserAvatar from "../Profile/UserAvatar";
 import moment from "moment";
-import { setSender} from "../redux/conversationSlice";
+import { setSender } from "../redux/messageSlice";
 import { useDispatch } from 'react-redux';
 
 const UserMessengerEntry = ({ conversation }) => {
@@ -41,4 +41,4 @@ const UserMessengerEntry = ({ conversation }) => {
   );
 };
   
-  export default UserMessengerEntry;
+export default UserMessengerEntry;

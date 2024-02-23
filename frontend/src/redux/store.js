@@ -3,6 +3,7 @@ import userReducer from './userSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import conversationReducer from './conversationSlice';
+import messageReducer from "./messageSlice";
 
 const rootReducer = combineReducers({
   conversation: conversationReducer,
@@ -21,10 +22,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 // Create and export the Redux store
 export const store = configureStore({
-  reducer: persistedReducer,
+  reducer: {
+    message: messageReducer,
+    persistedReducer,
+  },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({ serializableCheck: false }),
 });
 
-// Create and export the persistor
 export const persistor = persistStore(store);
