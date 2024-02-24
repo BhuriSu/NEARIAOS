@@ -28,17 +28,6 @@ export const getUsers = async (req, res) => {
   }
 };
 
-export const createUser = async (req, res) => {
-  try {
-    const profile = new Profile(req.body);
-    await profile.save();
-    res.status(201).json(profile);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error creating profile' });
-  }
-};
-
 export const updateUser = async (req, res) => {
   try {
     const updatedUser = await Profile.findByIdAndUpdate(

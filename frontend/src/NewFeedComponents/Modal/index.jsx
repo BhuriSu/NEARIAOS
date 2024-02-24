@@ -4,12 +4,12 @@ import {
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { Mini, AvatarModal } from './ModalElements';
-
-function ModalWindow(formData) {
-  const { url } = formData;
-  const profile = formData.obj;
+import { useSelector } from "react-redux";
+function ModalWindow() {
+  
+  const currentUser  = useSelector((state) => state.user);
   const age = Math.floor(
-    (new Date() - new Date(profile.date)) / (24 * 3600 * 365.25 * 1000),
+    (new Date() - new Date(currentUser.date)) / (24 * 3600 * 365.25 * 1000),
   );
 
   return (
@@ -43,12 +43,12 @@ function ModalWindow(formData) {
               <Card.Content>
                 <Mini
                   style={{
-                    backgroundImage: `url(${profile.url || './images/infoUser.svg'})`,
+                    backgroundImage: currentUser.profilePicture,
                   }}
                 />
                 <Card.Header textAlign='center' />
                 <Card.Description style={{ color: 'white' }}>
-                  {profile.name}
+                  {currentUser.username}
                   ,
                   {age}
                 </Card.Description>
@@ -60,19 +60,19 @@ function ModalWindow(formData) {
         <Modal.Content>
           <Modal.Description style={{ color: 'rgb(124, 42, 255)' }}>
             <Header style={{ color: 'rgb(124, 42, 255)', fontSize: 'x-large' }}>
-              {` ${profile.name}, ${age}`}
+              {` ${currentUser.username}, ${age}`}
             </Header>
             <AvatarModal
               className='cursor'
               style={{
-                backgroundImage: `url(${profile.url || './images/infoUser.svg'})`,
+                backgroundImage: currentUser.profilePicture,
               }}
             />
             <List style={{ padding: '0 3rem', fontSize: 'large' }}>
-              <List.Item icon='briefcase' content={profile.workplace} />
-              <List.Item icon='glass martini' content={profile.beverage} />
-              <List.Item icon='comments' content={profile.favorite} />
-              <List.Item icon='info circle' content={profile.about} />
+              <List.Item icon='briefcase' content={currentUser.workplace} />
+              <List.Item icon='glass martini' content={currentUser.beverage} />
+              <List.Item icon='comments' content={currentUser.favorite} />
+              <List.Item icon='info circle' content={currentUser.about} />
             </List>
           </Modal.Description>
         </Modal.Content>
@@ -82,10 +82,7 @@ function ModalWindow(formData) {
           <Link  to={{
               pathname: '/chat',
               state: {
-                name: profile.name,
-                url,
-                friend: profile.person,
-                urlFriend: profile.url,
+                name: currentUser.name,
               },
             }} >
             <Button

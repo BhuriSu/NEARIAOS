@@ -15,7 +15,7 @@ const UserMessengerEntry = ({ conversation }) => {
   const recipient = conversation.recipient;
   const username = recipient.username;
   const selected = conversation.sender && conversation.sender.username === username;
-  const { currentUser } = useSelector((state) => state.user);
+  const currentUser  = useSelector((state) => state.user);
   const handleClick = () => {
     dispatch(setSender(recipient));
   };

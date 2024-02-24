@@ -21,7 +21,7 @@ function ListUsers() {
   });
   const [isShowMap, setShowMap] = useState(false);
   const [url, setUrl] = useState('');
-
+  
   const ChangeOnMap = () => {
     setShowMap(!isShowMap);
   };
@@ -29,27 +29,27 @@ function ListUsers() {
   const [longitude, setLongitude] = useState('');
 
   /**
-   * @param {String} id
+   * @param {String} userId
    * @param {Number} latitude
    * @param {Number} longitude
    * @param {Number} radius
    */
 
-  const requestListUsers = (id, latitude, longitude, radius) => {
+  const requestListUsers = (userId, latitude, longitude, radius) => {
     axios
-      .post(`http://localhost:27017/lists/${id}`, {
+      .post(`http://localhost:5000/lists/${userId}`, {
         latitude,
         longitude,
         radius,
       })
       .then(async (response) => {
         if (response.data.success) {
-          const promisesArr = response.data.list.map(async (user) => {
+          const promisesArr = response.data.list.map(async (currentUser) => {
             const storage = getStorage();
-            const pic = await getDownloadURL(ref(storage, `images/${user._id}`))
+            const pic = await getDownloadURL(ref(storage, `images/${currentUser._id}`))
               .catch((e) => console.log(e));
-              user.url = pic;
-            return user;
+              currentUser.url = pic;
+            return currentUser;
           });
 
           Promise.all(promisesArr).then((result) => {
@@ -165,7 +165,7 @@ function ListUsers() {
             onClick={() => geoFindLocation()}
             style={btnStyle}
           >
-            FIND ME SOMEONE
+            FIND SOMEONE
           </Button>
 
           {list.success ? (
@@ -175,9 +175,9 @@ function ListUsers() {
               <span>Use a map</span>
             </label>
           </ToggleBox>
-        ) : (
-          list.err
-        )}
+          ) : (
+           list.err
+          )}
        
           <div>
             {isShowMap ? (
@@ -204,9 +204,9 @@ function ListUsers() {
                 }}
               >
                 {list.success
-                  ? list.list?.map((obj) => (
-                    <div key={obj._id} className='map'>
-                      <ModalWindow obj={obj} url={url} />
+                  ? list.list?.map((currentUser) => (
+                    <div key={currentUser._id} className='map'>
+                      <ModalWindow username={currentUser} url={url} />
                     </div>
                   ))
                   : list.err}

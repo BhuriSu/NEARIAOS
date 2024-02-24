@@ -21,8 +21,8 @@ export const Lists = async (req, res) => {
 };
 
 export const FindUsers = async (req, res) => {
-  const { id, latitude, longitude, radius } = req.body;
-  if ([id, latitude, longitude, radius].some(el => el === undefined)) {
+  const { userId, latitude, longitude, radius } = req.body;
+  if ([userId, latitude, longitude, radius].some(el => el === undefined)) {
     return res.status(400).json({
       success: false,
       err: 'Arguments are undefined'
@@ -48,7 +48,7 @@ export const FindUsers = async (req, res) => {
       if (dist < radius) list.push(el);
     });
 
-    const user = await Profile.findByIdAndUpdate(id, { latitude, longitude }, { new: true });
+    const user = await Profile.findByIdAndUpdate(userId, { latitude, longitude }, { new: true });
     
     if (list.length) {
       return res.json({
