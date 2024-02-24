@@ -1,7 +1,6 @@
-import { Card, useTheme } from "@mui/material";
+import { Card, useTheme, Avatar } from "@mui/material";
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import UserAvatar from "../Profile/UserAvatar";
 import HorizontalStack from "./HorizontalStack";
 import { updateMessage } from "../redux/messageSlice"; 
 
@@ -37,7 +36,16 @@ const Message = () => {
       alignItems="flex-end"
     >
       {message.direction === "to" && (
-        <UserAvatar username={sender.username} height={30} width={30} />
+         <Avatar
+          src={sender.profilePicture}
+          alt=''
+          username={sender.username}
+          sx={{
+            height: 30,
+            width: 30,
+            backgroundColor: "lightgray",
+          }}
+        />
       )}
 
       <Card

@@ -3,6 +3,7 @@ import {
   IconButton,
   Stack,
   Typography,
+  Avatar
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { getAuth } from 'firebase/auth';
@@ -16,7 +17,6 @@ import { socket } from "../socketHelper";
 import Loading from "./Loading";
 import Message from "./Message";
 import SendMessage from "./SendMessage";
-import UserAvatar from "../Profile/UserAvatar";
 import HorizontalStack from "./HorizontalStack";
 import { setMessages, setConversations, updateConversationLastMessage, updateConversationMessages, setSender } from "../redux/messageSlice"; 
   const Messages = () => {
@@ -188,7 +188,16 @@ import { setMessages, setConversations, updateConversationLastMessage, updateCon
                   <AiFillCaretLeft />
                 </IconButton>
               }
-              <UserAvatar username={sender.username} height={30} width={30} />
+              <Avatar
+              src={sender.profilePicture}
+              alt=''
+              username={sender.username}
+              sx={{
+                height: 30,
+                width: 30,
+                backgroundColor: "lightgray",
+               }}
+              />
               <Typography>
                 <Link to={"/users/" + sender.username}>
                   <b>{sender.username}</b>

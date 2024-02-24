@@ -2,20 +2,20 @@ import {
     ListItemAvatar,
     ListItemText,
     MenuItem,
+    Avatar,
   } from "@mui/material";
 import React from "react";
-import UserAvatar from "../Profile/UserAvatar";
 import moment from "moment";
 import { setSender } from "../redux/messageSlice";
 import { useDispatch } from 'react-redux';
-
+import { useSelector } from 'react-redux';
 const UserMessengerEntry = ({ conversation }) => {
 
   const dispatch = useDispatch();
   const recipient = conversation.recipient;
   const username = recipient.username;
   const selected = conversation.sender && conversation.sender.username === username;
-
+  const { currentUser } = useSelector((state) => state.user);
   const handleClick = () => {
     dispatch(setSender(recipient));
   };
@@ -30,7 +30,16 @@ const UserMessengerEntry = ({ conversation }) => {
         selected={selected}
       >
         <ListItemAvatar>
-          <UserAvatar height={45} width={45} username={username} />
+        <Avatar
+          src={currentUser.profilePicture}
+          alt=''
+          username={currentUser.username}
+          sx={{
+            height: 45,
+            width: 45,
+            backgroundColor: "lightgray",
+          }}
+        />
         </ListItemAvatar>
         <ListItemText
           primary={username}
