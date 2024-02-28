@@ -13,7 +13,6 @@ const Map = ({
   longitude,
   list,
   radius,
-  url,
  }) => {
   
   const CMap = (currentUser) => {

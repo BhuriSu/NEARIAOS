@@ -11,7 +11,7 @@ function FirstPage() {
       <Content>
       <Planet src={FirstPic} alt='' /> 
         <FirstLine>
-        NEARIAOS is platform for chatting with stranger nearby you
+        NEARIAOS is platform for chatting with users near you at a specific place.
         </FirstLine>
       </Content>
     </Container>
