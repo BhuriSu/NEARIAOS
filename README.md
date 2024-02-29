@@ -1,7 +1,6 @@
 # NEARIAOS is platform for chatting with users near you at a specific place.
 
 ## Features
-
 1.LogIn and SignUp system with firebase authentication 
 2.Profile system that store information user in mongoDB database and store image in firebase storage
 3.Chat system using socket.io 
