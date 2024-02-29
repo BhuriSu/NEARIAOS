@@ -9,13 +9,15 @@ import { PersistGate } from 'redux-persist/integration/react';
 const root = createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-  <UserAuthContextProvider>
+
   <PersistGate persistor={persistor}>
     <Provider store={store}>
+    <UserAuthContextProvider>
         <App />
-      </Provider>
+    </UserAuthContextProvider>
+    </Provider>
   </PersistGate>
-  </UserAuthContextProvider>
+
   </React.StrictMode>
 );
 
