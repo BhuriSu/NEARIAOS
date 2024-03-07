@@ -20,7 +20,7 @@ function ListUsers() {
     err: '',
   });
   const [isShowMap, setShowMap] = useState(false);
-  const [url, setUrl] = useState('');
+  const [url] = useState('');
   
   const ChangeOnMap = () => {
     setShowMap(!isShowMap);
@@ -35,48 +35,41 @@ function ListUsers() {
    * @param {Number} radius
    */
 
-  const requestListUsers = (userId, latitude, longitude, radius) => {
-    axios
-      .post(`http://localhost:5000/lists/${userId}`, {
+  const requestListUsers = async (userId, latitude, longitude, radius) => {
+    try {
+      const response = await axios.post(`http://localhost:5000/lists/${userId}`, {
         latitude,
         longitude,
         radius,
-      })
-      .then(async (response) => {
-        if (response.data.success) {
-          const promisesArr = response.data.list.map(async (currentUser) => {
+      });
+  
+      if (response.data.success) {
+        const result = await Promise.all(
+          response.data.list.map(async (currentUser) => {
             const storage = getStorage();
-            const pic = await getDownloadURL(ref(storage, `images/${currentUser._id}`))
-              .catch((e) => console.log(e));
-              currentUser.url = pic;
+            const pic = await getDownloadURL(ref(storage, `images/${currentUser._id}`));
+            currentUser.userId = pic;
             return currentUser;
-          });
-
-          Promise.all(promisesArr).then((result) => {
-            setList({
-              success: true,
-              list: result,
-            });
-
-            result.forEach((el) => {
-              if (el._id) {
-                setUrl(el.url);
-              }
-            });
-          });
-        } else {
-          setList({
-            success: false,
-            err: response.data.err,
-          });
-        }
-      })
-      .catch(() => {
+          })
+        );
+  
+        setList({
+          success: true,
+          list: result,
+        });
+  
+      } else {
         setList({
           success: false,
-          err: 'Runtime error',
+          err: response.data.err,
         });
+      }
+    } catch (error) {
+      setList({
+        success: false,
+        err: error.message || 'Runtime error',
       });
+    }
   };
 
   const geoFindLocation = () => {

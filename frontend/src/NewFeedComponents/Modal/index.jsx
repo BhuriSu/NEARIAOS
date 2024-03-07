@@ -5,8 +5,10 @@ import {
 import { Link } from 'react-router-dom';
 import { Mini, AvatarModal } from './ModalElements';
 import { useSelector } from "react-redux";
+import { getConversation} from '../../api/messages';
 function ModalWindow() {
-  
+  const conversations = useSelector((state) => state.conversations);
+  const sender = useSelector((state) => state.sender);
   const currentUser  = useSelector((state) => state.user);
   const age = Math.floor(
     (new Date() - new Date(currentUser.date)) / (24 * 3600 * 365.25 * 1000),
@@ -82,7 +84,8 @@ function ModalWindow() {
           <Link  to={{
               pathname: '/chat',
               state: {
-                name: currentUser.name,
+                chats: getConversation(conversations, sender._id),
+                name: currentUser.username,
               },
             }} >
             <Button

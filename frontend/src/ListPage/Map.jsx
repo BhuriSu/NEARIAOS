@@ -7,6 +7,7 @@ import { GoogleMap, Marker, Circle, LoadScript } from '@react-google-maps/api';
 import styles from './GoogleMapStyles.json';
 import { useSelector } from "react-redux";
 import { getConversation, sendMessage } from '../api/messages';
+
 const Map = ({
   googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,
   latitude,
@@ -14,9 +15,7 @@ const Map = ({
   list,
   radius,
  }) => {
-  
   const CMap = (currentUser) => {
-   
     return (
       <LoadScript googleMapsApiKey={googleMapURL}>
       <GoogleMap

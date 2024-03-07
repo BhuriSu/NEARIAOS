@@ -8,6 +8,7 @@ import messageReducer from "./messageSlice";
 const rootReducer = combineReducers({
   conversation: conversationReducer,
   user: userReducer,
+  //message: messageReducer,
   // other reducers can be added here
 });
 
