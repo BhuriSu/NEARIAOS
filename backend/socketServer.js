@@ -19,4 +19,4 @@ const socketServer = (socket) => {
   });
 };
 
-export default { socketServer, authSocket };
+export default { socketServer };

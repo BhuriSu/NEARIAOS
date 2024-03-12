@@ -8,7 +8,7 @@ import {
 import { Box } from "@mui/system";
 import { getAuth } from 'firebase/auth';
 import { useUserAuth } from '../Context/UserAuthContext';
-import { getConversation, getMessages, sendMessage } from '../api/messages';
+import { getConversations, getMessages, sendMessage } from '../api/messages';
 import React, { useEffect, useRef, useState } from "react";
 import { AiFillCaretLeft, AiFillMessage } from "react-icons/ai";
 import { Link } from "react-router-dom";
@@ -18,7 +18,8 @@ import Loading from "./Loading";
 import Message from "./Message";
 import SendMessage from "./SendMessage";
 import HorizontalStack from "./HorizontalStack";
-import { setMessages, setConversations, updateConversationLastMessage, updateConversationMessages, setSender } from "../redux/messageSlice"; 
+import { setMessages, setSender } from "../redux/messageSlice"; 
+import { setConversations, updateConversationLastMessage, updateConversationMessages } from "../redux/conversationSlice";
   const Messages = () => {
     
     const auth = getAuth();
@@ -38,7 +39,7 @@ import { setMessages, setConversations, updateConversationLastMessage, updateCon
       }
     }, [sender, dispatch, user]);
   
-    const conversation = conversations && sender && getConversation(conversations, sender._id);
+    const conversation = conversations && sender && getConversations(conversations, sender._id);
 
   
     const setDirection = (messages) => {
@@ -125,7 +126,7 @@ import { setMessages, setConversations, updateConversationLastMessage, updateCon
     const handleReceiveMessage = (senderId, username, content) => {
       const newMessage = { direction: "to", content };
   
-      const conversation = getConversation(conversationsRef.current, senderId);
+      const conversation = getConversations(conversationsRef.current, senderId);
   
       console.log(username + " " + content);
   

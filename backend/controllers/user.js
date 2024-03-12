@@ -1,32 +1,7 @@
 import Profile from "../models/Profile.js";
 import { errorHandler } from '../utils/error.js';
 
-export const getUser = async (req, res, next) => {
-  try {
-    const user = await Profile.findById(req.params.userId);
-    if (!user) {
-      return next(errorHandler(404, 'User not found'));
-    }
-    const { profilePicture, username, date, workplace, beverage, favorite, about } = user._doc;
-    res.status(200).json(profilePicture, username, date, workplace, beverage, favorite, about);
-  } catch (error) {
-    next(error);
-  }
-};
 
-export const getUsers = async (req, res) => {
-  try {
-    const user = await Profile.findById(req.params.userId);
-    if (!user) {
-      return next(errorHandler(404, 'User not found'));
-    }
-    const { password, ...rest } = user._doc;
-    res.status(200).json(rest);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Error' });
-  }
-};
 
 export const updateUser = async (req, res) => {
   try {

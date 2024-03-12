@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { getConversations } from "../api/conversationApi"; // Update this import based on your API functions
+import { getConversations } from "../api/messages"; // Update this import based on your API functions
 
 
 const initialState = {

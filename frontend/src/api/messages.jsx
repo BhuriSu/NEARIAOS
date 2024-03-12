@@ -1,7 +1,7 @@
 
 import { getAuth } from 'firebase/auth';
 const auth = getAuth();
-const getConversation = async () => {
+const getConversations = async () => {
     try {
       const user = auth.currentUser;
       if (user) {
@@ -44,4 +44,4 @@ const getConversation = async () => {
       console.log(err);
     }
   };
-  export { getConversation, getMessages, sendMessage };
+  export { getConversations, getMessages, sendMessage };

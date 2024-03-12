@@ -5,7 +5,7 @@ import {
 import { Link } from 'react-router-dom';
 import { Mini, AvatarModal } from './ModalElements';
 import { useSelector } from "react-redux";
-import { getConversation} from '../../api/messages';
+import { getConversations } from '../../api/messages';
 function ModalWindow() {
   const conversations = useSelector((state) => state.conversations);
   const sender = useSelector((state) => state.sender);
@@ -84,7 +84,7 @@ function ModalWindow() {
           <Link  to={{
               pathname: '/chat',
               state: {
-                chats: getConversation(conversations, sender._id),
+                chats: getConversations(conversations, sender._id),
                 name: currentUser.username,
               },
             }} >

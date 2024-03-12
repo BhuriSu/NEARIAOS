@@ -13,9 +13,29 @@ import path from 'path';
 import socketServer from "./socketServer.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
-
-dotenv.config();
 const app = express();
+dotenv.config();
+const httpServer = createServer(app);
+// Create a Socket.IO instance attached to the HTTP server
+const io = new Server(httpServer, {
+  cors: {
+    origin: ["http://localhost:5000", "https://neariaos.com"],
+  },
+});
+
+// Handle connection event
+io.on("connection", (socket) => {
+  socketServer(socket);
+});
+mongoose.connect(process.env.MONGO_URL)
+  .then(() => {
+    console.log("Connected to MongoDB");
+    const PORT = process.env.PORT || 5000;
+    httpServer.listen(PORT, () => console.log('server running on PORT ' + PORT));
+  })
+  .catch((error) => {
+    console.error("Error connecting to MongoDB:", error);
+  });
 
 //secure by setting various http headers
 app.use(helmet());
@@ -53,35 +73,10 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-  mongoose.connect(
-    process.env.MONGO_URL,
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => {
-      console.log("MongoDB connected");
-    }
-  );
-
-  const httpServer = createServer(app);
-  // Create a Socket.IO instance attached to the HTTP server
-  const io = new Server(httpServer, {
-    cors: {
-      origin: ["http://localhost:5000", "https://neariaos.com"],
-    },
-  });
-  
-  // Handle connection event
-  io.on("connection", (socket) => {
-    socketServer(socket);
-  });
-
-  httpServer.listen(5000, () => {
-    console.log("Server is running on http://localhost:5000");
-  });
-
-  if (process.env.NODE_ENV == "production") {
+if (process.env.NODE_ENV == "production") {
     app.use(express.static(path.join(__dirname, "/client/build")));
   
     app.get("*", (req, res) => {
       res.sendFile(path.join(__dirname, "client/build", "index.html"));
     });
-  }
+}

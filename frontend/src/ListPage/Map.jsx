@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 import { GoogleMap, Marker, Circle, LoadScript } from '@react-google-maps/api';
 import styles from './GoogleMapStyles.json';
 import { useSelector } from "react-redux";
-import { getConversation, sendMessage } from '../api/messages';
+import { getConversations, sendMessage } from '../api/messages';
 
 const Map = ({
   googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,
@@ -104,7 +104,7 @@ const Map = ({
                 to={{
                   pathname: '/chat',
                   state: { 
-                    chats: getConversation(conversations, sender._id),
+                    chats: getConversations(conversations, sender._id),
                     name: currentUser.username,
                   },
                 }}
