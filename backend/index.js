@@ -13,13 +13,50 @@ import path from 'path';
 import socketServer from "./socketServer.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
+
 const app = express();
 dotenv.config();
-const httpServer = createServer(app);
+// prevent CORS access error
+app.use(cors());
+
+// secure by setting various http headers
+app.use(helmet());
+
+// collect log http 
+app.use(morgan('dev'));
+
+// when you want to use POST and PUT/PATCH method
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// implement rate limit
+app.use(customRedisRateLimiter);
+
+// api 
+app.use('/users', usersRouter);
+app.use('/lists',listsRouter)
+app.use('/messages',messageRouter)
+
+// Handle 404 and forward to error handler
+app.use((req, res, next) => {
+  next(createError(404));
+});
+
+// error handler
+app.use((err, req, res, next) => {
+  // set locals, only providing error in development
+  res.locals.message = err.message;
+  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  // render the error page
+  res.status(err.status || 500);
+  res.render('error');
+});
+
 // Create a Socket.IO instance attached to the HTTP server
+const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5000", "https://neariaos.com"],
+    origin: ["http://localhost:3000", "https://Neariaos.com"],
   },
 });
 
@@ -27,6 +64,7 @@ const io = new Server(httpServer, {
 io.on("connection", (socket) => {
   socketServer(socket);
 });
+
 mongoose.connect(process.env.MONGO_URL)
   .then(() => {
     console.log("Connected to MongoDB");
@@ -37,46 +75,10 @@ mongoose.connect(process.env.MONGO_URL)
     console.error("Error connecting to MongoDB:", error);
   });
 
-//secure by setting various http headers
-app.use(helmet());
-
-//prevent COR access error
-app.use(cors());
-
-// collect log http 
-app.use(morgan('dev'));
-
-//when you want to use POST and PUT/PATCH method
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// api 
-app.use('/users', usersRouter)
-app.use('/lists',listsRouter)
-app.use('/messages',messageRouter)
-
-// catch 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
-
-// implement rate limit
-app.use(customRedisRateLimiter);
-
-// error handler
-app.use((err, req, res) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
-
 if (process.env.NODE_ENV == "production") {
-    app.use(express.static(path.join(__dirname, "/client/build")));
+  app.use(express.static(path.join(__dirname, "/client/build")));
   
-    app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "client/build", "index.html"));
-    });
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "client/build", "index.html"));
+  });
 }

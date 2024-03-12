@@ -1,12 +1,12 @@
 import express from "express";
 import { 
-
+    getUser,
     updateUser,
     deleteUser
 } from "../controllers/user.js";
 const router = express.Router();
 
-
+router.get('/', getUser);
 router.patch('/update/:userId', updateUser);
 router.delete('/delete/:userId', deleteUser);
 
