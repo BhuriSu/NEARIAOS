@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux';
 
 // css 
 import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
-   FormEditProfile, StyledInput, SaveBtnStyle, InputAvatar } from "./profileElements";
+   FormEditProfile, StyledInput, SaveBtnStyle, InputAvatar, Avatar } from "./profileElements";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -34,7 +34,7 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEdit() {
-  const { currentUser, error, loading } = useSelector((state) => state.user);
+  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -47,7 +47,7 @@ function ProfileEdit() {
   const filePickerRef = useRef();
   const dispatch = useDispatch();
 
-    const handleImageChange = (e) => {
+  const handleImageChange = (e) => {
       const file = e.target.files[0];
        if (file) {
         setImageFile(file);
@@ -105,6 +105,7 @@ function ProfileEdit() {
             setImageFileUrl(downloadURL);
             setFormData({ ...formData, profilePicture: downloadURL });
             setImageFileUploading(false);
+           
           });
         }
       );
@@ -175,17 +176,16 @@ function ProfileEdit() {
   return (
     <>
       <BackgroundProfileContainer >
-     
         <FormEditProfile onSubmit={handleFormSubmit}>
-       
-         <InputAvatar
+        <input
           type='file'
           accept='image/*'
           onChange={handleImageChange}
           ref={filePickerRef}
           hidden
-         />
-        <div className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
+        />
+        <div
+          className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
           onClick={() => filePickerRef.current.click()}
         >
           {imageFileUploadProgress && (
@@ -219,6 +219,7 @@ function ProfileEdit() {
             }`}
           />
         </div>
+        
         {imageFileUploadError && (
           <Alert color='failure'>{imageFileUploadError}</Alert>
         )}

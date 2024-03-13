@@ -20,13 +20,13 @@ export const updateUser = async (req, res) => {
       req.params.userId,
       {
         $set: {
-          profilePicture: req.body.profilePicture,
           username: req.body.username,
           date: req.body.date,
           beverage: req.body.beverage,
           workplace: req.body.workplace,
           favorite: req.body.favorite,
           about: req.body.about,
+          profilePicture: req.body.profilePicture,
         },
       },
       { new: true }

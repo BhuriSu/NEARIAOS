@@ -3,7 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 import { Grid, Paper, Avatar,  TextField, Button, Typography, Link } from '@mui/material';
 import { Google } from '@mui/icons-material';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
-import { useUserAuth } from '../Context/UserAuthContext';
+import { useUserAuth } from '../Context';
 import { useNavigate } from 'react-router-dom';
 
 

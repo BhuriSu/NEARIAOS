@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Grid, Paper, TextField, Button, Link, Alert, Stack } from '@mui/material';
-import { useUserAuth } from '../Context/UserAuthContext';
+import { useUserAuth } from '../Context';
 import { Link as RouterLink } from 'react-router-dom';
 import { ForgotContainer } from './ForgotElements';
 const SignUp = () => {

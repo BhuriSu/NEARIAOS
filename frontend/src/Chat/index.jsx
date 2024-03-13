@@ -7,7 +7,7 @@ import UserMessengerEntries from "./UserMessengerEntries";
 import { getConversations } from "../api/messages";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from 'firebase/auth';
-import { useUserAuth } from '../Context/UserAuthContext';
+import { useUserAuth } from '../Context';
 
 const Chat = () => {
   const [sender, setSender] = useState(null);

@@ -7,7 +7,7 @@ import {
 } from "@mui/material";
 import { Box } from "@mui/system";
 import { getAuth } from 'firebase/auth';
-import { useUserAuth } from '../Context/UserAuthContext';
+import { useUserAuth } from '../Context';
 import { getConversations, getMessages, sendMessage } from '../api/messages';
 import React, { useEffect, useRef, useState } from "react";
 import { AiFillCaretLeft, AiFillMessage } from "react-icons/ai";

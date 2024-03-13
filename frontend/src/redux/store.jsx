@@ -8,7 +8,7 @@ import messageReducer from "./messageSlice";
 const rootReducer = combineReducers({
   conversation: conversationReducer,
   user: userReducer,
-  //message: messageReducer,
+  message: messageReducer,
   // other reducers can be added here
 });
 
@@ -24,7 +24,6 @@ const persistedReducer = persistReducer(persistConfig, rootReducer);
 // Create and export the Redux store
 export const store = configureStore({
   reducer: {
-    message: messageReducer,
     persistedReducer,
   },
   middleware: (getDefaultMiddleware) =>

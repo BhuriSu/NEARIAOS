@@ -50,6 +50,15 @@ export const StyledInput = styled.input`
 export const InputAvatar = styled.input`
 display: none;
 `
+export const Avatar = styled.div`
+width: 140px;
+height: 140px;
+border-radius: 50%;
+background-size: cover;
+background-position: center;
+cursor: pointer;
+`;
+
 export const DateContainer = styled.div`
 background-color: #00ffa6;
 border-radius: 20px;

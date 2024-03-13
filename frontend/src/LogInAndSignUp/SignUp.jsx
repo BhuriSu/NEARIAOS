@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import { Grid, Paper, Avatar, Typography, TextField, Button } from '@mui/material';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-import { useUserAuth } from '../Context/UserAuthContext';
+import { useUserAuth } from '../Context';
 import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
