@@ -3,7 +3,7 @@ import { io } from "socket.io-client";
 export let socket;
 
 export const initiateSocketConnection = () => {
-  socket = io("http://localhost:5000/");
+  socket = io("http://localhost:5173/");
 };
 
 export const disconnectSocket = () => {

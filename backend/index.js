@@ -16,26 +16,6 @@ import { Server } from "socket.io";
 
 const app = express();
 dotenv.config();
-// prevent CORS access error
-app.use(cors());
-
-// secure by setting various http headers
-app.use(helmet());
-
-// collect log http 
-app.use(morgan('dev'));
-
-// when you want to use POST and PUT/PATCH method
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-
-// implement rate limit
-app.use(customRedisRateLimiter);
-
-// api 
-app.use('/users', usersRouter);
-app.use('/lists',listsRouter)
-app.use('/messages',messageRouter)
 
 // Handle 404 and forward to error handler
 app.use((req, res, next) => {
@@ -56,14 +36,12 @@ app.use((err, req, res, next) => {
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:3000", "https://Neariaos.com"],
+    origin: ["http://localhost:4000", "https://Neariaos.com"],
   },
 });
 
 // Handle connection event
-io.on("connection", (socket) => {
-  socketServer(socket);
-});
+io.on("connection", (socket) => socketServer(socket));
 
 mongoose.connect(process.env.MONGO_URL)
   .then(() => {
@@ -74,6 +52,26 @@ mongoose.connect(process.env.MONGO_URL)
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
   });
+
+// secure by setting various http headers
+app.use(helmet());
+
+// collect log http 
+app.use(morgan('dev'));
+
+// when you want to use POST and PUT/PATCH method
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+
+// implement rate limit
+app.use(customRedisRateLimiter);
+
+// prevent CORS access error
+app.use(cors());
+// api 
+app.use('/users', usersRouter);
+app.use('/lists',listsRouter)
+app.use('/messages',messageRouter)
 
 if (process.env.NODE_ENV == "production") {
   app.use(express.static(path.join(__dirname, "/client/build")));
