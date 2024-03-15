@@ -1,27 +1,31 @@
 import React from 'react';
-import {
-  Button, Header, Modal, List,
-} from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { GoogleMap, Marker, Circle, LoadScript } from '@react-google-maps/api';
-import styles from './GoogleMapStyles.json';
-import { useSelector } from "react-redux";
+import { Button, Header, Modal, List } from 'semantic-ui-react';
 import { getConversations, sendMessage } from '../api/messages';
+import { Link } from 'react-router-dom';
+import {
+  withScriptjs,
+  withGoogleMap,
+  GoogleMap,
+  Marker,
+  Circle,
+} from 'react-google-maps';
+
+import styles from './GoogleMapStyles.json';
 
 const Map = ({
-  googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,
+  googleMapURL = process.env.REACT_APP_GOOGLE_MAP_URI,
   latitude,
   longitude,
   list,
   radius,
- }) => {
-  const CMap = (currentUser) => {
-    return (
-      <LoadScript googleMapsApiKey={googleMapURL}>
+  url,
+}) => {
+  const CMap = withScriptjs(
+    withGoogleMap((props) => (
       <GoogleMap
-        zoom={14}
-        center={{ lat: latitude, lng: longitude }}
-        options={{
+        defaultZoom={14}
+        defaultCenter={{ lat: latitude, lng: longitude }}
+        defaultOptions={{
           disableDefaultUI: true,
           draggable: true,
           keyboardShortcuts: false,
@@ -30,14 +34,13 @@ const Map = ({
           styles,
         }}
       >
-        {currentUser.children}
+        {props.children}
       </GoogleMap>
-      </LoadScript>
-    );
-  }
-  const conversations = useSelector((state) => state.conversations);
-  const sender = useSelector((state) => state.sender);
+    )),
+  );
+
   return (
+    <>
     <CMap
       googleMapURL={googleMapURL}
       loadingElement={<div style={{ height: '50%' }} />}
@@ -57,55 +60,59 @@ const Map = ({
       center={{ lat: latitude, lng: longitude }}
     >
       <Circle center={{ lat: latitude, lng: longitude }} radius={+radius} />
-      {list.list.map((currentUser) => (
-        <div key={currentUser._id} >
+      {list.list.map((profile) => (
+        <div>
           <Modal
             style={{
               textAlign: 'center',
               height: 'auto',
             }}
-            dimmer='blurring'
-            size='mini'
+            dimmer="blurring"
+            size="mini"
             trigger={(
               <Marker
-                position={{ lat: currentUser.latitude, lng: currentUser.longitude }}
-                title={currentUser.username}
+                position={{ lat: profile.latitude, lng: profile.longitude }}
+                title={profile.name}
               />
-              )}
+            )}
           >
             <Modal.Content>
               <Modal.Description>
                 <Header style={{ color: '#0f4667', fontSize: 'x-large' }}>
-                  {` ${currentUser.username}, ${Math.floor(
-                    (new Date() - new Date(currentUser.date))
-                        / (24 * 3600 * 365.25 * 1000),
+                  {` ${profile.name}, ${Math.floor(
+                    (new Date() - new Date(profile.DoB))
+                      / (24 * 3600 * 365.25 * 1000),
                   )}`}
                 </Header>
                 <div
-                  className='avatar cursor'
+                  className="avatar cursor"
                   style={{
-                    backgroundImage: currentUser.profilePicture,
+                    backgroundImage: `url(${profile.url
+                      || ''})`,
                   }}
                 />
                 <List style={{ padding: '0 3rem', fontSize: 'large' }}>
-                  <List.Item icon='briefcase' content={currentUser.workplace} />
-                  <List.Item icon='glass martini' content={currentUser.beverage} />
-                  <List.Item icon='comments' content={currentUser.favorite} />
-                  <List.Item icon='info circle' content={currentUser.about} />
+                  <List.Item icon="briefcase" content={profile.workplace} />
+                  <List.Item icon="glass martini" content={profile.beverage} />
+                  <List.Item icon="comments" content={profile.favorite} />
+                  <List.Item icon="info circle" content={profile.about} />
                 </List>
-
+ 
               </Modal.Description>
             </Modal.Content>
             <Modal.Actions
               style={{ backgroundColor: '#0f4667', textAlign: 'center' }}
             >
               <Link
-                onClick={() => sendMessage(currentUser._id)}
+                onClick={() => sendMessage(profile._id)}
                 to={{
                   pathname: '/chat',
-                  state: { 
-                    chats: getConversations(conversations, sender._id),
-                    name: currentUser.username,
+                  state: {
+                    chats: getConversations(profile.person),
+                    name: profile.name,
+                    url,
+                    friend: profile.person,
+                    urlFriend: profile.url,
                   },
                 }}
               >
@@ -127,7 +134,8 @@ const Map = ({
         </div>
       ))}
     </CMap>
+  </>
   );
-}
+};
 
 export default Map;

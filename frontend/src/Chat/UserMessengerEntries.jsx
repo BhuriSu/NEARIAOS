@@ -30,7 +30,7 @@ const UserMessengerEntries = (props) => {
                   <UserMessengerEntry
                     conservant={props.conservant}
                     conversation={conversation}
-                    key={conversation.recipient.currentUser}
+                    key={conversation.recipient.username}
                     setConservant={props.setConservant}
                   />
                 ))}

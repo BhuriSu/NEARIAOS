@@ -6,13 +6,12 @@ import {
 import React from "react";
 import UserAvatar from "./UserAvatar";
 import moment from "moment";
-import { useSelector } from 'react-redux';
 
 const UserMessengerEntry = (props) => {
-  const { currentUser } = useSelector((state) => state.user) || {};
   const recipient = props.conversation.recipient;
+  const username = recipient.username;
   const selected =
-    props.conservant && props.conservant.currentUser === recipient.currentUser;
+    props.conservant && props.conservant.username === recipient.username;
   
   const handleClick = () => {
     props.setConservant(recipient);
@@ -28,10 +27,10 @@ const UserMessengerEntry = (props) => {
         selected={selected}
       >
         <ListItemAvatar>
-          <UserAvatar height={45} width={45} src={currentUser.profilePicture} />
+          <UserAvatar  username={username} height={45} width={45} />
         </ListItemAvatar>
         <ListItemText
-          primary={currentUser}
+          primary={username}
           secondary={moment(props.conversation.lastMessageAt).fromNow()}
         />
       </MenuItem>

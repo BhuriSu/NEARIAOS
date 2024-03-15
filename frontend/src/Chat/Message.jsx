@@ -2,12 +2,12 @@ import { Card, useTheme } from "@mui/material";
 import React from "react";
 import UserAvatar from "./UserAvatar";
 import HorizontalStack from "./HorizontalStack";
-import { useSelector } from 'react-redux';
 
 const Message = (props) => {
+  const username = props.conservant.username;
   const message = props.message;
   const theme = useTheme();
-  const { currentUser } = useSelector((state) => state.user) || {};
+
   let styles = {};
   if (message.direction === "to") {
     styles = {
@@ -28,7 +28,7 @@ const Message = (props) => {
       alignItems="flex-end"
     >
       {message.direction === "to" && (
-        <UserAvatar src={currentUser.profilePicture} height={30} width={30} />
+        <UserAvatar  username={username} height={30} width={30} />
       )}
 
       <Card

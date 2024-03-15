@@ -24,7 +24,6 @@ const Messages = (props) => {
   const {user} = useUserAuth(auth);
   const [messages, setMessages] = useState(null);
   const [loading, setLoading] = useState(true);
-
   const conversationsRef = useRef(props.conversations);
   const conservantRef = useRef(props.conservant);
   const messagesRef = useRef(messages);
@@ -108,12 +107,12 @@ const Messages = (props) => {
     socket.emit(
       "send-message",
       conversation.recipient._id,
-      user.username,
+      user.currentUser,
       content
     );
   };
 
-  const handleReceiveMessage = (senderId, username, content) => {
+  const handleReceiveMessage = (senderId, currentUser, content) => {
     const newMessage = { direction: "to", content };
 
     const conversation = props.getConversation(
@@ -121,7 +120,7 @@ const Messages = (props) => {
       senderId
     );
 
-    console.log(username + " " + content);
+    console.log(currentUser + " " + content);
 
     if (conversation) {
       let newMessages = [newMessage];
@@ -146,7 +145,7 @@ const Messages = (props) => {
     } else {
       const newConversation = {
         _id: senderId,
-        recipient: { _id: senderId, username },
+        recipient: { _id: senderId, currentUser },
         new: true,
         messages: [newMessage],
         lastMessageAt: Date.now(),
@@ -179,7 +178,7 @@ const Messages = (props) => {
               </IconButton>
             )}
             <UserAvatar
-              username={props.conservant.username}
+              username={props.conservant.v}
               height={30}
               width={30}
             />
@@ -224,9 +223,9 @@ const Messages = (props) => {
       spacing={2}
     >
       <AiFillMessage size={80} />
-      <Typography variant="h5">PostIt Messenger</Typography>
+      <Typography variant="h5">Neariaos Messenger</Typography>
       <Typography color="text.secondary">
-        Privately message other users on PostIt
+        Privately message other users on Neariaos
       </Typography>
     </Stack>
   );

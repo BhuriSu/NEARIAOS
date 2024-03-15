@@ -9,7 +9,7 @@ import { getAuth } from 'firebase/auth';
 import { useUserAuth } from '../Context';
 
 const Chat = () => {
-  const [sender, setSender] = useState(null);
+  const [conservant, setConservant] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [width, setWindowWidth] = useState(0);
@@ -18,12 +18,12 @@ const Chat = () => {
   const {user} = useUserAuth(auth);
   const navigate = useNavigate(); 
   const state = navigate();
-  const newSender = state && state.user;
+  const newConservant = state && state.user;
 
-  const getConversation = (conversations, senderId) => {
+  const getConversation = (conversations, conservantId) => {
     for (let i = 0; i < conversations.length; i++) {
       const conversation = conversations[i];
-      if (conversation.recipient._id === senderId) {
+      if (conversation.recipient._id === conservantId) {
         return conversation;
       }
     }
@@ -31,12 +31,12 @@ const Chat = () => {
 
   const fetchConversations = async () => {
     let conversations = await getConversations(user);
-    if (newSender) {
-      setSender(newSender);
-      if (!getConversation(conversations, newSender._id)) {
+    if (newConservant) {
+      setConservant(newConservant);
+      if (!getConversation(conversations, newConservant._id)) {
         const newConversation = {
-          _id: newSender._id,
-          recipient: newSender,
+          _id: newConservant._id,
+          recipient: newConservant,
           new: true,
           messages: [],
         };
@@ -84,24 +84,24 @@ const Chat = () => {
                   }}
                 >
                   <UserMessengerEntries
-                    sender={sender}
+                    conservant={conservant}
                     conversations={conversations}
-                    setSender={setSender}
+                    setConservant={setConservant}
                     loading={loading}
                   />
                 </Grid>
 
                 <Grid item xs={7} sx={{ height: "100%" }}>
                   <Messages
-                    sender={sender}
+                    conservant={conservant}
                     conversations={conversations}
-                    setSender={setSender}
+                    setConservant={setConservant}
                     setConversations={setConversations}
                     getConversation={getConversation}
                   />
                 </Grid>
               </>
-            ) : !sender ? (
+            ) : !conservant ? (
               <Grid
                 item
                 xs={12}
@@ -112,16 +112,16 @@ const Chat = () => {
                 }}
               >
                 <UserMessengerEntries
-                  sender={sender}
+                  conservant={conservant}
                   conversations={conversations}
-                  setSender={setSender}
+                  setConservant={setConservant}
                   loading={loading}
                 />
                 <Box sx={{ display: "none" }}>
                   <Messages
-                    sender={sender}
+                    conservant={conservant}
                     conversations={conversations}
-                    setSender={setSender}
+                    setConservant={setConservant}
                     setConversations={setConversations}
                     getConversation={getConversation}
                   />
@@ -130,9 +130,9 @@ const Chat = () => {
             ) : (
               <Grid item xs={12} sx={{ height: "100%" }}>
                 <Messages
-                  sender={sender}
+                  conservant={conservant}
                   conversations={conversations}
-                  setSender={setSender}
+                  setConservant={setConservant}
                   setConversations={setConversations}
                   getConversation={getConversation}
                   mobile

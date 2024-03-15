@@ -14,7 +14,11 @@ const SendMessage = () => {
     sendMessage(content);
     setContent("");
   };
-
+  const handleKeyDown = (e) => {
+    if (content.length > 0) {
+      handleSendMessage();
+    }
+  };
   return (
     <Stack
       sx={{
@@ -31,11 +35,7 @@ const SendMessage = () => {
           value={content}
           autoComplete="off"
           size="small"
-          onKeyPress={(e) => {
-            if (e.key === "Enter" && content.length > 0) {
-              handleSendMessage();
-            }
-          }}
+          onKeyDown={handleKeyDown}
         />
 
         <Button onClick={handleSendMessage} disabled={content.length === 0}>

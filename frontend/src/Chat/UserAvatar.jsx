@@ -11,7 +11,7 @@ const UserAvatar = ({ height, width }) => {
         width: width,
         backgroundColor: "lightgray",
       }}
-      src={currentUser.profilePicture}
+      src={(currentUser && currentUser.profilePicture) || ''}
     />
   );
 };
