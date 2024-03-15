@@ -12,6 +12,7 @@ const profileSchema = new mongoose.Schema({
     default:
       'C:\Users\Lenovo\Desktop\NEARIAOS\backend\tornado_cash.png',
   },
+  timestamps: true 
 });
 
 const Profile = mongoose.model("Profile", profileSchema);

@@ -1,23 +1,18 @@
-import { Button, Stack, TextField } from "@mui/material";
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import {
+  Button,
+  Stack,
+  TextField,
+} from "@mui/material";
+import React, { useState } from "react";
 import { sendMessage } from "../api/messages";
-import { setContent, clearContent } from "../redux/messageSlice";
-import HorizontalStack from "./HorizontalStack";
+import HorizontalStack from "./util/HorizontalStack";
 
 const SendMessage = () => {
-  const dispatch = useDispatch();
-  const content = useSelector((state) => state.messages.content);
+  const [content, setContent] = useState("");
 
   const handleSendMessage = () => {
-    dispatch(sendMessage(content));
-    dispatch(clearContent());
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && content.length > 0) {
-      handleSendMessage();
-    }
+    sendMessage(content);
+    setContent("");
   };
 
   return (
@@ -30,13 +25,17 @@ const SendMessage = () => {
     >
       <HorizontalStack>
         <TextField
-          onChange={(e) => dispatch(setContent(e.target.value))}
+          onChange={(e) => setContent(e.target.value)}
           label="Send a message..."
           fullWidth
           value={content}
           autoComplete="off"
           size="small"
-          onKeyDown={handleKeyDown}
+          onKeyPress={(e) => {
+            if (e.key === "Enter" && content.length > 0) {
+              handleSendMessage();
+            }
+          }}
         />
 
         <Button onClick={handleSendMessage} disabled={content.length === 0}>

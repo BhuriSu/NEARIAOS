@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux';
 
 // css 
 import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
-   FormEditProfile, StyledInput, SaveBtnStyle, InputAvatar, Avatar } from "./profileElements";
+   FormEditProfile, StyledInput, SaveBtnStyle } from "./profileElements";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -105,7 +105,6 @@ function ProfileEdit() {
             setImageFileUrl(downloadURL);
             setFormData({ ...formData, profilePicture: downloadURL });
             setImageFileUploading(false);
-           
           });
         }
       );
@@ -210,7 +209,7 @@ function ProfileEdit() {
             />
           )}
           <img
-            src={imageFileUrl || currentUser.profilePicture}
+            src={imageFileUrl ||  (currentUser && currentUser.profilePicture) || ''}
             alt='user'
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&

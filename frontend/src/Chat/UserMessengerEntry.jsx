@@ -1,23 +1,21 @@
 import {
-    ListItemAvatar,
-    ListItemText,
-    MenuItem,
-    Avatar,
-  } from "@mui/material";
+  ListItemAvatar,
+  ListItemText,
+  MenuItem,
+} from "@mui/material";
 import React from "react";
+import UserAvatar from "./UserAvatar";
 import moment from "moment";
-import { setSender } from "../redux/messageSlice";
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-const UserMessengerEntry = ({ conversation }) => {
 
-  const dispatch = useDispatch();
-  const recipient = conversation.recipient;
-  const username = recipient.username;
-  const selected = conversation.sender && conversation.sender.username === username;
-  const currentUser  = useSelector((state) => state.user);
+const UserMessengerEntry = (props) => {
+  const { currentUser } = useSelector((state) => state.user) || {};
+  const recipient = props.conversation.recipient;
+  const selected =
+    props.conservant && props.conservant.currentUser === recipient.currentUser;
+  
   const handleClick = () => {
-    dispatch(setSender(recipient));
+    props.setConservant(recipient);
   };
 
   return (
@@ -30,24 +28,15 @@ const UserMessengerEntry = ({ conversation }) => {
         selected={selected}
       >
         <ListItemAvatar>
-        <Avatar
-          src={currentUser.profilePicture}
-          alt=''
-          username={currentUser.username}
-          sx={{
-            height: 45,
-            width: 45,
-            backgroundColor: "lightgray",
-          }}
-        />
+          <UserAvatar height={45} width={45} src={currentUser.profilePicture} />
         </ListItemAvatar>
         <ListItemText
-          primary={username}
-          secondary={moment(conversation.lastMessageAt).fromNow()}
+          primary={currentUser}
+          secondary={moment(props.conversation.lastMessageAt).fromNow()}
         />
       </MenuItem>
     </>
   );
 };
-  
+
 export default UserMessengerEntry;

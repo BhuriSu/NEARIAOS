@@ -1,26 +1,16 @@
 import { Box, Divider, List, Stack, Typography } from "@mui/material";
-import React, { useEffect } from "react";
+import React from "react";
 import { AiFillMessage } from "react-icons/ai";
 import Loading from "./Loading";
 import UserMessengerEntry from "./UserMessengerEntry";
 import HorizontalStack from "./HorizontalStack";
+import "react-icons/bi";
 import { BiSad } from "react-icons/bi";
-import { useDispatch, useSelector } from "react-redux";
-import { loadConversations } from "../redux/conversationSlice"; // Adjust the import path
+const UserMessengerEntries = (props) => {
 
-const UserMessengerEntries = () => {
-  const dispatch = useDispatch();
-  const conversations = useSelector((state) => state.conversation.conversations);
-  const loading = useSelector((state) => state.conversation.loading);
-
-  useEffect(() => {
-    // Dispatch an action to load conversations when the component mounts
-    dispatch(loadConversations());
-  }, [dispatch]);
-
-  return !loading ? (
+  return !props.loading ? (
     <>
-      {conversations.length > 0 ? (
+      {props.conversations.length > 0 ? (
         <Stack>
           <HorizontalStack
             alignItems="center"
@@ -36,10 +26,12 @@ const UserMessengerEntries = () => {
           <Box sx={{ height: "calc(100vh - 171px)" }}>
             <Box sx={{ height: "100%" }}>
               <List sx={{ padding: 0, maxHeight: "100%", overflowY: "auto" }}>
-                {conversations.map((conversation) => (
+                {props.conversations.map((conversation) => (
                   <UserMessengerEntry
-                    key={conversation.recipient.username}
+                    conservant={props.conservant}
                     conversation={conversation}
+                    key={conversation.recipient.currentUser}
+                    setConservant={props.setConservant}
                   />
                 ))}
               </List>

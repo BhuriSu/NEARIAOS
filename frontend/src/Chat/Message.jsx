@@ -1,15 +1,13 @@
-import { Card, useTheme, Avatar } from "@mui/material";
+import { Card, useTheme } from "@mui/material";
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import UserAvatar from "./UserAvatar";
 import HorizontalStack from "./HorizontalStack";
-import { updateMessage } from "../redux/messageSlice"; 
+import { useSelector } from 'react-redux';
 
-const Message = () => {
-  const sender = useSelector((state) => state.message.sender);
-  const message = useSelector((state) => state.message.message);
+const Message = (props) => {
+  const message = props.message;
   const theme = useTheme();
-  const dispatch = useDispatch();
-
+  const { currentUser } = useSelector((state) => state.user) || {};
   let styles = {};
   if (message.direction === "to") {
     styles = {
@@ -22,12 +20,6 @@ const Message = () => {
     };
   }
 
-  const handleUpdateMessage = () => {
-    // Dispatch an action to update the message
-    const updatedMessage = { ...message, content: "Updated content" };
-    dispatch(updateMessage(updatedMessage));
-  };
-
   return (
     <HorizontalStack
       sx={{ paddingY: 1, width: "100%" }}
@@ -36,16 +28,7 @@ const Message = () => {
       alignItems="flex-end"
     >
       {message.direction === "to" && (
-         <Avatar
-          src={sender.profilePicture}
-          alt=''
-          username={sender.username}
-          sx={{
-            height: 30,
-            width: 30,
-            backgroundColor: "lightgray",
-          }}
-        />
+        <UserAvatar src={currentUser.profilePicture} height={30} width={30} />
       )}
 
       <Card
@@ -59,7 +42,6 @@ const Message = () => {
         }}
       >
         {message.content}
-        <button onClick={handleUpdateMessage}>Update Message</button>
       </Card>
     </HorizontalStack>
   );

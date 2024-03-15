@@ -2,13 +2,10 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import userReducer from './userSlice';
 import { persistReducer, persistStore } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import conversationReducer from './conversationSlice';
-import messageReducer from "./messageSlice";
+
 
 const rootReducer = combineReducers({
-  conversation: conversationReducer,
   user: userReducer,
-  message: messageReducer,
   // other reducers can be added here
 });
 

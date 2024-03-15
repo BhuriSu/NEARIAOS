@@ -2,7 +2,6 @@ import { Card, Grid } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import React, { useEffect, useState } from "react";
 import Messages from "./Messages";
-
 import UserMessengerEntries from "./UserMessengerEntries";
 import { getConversations } from "../api/messages";
 import { useNavigate } from "react-router-dom";
@@ -16,9 +15,9 @@ const Chat = () => {
   const [width, setWindowWidth] = useState(0);
   const mobile = width < 800;
   const auth = getAuth();
-  const [user] = useUserAuth(auth);
+  const {user} = useUserAuth(auth);
   const navigate = useNavigate(); 
-  const { state } = navigate();
+  const state = navigate();
   const newSender = state && state.user;
 
   const getConversation = (conversations, senderId) => {

@@ -1,15 +1,9 @@
 
-import { getAuth } from 'firebase/auth';
-const auth = getAuth();
+
 const getConversations = async () => {
     try {
-      const user = auth.currentUser;
-      if (user) {
         const res = await fetch(`/messages/`);
-        return await res.json();
-      } else {
-        console.log("User not logged in");
-      }
+        return await res.json()
     } catch (err) {
       console.log(err);
     }
@@ -17,13 +11,8 @@ const getConversations = async () => {
   
   const getMessages = async (conversationId) => {
     try {
-      const user = auth.currentUser;
-      if (user) {
         const res = await fetch(`/messages/${conversationId}`);
         return await res.json();
-      } else {
-        console.log("User not logged in");
-      }
     } catch (err) {
       console.log(err);
     }
