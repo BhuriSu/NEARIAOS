@@ -1,13 +1,12 @@
-import { Card, useTheme } from "@mui/material";
-import React from "react";
-import UserAvatar from "./UserAvatar";
+import { Card, useTheme, Avatar } from "@mui/material";
+import React, {useState} from "react";
 import HorizontalStack from "./HorizontalStack";
 
 const Message = (props) => {
   const username = props.conservant.username;
   const message = props.message;
   const theme = useTheme();
-
+  const [user] = useState({});
   let styles = {};
   if (message.direction === "to") {
     styles = {
@@ -28,7 +27,12 @@ const Message = (props) => {
       alignItems="flex-end"
     >
       {message.direction === "to" && (
-        <UserAvatar  username={username} height={30} width={30} />
+        <Avatar   
+        username={username}
+        src={user.profilePicture}
+        alt={user.username} 
+        height={30} width={30} 
+        />
       )}
 
       <Card

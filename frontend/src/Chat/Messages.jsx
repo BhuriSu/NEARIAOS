@@ -3,6 +3,7 @@ import {
   IconButton,
   Stack,
   Typography,
+  Avatar
 } from "@mui/material";
 import { Box } from "@mui/system";
 import React, { useEffect, useRef, useState } from "react";
@@ -15,7 +16,6 @@ import { socket } from "../socketHelper";
 import Loading from "./Loading";
 import Message from "./Message";
 import SendMessage from "./SendMessage";
-import UserAvatar from "./UserAvatar";
 import HorizontalStack from "./util/HorizontalStack";
 
 const Messages = (props) => {
@@ -177,7 +177,9 @@ const Messages = (props) => {
                 <AiFillCaretLeft />
               </IconButton>
             )}
-            <UserAvatar
+            <Avatar   
+              src={user.profilePicture}
+              alt={user.username} 
               username={props.conservant.v}
               height={30}
               width={30}

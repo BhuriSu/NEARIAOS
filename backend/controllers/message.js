@@ -77,7 +77,7 @@ export const getConversations = async (req, res) => {
     })
       .populate("recipients", "-password")
       .sort("-updatedAt")
-      .lean();
+      .lean(); // tells Mongoose to skip hydrating the result documents.
 
     for (let i = 0; i < conversations.length; i++) {
       const conversation = conversations[i];

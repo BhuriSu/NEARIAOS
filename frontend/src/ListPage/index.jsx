@@ -198,7 +198,7 @@ function ListUsers() {
               >
                 {list.success
                   ? list.list?.map((currentUser) => (
-                    <div key={currentUser._id} className='map'>
+                    <div className='map'>
                       <ModalWindow username={currentUser} url={url} />
                     </div>
                   ))

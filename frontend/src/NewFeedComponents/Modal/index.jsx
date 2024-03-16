@@ -1,28 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-  Button, Header, Modal, List, Card
+  Button, Header, Modal, List, Card, Avatar   
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
-import { Mini, AvatarModal } from './ModalElements';
-import { useSelector } from "react-redux";
-import { getConversations } from '../../api/messages';
-function ModalWindow() {
-  const conversations = useSelector((state) => state.conversations);
-  const sender = useSelector((state) => state.sender);
-  const currentUser  = useSelector((state) => state.user);
+import { useSelector } from 'react-redux';
+
+function ModalWindow(props) {
+  const { currentUser } = useSelector((state) => state.user) || {};
+  const [user] = useState([]);
   const age = Math.floor(
-    (new Date() - new Date(currentUser.date)) / (24 * 3600 * 365.25 * 1000),
+    (new Date() - new Date(user.date)) / (24 * 3600 * 365.25 * 1000),
   );
 
   return (
     <div>
+       
       <Modal
         style={{
           textAlign: 'center',
           height: 'auto',
         }}
-        dimmer='blurring'
-        size='mini'
+        dimmer="blurring"
+        size="mini"
         trigger={(
           <Button
             style={{
@@ -38,19 +36,23 @@ function ModalWindow() {
             <Card
               style={{
                 backgroundColor: 'transparent',
+                border: 'solid 2px #f5505b',
                 borderRadius: '8px',
                 width: '200px',
               }}
             >
+         
               <Card.Content>
-                <Mini
-                  style={{
-                    backgroundImage: currentUser.profilePicture,
-                  }}
-                />
-                <Card.Header textAlign='center' />
+              <Avatar   
+              className="mini"
+              src={user.profilePicture}
+              alt={user.username}  
+              height={45} 
+              width={45} 
+              />
+                <Card.Header textAlign="center"/>
                 <Card.Description style={{ color: 'white' }}>
-                  {currentUser.username}
+                  {user.username}
                   ,
                   {age}
                 </Card.Description>
@@ -62,46 +64,34 @@ function ModalWindow() {
         <Modal.Content>
           <Modal.Description style={{ color: 'rgb(124, 42, 255)' }}>
             <Header style={{ color: 'rgb(124, 42, 255)', fontSize: 'x-large' }}>
-              {` ${currentUser.username}, ${age}`}
+              {` ${user.username}, ${age}`}
             </Header>
-            <AvatarModal
-              className='cursor'
-              style={{
-                backgroundImage: currentUser.profilePicture,
-              }}
+            <Avatar
+            className="mini" 
+            src={user.profilePicture}
+            alt={user.username}  
+            height={45} 
+            width={45} 
             />
             <List style={{ padding: '0 3rem', fontSize: 'large' }}>
-              <List.Item icon='briefcase' content={currentUser.workplace} />
-              <List.Item icon='glass martini' content={currentUser.beverage} />
-              <List.Item icon='comments' content={currentUser.favorite} />
-              <List.Item icon='info circle' content={currentUser.about} />
+            <List.Item icon="briefcase" content={user.workplace} />
+            <List.Item icon="glass martini" content={user.beverage} />
+            <List.Item icon="comments" content={user.favorite} />
+            <List.Item icon="info circle" content={user.about} />
             </List>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions
           style={{ backgroundColor: 'rgb(124, 42, 255)', textAlign: 'center' }}
         >
-          <Link  to={{
-              pathname: '/chat',
-              state: {
-                chats: getConversations(conversations, sender._id),
-                name: currentUser.username,
-              },
-            }} >
-            <Button
-              style={{
-                color: 'rgb(124, 42, 255)',
-                textShadow: 'none',
-                marginBottom: '1em',
-                borderRadius: '320px',
-                backgroundColor: '#FFF',
-              }}
-            >
-              Chat
+        {currentUser && user._id !== currentUser.userId && (
+            <Button variant="outlined" onClick={props.handleMessage}>
+              Message
             </Button>
-          </Link>
+          )}
         </Modal.Actions>
       </Modal>
+        
     </div>
   );
 }

@@ -2,12 +2,13 @@ import {
   ListItemAvatar,
   ListItemText,
   MenuItem,
+  Avatar
 } from "@mui/material";
-import React from "react";
-import UserAvatar from "./UserAvatar";
+import React, { useState } from "react";
 import moment from "moment";
 
 const UserMessengerEntry = (props) => {
+  const [user] = useState({});
   const recipient = props.conversation.recipient;
   const username = recipient.username;
   const selected =
@@ -27,7 +28,13 @@ const UserMessengerEntry = (props) => {
         selected={selected}
       >
         <ListItemAvatar>
-          <UserAvatar  username={username} height={45} width={45} />
+          <Avatar   
+          username={username}
+          src={user.profilePicture}
+          alt={user.username} 
+          height={45} 
+          width={45} 
+          />
         </ListItemAvatar>
         <ListItemText
           primary={username}
