@@ -20,7 +20,6 @@ function ListUsers() {
     err: '',
   });
   const [isShowMap, setShowMap] = useState(false);
-  const [url] = useState('');
   
   const ChangeOnMap = () => {
     setShowMap(!isShowMap);
@@ -197,9 +196,13 @@ function ListUsers() {
                 }}
               >
                 {list.success
-                  ? list.list?.map((currentUser) => (
+                  ? list.list?.map((user) => (
                     <div className='map'>
-                      <ModalWindow username={currentUser} url={url} />
+                      <ModalWindow 
+                       src={user.profilePicture}
+                       alt={user.username}   
+                       key={user._id}
+                       />
                     </div>
                   ))
                   : list.err}

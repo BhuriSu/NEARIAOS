@@ -1,18 +1,17 @@
 import React from 'react';
 import { Button, Header, Modal, List } from 'semantic-ui-react';
-import { useSelector } from 'react-redux';
 import {
   withScriptjs,
   withGoogleMap,
   GoogleMap,
   Marker,
   Circle,
-} from 'react-google-maps';
-
+} from '@react-google-maps/api';
+import { Link } from 'react-router-dom';
 import styles from './GoogleMapStyles.json';
-
+import getMessages from '../api/messages';
 const Map = ({
-  googleMapURL = process.env.REACT_APP_GOOGLE_MAP_URI,
+  googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,
   latitude,
   longitude,
   list,
@@ -37,7 +36,6 @@ const Map = ({
       </GoogleMap>
     )),
   );
-  const { currentUser } = useSelector((state) => state.user) || {};
   return (
     <>
     <CMap
@@ -102,11 +100,26 @@ const Map = ({
             <Modal.Actions
               style={{ backgroundColor: '#0f4667', textAlign: 'center' }}
             >
-               {currentUser && user._id !== currentUser.userId && (
-            <Button variant="outlined" onClick={props.handleMessage}>
-              Message
+         <Link  
+            to={{
+              pathname: '/chat',
+              state: {
+                chats: getMessages(user, props.conversation._id),
+                name: user.username,
+              },
+            }} >
+            <Button
+              style={{
+                color: 'rgb(124, 42, 255)',
+                textShadow: 'none',
+                marginBottom: '1em',
+                borderRadius: '320px',
+                backgroundColor: '#FFF',
+              }}
+            >
+              Chat
             </Button>
-          )}
+          </Link>
             </Modal.Actions>
           </Modal>
         </div>

@@ -2,10 +2,9 @@ import React, { useState } from 'react';
 import {
   Button, Header, Modal, List, Card, Avatar   
 } from 'semantic-ui-react';
-import { useSelector } from 'react-redux';
-
+import { Link } from 'react-router-dom';
+import getMessages from '../../api/messages';
 function ModalWindow(props) {
-  const { currentUser } = useSelector((state) => state.user) || {};
   const [user] = useState([]);
   const age = Math.floor(
     (new Date() - new Date(user.date)) / (24 * 3600 * 365.25 * 1000),
@@ -13,7 +12,6 @@ function ModalWindow(props) {
 
   return (
     <div>
-       
       <Modal
         style={{
           textAlign: 'center',
@@ -84,11 +82,26 @@ function ModalWindow(props) {
         <Modal.Actions
           style={{ backgroundColor: 'rgb(124, 42, 255)', textAlign: 'center' }}
         >
-        {currentUser && user._id !== currentUser.userId && (
-            <Button variant="outlined" onClick={props.handleMessage}>
-              Message
+           <Link  
+            to={{
+              pathname: '/chat',
+              state: {
+                chats: getMessages(user, props.conversation._id),
+                name: user.username,
+              },
+            }} >
+            <Button
+              style={{
+                color: 'rgb(124, 42, 255)',
+                textShadow: 'none',
+                marginBottom: '1em',
+                borderRadius: '320px',
+                backgroundColor: '#FFF',
+              }}
+            >
+              Chat
             </Button>
-          )}
+          </Link>
         </Modal.Actions>
       </Modal>
         

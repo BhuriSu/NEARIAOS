@@ -16,7 +16,7 @@ import { socket } from "../socketHelper";
 import Loading from "./Loading";
 import Message from "./Message";
 import SendMessage from "./SendMessage";
-import HorizontalStack from "./util/HorizontalStack";
+import HorizontalStack from "./HorizontalStack";
 
 const Messages = (props) => {
   const messagesEndRef = useRef(null);
