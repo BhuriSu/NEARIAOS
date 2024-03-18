@@ -44,11 +44,11 @@ function ListUsers() {
   
       if (response.data.success) {
         const result = await Promise.all(
-          response.data.list.map(async (currentUser) => {
+          response.data.list.map(async (user) => {
             const storage = getStorage();
-            const pic = await getDownloadURL(ref(storage, `images/${currentUser._id}`));
-            currentUser.userId = pic;
-            return currentUser;
+            const pic = await getDownloadURL(ref(storage, `images/${user._id}`));
+            user.userId = pic;
+            return user;
           })
         );
   
@@ -154,7 +154,7 @@ function ListUsers() {
           <Button  
             variant='contained' 
             id='find-me'
-            onClick={() => geoFindLocation()}
+            onClick={geoFindLocation}
             style={btnStyle}
           >
             FIND SOMEONE

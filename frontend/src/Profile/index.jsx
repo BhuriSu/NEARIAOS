@@ -90,7 +90,7 @@ function ProfileEdit() {
 
           setImageFileUploadProgress(progress.toFixed(0));
         },
-        (error) => {
+        () => {
     
           setImageFileUploadError(
             'Could not upload image (File must be less than 2MB)'
@@ -380,7 +380,7 @@ function ProfileEdit() {
             </h3>
             <div className='flex justify-center gap-4'>
               <Button color='failure' onClick={handleDeleteUser}>
-                Yes, I'm sure
+                Yes, Iam sure
               </Button>
               <Button color='gray' onClick={() => setShowModal(false)}>
                 No, cancel

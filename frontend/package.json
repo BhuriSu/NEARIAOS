@@ -10,7 +10,9 @@
         "@react-google-maps/api": "^2.19.3",
         "@reduxjs/toolkit": "^2.2.1",
         "axios": "^0.27.2",
+        "cypress-vite": "^1.5.0",
         "dompurify": "^2.3.9",
+        "eslint-plugin-cypress": "^2.15.1",
         "firebase": "^9.8.4",
         "flowbite-react": "^0.7.2",
         "framer-motion": "^6.4.3",
@@ -58,6 +60,7 @@
     "devDependencies": {
         "@vitejs/plugin-react": "^3.1.0",
         "autoprefixer": "^10.4.18",
+        "cypress": "^13.7.0",
         "eslint": "^8.38.0",
         "eslint-config-react-app": "^7.0.1",
         "postcss": "^8.4.35",
