@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import {
-  Button, Header, Modal, List, Card, Avatar   
+  Button, Header, Modal, List, Card, Image  
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import getMessages from '../../api/messages';
+import {getMessages} from '../../api/messages';
 function ModalWindow(props) {
   const [user] = useState([]);
   const age = Math.floor(
@@ -41,7 +41,7 @@ function ModalWindow(props) {
             >
          
               <Card.Content>
-              <Avatar   
+              <Image  
               className="mini"
               src={user.profilePicture}
               alt={user.username}  
@@ -64,7 +64,7 @@ function ModalWindow(props) {
             <Header style={{ color: 'rgb(124, 42, 255)', fontSize: 'x-large' }}>
               {` ${user.username}, ${age}`}
             </Header>
-            <Avatar
+            <Image
             className="mini" 
             src={user.profilePicture}
             alt={user.username}  

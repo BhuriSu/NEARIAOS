@@ -1,15 +1,13 @@
 import React from 'react';
 import { Button, Header, Modal, List } from 'semantic-ui-react';
 import {
-  withScriptjs,
-  withGoogleMap,
   GoogleMap,
   Marker,
   Circle,
 } from '@react-google-maps/api';
 import { Link } from 'react-router-dom';
 import styles from './GoogleMapStyles.json';
-import getMessages from '../api/messages';
+import {getMessages} from '../api/messages';
 const Map = ({
   googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,
   latitude,
@@ -18,10 +16,10 @@ const Map = ({
   radius,
   props
 }) => {
-  const CMap = withScriptjs(
-    withGoogleMap((props) => (
+  const CMap = 
+    ((props) => (
       <GoogleMap
-        defaultZoom={14}
+        defaultZoom={15}
         defaultCenter={{ lat: latitude, lng: longitude }}
         defaultOptions={{
           disableDefaultUI: true,
@@ -34,8 +32,7 @@ const Map = ({
       >
         {props.children}
       </GoogleMap>
-    )),
-  );
+    ))
   return (
     <>
     <CMap

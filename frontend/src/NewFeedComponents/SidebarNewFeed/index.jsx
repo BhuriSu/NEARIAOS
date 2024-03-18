@@ -20,17 +20,14 @@ function SidebarNewFeed({ isOpen, toggle }) {
               <NavLinks to='/profiles'>
               <Profile src={profile} width='100' height='100' alt='' onClick={toggle} /> 
               </NavLinks>
-              {' '} 
+              <br/>
               <NavLinks to='/listUsers'>
               <Find src={FindPic} width='100' height='100' alt='' onClick={toggle} /> 
               </NavLinks>
-              {' '}
+              <br/>
               <NavLinks to='/chat'>
               <Chat src={ChatPic} width='100' height='100' alt='' onClick={toggle} /> 
               </NavLinks>
-              <br/>
-
-              
         </SidebarNewFeedMenu>
        
       </SidebarNewFeedWrapper>

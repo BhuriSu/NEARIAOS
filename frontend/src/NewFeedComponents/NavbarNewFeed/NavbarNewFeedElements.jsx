@@ -35,7 +35,11 @@ export const MobileIcon = styled.div`
   }
 `;
 export const NavElements = styled.div`
-margin-top:50px;
+display:flex;
+justify-content: center;
+list-style: none;
+text-align: center;
+margin-top: 20px;
 @media screen and (max-width: 768px) {
   display: none;
 }

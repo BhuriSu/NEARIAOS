@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { sendMessage } from "../api/messages";
-import HorizontalStack from "./util/HorizontalStack";
+import HorizontalStack from "./HorizontalStack";
 
 const SendMessage = () => {
   const [content, setContent] = useState("");
