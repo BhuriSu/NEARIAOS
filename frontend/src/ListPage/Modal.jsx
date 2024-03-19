@@ -3,7 +3,7 @@ import {
   Button, Header, Modal, List, Card, Image  
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
-import {getMessages} from '../../api/messages';
+import {getMessages} from '../api/messages';
 function ModalWindow(props) {
   const [user] = useState([]);
   const age = Math.floor(

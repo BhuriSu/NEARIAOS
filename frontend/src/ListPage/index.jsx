@@ -3,11 +3,10 @@ import axios from 'axios';
 import { getDownloadURL, getStorage } from 'firebase/storage';
 import { ref } from 'firebase/database';
 import Map from './Map';
-import ModalWindow from '../NewFeedComponents/Modal';
+import ModalWindow from './Modal';
 import './listUsers.css';
 import { ListPageBackground, ToggleBox, InputFormUserList, LabelRadius } from './ListPageElement';
 import { Button } from '@mui/material';
-import { Promise } from 'firebase/storage';
 /**
  * @param {*} props
  */
@@ -45,10 +44,15 @@ function ListUsers() {
       if (response.data.success) {
         const result = await Promise.all(
           response.data.list.map(async (user) => {
-            const storage = getStorage();
-            const pic = await getDownloadURL(ref(storage, `images/${user._id}`));
-            user.userId = pic;
-            return user;
+            try {
+              const storage = getStorage();
+              const pic = await getDownloadURL(ref(storage, `images/${user._id}`));
+              user.userId = pic;
+              return user;
+            } catch (error) {
+              console.error("Error fetching user image:", error);
+              return user; // Return user object even if there's an error with image retrieval
+            }
           })
         );
   
@@ -56,17 +60,17 @@ function ListUsers() {
           success: true,
           list: result,
         });
-  
       } else {
         setList({
           success: false,
-          err: response.data.err,
+          err: response.data.err || 'Unknown error',
         });
       }
     } catch (error) {
+      console.error("Request error:", error);
       setList({
         success: false,
-        err: error.message || 'Runtime error',
+        err: error.message || 'Unknown error',
       });
     }
   };

@@ -1,7 +1,7 @@
 import React , { useState }from "react";
 import Chat from "../Chat";
-import NavbarListPage from "../NewFeedComponents/NavbarNewFeed";
-import SidebarListPage from "../NewFeedComponents/SidebarNewFeed";
+import NavbarListPage from "../NewFeedNavBar/NavbarNewFeed";
+import SidebarListPage from "../NewFeedNavBar/SidebarNewFeed";
 
 function ChatPage() {
   const [isOpen, setIsOpen] = useState(false);

@@ -1,7 +1,7 @@
 import React , { useState }from "react";
 import ListUsers from "../ListPage";
-import NavbarListPage from "../NewFeedComponents/NavbarNewFeed";
-import SidebarListPage from "../NewFeedComponents/SidebarNewFeed";
+import NavbarListPage from "../NewFeedNavBar/NavbarNewFeed";
+import SidebarListPage from "../NewFeedNavBar/SidebarNewFeed";
 
 function ListPage() {
   const [isOpen, setIsOpen] = useState(false);
