@@ -7,7 +7,7 @@ import ModalWindow from '../NewFeedComponents/Modal';
 import './listUsers.css';
 import { ListPageBackground, ToggleBox, InputFormUserList, LabelRadius } from './ListPageElement';
 import { Button } from '@mui/material';
-
+import { Promise } from 'firebase/storage';
 /**
  * @param {*} props
  */
@@ -196,16 +196,15 @@ function ListUsers() {
                 }}
               >
                 {list.success
-                  ? list.list?.map((user) => (
-                    <div className='map'>
-                      <ModalWindow 
-                       src={user.profilePicture}
-                       alt={user.username}   
-                       key={user._id}
-                       />
-                    </div>
-                  ))
-                  : list.err}
+  ?             list.list?.map((user) => (
+               <div className='map' key={user._id}>
+               <ModalWindow 
+               src={user.profilePicture}
+               alt={user.username}
+               />
+               </div>
+               ))
+              : list.err}
               </ul>
             )}
           </div>

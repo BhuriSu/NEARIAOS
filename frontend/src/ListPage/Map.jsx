@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Header, Modal, List } from 'semantic-ui-react';
+import { Button, Header, Modal, List, Image } from 'semantic-ui-react';
 import {
   GoogleMap,
   Marker,
@@ -55,7 +55,7 @@ const Map = ({
     >
       <Circle center={{ lat: latitude, lng: longitude }} radius={+radius} />
       {list.list.map((user) => (
-        <div>
+        <div key={user.id}>
           <Modal
             style={{
               textAlign: 'center',
@@ -78,13 +78,13 @@ const Map = ({
                       / (24 * 3600 * 365.25 * 1000),
                   )}`}
                 </Header>
-                <div
-                  className="avatar cursor"
-                  style={{
-                    backgroundImage: `url(${user.url
-                      || ''})`,
-                  }}
-                />
+                <Image  
+              className="mini"
+              src={user.profilePicture}
+              alt={user.username}  
+              height={45} 
+              width={45} 
+              />
                 <List style={{ padding: '0 3rem', fontSize: 'large' }}>
                   <List.Item icon="briefcase" content={user.workplace} />
                   <List.Item icon="glass martini" content={user.beverage} />
