@@ -66,7 +66,15 @@ const LogIn=({handleChange})=>{
                 fullWidth required
                 onChange={(e) => setPassword(e.target.value)}
                 />
-                <Button type='submit' color='primary' variant='contained' style={btnStyle} fullWidth>Log In</Button>
+                <Button 
+                type='submit' 
+                color='primary' 
+                variant='contained' 
+                style={btnStyle} 
+                fullWidth data-cy="login-button"
+                >
+                Log In
+                </Button>
                 <Typography >
                      <Link to='/forgotPass' component={RouterLink} >
                         Forgot password ?

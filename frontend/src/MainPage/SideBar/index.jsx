@@ -20,9 +20,8 @@ function Sidebar({ isOpen, toggle}) {
         </SidebarMenu>
 
         <SideBtnWrap>
-          <SidebarRoute to='/startForm' >Start</SidebarRoute>
+          <SidebarRoute to='/startForm' data-cy='start-button'>Start</SidebarRoute>
         </SideBtnWrap>
-
      
       </SidebarWrapper>
     </SidebarContainer>

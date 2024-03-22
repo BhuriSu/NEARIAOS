@@ -14,7 +14,7 @@ const SendMessage = () => {
     sendMessage(content);
     setContent("");
   };
-  const handleKeyDown = (e) => {
+  const handleKeyDown = () => {
     if (content.length > 0) {
       handleSendMessage();
     }

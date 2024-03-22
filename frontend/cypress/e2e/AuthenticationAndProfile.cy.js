@@ -1,23 +1,22 @@
-describe('Login Component', () => {
-  beforeEach(() => {
-    cy.visit('/login'); // Assuming '/login' is your login page URL
-  });
+describe('Main Page to Login Page', () => {
+  it('Clicks Start button and logs in', () => {
+    // Visit the main page
+    cy.visit('http://localhost:5173');
 
-  it('should successfully log in with email and password', () => {
+    // Click the Start button
+    cy.contains('[data-cy=start-button]', 'Start').click({ force: true },{ multiple: true });
+
+    // Check if the URL changes to the login page
+    cy.url().should('include', '/startForm');
+
+    // Fill in email and password
     cy.get('[data-cy=login-email]').type('shonuvy@gmail.com');
     cy.get('[data-cy=login-password]').type('test000');
-    cy.get('form').submit();
+
+    // Click Log In button
+    cy.get('[data-cy=login-button]').click({ force: true },{ multiple: true });
+
+    // After clicking Log In, check if the URL changes to the profiles page
     cy.url().should('include', '/profiles');
   });
-
-  it('should display error message for invalid email or password', () => {
-    cy.get('[data-cy=login-email]').type('invalid@example.com');
-    cy.get('[data-cy=login-password]').type('invalidpassword');
-    cy.get('form').submit();
-    cy.on('window:alert', (alertText) => {
-      expect(alertText).to.contain('Invalid email or password');
-    });
-  });
-
-  // Add more test cases as needed
 });

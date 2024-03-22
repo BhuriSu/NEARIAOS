@@ -35,7 +35,7 @@ function Navbar({ toggle }) {
 
 
           <NavBtn>
-            <NavBtnLink to='/startForm' data-cy='start-button'>Start</NavBtnLink>
+            <NavBtnLink to='/startForm' data-cy="start-button">Start</NavBtnLink>
           </NavBtn>
         
         </NavbarContainer>
