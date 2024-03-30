@@ -47,10 +47,18 @@ export const FindUsers = async (req, res) => {
 
       if (dist < radius) list.push(el);
     });
-
-    const user = await Profile.findByIdAndUpdate(userId, { latitude, longitude }, { new: true });
-    
-    if (list.length) {
+    await Profile.findByIdAndUpdate(
+      {
+        userId: id
+      },
+      {
+        $set: {
+          latitude,
+          longitude
+        }
+      }
+    );
+    if (list) {
       return res.json({
         success: true,
         list

@@ -17,6 +17,8 @@ import { Server } from "socket.io";
 const app = express();
 dotenv.config();
 
+// prevent CORS access error
+app.use(cors());
 // Handle 404 and forward to error handler
 app.use((req, res, next) => {
   next(createError(404));
@@ -36,7 +38,7 @@ app.use((err, req, res, next) => {
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:4000", "https://Neariaos.com"],
+    origin: ["http://localhost:5173", "https://Neariaos.com"],
   },
 });
 
@@ -66,8 +68,6 @@ app.use(express.urlencoded({ extended: false }));
 // implement rate limit
 app.use(customRedisRateLimiter);
 
-// prevent CORS access error
-app.use(cors());
 // api 
 app.use('/users', usersRouter);
 app.use('/lists',listsRouter)
