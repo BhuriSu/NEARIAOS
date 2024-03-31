@@ -22,7 +22,7 @@ import {
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
-
+import UserAvatar from '../Chat/UserAvatar';
 // css 
 import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
    FormEditProfile, StyledInput, SaveBtnStyle } from "./profileElements";
@@ -208,8 +208,8 @@ function ProfileEdit() {
               }}
             />
           )}
-          <img
-            src={imageFileUrl ||  (currentUser && currentUser.profilePicture) || ''}
+          <UserAvatar
+            username={formData.username || (currentUser && currentUser.username)} profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''} height={100} width={100} 
             alt='user'
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&
@@ -218,7 +218,7 @@ function ProfileEdit() {
             }`}
           />
         </div>
-        
+  
         {imageFileUploadError && (
           <Alert color='failure'>{imageFileUploadError}</Alert>
         )}

@@ -21,7 +21,8 @@ export const Lists = async (req, res) => {
 };
 
 export const FindUsers = async (req, res) => {
-  const { userId, latitude, longitude, radius } = req.body;
+  const { latitude, longitude, radius } = req.body;
+  const userId = req.params.userId
   if ([userId, latitude, longitude, radius].some(el => el === undefined)) {
     return res.status(400).json({
       success: false,
