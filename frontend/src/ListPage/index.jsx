@@ -25,7 +25,7 @@ function ListUsers() {
   };
   const [latitude, setLatitude] = useState('');
   const [longitude, setLongitude] = useState('');
-
+  
   /**
    * @param {String} userId
    * @param {Number} latitude
@@ -33,48 +33,47 @@ function ListUsers() {
    * @param {Number} radius
    */
 
-  const requestListUsers = async (id, latitude, longitude, radius) => {
+  const requestListUsers = async (userId, latitude, longitude, radius) => {
     try {
       const response = await axios.post('http://localhost:5000/lists', {
-        id,
+        userId,
         latitude,
         longitude,
         radius,
       });
-  
       if (response.data.success) {
-        const result = await Promise.all(
-          response.data.list.map(async (user) => {
-            try {
+        const promisesArr = response.data.list.map(async (user) => {
+          try {
               const storage = getStorage();
-              const pic = await getDownloadURL(ref(storage, `images/${user._id}`));
-              user.userId = pic;
+              const pic = await getDownloadURL(ref(storage, `images/${user.username}`))
+              .getDownloadURL()
+              .catch((e) => console.log(e));
+              user.url = pic;
               return user;
             } catch (error) {
-              console.error("Error fetching user image:", error);
-              return user; // Return user object even if there's an error with image retrieval
+              console.log(error);
+              return user; // If image download fails, return user without URL
             }
-          })
-        );
-  
-        setList({
-          success: true,
-          list: result,
-        });
-      } else {
+          });
+          const result = await Promise.all(promisesArr);
+          setList({
+            success: true,
+            list: result,
+          });
+        } else {
+          setList({
+            success: false,
+            err: response.data.err,
+          });
+        }
+      } catch (error) {
+        console.error('Runtime error:', error);
         setList({
           success: false,
-          err: response.data.err || 'Unknown error',
+          err: 'Runtime error',
         });
       }
-    } catch (error) {
-      console.error("Request error:", error);
-      setList({
-        success: false,
-        err: error.message || 'Unknown error',
-      });
-    }
-  };
+    };
 
   const geoFindLocation = () => {
     const success = (position) => {
@@ -92,6 +91,7 @@ function ListUsers() {
       setList({
         success: false,
         err: 'Unable to retrieve your location',
+        data: []
       });
     };
 
@@ -99,6 +99,7 @@ function ListUsers() {
       setList({
         success: false,
         err: 'Geolocation is not supported by your browser',
+        data: []
       });
     } else {
       /**
@@ -181,7 +182,7 @@ function ListUsers() {
               <Map
                 latitude={latitude}
                 longitude={longitude}
-                list={list}
+                list={list.data}
                 style={{
                   marginTop: '10%',
                   alignSelf: 'center',
@@ -202,7 +203,7 @@ function ListUsers() {
               >
                 {list.success
   ?             list.list?.map((user) => (
-               <div className='map' key={user._id}>
+               <div className='map' key={user.id}>
                <ModalWindow 
                src={user.profilePicture}
                alt={user.username}

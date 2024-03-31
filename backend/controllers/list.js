@@ -49,7 +49,7 @@ export const FindUsers = async (req, res) => {
     });
     await Profile.findByIdAndUpdate(
       {
-        userId: id
+       username: userId
       },
       {
         $set: {
