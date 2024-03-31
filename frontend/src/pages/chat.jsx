@@ -1,6 +1,6 @@
 import React , { useState }from "react";
 import Chat from "../Chat";
-import NavbarListPage from "../NewFeedNavBar/NavbarNewFeed";
+import NavbarListPage from "../NewFeedNavBar/NavNewFeed";
 import SidebarListPage from "../NewFeedNavBar/SidebarNewFeed";
 
 function ChatPage() {

@@ -10,7 +10,7 @@ const UserMessengerEntries = (props) => {
 
   return !props.loading ? (
     <>
-      {props.conversations.length > 0 ? (
+      {props.conversations && props.conversations.length > 0 ? (
         <Stack>
           <HorizontalStack
             alignItems="center"

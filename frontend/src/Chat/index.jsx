@@ -7,8 +7,32 @@ import { getConversations } from "../api/messages";
 import { useNavigate } from "react-router-dom";
 import { getAuth } from 'firebase/auth';
 import { useUserAuth } from '../Context';
+import styled from 'styled-components';
+
 
 const Chat = () => {
+
+const ChatPageBackground = styled.div`
+height: 800px;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+
+
+@media screen and (max-width: 1024px) {
+  height: 1400px;
+}
+@media screen and (max-width: 768px) {
+  height: 1100px;
+}
+@media screen and (max-width: 412px) {
+  height: 914px;
+}
+@media screen and (max-width: 375px) {
+  height: 812px;
+}
+`;
   const [conservant, setConservant] = useState(null);
   const [conversations, setConversations] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -16,8 +40,7 @@ const Chat = () => {
   const mobile = width < 800;
   const auth = getAuth();
   const {user} = useUserAuth(auth);
-  const navigate = useNavigate(); 
-  const state = navigate();
+  const {state} = useNavigate();
   const newConservant = state && state.user;
 
   const getConversation = (conversations, conservantId) => {
@@ -64,6 +87,7 @@ const Chat = () => {
   };
 
   return (
+    <ChatPageBackground>
     <Container>
       <Box>
         <Card sx={{ padding: 0 }}>
@@ -143,6 +167,7 @@ const Chat = () => {
         </Card>
       </Box>
     </Container>
+    </ChatPageBackground>
   );
 };
 

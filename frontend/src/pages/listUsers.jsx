@@ -1,6 +1,6 @@
 import React , { useState }from "react";
 import ListUsers from "../ListPage";
-import NavbarListPage from "../NewFeedNavBar/NavbarNewFeed";
+import NavbarListPage from "../NewFeedNavBar/NavNewFeed";
 import SidebarListPage from "../NewFeedNavBar/SidebarNewFeed";
 
 function ListPage() {
