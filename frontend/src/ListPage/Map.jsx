@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, Header, Modal, List, Image } from 'semantic-ui-react';
+import { Button, Header, Modal, List } from 'semantic-ui-react';
 import {
   GoogleMap,
   Marker,
@@ -8,14 +8,24 @@ import {
 import { Link } from 'react-router-dom';
 import styles from './GoogleMapStyles.json';
 import {getMessages} from '../api/messages';
+import UserAvatar from "../Chat/UserAvatar";
+
 const Map = ({
   googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,
   latitude,
   longitude,
   list,
   radius,
-  props
+  profilePicture,
+  date,
+  workplace,
+  beverage,
+  favorite,
+  about
 }) => {
+  const age = Math.floor(
+    (new Date() - new Date(date)) / (24 * 3600 * 365.25 * 1000),
+  );
   const CMap = 
     ((props) => (
       <GoogleMap
@@ -54,8 +64,8 @@ const Map = ({
       center={{ lat: latitude, lng: longitude }}
     >
       <Circle center={{ lat: latitude, lng: longitude }} radius={+radius} />
-      {list.list.map((user) => (
-        <div key={user.id}>
+      {list.list.map((username) => (
+        <div key={username.id}>
           <Modal
             style={{
               textAlign: 'center',
@@ -65,31 +75,26 @@ const Map = ({
             size="mini"
             trigger={(
               <Marker
-                position={{ lat: user.latitude, lng: user.longitude }}
-                title={user.name}
+                position={{ lat: username.latitude, lng: username.longitude }}
+                title={username}
               />
             )}
           >
             <Modal.Content>
               <Modal.Description>
                 <Header style={{ color: '#0f4667', fontSize: 'x-large' }}>
-                  {` ${user}, ${Math.floor(
-                    (new Date() - new Date(user))
-                      / (24 * 3600 * 365.25 * 1000),
-                  )}`}
+                {` ${username}, ${age}`}
                 </Header>
-                <Image  
-              className="mini"
-              src={user.profilePicture}
-              alt={user.username}  
+              <UserAvatar  
+              username={username}
               height={45} 
               width={45} 
               />
                 <List style={{ padding: '0 3rem', fontSize: 'large' }}>
-                  <List.Item icon="briefcase" content={user.workplace} />
-                  <List.Item icon="glass martini" content={user.beverage} />
-                  <List.Item icon="comments" content={user.favorite} />
-                  <List.Item icon="info circle" content={user.about} />
+                  <List.Item icon="briefcase" content={workplace} />
+                  <List.Item icon="glass martini" content={beverage} />
+                  <List.Item icon="comments" content={favorite} />
+                  <List.Item icon="info circle" content={about} />
                 </List>
  
               </Modal.Description>
@@ -97,14 +102,18 @@ const Map = ({
             <Modal.Actions
               style={{ backgroundColor: '#0f4667', textAlign: 'center' }}
             >
-         <Link  
-            to={{
-              pathname: '/chat',
-              state: {
-                chats: getMessages(user, props.conversation._id),
-                name: user.username,
-              },
-            }} >
+          <Link
+          to={{
+          pathname: '/chat', 
+          state: {
+             chats: getMessages(),
+             name: username,
+             url: profilePicture, 
+             friend: workplace, 
+             urlFriend: '', 
+               },
+             }}
+          >
             <Button
               style={{
                 color: 'rgb(124, 42, 255)',

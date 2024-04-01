@@ -10,7 +10,6 @@ import { Button } from '@mui/material';
 /**
  * @param {*} props
  */
-
 function ListUsers() {
   const btnStyle = { backgroundColor: '#00eeff',color:'#000' };
   const [radius, setRadius] = useState('');
@@ -91,7 +90,6 @@ function ListUsers() {
       setList({
         success: false,
         err: 'Unable to retrieve your location',
-        data: []
       });
     };
 
@@ -99,7 +97,6 @@ function ListUsers() {
       setList({
         success: false,
         err: 'Geolocation is not supported by your browser',
-        data: []
       });
     } else {
       /**
@@ -182,7 +179,7 @@ function ListUsers() {
               <Map
                 latitude={latitude}
                 longitude={longitude}
-                list={list.data}
+                list={list}
                 style={{
                   marginTop: '10%',
                   alignSelf: 'center',
@@ -201,22 +198,17 @@ function ListUsers() {
                   flexWrap: 'wrap',
                 }}
               >
-                {list.success
-  ?             list.list?.map((user) => (
-               <div className='map' key={user.id}>
-               <ModalWindow 
-               src={user.profilePicture}
-               alt={user.username}
-               />
+              {list.success
+                  ? list.list.map((username) => (
+               <div className='map' key={username.id}>
+               <ModalWindow username={username} />
                </div>
                ))
               : list.err}
               </ul>
             )}
           </div>
-      
         </InputFormUserList>
-
     </ListPageBackground>
   );
 }

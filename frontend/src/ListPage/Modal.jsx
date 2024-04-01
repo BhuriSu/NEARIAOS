@@ -1,14 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
-  Button, Header, Modal, List, Card, Image  
+  Button, Header, Modal, List, Card 
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { getMessages } from '../api/messages';
+import UserAvatar from "../Chat/UserAvatar";
 
 function ModalWindow(props) {
-  const [user] = useState([]);
+  const { profilePicture, username, date, workplace, beverage, favorite, about } = props;
   const age = Math.floor(
-    (new Date() - new Date(user.date)) / (24 * 3600 * 365.25 * 1000),
+    (new Date() - new Date(date)) / (24 * 3600 * 365.25 * 1000),
   );
 
   return (
@@ -42,16 +43,14 @@ function ModalWindow(props) {
             >
          
               <Card.Content>
-              <Image  
-              className="mini"
-              src={user.profilePicture}
-              alt={user.username}  
+              <UserAvatar  
+              username={username}
               height={45} 
               width={45} 
               />
                 <Card.Header textAlign="center"/>
                 <Card.Description style={{ color: 'white' }}>
-                  {user.username}
+                  {username}
                   ,
                   {age}
                 </Card.Description>
@@ -63,34 +62,36 @@ function ModalWindow(props) {
         <Modal.Content>
           <Modal.Description style={{ color: 'rgb(124, 42, 255)' }}>
             <Header style={{ color: 'rgb(124, 42, 255)', fontSize: 'x-large' }}>
-              {` ${user.username}, ${age}`}
+              {` ${username}, ${age}`}
             </Header>
-            <Image
-            className="mini" 
-            src={user.profilePicture}
-            alt={user.username}  
-            height={45} 
-            width={45} 
-            />
+            <UserAvatar  
+              username={username}
+              height={45} 
+              width={45} 
+              />
             <List style={{ padding: '0 3rem', fontSize: 'large' }}>
-            <List.Item icon="briefcase" content={user.workplace} />
-            <List.Item icon="glass martini" content={user.beverage} />
-            <List.Item icon="comments" content={user.favorite} />
-            <List.Item icon="info circle" content={user.about} />
+            <List.Item icon="briefcase" content={{workplace}} />
+            <List.Item icon="glass martini" content={beverage} />
+            <List.Item icon="comments" content={favorite} />
+            <List.Item icon="info circle" content={about} />
             </List>
           </Modal.Description>
         </Modal.Content>
         <Modal.Actions
           style={{ backgroundColor: 'rgb(124, 42, 255)', textAlign: 'center' }}
         >
-           <Link  
-            to={{
-              pathname: '/chat',
-              state: {
-                chats: getMessages(user, props.conversation._id),
-                name: user.username,
-              },
-            }} >
+      <Link
+      to={{
+         pathname: '/chat', 
+         state: {
+             chats: getMessages(),
+             name: username,
+             url: profilePicture, 
+             friend: workplace, 
+             urlFriend: '', 
+               },
+         }}
+      >
             <Button
               style={{
                 color: 'rgb(124, 42, 255)',
@@ -105,7 +106,6 @@ function ModalWindow(props) {
           </Link>
         </Modal.Actions>
       </Modal>
-        
     </div>
   );
 }
