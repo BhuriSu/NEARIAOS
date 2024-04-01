@@ -34,45 +34,44 @@ function ListUsers() {
 
   const requestListUsers = async (userId, latitude, longitude, radius) => {
     try {
-      const response = await axios.post('http://localhost:5000/lists', {
+      const response = await axios.post('/lists', {
         userId,
         latitude,
         longitude,
         radius,
       });
       if (response.data.success) {
-        const promisesArr = response.data.list.map(async (user) => {
+        const { list } = response.data;
+        const promisesArr = list.map(async (user) => {
           try {
-              const storage = getStorage();
-              const pic = await getDownloadURL(ref(storage, `images/${user.username}`))
-              .getDownloadURL()
-              .catch((e) => console.log(e));
-              user.url = pic;
-              return user;
-            } catch (error) {
-              console.log(error);
-              return user; // If image download fails, return user without URL
-            }
-          });
-          const result = await Promise.all(promisesArr);
-          setList({
-            success: true,
-            list: result,
-          });
-        } else {
-          setList({
-            success: false,
-            err: response.data.err,
-          });
-        }
-      } catch (error) {
-        console.error('Runtime error:', error);
+            const pic = await getDownloadURL(ref(getStorage(), `images/${user.username}`));
+            user.url = pic;
+            return user;
+          } catch (error) {
+            console.error('Error fetching profile picture:', error);
+            return user;
+          }
+        });
+  
+        const result = await Promise.all(promisesArr);
+        setList({
+          success: true,
+          list: result,
+        });
+      } else {
         setList({
           success: false,
-          err: 'Runtime error',
+          err: response.data.err,
         });
       }
-    };
+    } catch (error) {
+      console.error('Runtime error:', error);
+      setList({
+        success: false,
+        err: 'Runtime error',
+      });
+    }
+  };
 
   const geoFindLocation = () => {
     const success = (position) => {

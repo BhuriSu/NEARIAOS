@@ -9,8 +9,6 @@ const profileSchema = new mongoose.Schema({
   about: { type: String },
   profilePicture: {
     type: String,
-    default:
-      'C:\Users\Lenovo\Desktop\NEARIAOS\backend\tornado_cash.png',
   },
 }
 );

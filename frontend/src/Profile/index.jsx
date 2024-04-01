@@ -184,7 +184,7 @@ function ProfileEdit() {
           hidden
         />
         <div
-          className='relative w-32 h-32 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
+          className='relative w-100 h-100 self-center cursor-pointer shadow-md overflow-hidden rounded-full'
           onClick={() => filePickerRef.current.click()}
         >
           {imageFileUploadProgress && (
@@ -214,7 +214,7 @@ function ProfileEdit() {
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
-              'opacity-60'
+              'opacity-50'
             }`}
           />
         </div>
