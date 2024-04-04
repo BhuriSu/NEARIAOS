@@ -76,21 +76,17 @@ justify-content: center;
 align-items: center;
 `;
 export const SaveBtnStyle = styled.button`
-  border-radius: 50px;
-  background: #05fff3;
-  white-space: nowrap;
-  padding: 10px 22px;
-  color: #000;
-  font-size: 16px;
-  outline: none;
-  border: none;
-  cursor: pointer;
-  transition: all 0.2s ease-in-out;
-  text-decoration: none;
-
-  &:hover {
-    transition: all 0.2s ease-in-out;
-    background: #8c2eff;
-    color: #fff;
-  }
+display: block;
+background-color: #00ffa2;
+color: #000;
+font-size: 0.9rem;
+border: 0;
+border-radius: 20px;
+height: 40px;
+padding: 0 20px;
+cursor: pointer;
+box-sizing: border-box;
+`;
+export const DivImage = styled.div`
+height: 80px;
 `;

@@ -1,6 +1,10 @@
 import Profile from "../models/Profile.js";
 import { errorHandler } from '../utils/error.js';
 
+export const test = (req, res) => {
+  res.json({ message: 'API is working!' });
+};
+
 export const getUser = async (req, res, next) => {
   try {
     const user = await Profile.findById(req.params.userId);

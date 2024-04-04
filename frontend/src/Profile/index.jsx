@@ -25,8 +25,9 @@ import { useDispatch } from 'react-redux';
 import UserAvatar from '../Chat/UserAvatar';
 // css 
 import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
-   FormEditProfile, StyledInput, SaveBtnStyle } from "./profileElements";
+   FormEditProfile, StyledInput, SaveBtnStyle, DivImage} from "./profileElements";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -176,6 +177,7 @@ function ProfileEdit() {
     <>
       <BackgroundProfileContainer >
         <FormEditProfile onSubmit={handleFormSubmit}>
+        <DivImage>
         <input
           type='file'
           accept='image/*'
@@ -222,8 +224,11 @@ function ProfileEdit() {
         {imageFileUploadError && (
           <Alert color='failure'>{imageFileUploadError}</Alert>
         )}
+         </DivImage>
+           <Typography variant='caption' gutterBottom>Please fill this form to update a profile !</Typography>
 
-          <span style={{ textShadow: "none", color: "#fff" }} >
+          
+          <span style={{ textShadow: "none", color: "#000" }} >
             Username: 
           <label>      
           <StyledInput  
@@ -235,9 +240,7 @@ function ProfileEdit() {
           </label>
           </span>
 
-          <br/>
-
-          <span style={{ textShadow: "none", color: "#fff" }} >
+          <span style={{ textShadow: "none", color: "#000" }} >
             Date of birth: 
            <DateContainer>
            <LocalizationProvider 
@@ -257,9 +260,8 @@ function ProfileEdit() {
            </DateContainer>
           </span>
 
-          <br/>
 
-          <span style={{ textShadow: "none", color: "#fff" }} >
+          <span style={{ textShadow: "none", color: "#000" }} >
             Beverage:
             <label>
             <StyledInput 
@@ -271,9 +273,8 @@ function ProfileEdit() {
           </label>
           </span>
 
-          <br/>
 
-          <span style={{ textShadow: "none", color: "#fff" }} >
+          <span style={{ textShadow: "none", color: "#000" }} >
             Workplace: 
             <label>
             <StyledInput 
@@ -285,9 +286,8 @@ function ProfileEdit() {
           </label>
           </span>
 
-          <br/>
 
-          <span style={{ textShadow: "none", color: "#fff" }} >
+          <span style={{ textShadow: "none", color: "#000" }} >
             Favorite:
            <label>
             <StyledInput 
@@ -299,9 +299,8 @@ function ProfileEdit() {
           </label>
           </span>
 
-          <br/>
 
-          <span style={{ textShadow: "none", color: "#fff" }} >
+          <span style={{ textShadow: "none", color: "#000" }} >
             About:
             <label>
             <StyledInput 
@@ -335,7 +334,7 @@ function ProfileEdit() {
           </BackToListPage>
           </Link>
 
-        <br/>
+ 
 
           <Link to="/startForm" onClick={LogOut}>
           <LogOutLine>
@@ -343,7 +342,6 @@ function ProfileEdit() {
           </LogOutLine>
           </Link>
 
-        <br/>
 
         <div className='text-red-500 flex justify-between mt-5'>
         <span onClick={() => setShowModal(true)} className='cursor-pointer'>

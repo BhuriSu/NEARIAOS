@@ -1,15 +1,15 @@
-import createError from 'http-errors';
-import morgan from 'morgan';
-import cors from 'cors';
-import { customRedisRateLimiter } from './middleware/index.js';
 import helmet from 'helmet';
 import express from 'express';
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import morgan from 'morgan';
+import cors from 'cors';
+import { customRedisRateLimiter } from './middleware/index.js';
+import path from 'path';
+import cookieParser from 'cookie-parser';
 import usersRouter from "./routes/usersRouter.js";
 import listsRouter from "./routes/listsRouter.js";
 import messageRouter from "./routes/messageRouter.js";
-import path from 'path';
 import socketServer from "./socketServer.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -19,20 +19,6 @@ dotenv.config();
 
 // prevent CORS access error
 app.use(cors());
-// Handle 404 and forward to error handler
-app.use((req, res, next) => {
-  next(createError(404));
-});
-
-// error handler
-app.use((err, req, res, next) => {
-  // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
-});
 
 // Create a Socket.IO instance attached to the HTTP server
 const httpServer = createServer(app);
@@ -64,6 +50,7 @@ app.use(morgan('dev'));
 // when you want to use POST and PUT/PATCH method
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 // implement rate limit
 app.use(customRedisRateLimiter);
@@ -80,3 +67,14 @@ if (process.env.NODE_ENV == "production") {
     res.sendFile(path.join(__dirname, "client/build", "index.html"));
   });
 }
+
+
+app.use((err, req, res, next) => {
+  const statusCode = err.statusCode || 500;
+  const message = err.message || 'Internal Server Error';
+  res.status(statusCode).json({
+    success: false,
+    statusCode,
+    message,
+  });
+});
