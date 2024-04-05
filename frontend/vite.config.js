@@ -7,12 +7,7 @@ import tailwindcss from "tailwindcss";
 export default defineConfig(() => {
   return {
     server: {
-      proxy: {
-        '/api': {
-          target: 'http://localhost:5000',
-          secure: false,
-        },
-      },
+      port: 5173, 
     },
     build: {
       outDir: 'build',

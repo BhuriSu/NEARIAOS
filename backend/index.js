@@ -4,7 +4,6 @@ import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
-import { customRedisRateLimiter } from './middleware/index.js';
 import path from 'path';
 import cookieParser from 'cookie-parser';
 import usersRouter from "./routes/usersRouter.js";
@@ -13,18 +12,29 @@ import messageRouter from "./routes/messageRouter.js";
 import socketServer from "./socketServer.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
+import { rateLimit } from 'express-rate-limit'
 
 const app = express();
 dotenv.config();
-
+const __dirname = path.resolve();
 // prevent CORS access error
 app.use(cors());
-
+// Define the rate limit middleware
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests per windowMs
+});
+// Apply the rate limit to all requests
+app.use(limiter);
+// Define a route handler for the root URL
+app.get('/', (req, res) => {
+  res.send('Hello World!');
+});
 // Create a Socket.IO instance attached to the HTTP server
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: ["http://localhost:5173", "https://Neariaos.com"],
+    origin: ["http://localhost:5000", "https://Neariaos.com"],
   },
 });
 
@@ -52,21 +62,18 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
-// implement rate limit
-app.use(customRedisRateLimiter);
 
 // api 
 app.use('/users', usersRouter);
 app.use('/lists',listsRouter)
 app.use('/messages',messageRouter)
 
-if (process.env.NODE_ENV == "production") {
-  app.use(express.static(path.join(__dirname, "/client/build")));
-  
-  app.get("*", (req, res) => {
-    res.sendFile(path.join(__dirname, "client/build", "index.html"));
-  });
-}
+
+app.use(express.static(path.join(__dirname, '/client/dist')));
+
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+});
 
 
 app.use((err, req, res, next) => {
