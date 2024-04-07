@@ -26,10 +26,7 @@ const limiter = rateLimit({
 });
 // Apply the rate limit to all requests
 app.use(limiter);
-// Define a route handler for the root URL
-app.get('/', (req, res) => {
-  res.send('Hello World!');
-});
+
 // Create a Socket.IO instance attached to the HTTP server
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
