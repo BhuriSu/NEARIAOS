@@ -22,12 +22,12 @@ function Premium() {
 
         <PremiumCard2>
           <PremiumIcon src={Color} width='400' height='400' alt='' />
-          <PremiumH2>User can change card color</PremiumH2>
+          <PremiumH2>Verified user</PremiumH2>
         </PremiumCard2>
 
         <PremiumCard3>
           <PremiumIcon src={Card3} width='400' height='400' alt='' />
-          <PremiumH2>Effect around card</PremiumH2>
+          <PremiumH2>No ads & bot user</PremiumH2>
         </PremiumCard3>
 
       </PremiumWrapper>

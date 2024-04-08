@@ -2,7 +2,7 @@ import Profile from "../models/Profile.js";
 import { errorHandler } from '../utils/error.js';
 
 export const test = (req, res) => {
-  res.json({ message: 'API is working!' });
+  res.json({ message: 'got it got it!' });
 };
 
 export const getUser = async (req, res, next) => {

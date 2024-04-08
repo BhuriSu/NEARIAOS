@@ -34,7 +34,7 @@ function ListUsers() {
 
   const requestListUsers = async (userId, latitude, longitude, radius) => {
     try {
-      const response = await axios.post('/lists', {
+      const response = await axios.post('/api/lists', {
         userId,
         latitude,
         longitude,

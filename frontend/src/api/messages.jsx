@@ -2,7 +2,7 @@
 
 const getConversations = async () => {
     try {
-        const res = await fetch(`/messages/`);
+        const res = await fetch(`/api/messages`);
         return await res.json()
     } catch (err) {
       console.log(err);
@@ -11,7 +11,7 @@ const getConversations = async () => {
   
   const getMessages = async (conversationId) => {
     try {
-        const res = await fetch(`/messages/${conversationId}`);
+        const res = await fetch(`/api/messages/${conversationId}`);
         return await res.json();
     } catch (err) {
       console.log(err);
@@ -20,7 +20,7 @@ const getConversations = async () => {
   
   const sendMessage = async (message, recipientId) => {
     try {
-      const res = await fetch(`/messages/${recipientId}`, {
+      const res = await fetch(`/api/messages/${recipientId}`, {
         method: "POST",
         headers: {
           Accept: "application/json",

@@ -25,9 +25,8 @@ import { useDispatch } from 'react-redux';
 import UserAvatar from '../Chat/UserAvatar';
 // css 
 import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
-   FormEditProfile, StyledInput, SaveBtnStyle, DivImage} from "./profileElements";
+   FormEditProfile, StyledInput, DivImage} from "./profileElements";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { Typography } from '@mui/material';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CircularProgressbar } from 'react-circular-progressbar';
@@ -60,11 +59,6 @@ function ProfileEdit() {
         uploadImage();
        }
      }, [imageFile]);
-
-    // Handle input change
-    const handleChange = (e) => {
-      setFormData({ ...formData, [e.target.id]: e.target.value });
-    };
     
     const uploadImage = async () => {
       // service firebase.storage {
@@ -111,6 +105,11 @@ function ProfileEdit() {
       );
     };
 
+        // Handle input change
+    const handleChange = (e) => {
+          setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
     const handleFormSubmit = async (e) => {
       e.preventDefault();
       setUpdateUserError(null);
@@ -125,7 +124,7 @@ function ProfileEdit() {
       }
       try {
         dispatch(updateStart());
-        const res = await fetch(`/users/update/${currentUser._id}`, {
+        const res = await fetch(`/api/users/update/${currentUser._id}`, {
           method: 'PATCH',
           headers: {
             'Content-Type': 'application/json',
@@ -150,7 +149,7 @@ function ProfileEdit() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/users/delete/${currentUser._id}`, {
+      const res = await fetch(`/api/users/delete/${currentUser._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -225,23 +224,17 @@ function ProfileEdit() {
           <Alert color='failure'>{imageFileUploadError}</Alert>
         )}
          </DivImage>
-           <Typography variant='caption' gutterBottom>Please fill this form to update a profile !</Typography>
-
-          
+    
           <span style={{ textShadow: "none", color: "#000" }} >
-            Username: 
-          <label>      
           <StyledInput  
           type='text'
           id='username'
           placeholder='username...'
           onChange={handleChange} 
           />
-          </label>
           </span>
-
+          <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
-            Date of birth: 
            <DateContainer>
            <LocalizationProvider 
            dateAdapter={AdapterDayjs} 
@@ -260,68 +253,54 @@ function ProfileEdit() {
            </DateContainer>
           </span>
 
-
+          <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
-            Beverage:
-            <label>
             <StyledInput 
             type="text" 
             id="beverage" 
             placeholder="beverage..." 
             onChange={handleChange} 
             />
-          </label>
           </span>
 
-
+          <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
-            Workplace: 
-            <label>
             <StyledInput 
             type="text" 
             id="workplace" 
             placeholder="workplace..." 
             onChange={handleChange} 
             />
-          </label>
           </span>
 
-
+          <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
-            Favorite:
-           <label>
             <StyledInput 
             type="text" 
             id="favorite" 
             placeholder="favorite..."
             onChange={handleChange}
             />
-          </label>
           </span>
 
-
+          <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
-            About:
-            <label>
             <StyledInput 
             type="text" 
             id="about" 
             placeholder="about..." 
             onChange={handleChange}
             />
-          </label>
           </span>
 
           <br/>
-
-          <SaveBtnStyle 
+          <Button
           type='submit'
-          gradientDuoTone='purpleToBlue'
           outline
           disabled={loading || imageFileUploading}
           >
           {loading ? 'Loading...' : 'Update'}
-          </SaveBtnStyle>
+          </Button>
 
           <br/>
         </FormEditProfile>
@@ -333,8 +312,6 @@ function ProfileEdit() {
           Back to ListPage
           </BackToListPage>
           </Link>
-
- 
 
           <Link to="/startForm" onClick={LogOut}>
           <LogOutLine>
