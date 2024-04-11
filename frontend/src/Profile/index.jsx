@@ -25,7 +25,7 @@ import { useDispatch } from 'react-redux';
 import UserAvatar from '../Chat/UserAvatar';
 // css 
 import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
-   FormEditProfile, StyledInput, DivImage} from "./profileElements";
+    StyledInput, DivImage, SaveBtnStyle} from "./profileElements";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
@@ -82,11 +82,9 @@ function ProfileEdit() {
         (snapshot) => {
           const progress =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-
           setImageFileUploadProgress(progress.toFixed(0));
         },
         () => {
-    
           setImageFileUploadError(
             'Could not upload image (File must be less than 2MB)'
           );
@@ -104,7 +102,6 @@ function ProfileEdit() {
         }
       );
     };
-
         // Handle input change
     const handleChange = (e) => {
           setFormData({ ...formData, [e.target.id]: e.target.value });
@@ -123,7 +120,7 @@ function ProfileEdit() {
         return;
       }
       try {
-        dispatch(updateStart());
+        dispatch(updateStart());   
         const res = await fetch(`/api/users/update/${currentUser._id}`, {
           method: 'PATCH',
           headers: {
@@ -175,7 +172,9 @@ function ProfileEdit() {
   return (
     <>
       <BackgroundProfileContainer >
-        <FormEditProfile onSubmit={handleFormSubmit}>
+    
+        <form onSubmit={handleFormSubmit}>
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
         <DivImage>
         <input
           type='file'
@@ -224,7 +223,7 @@ function ProfileEdit() {
           <Alert color='failure'>{imageFileUploadError}</Alert>
         )}
          </DivImage>
-    
+         </div>
           <span style={{ textShadow: "none", color: "#000" }} >
           <StyledInput  
           type='text'
@@ -294,16 +293,18 @@ function ProfileEdit() {
           </span>
 
           <br/>
-          <Button
-          type='submit'
-          outline
-          disabled={loading || imageFileUploading}
-          >
-          {loading ? 'Loading...' : 'Update'}
-          </Button>
+          <div style={{ display: 'flex', justifyContent: 'center' }}>
+            <SaveBtnStyle
+               type='submit'
+               outline
+               disabled={loading || imageFileUploading}
+            >
+            {loading ? 'Loading...' : 'Update'}
+            </SaveBtnStyle>
+            </div>
 
           <br/>
-        </FormEditProfile>
+        </form>
       
         <br/>
 

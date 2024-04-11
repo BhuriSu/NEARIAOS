@@ -69,7 +69,7 @@ justify-content: center;
 align-items: center;
 margin-top: 10px;
 `;
-export const FormEditProfile = styled.div`
+export const FormEditProfileDiv = styled.div`
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -77,4 +77,23 @@ align-items: center;
 `;
 export const DivImage = styled.div`
 height: 150px;
+`;
+export const SaveBtnStyle = styled.button`
+  border-radius: 50px;
+  background: #05fff3;
+  white-space: nowrap;
+  padding: 10px 22px;
+  color: #000;
+  font-size: 16px;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+  text-decoration: none;
+
+  &:hover {
+    transition: all 0.2s ease-in-out;
+    background: #8c2eff;
+    color: #fff;
+  }
 `;

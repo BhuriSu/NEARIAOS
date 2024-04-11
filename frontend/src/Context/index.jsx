@@ -13,7 +13,7 @@ import  auth  from '../Firebase';
 export const userAuthContext = createContext();
 
 export function UserAuthContextProvider({ children }) {
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(null);
 
   function logIn(email, password) {
     return signInWithEmailAndPassword(auth, email, password);
@@ -43,7 +43,7 @@ export function UserAuthContextProvider({ children }) {
 
   function forgotPassword(email) {
     return sendPasswordResetEmail(auth, email, {
-      url: `http://localhost:3000//startForm`,
+      url: `http://localhost:5173/startForm`,
     })
   }
 

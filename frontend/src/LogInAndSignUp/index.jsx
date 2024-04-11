@@ -34,7 +34,6 @@ const SignInOutContainer=()=>{
     return (
       
       <BackgroundContainer>
-
       <Logo to='/'>NEARIAOS</Logo>
       
       <Paper elevation={0} style={paperStyle}>
