@@ -18,13 +18,13 @@ function Services() {
           <ServicesCard1>
             <ServicesIcon src={Icon1} width='200' height='200' alt='' />
             <ServicesH2>Leisure friend</ServicesH2>
-            <ServicesP>Find new friend in specific time</ServicesP>
+            <ServicesP>Find a new friend in specific time</ServicesP>
           </ServicesCard1>
 
           <ServicesCard2>
             <ServicesIcon src={Icon2} width='200' height='200' alt='' />
-            <ServicesH2>Just share a fee</ServicesH2>
-            <ServicesP>Just use our service before using other share-riding app</ServicesP>
+            <ServicesH2>Share your fee</ServicesH2>
+            <ServicesP>Just use our service before using other share-riding or booking app</ServicesP>
           </ServicesCard2>
 
           <ServicesCard3>

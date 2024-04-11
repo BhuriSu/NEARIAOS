@@ -29,11 +29,6 @@ function Footer() {
               <FooterLink to='/contact'>Sponsorships</FooterLink>
             </FooterLinkItems>
 
-            <FooterLinkItems>
-              <FooterLinkTitle>Social Media</FooterLinkTitle>
-              <FooterLink to='/'>Twitter</FooterLink>
-            </FooterLinkItems>
-
           </FooterLinkWrapper>
 
         </FooterLinkContainer>

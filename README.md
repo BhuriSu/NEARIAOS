@@ -1,19 +1,19 @@
-# NEARIAOS is platform for chatting with users near you at a specific place.
+# NEARIAOS is dealing and negotiation platform with users near you at specific place.
 
 ## Features
-1. LogIn and SignUp system with Firebase authentication
-2. Profile system that stores user information in MongoDB database and stores images in Firebase storage
-3. Chat system using Socket.io
-4. Searching system using geolocation for finding users within a specific range
-5. Redux for sending and showing data to each component among the searching system, chat system, profile system
-6. Contact form using React Hook Form for sending feedback, etc.
-7. Animation using Framer Motion
-8. Privacy policies using termly.io
+1. Implement a LogIn and SignUp system with Firebase authentication.
+2. Create a profile system that stores user data in a MongoDB database and image in Firebase storage.
+3. Develop a chat system using Socket.io for real-time communication between client and server.
+4. Create a searching system that utilizes geolocation for finding users within a specific range.
+5. Implement Redux to facilitate the sending and displaying of data across the searching system, chat system, and profile system.
+6. Create a contact form using react-hook-form for sending feedback and other inquiries.
+7. Develop animations using Framer Motion for enhancing the user interface.
+8. Create privacy policies using Termly.io for legal compliance.
 
 ### `npm start`
 
 Runs the app in the development mode.\
-Open [http://localhost:5000](http://localhost:5000) to view it in your browser.
+Open [http://localhost:{your_endpoint}](http://localhost:{your_endpoint}) to view it in your browser.
 
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
