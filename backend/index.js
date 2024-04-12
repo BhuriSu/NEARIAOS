@@ -10,6 +10,8 @@ import socketServer from "./socketServer.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { rateLimit } from 'express-rate-limit';
+import pgPool from './config/database.js';
+
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL)
@@ -43,6 +45,12 @@ const limiter = rateLimit({
 });
 // Apply the rate limit to all requests
 app.use(limiter);
+
+// PostgreSQL pool instance
+app.use((req, res, next) => {
+  req.pgPool = pgPool;
+  next();
+});
 
 // api 
 app.use('/api/users', usersRouter);

@@ -1,20 +1,4 @@
-import  Profile  from '../models/Profile.js';
-
-const rad = x => (x * Math.PI) / 180;
-const distHaversine = (p1, p2) => {
-  const R = 6371; 
-  const dLat = rad(p2.lat - p1.lat);
-  const dLong = rad(p2.lng - p1.lng);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(rad(p1.lat)) *
-    Math.cos(rad(p2.lat)) *
-    Math.sin(dLong / 2) *
-    Math.sin(dLong / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const d = R * c;
-  return d.toFixed(3) * 1000; 
-};
+import pool from '../config/database.js';
 
 export const Lists = async (req, res) => {
   res.json('respond with a resource');
@@ -22,7 +6,7 @@ export const Lists = async (req, res) => {
 
 export const FindUsers = async (req, res) => {
   const { latitude, longitude, radius } = req.body;
-  const userId = req.params.userId
+  const userId = req.params.userId;
   if ([userId, latitude, longitude, radius].some(el => el === undefined)) {
     return res.status(400).json({
       success: false,
@@ -31,40 +15,37 @@ export const FindUsers = async (req, res) => {
   }
 
   try {
-    const allProfiles = await Profile.find({});
+    const client = await pool.connect();
+    const query = `
+      SELECT * FROM profile 
+      WHERE ST_Distance(
+        ST_SetSRID(ST_MakePoint($1, $2), 4326),
+        ST_SetSRID(ST_MakePoint(profile.longitude, profile.latitude), 4326)
+      ) < $3
+    `;
+    const params = [longitude, latitude, radius];
 
-    const list = [];
-    allProfiles.forEach(el => {
-      const dist = distHaversine(
-        {
-          lat: latitude,
-          lng: longitude
-        },
-        {
-          lat: el.latitude,
-          lng: el.longitude
-        }
-      );
+    const result = await client.query(query, params);
+    const list = result.rows;
 
-      if (dist < radius) list.push(el);
-    });
-    await Profile.findByIdAndUpdate(
-      {
-       username: userId
-      },
-      {
-        $set: {
-          latitude,
-          longitude
-        }
-      }
+    await client.query(
+      `
+      UPDATE profile 
+      SET latitude = $1, longitude = $2 
+      WHERE username = $3
+      `,
+      [latitude, longitude, userId]
     );
-    if (list) {
+
+    client.release();
+
+    if (list.length > 0) {
       return res.json({
         success: true,
         list
       });
     }
+
     return res.status(404).json({
       success: false,
       err: 'No user found in this geolocation'

@@ -10,7 +10,7 @@ const SignUp = () => {
     const headerStyle = { margin: 0 };
     const avatarStyle = { backgroundColor: '#ff0593' };
     const btnStyle = {  marginTop: 5,backgroundColor: '#ff0593' };
-    const { signUp } = useUserAuth();
+    const { signUp, sendSignInLink } = useUserAuth();
     let navigate = useNavigate();
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
@@ -20,6 +20,7 @@ const SignUp = () => {
         e.preventDefault()
         try {
             await signUp(email, password);
+            await sendSignInLink(email); 
             navigate('/profiles');
             if (password !== confirmPassword) {
                 setError('Passwords need to match!')
@@ -73,11 +74,14 @@ const SignUp = () => {
                     onChange={(e) => setConfirmPassword(e.target.value)}
                     />
                     
-                    <Button type='submit'
-                     variant='contained' style={btnStyle}>Sign up</Button>
-                
+                    <Button 
+                     type='submit'
+                     variant='contained' 
+                     style={btnStyle}
+                    >
+                     Sign up
+                    </Button>
                 </form>
-               
             </Paper>
         </Grid>
     )
