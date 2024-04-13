@@ -9,8 +9,8 @@ export default defineConfig(() => {
     server: {
       proxy: {
         '/api': {
-          target: 'http://127.0.0.1:5173/',
-          secure: false,
+          target: 'http://127.0.0.1:5173',
+          secure: false, // turn it to be true when put on production 
         },
       },
     },

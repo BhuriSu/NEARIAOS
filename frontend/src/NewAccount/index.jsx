@@ -1,8 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-
-//firebase
-import { getAuth, signOut } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -13,39 +10,35 @@ import { firebase } from '../Firebase';
 
 //redux
 import {
-  updateStart,
-  updateSuccess,
-  updateFailure,
-  deleteUserStart,
-  deleteUserSuccess,
-  deleteUserFailure
+  createStart,
+  createSuccess,
+  createFailure,
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import UserAvatar from '../Chat/UserAvatar';
 // css 
-import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
-    StyledInput, DivImage, SaveBtnStyle} from "./profileElements";
+import { BackgroundProfileContainer, DateContainer,
+    StyledInput, DivImage, SaveBtnStyle} from "./NewAccountElements";
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { CircularProgressbar } from 'react-circular-progressbar';
-import { Alert, Button, Modal } from 'flowbite-react';
-import { HiOutlineExclamationCircle } from 'react-icons/hi';
+import { Alert } from 'flowbite-react';
 
-function ProfileEditPage() {
+function NewAccountPage() {
   const { currentUser, error, loading } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
   const [imageFileUploadError, setImageFileUploadError] = useState(null);
   const [imageFileUploading, setImageFileUploading] = useState(false);
-  const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
-  const [updateUserError, setUpdateUserError] = useState(null);
-  const [showModal, setShowModal] = useState(false);
+  const [createUserSuccess, setCreateUserSuccess] = useState(null);
+  const [createUserError, setCreateUserError] = useState(null);
   const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
+  const navigate = useNavigate(); 
 
   const handleImageChange = (e) => {
       const file = e.target.files[0];
@@ -106,23 +99,23 @@ function ProfileEditPage() {
     const handleChange = (e) => {
           setFormData({ ...formData, [e.target.id]: e.target.value });
     };
-
-    const handleUpdateSubmit = async (e) => {
+    
+    const handleCreateSubmit = async (e) => {
       e.preventDefault();
-      setUpdateUserError(null);
-      setUpdateUserSuccess(null);
+      setCreateUserError(null);
+      setCreateUserSuccess(null);
       if (Object.keys(formData).length === 0) {
-        setUpdateUserError('No changes made');
+        setCreateUserError('No changes made');
         return;
       }
       if (imageFileUploading) {
-        setUpdateUserError('Please wait for image to upload');
+        setCreateUserError('Please wait for image to upload');
         return;
       }
       try {
-        dispatch(updateStart());
-        const res = await fetch(`/api/users/update/${currentUser._id}`, {
-          method: 'PUT',
+        dispatch(createStart());
+        const res = await fetch('/api/users/create', {
+          method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
@@ -130,50 +123,23 @@ function ProfileEditPage() {
         });
         const data = await res.json();
         if (!res.ok) {
-          dispatch(updateFailure(data.message));
-          setUpdateUserError(data.message);
+          dispatch(createFailure(data.message));
+          setCreateUserError(data.message);
         } else {
-          dispatch(updateSuccess(data));
-          setUpdateUserSuccess("User's profile updated successfully");
+          dispatch(createSuccess(data));
+          setCreateUserSuccess("User's profile updated successfully");
+          navigate('/profile');
         }
       } catch (error) {
-        dispatch(updateFailure(error.message));
-        setUpdateUserError(error.message);
+        dispatch(createFailure(error.message));
+        setCreateUserError(error.message);
       }
     };
-
-  const handleDeleteUser = async () => {
-    setShowModal(false);
-    try {
-      dispatch(deleteUserStart());
-      const res = await fetch(`/api/users/delete/${currentUser._id}`, {
-        method: 'DELETE',
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        dispatch(deleteUserFailure(data.message));
-      } else {
-        dispatch(deleteUserSuccess(data));
-      }
-    } catch (error) {
-      dispatch(deleteUserFailure(error.message));
-    }
-  };
-   
-  const LogOut = async () => {
-    try {
-      const auth = getAuth();
-      signOut(auth);
-    } catch (error) {
-      console.log(error);
-    }
-  }
   
   return (
     <>
       <BackgroundProfileContainer >
-    
-        <form onSubmit={handleUpdateSubmit}>
+        <form onSubmit={handleCreateSubmit}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
         <DivImage>
         <input
@@ -305,36 +271,15 @@ function ProfileEditPage() {
 
           <br/>
         </form>
-      
-        <br/>
 
-          <Link to="/listUsers">
-          <BackToListPage>
-          Back to ListPage
-          </BackToListPage>
-          </Link>
-
-          <Link to="/startForm" onClick={LogOut}>
-          <LogOutLine>
-           Log out
-          </LogOutLine>
-          </Link>
-
-
-        <div className='text-red-500 flex justify-between mt-5'>
-        <span onClick={() => setShowModal(true)} className='cursor-pointer'>
-          Delete Account
-        </span>
-       </div>
-
-      {updateUserSuccess && (
+      {createUserSuccess && (
         <Alert color='success' className='mt-5'>
-          {updateUserSuccess}
+          {createUserSuccess}
         </Alert>
       )}
-      {updateUserError && (
-        <Alert color='failure' className='mt-5'>
-          {updateUserError}
+      {createUserError && (
+        <Alert color='success' className='mt-5'>
+          {createUserError}
         </Alert>
       )}
       {error && (
@@ -342,35 +287,10 @@ function ProfileEditPage() {
           {error}
         </Alert>
       )}
-      <Modal
-        show={showModal}
-        onClose={() => setShowModal(false)}
-        popup
-        size='md'
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className='text-center'>
-            <HiOutlineExclamationCircle className='h-14 w-14 text-gray-400 dark:text-gray-200 mb-4 mx-auto' />
-            <h3 className='mb-5 text-lg text-gray-500 dark:text-gray-400'>
-              Are you sure you want to delete your account?
-            </h3>
-            <div className='flex justify-center gap-4'>
-              <Button color='failure' onClick={handleDeleteUser}>
-                Yes, Iam sure
-              </Button>
-              <Button color='gray' onClick={() => setShowModal(false)}>
-                No, cancel
-              </Button>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-
-       
+   
       </BackgroundProfileContainer>   
     </>
   );
 }
 
-export default ProfileEditPage;
+export default NewAccountPage;

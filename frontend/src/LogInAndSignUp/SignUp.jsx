@@ -21,7 +21,7 @@ const SignUp = () => {
         try {
             await signUp(email, password);
             await sendSignInLink(email); 
-            navigate('/profiles');
+            navigate('/newAccount');
             if (password !== confirmPassword) {
                 setError('Passwords need to match!')
                 return

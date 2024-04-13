@@ -21,16 +21,6 @@ align-items: center;
   height: 812px;
 }
 `;
-export const BackToListPage = styled.p`
-  color: #fff;
-  font-size: 24px;
-  text-align: center;
-`;
-export const LogOutLine = styled.p`
-  color: #fff;
-  font-size: 24px;
-  text-align: center;
-`;
 export const StyledInput = styled.input`
   display: flex;
   flex-direction: column;

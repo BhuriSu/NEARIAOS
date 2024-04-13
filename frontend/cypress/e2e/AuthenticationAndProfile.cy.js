@@ -17,6 +17,6 @@ describe('Main Page to Login Page', () => {
     cy.get('[data-cy=login-button]').click({ force: true },{ multiple: true });
 
     // After clicking Log In, check if the URL changes to the profiles page
-    cy.url().should('include', '/profiles');
+    cy.url().should('include', '/newAccount');
   });
 });
