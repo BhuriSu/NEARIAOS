@@ -1,5 +1,16 @@
 import Profile from "../models/Profile.js";
 
+export const checkExistingImage = async (req, res) => {
+  try {
+    const fileName = req.query.fileName;
+    const existingImage = await Profile.findOne({ profilePicture: fileName });
+    res.json({ exists: !!existingImage });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error checking existing image' });
+  }
+};
+
 export const createUser = async (req, res) => {
   try {
     const newUser = new Profile({

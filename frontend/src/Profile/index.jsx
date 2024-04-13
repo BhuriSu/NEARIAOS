@@ -59,6 +59,22 @@ function ProfileEditPage() {
         uploadImage();
        }
      }, [imageFile]);
+
+const checkExistingImage = async (fileName) => {
+  try {
+    const response = await fetch(`/api/users/checkImage?fileName=${fileName}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    const data = await response.json();
+    return data.exists;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
     
     const uploadImage = async () => {
       // service firebase.storage {
@@ -73,6 +89,15 @@ function ProfileEditPage() {
       // }
       setImageFileUploading(true);
       setImageFileUploadError(null);
+      const existingImage = await checkExistingImage(imageFile.name);
+     if (existingImage) {
+     setImageFileUploadError('Image with the same name already exists');
+     setImageFileUploadProgress(null);
+     setImageFile(null);
+     setImageFileUrl(null);
+     setImageFileUploading(false);
+     return;
+     }
       const storage = getStorage(firebase);
       const fileName = new Date().getTime() + imageFile.name;
       const storageRef = ref(storage, fileName);
