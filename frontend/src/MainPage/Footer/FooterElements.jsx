@@ -56,22 +56,6 @@ export const FooterLink = styled(Link)`
   margin-bottom: 0.5rem;
   font-size: 14px;
 `;
-export const SocialMedia = styled.section`
-  max-width: 1000px;
-  width: 100%;
-`;
-
-export const SocialMediaWrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1100px;
-  margin: 40px auto 0 auto;
-
-  @media screen and (max-width: 820px) {
-    flex-direction: column;
-  }
-`;
 
 export const SocialLogo = styled(Link)`
   color: #000;
@@ -88,15 +72,4 @@ export const SocialLogo = styled(Link)`
 export const WebsiteRights = styled.small`
   color: #000;
   margin-bottom: 16px;
-`;
-export const SocialIcons = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 240px;
-  margin-bottom: 65px;
-`;
-export const SocialIconLink = styled.a`
-  color: #000;
-  font-size: 24px;
 `;

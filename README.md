@@ -11,6 +11,31 @@
 8. Develop animations using Framer Motion for enhancing the user interface.
 9. Create privacy policies using Termly.io for legal compliance.
 
+![When it processes](neariaosmainpage.png)
+
+![When it processes](ourplatform.png)
+
+![When it processes](animationcard.png)
+
+![When it processes](breaklimit.png)
+
+![When it processes](newrelationship.png)
+
+![When it processes](createnewaccount.png)
+
+![When it processes](listcard.png)
+
+![When it processes](footerpic.png)
+
+![When it processes](contactform.png)
+
+![When it processes](premiummode.png)
+
+![When it processes](SignUp.png)
+
+![When it processes](LogIn.png)
+
+
 ### `npm start`
 
 Runs the app in the development mode.\

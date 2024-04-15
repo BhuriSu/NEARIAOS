@@ -1,10 +1,8 @@
 import React from 'react';
-import { FaTwitter } from 'react-icons/fa';
 import { animateScroll as scroll } from 'react-scroll';
 import {
   FooterContainer, FooterWrap, FooterLinkWrapper, FooterLinkItems, FooterLinkContainer,
-  FooterLinkTitle, FooterLink, SocialIconLink, SocialIcons, SocialLogo, SocialMedia,
-  SocialMediaWrap, WebsiteRights,
+  FooterLinkTitle, FooterLink, SocialLogo, WebsiteRights,
 } from './FooterElements';
 
 function Footer() {
@@ -33,9 +31,6 @@ function Footer() {
 
         </FooterLinkContainer>
 
-        <SocialMedia>
-          <SocialMediaWrap>
-
             <SocialLogo to='/' onClick={ToggleHome}>
               NEARIAOS
             </SocialLogo>
@@ -45,15 +40,6 @@ function Footer() {
               {new Date().getFullYear()}
               All rights reserved.
             </WebsiteRights>
-
-            <SocialIcons>
-            <SocialIconLink href='/' target='_blank' aria-label='Twitter'>
-            <FaTwitter />
-            </SocialIconLink>
-            </SocialIcons>
-
-          </SocialMediaWrap>
-        </SocialMedia>
 
       </FooterWrap>
     </FooterContainer>
