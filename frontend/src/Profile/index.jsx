@@ -19,7 +19,8 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
-  fetchFormData
+  fetchFormData,
+  updateFormData
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -35,7 +36,8 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { currentUser, error, loading, formData } = useSelector((state) => state.user) || {};
+  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
+  const formData = useSelector((state) => state.user.formData) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -141,7 +143,7 @@ const checkExistingImage = async (fileName) => {
     };
         // Handle input change
     const handleChange = (e) => {
-      setFormDataLocal({ ...formData, [e.target.id]: e.target.value });
+      dispatch(updateFormData({ ...formData, [e.target.id]: e.target.value }));
     };
 
     const handleUpdateSubmit = async (e) => {

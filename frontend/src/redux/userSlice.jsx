@@ -58,6 +58,9 @@ const userSlice = createSlice({
       // For simplicity, we'll just clear the formData field
       state.formData = {};
     },
+    updateFormData: (state, action) => {
+      state.formData = action.payload;
+    },
   },
 });
 
@@ -73,6 +76,7 @@ export const {
   deleteUserFailure,
   storeFormData, 
   fetchFormData,
+  updateFormData
 } = userSlice.actions;
 
 export default userSlice.reducer;
