@@ -11,7 +11,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { rateLimit } from 'express-rate-limit';
 import pgPool from './config/database.js';
-import sentry from './sentry.js';
+import Sentry from './sentry.js';
 import * as client from 'prom-client';
 import errorHandler from './util/util.js';
 
@@ -79,8 +79,9 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+// set up sentry.io
 app.use(errorHandler);
-sentry.init({ dsn: 'YOUR_SENTRY_DSN' }); // put https://your-public-key@your-sentry-domain/your-project-id inside YOUR_SENTRY_DSN
+Sentry.init({ dsn: 'YOUR_SENTRY_DSN' }); // put https://your-public-key@your-sentry-domain/your-project-id inside YOUR_SENTRY_DSN
 
 //set up prometheus 
 const collectDefaultMetrics = client.collectDefaultMetrics;
