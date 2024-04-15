@@ -18,7 +18,8 @@ import {
   updateFailure,
   deleteUserStart,
   deleteUserSuccess,
-  deleteUserFailure
+  deleteUserFailure,
+  fetchFormData
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -34,7 +35,7 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
+  const { currentUser, error, loading, formData } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -43,9 +44,20 @@ function ProfileEditPage() {
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({});
+  const [setFormDataLocal] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFormData());
+  }, [dispatch]);
+
+  // Set local form data when Redux form data changes
+  useEffect(() => {
+    if (formData) {
+      setFormDataLocal(formData);
+    }
+  }, [formData]);
 
   const handleImageChange = (e) => {
       const file = e.target.files[0];
@@ -121,7 +133,7 @@ const checkExistingImage = async (fileName) => {
         () => {
           getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
             setImageFileUrl(downloadURL);
-            setFormData({ ...formData, profilePicture: downloadURL });
+            setFormDataLocal({ ...formData, profilePicture: downloadURL });
             setImageFileUploading(false);
           });
         }
@@ -129,7 +141,7 @@ const checkExistingImage = async (fileName) => {
     };
         // Handle input change
     const handleChange = (e) => {
-          setFormData({ ...formData, [e.target.id]: e.target.value });
+      setFormDataLocal({ ...formData, [e.target.id]: e.target.value });
     };
 
     const handleUpdateSubmit = async (e) => {

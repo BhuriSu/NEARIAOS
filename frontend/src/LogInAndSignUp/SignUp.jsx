@@ -10,32 +10,35 @@ const SignUp = () => {
     const headerStyle = { margin: 0 };
     const avatarStyle = { backgroundColor: '#ff0593' };
     const btnStyle = {  marginTop: 5,backgroundColor: '#ff0593' };
-    const { signUp, sendSignInLink } = useUserAuth();
+    const { signUp } = useUserAuth();
     let navigate = useNavigate();
     const [email, setEmail] = useState(null);
     const [password, setPassword] = useState(null);
     const [confirmPassword, setConfirmPassword] = useState(null);
-    const [setError] = useState(null);
+
     const handleSubmit = async (e) => { 
-        e.preventDefault()
+        e.preventDefault();
         try {
-            await signUp(email, password);
-            await sendSignInLink(email); 
-            navigate('/newAccount');
             if (password !== confirmPassword) {
-                setError('Passwords need to match!')
-                return
+                throw new Error('Passwords need to match!');
             }
+            await signUp(email, password);
+   
+            navigate('/newAccount');
         } catch (error) {
             const errorMessage = error.message;
-            if (errorMessage) {
-              alert("The email address should add @gmail.com or password not match");
-            } else if (errorMessage === "auth/invalid-email") {
-              alert("The email address is not valid.");
-            } else if (errorMessage === "auth/operation-not-allowed") {
-              alert("Operation not allowed.");
-            } else if (errorMessage === "auth/weak-password") {
-              alert("The password is too weak.");
+            if (errorMessage.includes('auth/email-already-in-use')) {
+                alert("The email address is already in use.");
+            } else if (errorMessage.includes('auth/invalid-email')) {
+                alert("The email address is not valid.");
+            } else if (errorMessage.includes('auth/operation-not-allowed')) {
+                alert("Operation not allowed.");
+            } else if (errorMessage.includes('auth/weak-password')) {
+                alert("The password is too weak.");
+            } else if (errorMessage === 'Passwords need to match!') {
+                alert("Passwords need to match!");
+            } else {
+                alert("An unexpected error occurred.");
             }
         }
     }

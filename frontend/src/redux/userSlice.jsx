@@ -4,6 +4,7 @@ const initialState = {
   currentUser: null,
   error: null,
   loading: false,
+  formData: {}, 
 };
 
 const userSlice = createSlice({
@@ -49,6 +50,14 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = action.payload;
     },
+    storeFormData: (state, action) => {
+      state.formData = action.payload;
+    },
+    fetchFormData: (state) => {
+      // Logic to fetch form data from an API or other sources
+      // For simplicity, we'll just clear the formData field
+      state.formData = {};
+    },
   },
 });
 
@@ -62,6 +71,8 @@ export const {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
+  storeFormData, 
+  fetchFormData,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -13,6 +13,8 @@ import {
   createStart,
   createSuccess,
   createFailure,
+  storeFormData,
+  fetchFormData
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -127,6 +129,8 @@ function NewAccountPage() {
           setCreateUserError(data.message);
         } else {
           dispatch(createSuccess(data));
+          dispatch(storeFormData(formData));
+          dispatch(fetchFormData());
           setCreateUserSuccess("User's profile updated successfully");
           navigate('/profile');
         }
@@ -265,7 +269,7 @@ function NewAccountPage() {
                outline
                disabled={loading || imageFileUploading}
             >
-            {loading ? 'Loading...' : 'Update'}
+            {loading ? 'Loading...' : 'Create'}
             </SaveBtnStyle>
             </div>
 

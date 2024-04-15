@@ -7,7 +7,6 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   sendPasswordResetEmail,
-  sendSignInLinkToEmail,
   isSignInWithEmailLink, 
 } from 'firebase/auth';
 import auth from '../Firebase';
@@ -48,14 +47,6 @@ export function UserAuthContextProvider({ children }) {
     });
   }
 
-  // Function to send sign-in link to email
-  function sendSignInLink(email) {
-    return sendSignInLinkToEmail(auth, email, {
-      url: 'http://localhost:5173/completeSignIn',
-      handleCodeInApp: true,
-    });
-  }
-
   // Function to complete sign-in with email link
   async function completeSignInWithEmailLink() {
     if (isSignInWithEmailLink(auth, window.location.href)) {
@@ -74,7 +65,7 @@ export function UserAuthContextProvider({ children }) {
 
   return (
     <userAuthContext.Provider
-      value={{ user, logIn, signUp, logOut, googleSignIn, forgotPassword, sendSignInLink }}
+      value={{ user, logIn, signUp, logOut, googleSignIn, forgotPassword }}
     >
       {children}
     </userAuthContext.Provider>
