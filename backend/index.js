@@ -11,7 +11,9 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { rateLimit } from 'express-rate-limit';
 import pgPool from './config/database.js';
-
+import sentry from './sentry.js';
+import * as client from 'prom-client';
+import errorHandler from './util/util.js';
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL)
@@ -22,13 +24,17 @@ mongoose.connect(process.env.MONGO_URL)
     console.error("Error connecting to MongoDB:", error);
   });
 
-const __dirname = path.resolve();
 const app = express();
 app.use(express.json());
 
 // Create a Socket.IO instance attached to the HTTP server
 const httpServer = createServer(app);
-const io = new Server(httpServer);
+const io = new Server(httpServer, {
+  cors: {
+    origin: "http://localhost:5173",
+    methods: ["GET", "POST"]
+  }
+});
 
 // Handle connection event
 io.on("connection", (socket) => socketServer(socket));
@@ -73,6 +79,21 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+app.use(errorHandler);
+sentry.init({ dsn: 'YOUR_SENTRY_DSN' }); // put https://your-public-key@your-sentry-domain/your-project-id inside YOUR_SENTRY_DSN
+
+//set up prometheus 
+const collectDefaultMetrics = client.collectDefaultMetrics;
+collectDefaultMetrics({ register: client.register });
+
+app.get('/metrics', async (req,res)=> {
+   res.setHeader("Content-Type", client.register.contentType);
+   const metrics = await client.register.metrics();
+   res.send(metrics);
+});
+
+//docker run -d -p 3000:3000 --name=grafana grafana/grafana-oss (run for setting up grafana)
+//docker run -d --name=loki -p 3100:3100 grafana/loki (run for setting up loki)
 
 app.use((err, req, res, next) => {
   const statusCode = err.statusCode || 500;
@@ -84,6 +105,6 @@ app.use((err, req, res, next) => {
   });
 });
 
-httpServer.listen(5173, () => {
+httpServer.listen(4000, () => {
   console.log('Server is running!');
 });

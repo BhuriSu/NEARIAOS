@@ -7,10 +7,12 @@ import tailwindcss from "tailwindcss";
 export default defineConfig(() => {
   return {
     server: {
+      port: 5173, // Set your frontend port here (for example, 3000)
       proxy: {
         '/api': {
-          target: 'http://127.0.0.1:5173',
-          secure: false, // turn it to be true when put on production 
+          target: 'http://localhost:4000', // Change to the backend server port
+          secure: false, // Set it to true when put on production
+          changeOrigin: true, // Add this line for proper proxy
         },
       },
     },
