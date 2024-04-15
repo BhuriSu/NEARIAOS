@@ -1,0 +1,46 @@
+version: "3"
+services:
+  react-app:
+    # Use a production-ready image or build the image locally
+    image: my-react-app:latest
+    # Only expose necessary ports
+    ports: 
+      - "80:3000"
+    # Remove unnecessary volumes for production
+    volumes:
+      - /usr/src/app/node_modules
+  api-server:
+    # Use a production-ready image or build the image locally
+    image: my-api-server:latest
+    # Only expose necessary ports
+    ports:
+      - "80:5000"
+    depends_on:
+      - mongo
+      - postgresql
+  mongo:
+    # Use a production-ready image
+    image: mongo:latest
+    # Remove unnecessary volumes for production
+    volumes:
+      - mongo-data:/data/db
+  postgresql:   
+    # Use a production-ready image
+    image: postgres:latest
+    # Remove unnecessary volumes for production
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  prom-server:
+    # Use a production-ready image
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+networks:
+  # Define networks if necessary
+volumes:
+  mongo-data:
+    # Adjust volume driver if needed
+    driver: local
+  postgres-data:   
+    # Adjust volume driver if needed
+    driver: local

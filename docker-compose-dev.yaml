@@ -1,0 +1,61 @@
+version: "3"
+services:
+  react-app:
+    image: react-vite
+    env_file: 
+      - ./frontend/.env
+    ports: 
+      - "5173:3000"
+    networks:
+      - neariaos-frontend
+    volumes:
+      - ./client/:/usr/src/app
+      - /usr/src/app/node_modules
+  api-server:
+    image: api-server
+    ports:
+      - "4000:5000"
+    networks:
+      - neariaos-backend
+    depends_on:
+      - mongo
+      - postgresql
+  mongo:
+    image: mongo
+    env_file: 
+      - ./backend/.env
+    ports:
+      - "27017:27017"
+    networks:
+      - neariaos-database
+    volumes:
+      - mongo-data:/data/db
+  postgresql:   
+    image: postgres
+    env_file:
+      - ./backend/.env
+    ports:
+      - "5432:5432"
+    networks:
+      - neariaos-database
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+  prom-server:
+    image: prom/prometheus
+    ports:
+      - 9090:9090
+    volumes:
+      - ./prometheus-config.yml:/etc/prometheus/prometheus.yml
+networks:
+  neariaos-frontend:   
+    driver: bridge
+  neariaos-backend:   
+    driver: bridge
+  neariaos-database:   
+    driver: bridge
+volumes:
+  mongo-data:
+    driver: local
+  postgres-data:   
+    driver: local
+
