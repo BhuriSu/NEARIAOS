@@ -1,7 +1,7 @@
 import { Avatar } from "@mui/material";
 import React from "react";
 
-const UserAvatar = ({ username, profilePicture, height, width }) => {
+const UserAvatar = ({username, profilePicture, height, width }) => {
 
   return (
     <Avatar

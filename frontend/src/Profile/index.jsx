@@ -20,7 +20,7 @@ import {
   deleteUserSuccess,
   deleteUserFailure,
   fetchFormData,
-  updateFormData
+  updateFormData 
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -36,8 +36,7 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
-  const formData = useSelector((state) => state.user.formData) || {};
+  const {currentUser, error, loading, formData } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -46,140 +45,108 @@ function ProfileEditPage() {
   const [updateUserSuccess, setUpdateUserSuccess] = useState(null);
   const [updateUserError, setUpdateUserError] = useState(null);
   const [showModal, setShowModal] = useState(false);
-  const [setFormDataLocal] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setImageFile(file);
+      setImageFileUrl(URL.createObjectURL(file));
+    }
+  };
+
+  useEffect(() => {
+    if (imageFile) {
+      uploadImage();
+    }
+  }, [imageFile]);
 
   useEffect(() => {
     dispatch(fetchFormData());
   }, [dispatch]);
+  
+  const handleChange = (e) => {
+    dispatch(updateFormData({ ...formData, [e.target.id]: e.target.value }));
+  };
 
-  // Set local form data when Redux form data changes
-  useEffect(() => {
-    if (formData) {
-      setFormDataLocal(formData);
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    setUpdateUserError(null);
+    setUpdateUserSuccess(null);
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError('No changes made');
+      return;
     }
-  }, [formData]);
-
-  const handleImageChange = (e) => {
-      const file = e.target.files[0];
-       if (file) {
-        setImageFile(file);
-        setImageFileUrl(URL.createObjectURL(file));
-       }
-      };
-     useEffect(() => {
-       if (imageFile) {
-        uploadImage();
-       }
-     }, [imageFile]);
-
-const checkExistingImage = async (fileName) => {
-  try {
-    const response = await fetch(`/api/users/checkImage?fileName=${fileName}`, {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    const data = await response.json();
-    return data.exists;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-};
-    
-    const uploadImage = async () => {
-      // service firebase.storage {
-      //   match /b/{bucket}/o {
-      //     match /{allPaths=**} {
-      //       allow read;
-      //       allow write: if
-      //       request.resource.size < 2 * 1024 * 1024 &&
-      //       request.resource.contentType.matches('image/.*')
-      //     }
-      //   }
-      // }
-      setImageFileUploading(true);
-      setImageFileUploadError(null);
-      const existingImage = await checkExistingImage(imageFile.name);
-     if (existingImage) {
-     setImageFileUploadError('Image with the same name already exists');
-     setImageFileUploadProgress(null);
-     setImageFile(null);
-     setImageFileUrl(null);
-     setImageFileUploading(false);
-     return;
-     }
-      const storage = getStorage(firebase);
-      const fileName = new Date().getTime() + imageFile.name;
-      const storageRef = ref(storage, fileName);
-      const uploadTask = uploadBytesResumable(storageRef, imageFile);
-      uploadTask.on(
-        'state_changed',
-        (snapshot) => {
-          const progress =
-            (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-          setImageFileUploadProgress(progress.toFixed(0));
+    if (imageFileUploading) {
+      setUpdateUserError('Please wait for image to upload');
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await fetch(`/api/users/update/${currentUser._id}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
         },
-        () => {
-          setImageFileUploadError(
-            'Could not upload image (File must be less than 2MB)'
-          );
-          setImageFileUploadProgress(null);
-          setImageFile(null);
-          setImageFileUrl(null);
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(updateFailure(data.message));
+        setUpdateUserError(data.message);
+      } else {
+        dispatch(updateSuccess(data));
+        setUpdateUserSuccess("User's profile updated successfully");
+      }
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+      setUpdateUserError(error.message);
+    }
+  };
+
+  const uploadImage = async () => {
+    // service firebase.storage {
+    //   match /b/{bucket}/o {
+    //     match /{allPaths=**} {
+    //       allow read;
+    //       allow write: if
+    //       request.resource.size < 2 * 1024 * 1024 &&
+    //       request.resource.contentType.matches('image/.*')
+    //     }
+    //   }
+    // }
+    setImageFileUploading(true);
+    setImageFileUploadError(null);
+    const storage = getStorage(firebase);
+    const fileName = new Date().getTime() + imageFile.name;
+    const storageRef = ref(storage, fileName);
+    const uploadTask = uploadBytesResumable(storageRef, imageFile);
+    uploadTask.on(
+      'state_changed',
+      (snapshot) => {
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+        setImageFileUploadProgress(progress.toFixed(0));
+      },
+      () => {
+        setImageFileUploadError(
+          'Could not upload image (File must be less than 2MB)'
+        );
+        setImageFileUploadProgress(null);
+        setImageFile(null);
+        setImageFileUrl(null);
+        setImageFileUploading(false);
+      },
+      () => {
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setImageFileUrl(downloadURL);
+          dispatch(updateFormData({ ...formData, profilePicture: downloadURL }));
           setImageFileUploading(false);
-        },
-        () => {
-          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-            setImageFileUrl(downloadURL);
-            setFormDataLocal({ ...formData, profilePicture: downloadURL });
-            setImageFileUploading(false);
-          });
-        }
-      );
-    };
-        // Handle input change
-    const handleChange = (e) => {
-      dispatch(updateFormData({ ...formData, [e.target.id]: e.target.value }));
-    };
-
-    const handleUpdateSubmit = async (e) => {
-      e.preventDefault();
-      setUpdateUserError(null);
-      setUpdateUserSuccess(null);
-      if (Object.keys(formData).length === 0) {
-        setUpdateUserError('No changes made');
-        return;
-      }
-      if (imageFileUploading) {
-        setUpdateUserError('Please wait for image to upload');
-        return;
-      }
-      try {
-        dispatch(updateStart());
-        const res = await fetch(`/api/users/update/${currentUser._id}`, {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(formData),
         });
-        const data = await res.json();
-        if (!res.ok) {
-          dispatch(updateFailure(data.message));
-          setUpdateUserError(data.message);
-        } else {
-          dispatch(updateSuccess(data));
-          setUpdateUserSuccess("User's profile updated successfully");
-        }
-      } catch (error) {
-        dispatch(updateFailure(error.message));
-        setUpdateUserError(error.message);
       }
-    };
+    );
+  };
 
   const handleDeleteUser = async () => {
     setShowModal(false);
@@ -248,9 +215,11 @@ const checkExistingImage = async (fileName) => {
             />
           )}
           <UserAvatar
-            username={formData.username || (currentUser && currentUser.username)} profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''} height={100} width={100} 
-            alt='user'
-            className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
+             username={formData.username || (currentUser && currentUser.formData.username)} profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
+             height={100} 
+             width={100} 
+             alt='user'
+             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&
               imageFileUploadProgress < 100 &&
               'opacity-50'
@@ -280,13 +249,7 @@ const checkExistingImage = async (fileName) => {
            id="date" 
            onChange={handleChange}
            >
-           <DatePicker 
-           // dateAdapter={AdapterDayjs} 
-           // type="date" 
-           // id="date" 
-           // defaultValue={currentUser.date} 
-           // onChange={handleChange}
-           />
+           <DatePicker />
            </LocalizationProvider>
            </DateContainer>
           </span>

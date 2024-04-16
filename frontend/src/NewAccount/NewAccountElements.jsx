@@ -26,7 +26,7 @@ export const StyledInput = styled.input`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #00ffa6;
+  background-color: #9645ff;
   height: 10px;
   border-radius: 20px;
   margin: auto 0;
@@ -34,11 +34,11 @@ export const StyledInput = styled.input`
   border-color:#000 ;
   box-sizing: border-box;
   ::placeholder { 
-    color: #000;
+    color: #fff;
   }
 `;
 export const DateContainer = styled.div`
-background-color: #00ffa6;
+background-color: #9645ff;
 border-radius: 20px;
 padding: 10px;
 display: flex;
@@ -52,7 +52,7 @@ height: 150px;
 `;
 export const SaveBtnStyle = styled.button`
   border-radius: 50px;
-  background: #05fff3;
+  background: #9645ff;
   white-space: nowrap;
   padding: 10px 22px;
   color: #000;
@@ -65,7 +65,7 @@ export const SaveBtnStyle = styled.button`
 
   &:hover {
     transition: all 0.2s ease-in-out;
-    background: #8c2eff;
+    background: #ff45f9;
     color: #fff;
   }
 `;

@@ -38,6 +38,7 @@ export const updateUser = async (req, res) => {
       },
       { new: true },
     );
+    console.log({ updatedUser });
     const { profilePicture, username, date, workplace, beverage, favorite, about } = updatedUser._doc;
     res.status(200).json({ profilePicture, username, date, workplace, beverage, favorite, about });
   } catch (error) {
@@ -49,6 +50,7 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     await Profile.findByIdAndDelete(req.params.userId);
+    console.log({ deletedUser });
     res.status(200).json('User has been deleted');
   } catch (error) {
     console.error(error);

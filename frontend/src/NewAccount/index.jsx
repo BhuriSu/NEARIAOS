@@ -13,8 +13,7 @@ import {
   createStart,
   createSuccess,
   createFailure,
-  storeFormData,
-  fetchFormData
+  storeFormData
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -37,7 +36,14 @@ function NewAccountPage() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [createUserSuccess, setCreateUserSuccess] = useState(null);
   const [createUserError, setCreateUserError] = useState(null);
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    username: '',
+    date: '', 
+    beverage: '',
+    about: '',
+    workplace: '',
+    favorite: '',
+  });
   const filePickerRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
@@ -99,11 +105,13 @@ function NewAccountPage() {
     };
         // Handle input change
     const handleChange = (e) => {
-          setFormData({ ...formData, [e.target.id]: e.target.value });
-    };
+          const { id, value } = e.target;
+          setFormData({ ...formData, [id]: value }); 
+        };
     
     const handleCreateSubmit = async (e) => {
       e.preventDefault();
+      
       setCreateUserError(null);
       setCreateUserSuccess(null);
       if (Object.keys(formData).length === 0) {
@@ -114,6 +122,7 @@ function NewAccountPage() {
         setCreateUserError('Please wait for image to upload');
         return;
       }
+      dispatch(storeFormData(formData));
       try {
         dispatch(createStart());
         const res = await fetch('/api/users/create', {
@@ -129,8 +138,6 @@ function NewAccountPage() {
           setCreateUserError(data.message);
         } else {
           dispatch(createSuccess(data));
-          dispatch(storeFormData(formData));
-          dispatch(fetchFormData());
           setCreateUserSuccess("User's profile updated successfully");
           navigate('/profile');
         }
@@ -179,7 +186,9 @@ function NewAccountPage() {
             />
           )}
           <UserAvatar
-            username={formData.username || (currentUser && currentUser.username)} profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''} height={100} width={100} 
+            username={formData.username || (currentUser && currentUser.username)} profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
+            height={100} 
+            width={100} 
             alt='user'
             className={`rounded-full w-full h-full object-cover border-8 border-[lightgray] ${
               imageFileUploadProgress &&
