@@ -186,7 +186,7 @@ function NewAccountPage() {
             />
           )}
           <UserAvatar
-            username={formData.username || (currentUser && currentUser.username)} profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
+            profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
             height={100} 
             width={100} 
             alt='user'

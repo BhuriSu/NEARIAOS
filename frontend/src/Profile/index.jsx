@@ -36,7 +36,12 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const {currentUser, error, loading, formData } = useSelector((state) => state.user) || {};
+  const { currentUser, error, loading, formData } = useSelector((state) => ({
+    currentUser: state.user.currentUser,
+    formData: state.user.formData,
+    error: state.user.error,
+    loading: state.user.loading
+  })) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -215,7 +220,7 @@ function ProfileEditPage() {
             />
           )}
           <UserAvatar
-             username={formData.username || (currentUser && currentUser.formData.username)} profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
+             profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
              height={100} 
              width={100} 
              alt='user'
