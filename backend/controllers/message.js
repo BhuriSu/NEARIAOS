@@ -5,8 +5,7 @@ import Profile from "../models/Profile.js";
 export const sendMessage = async (req, res) => {
   try {
     const recipientId = req.params.id;
-    const { content } = req.body;
-    const userId = req.params.userId;
+    const { content, userId } = req.body;
     const recipient = await Profile.findById(recipientId);
 
     if (!recipient) {
@@ -68,7 +67,7 @@ export const getMessages = async (req, res) => {
 
 export const getConversations = async (req, res) => {
   try {
-    const userId = req.params.userId;
+    const { userId } = req.body;
 
     const conversations = await Conversation.find({
       recipients: {

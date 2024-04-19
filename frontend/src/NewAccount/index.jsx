@@ -55,11 +55,12 @@ function NewAccountPage() {
         setImageFileUrl(URL.createObjectURL(file));
        }
       };
-     useEffect(() => {
+    
+  useEffect(() => {
        if (imageFile) {
         uploadImage();
        }
-     }, [imageFile]);
+  }, [imageFile]);
     
     const uploadImage = async () => {
       // service firebase.storage {
@@ -105,10 +106,9 @@ function NewAccountPage() {
     };
         // Handle input change
     const handleChange = (e) => {
-          const { id, value } = e.target;
-          setFormData({ ...formData, [id]: value }); 
-        };
-    
+          setFormData({ ...formData, [e.target.id]: e.target.value });
+    };
+
     const handleCreateSubmit = async (e) => {
       e.preventDefault();
       

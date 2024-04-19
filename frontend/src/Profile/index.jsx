@@ -70,45 +70,6 @@ function ProfileEditPage() {
   useEffect(() => {
     dispatch(fetchFormData());
   }, [dispatch]);
-  
-  const handleChange = (e) => {
-    dispatch(updateFormData({ ...formData, [e.target.id]: e.target.value }));
-  };
-
-  const handleUpdateSubmit = async (e) => {
-    e.preventDefault();
-    setUpdateUserError(null);
-    setUpdateUserSuccess(null);
-    if (Object.keys(formData).length === 0) {
-      setUpdateUserError('No changes made');
-      return;
-    }
-    if (imageFileUploading) {
-      setUpdateUserError('Please wait for image to upload');
-      return;
-    }
-    try {
-      dispatch(updateStart());
-      const res = await fetch(`/api/users/update/${currentUser._id}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message);
-      } else {
-        dispatch(updateSuccess(data));
-        setUpdateUserSuccess("User's profile updated successfully");
-      }
-    } catch (error) {
-      dispatch(updateFailure(error.message));
-      setUpdateUserError(error.message);
-    }
-  };
 
   const uploadImage = async () => {
     // service firebase.storage {
@@ -135,9 +96,6 @@ function ProfileEditPage() {
         setImageFileUploadProgress(progress.toFixed(0));
       },
       () => {
-        setImageFileUploadError(
-          'Could not upload image (File must be less than 2MB)'
-        );
         setImageFileUploadProgress(null);
         setImageFile(null);
         setImageFileUrl(null);
@@ -151,6 +109,45 @@ function ProfileEditPage() {
         });
       }
     );
+  };
+
+  const handleChange = (e) => {
+    dispatch(updateFormData({ ...formData, [e.target.id]: e.target.value }));
+  };
+
+  const handleUpdateSubmit = async (e) => {
+    e.preventDefault();
+    setUpdateUserError(null);
+    setUpdateUserSuccess(null);
+    if (Object.keys(formData).length === 0) {
+      setUpdateUserError('No changes made');
+      return;
+    }
+    if (imageFileUploading) {
+      setUpdateUserError('Please wait for image to upload');
+      return;
+    }
+    try {
+      dispatch(updateStart());
+      const res = await fetch(`/api/users/update/${currentUser._id}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        dispatch(updateFailure(data.message));
+        setUpdateUserError(data.message);
+      } else {
+        dispatch(updateSuccess(data));
+        setUpdateUserSuccess("User's profile updated successfully");
+      }
+    } catch (error) {
+      dispatch(updateFailure(error.message));
+      setUpdateUserError(error.message);
+    }
   };
 
   const handleDeleteUser = async () => {
@@ -170,7 +167,7 @@ function ProfileEditPage() {
       dispatch(deleteUserFailure(error.message));
     }
   };
-   
+
   const LogOut = async () => {
     try {
       const auth = getAuth();

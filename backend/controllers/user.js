@@ -23,6 +23,7 @@ export const createUser = async (req, res) => {
 
 export const updateUser = async (req, res) => {
   try {
+    // Update the user profile
     const updatedUser = await Profile.findByIdAndUpdate(
       req.params.userId,
       {
@@ -36,11 +37,17 @@ export const updateUser = async (req, res) => {
           profilePicture: req.body.profilePicture,
         },
       },
-      { new: true },
+      { new: true } // Return the updated document
     );
-    console.log({ updatedUser });
-    const { profilePicture, username, date, workplace, beverage, favorite, about } = updatedUser._doc;
-    res.status(200).json({ profilePicture, username, date, workplace, beverage, favorite, about });
+
+    // Check if the user exists
+    if (!updatedUser) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Return the updated user profile
+    const { profilePicture, username, date, workplace, beverage, favorite, about } = updatedUser;
+    res.status(200).json({ profilePicture, username, date, workplace, beverage, favorite, about, message: 'Profile updated successfully' });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error updating profile' });
@@ -50,7 +57,6 @@ export const updateUser = async (req, res) => {
 export const deleteUser = async (req, res) => {
   try {
     await Profile.findByIdAndDelete(req.params.userId);
-    console.log({ deletedUser });
     res.status(200).json('User has been deleted');
   } catch (error) {
     console.error(error);
