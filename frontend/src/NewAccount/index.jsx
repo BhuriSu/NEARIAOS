@@ -114,6 +114,7 @@ function NewAccountPage() {
       
       setCreateUserError(null);
       setCreateUserSuccess(null);
+
       if (Object.keys(formData).length === 0) {
         setCreateUserError('No changes made');
         return;

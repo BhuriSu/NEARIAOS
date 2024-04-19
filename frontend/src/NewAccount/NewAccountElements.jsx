@@ -55,7 +55,7 @@ export const SaveBtnStyle = styled.button`
   background: #9645ff;
   white-space: nowrap;
   padding: 10px 22px;
-  color: #000;
+  color: #fff;
   font-size: 16px;
   outline: none;
   border: none;
