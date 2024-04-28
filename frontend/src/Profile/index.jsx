@@ -129,7 +129,7 @@ function ProfileEditPage() {
     }
     try {
       dispatch(updateStart());
-      const res = await fetch(`/api/users/update/${currentUser._id}`, {
+      const res = await fetch(`/api/users/update/${currentUser?._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ function ProfileEditPage() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/users/delete/${currentUser._id}`, {
+      const res = await fetch(`/api/users/delete/${currentUser?._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();

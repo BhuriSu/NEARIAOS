@@ -22,34 +22,24 @@ export const createUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const userId = req.params.userId; 
-  const { profilePicture, username, date, workplace, beverage, favorite, about } = req.body;
+  const id = req.params.id;
+  console.log('Received userId:', id);
   try {
-
-    if (!mongoose.isValidObjectId(userId)) {
-      return res.status(400).json({ error: 'Invalid userId' });
-    }
-    
     const updatedUser = await Profile.findByIdAndUpdate(
-      userId,
+      id,
       {
         $set: {
-          username,
-          date,
-          beverage,
-          workplace,
-          favorite,
-          about,
-          profilePicture,
+          username: req.body.username,
+          date: req.body.date,
+          beverage: req.body.beverage,
+          workplace: req.body.workplace,
+          favorite: req.body.favorite,
+          about: req.body.about,
+          profilePicture: req.body.profilePicture,
         },
       },
       { new: true }
     );
-
-    if (!updatedUser) {
-      return res.status(404).json({ error: 'User not found' });
-    }
-
     return res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
@@ -58,9 +48,9 @@ export const updateUser = async (req, res) => {
 };
 
 export const deleteUser = async (req, res) => {
-  const userId = req.params.userId;
+  const id = req.params.id;
   try {
-    const user = await Profile.findByIdAndDelete(userId);
+    const user = await Profile.findByIdAndDelete(id);
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
     }

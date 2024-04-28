@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ChatPageBackground = styled.div`
 background: #000;
-height: 800px;
+height: 900px;
 display: flex;
 flex-direction: column;
 justify-content: center;
