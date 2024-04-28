@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 //firebase
 import { getAuth, signOut } from "firebase/auth";
@@ -19,8 +19,6 @@ import {
   deleteUserStart,
   deleteUserSuccess,
   deleteUserFailure,
-  fetchFormData,
-  updateFormData 
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -36,12 +34,10 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { currentUser, error, loading, formData } = useSelector((state) => ({
-    currentUser: state.user.currentUser,
-    formData: state.user.formData,
-    error: state.user.error,
-    loading: state.user.loading
-  })) || {};
+  const { currentUser, error, loading } = useSelector((state) => state.user)|| {};
+  const location = useLocation();
+  const formDataFromNewAccount = location.state?.formData || {};
+  const [formData, setFormData] = useState(formDataFromNewAccount);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -53,11 +49,16 @@ function ProfileEditPage() {
   const filePickerRef = useRef();
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    setFormData(formDataFromNewAccount); // Update formData when location state changes
+  }, [formDataFromNewAccount]);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
       setImageFile(file);
       setImageFileUrl(URL.createObjectURL(file));
+      setFormData({ ...formData, profilePicture: URL.createObjectURL(file) });
     }
   };
 
@@ -66,10 +67,6 @@ function ProfileEditPage() {
       uploadImage();
     }
   }, [imageFile]);
-
-  useEffect(() => {
-    dispatch(fetchFormData());
-  }, [dispatch]);
 
   const uploadImage = async () => {
     // service firebase.storage {
@@ -104,7 +101,7 @@ function ProfileEditPage() {
       () => {
         getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
           setImageFileUrl(downloadURL);
-          dispatch(updateFormData({ ...formData, profilePicture: downloadURL }));
+          setFormData({ ...formData, profilePicture: downloadURL });
           setImageFileUploading(false);
         });
       }
@@ -112,7 +109,11 @@ function ProfileEditPage() {
   };
 
   const handleChange = (e) => {
-    dispatch(updateFormData({ ...formData, [e.target.id]: e.target.value }));
+    if (e.target.id === 'date') {
+      setFormData({ ...formData, date: e.target.value });
+    } else {
+      setFormData({ ...formData, [e.target.id]: e.target.value });
+    }
   };
 
   const handleUpdateSubmit = async (e) => {
@@ -217,7 +218,7 @@ function ProfileEditPage() {
             />
           )}
           <UserAvatar
-             profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
+             profilePicture={formDataFromNewAccount.profilePicture || imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
              height={100} 
              width={100} 
              alt='user'
@@ -239,6 +240,7 @@ function ProfileEditPage() {
           type='text'
           id='username'
           placeholder='username...'
+          value={formData.username}
           onChange={handleChange} 
           />
           </span>
@@ -247,6 +249,7 @@ function ProfileEditPage() {
            <DateContainer>
            <LocalizationProvider 
            dateAdapter={AdapterDayjs} 
+           value={formData.date}
            type="date" 
            id="date" 
            onChange={handleChange}
@@ -262,6 +265,7 @@ function ProfileEditPage() {
             type="text" 
             id="beverage" 
             placeholder="beverage..." 
+            value={formData.beverage}
             onChange={handleChange} 
             />
           </span>
@@ -272,6 +276,7 @@ function ProfileEditPage() {
             type="text" 
             id="workplace" 
             placeholder="workplace..." 
+            value={formData.workplace}
             onChange={handleChange} 
             />
           </span>
@@ -282,6 +287,7 @@ function ProfileEditPage() {
             type="text" 
             id="favorite" 
             placeholder="favorite..."
+            value={formData.favorite}
             onChange={handleChange}
             />
           </span>
@@ -292,6 +298,7 @@ function ProfileEditPage() {
             type="text" 
             id="about" 
             placeholder="about..." 
+            value={formData.about}
             onChange={handleChange}
             />
           </span>

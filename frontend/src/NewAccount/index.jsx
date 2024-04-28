@@ -13,7 +13,6 @@ import {
   createStart,
   createSuccess,
   createFailure,
-  storeFormData
 } from '../redux/userSlice';
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -43,6 +42,7 @@ function NewAccountPage() {
     about: '',
     workplace: '',
     favorite: '',
+    profilePicture: ''
   });
   const filePickerRef = useRef();
   const dispatch = useDispatch();
@@ -123,7 +123,6 @@ function NewAccountPage() {
         setCreateUserError('Please wait for image to upload');
         return;
       }
-      dispatch(storeFormData(formData));
       try {
         dispatch(createStart());
         const res = await fetch('/api/users/create', {
@@ -140,7 +139,7 @@ function NewAccountPage() {
         } else {
           dispatch(createSuccess(data));
           setCreateUserSuccess("User's profile updated successfully");
-          navigate('/profile');
+          navigate('/profile', { state: { formData } });
         }
       } catch (error) {
         dispatch(createFailure(error.message));
