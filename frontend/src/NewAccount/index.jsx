@@ -18,11 +18,9 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import UserAvatar from '../Chat/UserAvatar';
 // css 
-import { BackgroundProfileContainer, DateContainer,
+import { BackgroundProfileContainer,
     StyledInput, DivImage, SaveBtnStyle} from "./NewAccountElements";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert } from 'flowbite-react';
 
@@ -213,22 +211,30 @@ function NewAccountPage() {
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
-           <DateContainer>
-           <LocalizationProvider 
-           dateAdapter={AdapterDayjs} 
-           type="date" 
-           id="date" 
-           onChange={handleChange}
-           >
-           <DatePicker 
-           // dateAdapter={AdapterDayjs} 
-           // type="date" 
-           // id="date" 
-           // defaultValue={currentUser.date} 
-           // onChange={handleChange}
-           />
-           </LocalizationProvider>
-           </DateContainer>
+          <div style={{
+          backgroundColor: '#00ffa6',
+          borderRadius: '20px',
+          padding: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '10px',
+          }}>
+         <input 
+         type="date" 
+         value={formData.date}
+         id="date" 
+         onChange={handleChange}
+         style={{
+          border: 'none',
+          background: 'transparent',
+          color: '#000',
+          outline: 'none',
+          textAlign: 'center',
+          }}
+         />
+         </div>
           </span>
 
           <br/>

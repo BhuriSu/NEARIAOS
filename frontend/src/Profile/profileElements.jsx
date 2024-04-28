@@ -47,16 +47,6 @@ export const StyledInput = styled.input`
     color: #000;
   }
 `;
-export const DateContainer = styled.div`
-background-color: #00ffa6;
-border-radius: 20px;
-padding: 10px;
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-margin-top: 10px;
-`;
 export const DivImage = styled.div`
 height: 150px;
 `;

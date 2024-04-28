@@ -24,11 +24,9 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
 import UserAvatar from '../Chat/UserAvatar';
 // css 
-import { BackgroundProfileContainer, BackToListPage, DateContainer, LogOutLine,
+import { BackgroundProfileContainer, BackToListPage, LogOutLine,
     StyledInput, DivImage, SaveBtnStyle} from "./profileElements";
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
@@ -109,11 +107,7 @@ function ProfileEditPage() {
   };
 
   const handleChange = (e) => {
-    if (e.target.id === 'date') {
-      setFormData({ ...formData, date: e.target.value });
-    } else {
-      setFormData({ ...formData, [e.target.id]: e.target.value });
-    }
+    setFormData({ ...formData, [e.target.id]: e.target.value });
   };
 
   const handleUpdateSubmit = async (e) => {
@@ -246,17 +240,30 @@ function ProfileEditPage() {
           </span>
           <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
-           <DateContainer>
-           <LocalizationProvider 
-           dateAdapter={AdapterDayjs} 
-           value={formData.date}
-           type="date" 
-           id="date" 
-           onChange={handleChange}
-           >
-           <DatePicker />
-           </LocalizationProvider>
-           </DateContainer>
+          <div style={{
+          backgroundColor: '#00ffa6',
+          borderRadius: '20px',
+          padding: '10px',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          marginTop: '10px',
+          }}>
+         <input 
+         type="date" 
+         value={formData.date}
+         id="date" 
+         onChange={handleChange}
+         style={{
+          border: 'none',
+          background: 'transparent',
+          color: '#000',
+          outline: 'none',
+          textAlign: 'center',
+          }}
+         />
+         </div>
           </span>
 
           <br/>
