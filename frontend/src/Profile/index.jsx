@@ -49,7 +49,7 @@ function ProfileEditPage() {
 
   useEffect(() => {
     setFormData(formDataFromNewAccount); // Update formData when location state changes
-  }, [formDataFromNewAccount]);
+  }, []);
 
   const handleImageChange = (e) => {
     const file = e.target.files[0];
@@ -114,6 +114,8 @@ function ProfileEditPage() {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
+    console.log(currentUser);
+    console.log(formData);
     if (Object.keys(formData).length === 0) {
       setUpdateUserError('No changes made');
       return;
