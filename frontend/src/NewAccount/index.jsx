@@ -212,7 +212,7 @@ function NewAccountPage() {
           <br/>
           <span style={{ textShadow: "none", color: "#000" }} >
           <div style={{
-          backgroundColor: '#00ffa6',
+          backgroundColor: '#9645ff',
           borderRadius: '20px',
           padding: '10px',
           display: 'flex',

@@ -35,6 +35,8 @@
 
 ![When it processes](./images/LogIn.png)
 
+![When it processes](./images/newaccount.png)
+
 ![When it processes](./images/profile.png)
 
 ![When it processes](./images/ThreeIcon.png)
