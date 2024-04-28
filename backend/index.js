@@ -24,8 +24,14 @@ mongoose.connect(process.env.MONGO_URL)
     console.error("Error connecting to MongoDB:", error);
   });
 
+const __dirname1 = path.resolve();
 const app = express();
+
 app.use(express.json());
+// when you want to use POST and PUT/PATCH method
+app.use(express.urlencoded({ extended: false }));
+// prevent CORS access error
+app.use(cors());
 
 // Create a Socket.IO instance attached to the HTTP server
 const httpServer = createServer(app);
@@ -38,11 +44,6 @@ const io = new Server(httpServer, {
 
 // Handle connection event
 io.on("connection", (socket) => socketServer(socket));
-
-// when you want to use POST and PUT/PATCH method
-app.use(express.urlencoded({ extended: false }));
-// prevent CORS access error
-app.use(cors());
 
 // Define the rate limit middleware
 const limiter = rateLimit({
@@ -64,8 +65,6 @@ app.use('/api/lists',listsRouter)
 app.use('/api/messages',messageRouter)
 
 // --------------------------deployment------------------------------
-
-const __dirname1 = path.resolve();
 
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
@@ -96,15 +95,6 @@ app.get('/metrics', async (req,res)=> {
 //docker run -d -p 3000:3000 --name=grafana grafana/grafana-oss (run for setting up grafana)
 //docker run -d --name=loki -p 3100:3100 grafana/loki (run for setting up loki)
 
-app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
-  const message = err.message || 'Internal Server Error';
-  res.status(statusCode).json({
-    success: false,
-    statusCode,
-    message,
-  });
-});
 
 httpServer.listen(4000, () => {
   console.log('Server is running!');

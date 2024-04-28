@@ -371,7 +371,6 @@ function ProfileEditPage() {
         </Modal.Body>
       </Modal>
 
-       
       </BackgroundProfileContainer>   
     </>
   );

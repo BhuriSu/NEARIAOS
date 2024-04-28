@@ -22,42 +22,49 @@ export const createUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
+  const userId = req.params.userId; 
+  const { profilePicture, username, date, workplace, beverage, favorite, about } = req.body;
   try {
-    // Update the user profile
+
+    if (!mongoose.isValidObjectId(userId)) {
+      return res.status(400).json({ error: 'Invalid userId' });
+    }
+    
     const updatedUser = await Profile.findByIdAndUpdate(
-      req.params.userId,
+      userId,
       {
         $set: {
-          username: req.body.username,
-          date: req.body.date,
-          beverage: req.body.beverage,
-          workplace: req.body.workplace,
-          favorite: req.body.favorite,
-          about: req.body.about,
-          profilePicture: req.body.profilePicture,
+          username,
+          date,
+          beverage,
+          workplace,
+          favorite,
+          about,
+          profilePicture,
         },
       },
-      { new: true } // Return the updated document
+      { new: true }
     );
 
-    // Check if the user exists
     if (!updatedUser) {
       return res.status(404).json({ error: 'User not found' });
     }
 
-    // Return the updated user profile
-    const { profilePicture, username, date, workplace, beverage, favorite, about } = updatedUser;
-    res.status(200).json({ profilePicture, username, date, workplace, beverage, favorite, about, message: 'Profile updated successfully' });
+    return res.status(200).json(updatedUser);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error updating profile' });
+    return res.status(500).json({ error: 'Error updating profile' });
   }
 };
 
 export const deleteUser = async (req, res) => {
+  const userId = req.params.userId;
   try {
-    await Profile.findByIdAndDelete(req.params.userId);
-    res.status(200).json('User has been deleted');
+    const user = await Profile.findByIdAndDelete(userId);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json({ message: 'User has been deleted', user });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error deleting profile' });
