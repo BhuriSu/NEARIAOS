@@ -5,9 +5,8 @@ export const Lists = async (req, res) => {
 };
 
 export const FindUsers = async (req, res) => {
-  const { latitude, longitude, radius } = req.body;
-  const userId = req.params.userId;
-  if ([userId, latitude, longitude, radius].some(el => el === undefined)) {
+  const { id, latitude, longitude, radius } = req.body;
+  if ([id, latitude, longitude, radius].some(el => el === undefined)) {
     return res.status(400).json({
       success: false,
       err: 'Arguments are undefined'
@@ -34,7 +33,7 @@ export const FindUsers = async (req, res) => {
       SET latitude = $1, longitude = $2 
       WHERE username = $3
       `,
-      [latitude, longitude, userId]
+      [latitude, longitude, id]
     );
 
     client.release();

@@ -16,8 +16,25 @@ export const createUser = async (req, res) => {
     res.status(201).json({savedUser});
     console.log({savedUser})
   } catch (error) {
+    if (error.code === 11000 && error.keyPattern && error.keyPattern.username) {
+      return res.status(400).json({ error: "Username already exists" });
+    }
     console.error(error);
     res.status(500).json({ error: 'Error creating user' });
+  }
+};
+
+export const getUser = async (req, res) => {
+  const id = req.params.id;
+  try {
+    const user = await Profile.findById(id);
+    if (!user) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+    res.status(200).json({ user });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Error fetching user' });
   }
 };
 

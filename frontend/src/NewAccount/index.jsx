@@ -25,7 +25,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert } from 'flowbite-react';
 
 function NewAccountPage() {
-  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
+  const { error, loading } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -40,7 +40,7 @@ function NewAccountPage() {
     about: '',
     workplace: '',
     favorite: '',
-    profilePicture: ''
+    profilePicture: '',
   });
   const filePickerRef = useRef();
   const dispatch = useDispatch();
@@ -109,10 +109,9 @@ function NewAccountPage() {
 
     const handleCreateSubmit = async (e) => {
       e.preventDefault();
-      
       setCreateUserError(null);
       setCreateUserSuccess(null);
-
+      console.log(formData);
       if (Object.keys(formData).length === 0) {
         setCreateUserError('No changes made');
         return;
@@ -137,7 +136,7 @@ function NewAccountPage() {
         } else {
           dispatch(createSuccess(data));
           setCreateUserSuccess("User's profile updated successfully");
-          navigate('/profile', { state: { formData } });
+          navigate('/profile', { state: { formData: { ...formData, _id: data._id } } });
         }
       } catch (error) {
         dispatch(createFailure(error.message));
@@ -184,7 +183,7 @@ function NewAccountPage() {
             />
           )}
           <UserAvatar
-            profilePicture={imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
+            profilePicture={imageFileUrl}  
             height={100} 
             width={100} 
             alt='user'
@@ -206,6 +205,7 @@ function NewAccountPage() {
           type='text'
           id='username'
           placeholder='username...'
+          value={formData.username} 
           onChange={handleChange} 
           />
           </span>

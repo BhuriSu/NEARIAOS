@@ -25,14 +25,14 @@ import { useDispatch } from 'react-redux';
 import UserAvatar from '../Chat/UserAvatar';
 // css 
 import { BackgroundProfileContainer, BackToListPage, LogOutLine,
-    StyledInput, DivImage, SaveBtnStyle} from "./profileElements";
+    StyledInput, DivImage, SaveBtnStyle } from "./profileElements";
 
 import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { currentUser, error, loading } = useSelector((state) => state.user)|| {};
+  const { error, loading } = useSelector((state) => state.user)|| {};
   const location = useLocation();
   const formDataFromNewAccount = location.state?.formData || {};
   const [formData, setFormData] = useState(formDataFromNewAccount);
@@ -47,10 +47,6 @@ function ProfileEditPage() {
   const filePickerRef = useRef();
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    setFormData(formDataFromNewAccount); // Update formData when location state changes
-  }, []);
-
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -59,13 +55,17 @@ function ProfileEditPage() {
       setFormData({ ...formData, profilePicture: URL.createObjectURL(file) });
     }
   };
-
   useEffect(() => {
     if (imageFile) {
       uploadImage();
     }
   }, [imageFile]);
 
+  useEffect(() => {
+    if (formDataFromNewAccount) {
+      setFormData({ ...formDataFromNewAccount });
+    }
+  }, [formDataFromNewAccount]);
   const uploadImage = async () => {
     // service firebase.storage {
     //   match /b/{bucket}/o {
@@ -114,7 +114,6 @@ function ProfileEditPage() {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
-    console.log(currentUser);
     console.log(formData);
     if (Object.keys(formData).length === 0) {
       setUpdateUserError('No changes made');
@@ -126,7 +125,7 @@ function ProfileEditPage() {
     }
     try {
       dispatch(updateStart());
-      const res = await fetch(`/api/users/update/${currentUser?._id}`, {
+      const res = await fetch(`/api/users/update/${formData._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +150,7 @@ function ProfileEditPage() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
-      const res = await fetch(`/api/users/delete/${currentUser?._id}`, {
+      const res = await fetch(`/api/users/delete/${formData._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -214,7 +213,7 @@ function ProfileEditPage() {
             />
           )}
           <UserAvatar
-             profilePicture={formDataFromNewAccount.profilePicture || imageFileUrl || (currentUser && currentUser.profilePicture) || ''}  
+             profilePicture={formDataFromNewAccount.profilePicture || imageFileUrl || (formData && formData.profilePicture) || ''}  
              height={100} 
              width={100} 
              alt='user'
