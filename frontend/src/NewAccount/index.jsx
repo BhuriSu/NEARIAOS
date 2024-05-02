@@ -25,7 +25,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert } from 'flowbite-react';
 
 function NewAccountPage() {
-  const { error, loading } = useSelector((state) => state.user) || {};
+  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -34,7 +34,7 @@ function NewAccountPage() {
   const [createUserSuccess, setCreateUserSuccess] = useState(null);
   const [createUserError, setCreateUserError] = useState(null);
   const [formData, setFormData] = useState({
-    username: '',
+    currentUser: currentUser ? currentUser.username : "",
     date: '', 
     beverage: '',
     about: '',
@@ -136,7 +136,7 @@ function NewAccountPage() {
         } else {
           dispatch(createSuccess(data));
           setCreateUserSuccess("User's profile updated successfully");
-          navigate('/profile', { state: { formData: { ...formData, _id: data._id } } });
+          navigate('/profile', { state: { formData } });
         }
       } catch (error) {
         dispatch(createFailure(error.message));
@@ -205,8 +205,8 @@ function NewAccountPage() {
           type='text'
           id='username'
           placeholder='username...'
-          value={formData.username} 
           onChange={handleChange} 
+          value={formData.username}
           />
           </span>
           <br/>
@@ -223,9 +223,9 @@ function NewAccountPage() {
           }}>
          <input 
          type="date" 
-         value={formData.date}
          id="date" 
          onChange={handleChange}
+         value={formData.about}
          style={{
           border: 'none',
           background: 'transparent',
@@ -241,9 +241,11 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
+      
             id="beverage" 
             placeholder="beverage..." 
             onChange={handleChange} 
+            value={formData.beverage}
             />
           </span>
 
@@ -251,9 +253,11 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
+          
             id="workplace" 
             placeholder="workplace..." 
             onChange={handleChange} 
+            value={formData.workplace}
             />
           </span>
 
@@ -261,9 +265,11 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
+           
             id="favorite" 
             placeholder="favorite..."
             onChange={handleChange}
+            value={formData.favorite}
             />
           </span>
 
@@ -271,9 +277,11 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
+           
             id="about" 
             placeholder="about..." 
             onChange={handleChange}
+            value={formData.about}
             />
           </span>
 

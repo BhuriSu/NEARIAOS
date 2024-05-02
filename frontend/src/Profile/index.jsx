@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 //firebase
 import { getAuth, signOut } from "firebase/auth";
@@ -32,10 +32,16 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { error, loading } = useSelector((state) => state.user)|| {};
-  const location = useLocation();
-  const formDataFromNewAccount = location.state?.formData || {};
-  const [formData, setFormData] = useState(formDataFromNewAccount);
+  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
+  const [formData, setFormData] = useState({
+    username: currentUser ? currentUser.username : "",
+    date: currentUser ? currentUser.date : "",
+    about: currentUser ? currentUser.about : "",
+    beverage: currentUser ? currentUser.beverage : "",
+    favorite: currentUser ? currentUser.favorite : "",
+    workplace: currentUser ? currentUser.workplace : "",
+    profilePicture: currentUser ? currentUser.profilePicture : "",
+  });
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -61,11 +67,7 @@ function ProfileEditPage() {
     }
   }, [imageFile]);
 
-  useEffect(() => {
-    if (formDataFromNewAccount) {
-      setFormData({ ...formDataFromNewAccount });
-    }
-  }, [formDataFromNewAccount]);
+
   const uploadImage = async () => {
     // service firebase.storage {
     //   match /b/{bucket}/o {
@@ -213,7 +215,7 @@ function ProfileEditPage() {
             />
           )}
           <UserAvatar
-             profilePicture={formDataFromNewAccount.profilePicture || imageFileUrl || (formData && formData.profilePicture) || ''}  
+             profilePicture={imageFileUrl || (formData && formData.profilePicture) || ''}  
              height={100} 
              width={100} 
              alt='user'
@@ -235,7 +237,7 @@ function ProfileEditPage() {
           type='text'
           id='username'
           placeholder='username...'
-          value={formData.username}
+          defaultValue={formData.username}
           onChange={handleChange} 
           />
           </span>
@@ -253,7 +255,7 @@ function ProfileEditPage() {
           }}>
          <input 
          type="date" 
-         value={formData.date}
+         defaultValue={formData.date}
          id="date" 
          onChange={handleChange}
          style={{
@@ -273,7 +275,7 @@ function ProfileEditPage() {
             type="text" 
             id="beverage" 
             placeholder="beverage..." 
-            value={formData.beverage}
+            defaultValue={formData.beverage}
             onChange={handleChange} 
             />
           </span>
@@ -284,7 +286,7 @@ function ProfileEditPage() {
             type="text" 
             id="workplace" 
             placeholder="workplace..." 
-            value={formData.workplace}
+            defaultValue={formData.workplace}
             onChange={handleChange} 
             />
           </span>
@@ -295,7 +297,7 @@ function ProfileEditPage() {
             type="text" 
             id="favorite" 
             placeholder="favorite..."
-            value={formData.favorite}
+            defaultValue={formData.favorite}
             onChange={handleChange}
             />
           </span>
@@ -306,7 +308,7 @@ function ProfileEditPage() {
             type="text" 
             id="about" 
             placeholder="about..." 
-            value={formData.about}
+            defaultValue={formData.about}
             onChange={handleChange}
             />
           </span>

@@ -11,9 +11,9 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { rateLimit } from 'express-rate-limit';
 import pgPool from './config/database.js';
-import Sentry from './sentry.js';
 import * as client from 'prom-client';
-import errorHandler from './util/util.js';
+import * as Sentry from "@sentry/node"
+import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL)
@@ -78,9 +78,42 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
-// set up sentry.io
-app.use(errorHandler);
-Sentry.init({ dsn: 'YOUR_SENTRY_DSN' }); // put https://your-public-key@your-sentry-domain/your-project-id inside YOUR_SENTRY_DSN
+Sentry.init({
+  dsn: "https://6ee98e4fd244122817e24242135f42d2@o4507186093555712.ingest.us.sentry.io/4507186095194112",
+  integrations: [
+    // enable HTTP calls tracing
+    new Sentry.Integrations.Http({ tracing: true }),
+    // enable Express.js middleware tracing
+    new Sentry.Integrations.Express({ app }),
+    nodeProfilingIntegration(),
+  ],
+  // Performance Monitoring
+  tracesSampleRate: 1.0, //  Capture 100% of the transactions
+  // Set sampling rate for profiling - this is relative to tracesSampleRate
+  profilesSampleRate: 1.0,
+});
+
+// The request handler must be the first middleware on the app
+app.use(Sentry.Handlers.requestHandler());
+
+// TracingHandler creates a trace for every incoming request
+app.use(Sentry.Handlers.tracingHandler());
+
+// The error handler must be registered before any other error middleware and after all controllers
+app.use(Sentry.Handlers.errorHandler());
+
+// Optional fallthrough error handler
+app.use(function onError(err, req, res, next) {
+  // The error id is attached to `res.sentry` to be returned
+  // and optionally displayed to the user for support.
+  res.statusCode = 500;
+  res.end(res.sentry + "\n");
+});
+
+//*My laptop is not compatible*
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
 
 //set up prometheus 
 const collectDefaultMetrics = client.collectDefaultMetrics;

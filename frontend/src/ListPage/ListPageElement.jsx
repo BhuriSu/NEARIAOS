@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const ListPageBackground = styled.div`
 background-color: #000;
-height: 700px;
+height: 800px;
 display: flex;
 flex-direction: column;
 justify-content: center;
