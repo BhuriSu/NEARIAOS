@@ -25,7 +25,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert } from 'flowbite-react';
 
 function NewAccountPage() {
-  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
+  const { loading } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -33,15 +33,7 @@ function NewAccountPage() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [createUserSuccess, setCreateUserSuccess] = useState(null);
   const [createUserError, setCreateUserError] = useState(null);
-  const [formData, setFormData] = useState({
-    currentUser: currentUser ? currentUser.username : "",
-    date: '', 
-    beverage: '',
-    about: '',
-    workplace: '',
-    favorite: '',
-    profilePicture: '',
-  });
+  const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
@@ -121,7 +113,7 @@ function NewAccountPage() {
         return;
       }
       try {
-        dispatch(createStart());
+        dispatch(createStart(formData));
         const res = await fetch('/api/users/create', {
           method: 'POST',
           headers: {
@@ -135,6 +127,7 @@ function NewAccountPage() {
           setCreateUserError(data.message);
         } else {
           dispatch(createSuccess(data));
+          console.log(createSuccess(data))
           setCreateUserSuccess("User's profile updated successfully");
           navigate('/profile', { state: { formData } });
         }
@@ -206,7 +199,6 @@ function NewAccountPage() {
           id='username'
           placeholder='username...'
           onChange={handleChange} 
-          value={formData.username}
           />
           </span>
           <br/>
@@ -225,7 +217,6 @@ function NewAccountPage() {
          type="date" 
          id="date" 
          onChange={handleChange}
-         value={formData.about}
          style={{
           border: 'none',
           background: 'transparent',
@@ -241,11 +232,9 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
-      
             id="beverage" 
             placeholder="beverage..." 
             onChange={handleChange} 
-            value={formData.beverage}
             />
           </span>
 
@@ -253,11 +242,9 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
-          
             id="workplace" 
             placeholder="workplace..." 
             onChange={handleChange} 
-            value={formData.workplace}
             />
           </span>
 
@@ -265,11 +252,9 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
-           
             id="favorite" 
             placeholder="favorite..."
             onChange={handleChange}
-            value={formData.favorite}
             />
           </span>
 
@@ -277,11 +262,9 @@ function NewAccountPage() {
           <span style={{ textShadow: "none", color: "#000" }} >
             <StyledInput 
             type="text" 
-           
             id="about" 
             placeholder="about..." 
             onChange={handleChange}
-            value={formData.about}
             />
           </span>
 
@@ -307,11 +290,6 @@ function NewAccountPage() {
       {createUserError && (
         <Alert color='success' className='mt-5'>
           {createUserError}
-        </Alert>
-      )}
-      {error && (
-        <Alert color='failure' className='mt-5'>
-          {error}
         </Alert>
       )}
    

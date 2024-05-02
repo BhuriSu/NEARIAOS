@@ -13,7 +13,6 @@
     "license": "ISC",
     "dependencies": {
         "@sentry/node": "^7.112.2",
-        "@sentry/profiling-node": "^7.112.2",
         "cors": "^2.8.5",
         "dotenv": "^16.0.3",
         "express": "^4.18.1",

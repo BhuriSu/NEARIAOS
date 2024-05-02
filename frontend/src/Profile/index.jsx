@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 //firebase
 import { getAuth, signOut } from "firebase/auth";
@@ -32,16 +32,10 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { currentUser, error, loading } = useSelector((state) => state.user) || {};
-  const [formData, setFormData] = useState({
-    username: currentUser ? currentUser.username : "",
-    date: currentUser ? currentUser.date : "",
-    about: currentUser ? currentUser.about : "",
-    beverage: currentUser ? currentUser.beverage : "",
-    favorite: currentUser ? currentUser.favorite : "",
-    workplace: currentUser ? currentUser.workplace : "",
-    profilePicture: currentUser ? currentUser.profilePicture : "",
-  });
+  const { currentUser, error, loading } = useSelector((state) => state.user)|| {};
+  const { state } = useLocation();
+  const formDataFromNewAccount = state?.formData || {};
+  const [formData, setFormData] = useState(formDataFromNewAccount);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -67,6 +61,10 @@ function ProfileEditPage() {
     }
   }, [imageFile]);
 
+  useEffect(() => {
+    // Update formData only when the component mounts for the first time
+    setFormData({ ...formDataFromNewAccount });
+  }, []);
 
   const uploadImage = async () => {
     // service firebase.storage {
@@ -126,8 +124,8 @@ function ProfileEditPage() {
       return;
     }
     try {
-      dispatch(updateStart());
-      const res = await fetch(`/api/users/update/${formData._id}`, {
+      dispatch(updateStart(formData));
+      const res = await fetch(`/api/users/update/${currentUser}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -140,6 +138,7 @@ function ProfileEditPage() {
         setUpdateUserError(data.message);
       } else {
         dispatch(updateSuccess(data));
+  
         setUpdateUserSuccess("User's profile updated successfully");
       }
     } catch (error) {
@@ -151,8 +150,8 @@ function ProfileEditPage() {
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
-      dispatch(deleteUserStart());
-      const res = await fetch(`/api/users/delete/${formData._id}`, {
+      dispatch(deleteUserStart(formData));
+      const res = await fetch(`/api/users/delete/${currentUser}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -215,7 +214,7 @@ function ProfileEditPage() {
             />
           )}
           <UserAvatar
-             profilePicture={imageFileUrl || (formData && formData.profilePicture) || ''}  
+             profilePicture={formDataFromNewAccount.profilePicture || imageFileUrl || (formData && formData.profilePicture) || ''}  
              height={100} 
              width={100} 
              alt='user'
@@ -237,7 +236,7 @@ function ProfileEditPage() {
           type='text'
           id='username'
           placeholder='username...'
-          defaultValue={formData.username}
+          value={formData.username}
           onChange={handleChange} 
           />
           </span>
@@ -255,7 +254,7 @@ function ProfileEditPage() {
           }}>
          <input 
          type="date" 
-         defaultValue={formData.date}
+         value={formData.date}
          id="date" 
          onChange={handleChange}
          style={{
@@ -275,7 +274,7 @@ function ProfileEditPage() {
             type="text" 
             id="beverage" 
             placeholder="beverage..." 
-            defaultValue={formData.beverage}
+            value={formData.beverage}
             onChange={handleChange} 
             />
           </span>
@@ -286,7 +285,7 @@ function ProfileEditPage() {
             type="text" 
             id="workplace" 
             placeholder="workplace..." 
-            defaultValue={formData.workplace}
+            value={formData.workplace}
             onChange={handleChange} 
             />
           </span>
@@ -297,7 +296,7 @@ function ProfileEditPage() {
             type="text" 
             id="favorite" 
             placeholder="favorite..."
-            defaultValue={formData.favorite}
+            value={formData.favorite}
             onChange={handleChange}
             />
           </span>
@@ -308,7 +307,7 @@ function ProfileEditPage() {
             type="text" 
             id="about" 
             placeholder="about..." 
-            defaultValue={formData.about}
+            value={formData.about}
             onChange={handleChange}
             />
           </span>

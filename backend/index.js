@@ -13,7 +13,6 @@ import { rateLimit } from 'express-rate-limit';
 import pgPool from './config/database.js';
 import * as client from 'prom-client';
 import * as Sentry from "@sentry/node"
-import { nodeProfilingIntegration } from "@sentry/profiling-node";
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL)
@@ -79,18 +78,10 @@ if (process.env.NODE_ENV === "production") {
 }
 
 Sentry.init({
-  dsn: "https://6ee98e4fd244122817e24242135f42d2@o4507186093555712.ingest.us.sentry.io/4507186095194112",
-  integrations: [
-    // enable HTTP calls tracing
-    new Sentry.Integrations.Http({ tracing: true }),
-    // enable Express.js middleware tracing
-    new Sentry.Integrations.Express({ app }),
-    nodeProfilingIntegration(),
-  ],
-  // Performance Monitoring
-  tracesSampleRate: 1.0, //  Capture 100% of the transactions
-  // Set sampling rate for profiling - this is relative to tracesSampleRate
-  profilesSampleRate: 1.0,
+  dsn: 'https://6ee98e4fd244122817e24242135f42d2@o4507186093555712.ingest.us.sentry.io/4507186095194112',
+  debug: true,
+  tracesSampleRate: 1,
+  profilesSampleRate: 1, // Set profiling sampling rate.
 });
 
 // The request handler must be the first middleware on the app
@@ -127,7 +118,6 @@ app.get('/metrics', async (req,res)=> {
 
 //docker run -d -p 3000:3000 --name=grafana grafana/grafana-oss (run for setting up grafana)
 //docker run -d --name=loki -p 3100:3100 grafana/loki (run for setting up loki)
-
 
 httpServer.listen(4000, () => {
   console.log('Server is running!');
