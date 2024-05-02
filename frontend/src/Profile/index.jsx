@@ -47,6 +47,7 @@ function ProfileEditPage() {
   const filePickerRef = useRef();
   const dispatch = useDispatch();
 
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -125,7 +126,7 @@ function ProfileEditPage() {
     }
     try {
       dispatch(updateStart(formData));
-      const res = await fetch(`/api/users/update/${currentUser}`, {
+      const res = await fetch(`/api/users/update/${currentUser._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -151,7 +152,7 @@ function ProfileEditPage() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart(formData));
-      const res = await fetch(`/api/users/delete/${currentUser}`, {
+      const res = await fetch(`/api/users/delete/${currentUser._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
