@@ -39,10 +39,9 @@ export const getUser = async (req, res) => {
 };
 
 export const updateUser = async (req, res) => {
-  const id = req.params.id;
   try {
     const updatedUser = await Profile.findByIdAndUpdate(
-      id,
+      req.params.id,
       {
         $set: {
           username: req.body.username,

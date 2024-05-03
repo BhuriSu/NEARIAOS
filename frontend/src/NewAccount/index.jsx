@@ -25,6 +25,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert } from 'flowbite-react';
 
 function NewAccountPage() {
+  const [formData, setFormData] = useState({});
   const { loading } = useSelector((state) => state.user) || {};
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -33,7 +34,6 @@ function NewAccountPage() {
   const [imageFileUploading, setImageFileUploading] = useState(false);
   const [createUserSuccess, setCreateUserSuccess] = useState(null);
   const [createUserError, setCreateUserError] = useState(null);
-  const [formData, setFormData] = useState({});
   const filePickerRef = useRef();
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
@@ -77,9 +77,6 @@ function NewAccountPage() {
           setImageFileUploadProgress(progress.toFixed(0));
         },
         () => {
-          setImageFileUploadError(
-            'Could not upload image (File must be less than 2MB)'
-          );
           setImageFileUploadProgress(null);
           setImageFile(null);
           setImageFileUrl(null);

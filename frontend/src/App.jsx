@@ -28,7 +28,7 @@ function App() {
           <Route path='/newAccount' element={<NewAccount/>} />
           <Route path='/profile' element={<ProfilePage/>} />
           <Route path='/chat' element={<ChatPage/>} />
-          <Route path='/listUsers' element={<ListPage/>} />
+          <Route path='/listUser' element={<ListPage/>} />
           <Route path='/privacy' element={<PrivacyPage/>} />
           <Route path='/forgotPass' element={<ForgotPassPage/>} />
         </Routes>

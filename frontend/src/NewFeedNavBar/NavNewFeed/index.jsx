@@ -21,7 +21,7 @@ function NavbarNewFeed({ toggle }) {
               <Profile src={profile} width='100' height='100' alt='' /> 
               </NavLinks>
               {' '} 
-              <NavLinks to='/listUsers'>
+              <NavLinks to='/listUser'>
               <Find src={FindPic} width='100' height='100' alt='' /> 
               </NavLinks>
               {' '}

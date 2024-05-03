@@ -32,7 +32,7 @@ import { Alert, Button, Modal } from 'flowbite-react';
 import { HiOutlineExclamationCircle } from 'react-icons/hi';
 
 function ProfileEditPage() {
-  const { currentUser, error, loading } = useSelector((state) => state.user)|| {};
+  const { error, loading } = useSelector((state) => state.user)|| {};
   const { state } = useLocation();
   const formDataFromNewAccount = state?.formData || {};
   const [formData, setFormData] = useState(formDataFromNewAccount);
@@ -126,7 +126,7 @@ function ProfileEditPage() {
     }
     try {
       dispatch(updateStart(formData));
-      const res = await fetch(`/api/users/update/${currentUser._id}`, {
+      const res = await fetch(`/api/users/update/${formData._id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
@@ -152,7 +152,7 @@ function ProfileEditPage() {
     setShowModal(false);
     try {
       dispatch(deleteUserStart(formData));
-      const res = await fetch(`/api/users/delete/${currentUser._id}`, {
+      const res = await fetch(`/api/users/delete/${formData._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -329,7 +329,7 @@ function ProfileEditPage() {
       
         <br/>
 
-          <Link to="/listUsers">
+          <Link to="/listUser">
           <BackToListPage>
           Back to ListPage
           </BackToListPage>

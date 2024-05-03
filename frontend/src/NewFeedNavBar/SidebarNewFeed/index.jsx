@@ -21,7 +21,7 @@ function SidebarNewFeed({ isOpen, toggle }) {
               <Profile src={profile} width='100' height='100' alt='' onClick={toggle} /> 
               </NavLinks>
               <br/>
-              <NavLinks to='/listUsers'>
+              <NavLinks to='/listUser'>
               <Find src={FindPic} width='100' height='100' alt='' onClick={toggle} /> 
               </NavLinks>
               <br/>
