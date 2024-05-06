@@ -1,8 +1,9 @@
-import { Avatar } from "@mui/material";
+
 import React from "react";
+import { Avatar } from "@mui/material";
 
-const UserAvatar = ({username, profilePicture, height, width }) => {
 
+const UserAvatar = ({ username, height, width, profilePicture }) => {
   return (
     <Avatar
       sx={{
@@ -10,7 +11,7 @@ const UserAvatar = ({username, profilePicture, height, width }) => {
         width: width,
       }}
       src={profilePicture}
-      alt={username} 
+      alt={username}
     />
   );
 };

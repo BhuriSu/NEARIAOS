@@ -16,7 +16,7 @@ import Loading from "./Loading";
 import Message from "./Message";
 import SendMessage from "./SendMessage";
 import HorizontalStack from "./HorizontalStack";
-import UserAvatar from "./UserAvatar";
+import UserAvatar from "../Profile/UserAvatar";
 
 const Messages = (props) => {
   const messagesEndRef = useRef(null);

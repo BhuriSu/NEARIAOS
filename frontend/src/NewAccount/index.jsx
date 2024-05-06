@@ -13,10 +13,9 @@ import {
   createStart,
   createSuccess,
   createFailure,
-} from '../redux/userSlice';
-import { useSelector } from 'react-redux';
-import { useDispatch } from 'react-redux';
-import UserAvatar from '../Chat/UserAvatar';
+} from '../redux/user/userSlice';
+import { useSelector, useDispatch  } from 'react-redux';
+import UserAvatar from '../Profile/UserAvatar';
 // css 
 import { BackgroundProfileContainer,
     StyledInput, DivImage, SaveBtnStyle} from "./NewAccountElements";
@@ -26,7 +25,7 @@ import { Alert } from 'flowbite-react';
 
 function NewAccountPage() {
   const [formData, setFormData] = useState({});
-  const { loading } = useSelector((state) => state.user) || {};
+  const { loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
   const [imageFileUploadProgress, setImageFileUploadProgress] = useState(null);
@@ -110,7 +109,7 @@ function NewAccountPage() {
         return;
       }
       try {
-        dispatch(createStart(formData));
+        dispatch(createStart());
         const res = await fetch('/api/users/create', {
           method: 'POST',
           headers: {
@@ -133,7 +132,7 @@ function NewAccountPage() {
         setCreateUserError(error.message);
       }
     };
-  
+
   return (
     <>
       <BackgroundProfileContainer >

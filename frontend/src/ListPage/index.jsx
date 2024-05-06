@@ -183,7 +183,7 @@ function ListUsers() {
             >
               {list.success
                 ? list.list.map((username) => (
-                  <ModalWindow username={username} key={username.id} />
+                  <ModalWindow username={username} key={username._id} />
                 ))
                 : list.err}
             </ul>

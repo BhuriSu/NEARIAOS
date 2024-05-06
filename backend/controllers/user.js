@@ -1,77 +1,76 @@
-import Profile from "../models/Profile.js";
+import pool from '../config/database.js';
 
 export const createUser = async (req, res) => {
   try {
-    const newUser = new Profile({
-      username: req.body.username,
-      date: req.body.date,
-      beverage: req.body.beverage,
-      workplace: req.body.workplace,
-      favorite: req.body.favorite,
-      about: req.body.about,
-      profilePicture: req.body.profilePicture,
-    });
-
-    const savedUser = await newUser.save();
-    res.status(201).json({savedUser});
-    console.log({savedUser})
+    const { username, date, beverage, workplace, favorite, about, profilePicture } = req.body;
+    const query = `
+      INSERT INTO users (username, date, beverage, workplace, favorite, about, profile_picture)
+      VALUES ($1, $2, $3, $4, $5, $6, $7)
+      RETURNING *
+    `;
+    const values = [username, date, beverage, workplace, favorite, about, profilePicture];
+    const result = await pool.query(query, values);
+    
+    res.status(201).json({ user: result.rows[0] });
   } catch (error) {
-    if (error.code === 11000 && error.keyPattern && error.keyPattern.username) {
-      return res.status(400).json({ error: "Username already exists" });
-    }
     console.error(error);
     res.status(500).json({ error: 'Error creating user' });
   }
 };
 
+// READ operation
 export const getUser = async (req, res) => {
   const id = req.params.id;
   try {
-    const user = await Profile.findById(id);
-    if (!user) {
+    const query = 'SELECT * FROM users WHERE id = $1';
+    const result = await pool.query(query, [id]);
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.status(200).json({ user });
+    res.status(200).json({ user: result.rows[0] });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: 'Error fetching user' });
   }
 };
 
+// UPDATE operation
 export const updateUser = async (req, res) => {
   try {
-    const updatedUser = await Profile.findByIdAndUpdate(
-      req.params.id,
-      {
-        $set: {
-          username: req.body.username,
-          date: req.body.date,
-          beverage: req.body.beverage,
-          workplace: req.body.workplace,
-          favorite: req.body.favorite,
-          about: req.body.about,
-          profilePicture: req.body.profilePicture,
-        },
-      },
-      { new: true }
-    );
-    return res.status(200).json(updatedUser);
+    const id = req.params.id;
+    const { username, date, beverage, workplace, favorite, about, profilePicture } = req.body;
+    const query = `
+      UPDATE users 
+      SET username = $1, date = $2, beverage = $3, workplace = $4, favorite = $5, about = $6, profile_picture = $7
+      WHERE id = $8
+      RETURNING *
+    `;
+    const values = [username, date, beverage, workplace, favorite, about, profilePicture, id];
+    const result = await pool.query(query, values);
+    
+    if (result.rows.length === 0) {
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    res.status(200).json({ user: result.rows[0] });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Error updating profile' });
+    res.status(500).json({ error: 'Error updating user' });
   }
 };
 
+// DELETE operation
 export const deleteUser = async (req, res) => {
   const id = req.params.id;
   try {
-    const user = await Profile.findByIdAndDelete(id);
-    if (!user) {
+    const query = 'DELETE FROM users WHERE id = $1 RETURNING *';
+    const result = await pool.query(query, [id]);
+    if (result.rows.length === 0) {
       return res.status(404).json({ error: 'User not found' });
     }
-    res.status(200).json({ message: 'User has been deleted', user });
+    res.status(200).json({ message: 'User has been deleted', user: result.rows[0] });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error deleting profile' });
+    res.status(500).json({ error: 'Error deleting user' });
   }
 };

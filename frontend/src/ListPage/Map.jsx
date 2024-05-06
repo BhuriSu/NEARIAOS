@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import styles from './GoogleMapStyles.json';
 import {getMessages} from '../api/messages';
-import UserAvatar from "../Chat/UserAvatar";
+import UserAvatar from "../Profile/UserAvatar";
 
 const Map = ({
   googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,
@@ -16,16 +16,8 @@ const Map = ({
   longitude,
   list,
   radius,
-  profilePicture,
-  date,
-  workplace,
-  beverage,
-  favorite,
-  about
+  props
 }) => {
-  const age = Math.floor(
-    (new Date() - new Date(date)) / (24 * 3600 * 365.25 * 1000),
-  );
   const CMap = 
     ((props) => (
       <GoogleMap
@@ -65,7 +57,7 @@ const Map = ({
     >
       <Circle center={{ lat: latitude, lng: longitude }} radius={+radius} />
       {list.list.map((username) => (
-        <div key={username.id}>
+        <div key={username._id}>
           <Modal
             style={{
               textAlign: 'center',
@@ -76,25 +68,25 @@ const Map = ({
             trigger={(
               <Marker
                 position={{ lat: username.latitude, lng: username.longitude }}
-                title={username}
+                title={props.username}
               />
             )}
           >
             <Modal.Content>
               <Modal.Description>
                 <Header style={{ color: '#0f4667', fontSize: 'x-large' }}>
-                {` ${username}, ${age}`}
+                {` ${props.username}, ${props.age}`}
                 </Header>
               <UserAvatar  
-              username={username}
+              username={props.username}
               height={45} 
               width={45} 
               />
                 <List style={{ padding: '0 3rem', fontSize: 'large' }}>
-                  <List.Item icon="briefcase" content={workplace} />
-                  <List.Item icon="glass martini" content={beverage} />
-                  <List.Item icon="comments" content={favorite} />
-                  <List.Item icon="info circle" content={about} />
+                  <List.Item icon="briefcase" content={props.workplace} />
+                  <List.Item icon="glass martini" content={props.beverage} />
+                  <List.Item icon="comments" content={props.favorite} />
+                  <List.Item icon="info circle" content={props.about} />
                 </List>
  
               </Modal.Description>
@@ -107,10 +99,6 @@ const Map = ({
           pathname: '/chat', 
           state: {
              chats: getMessages(),
-             name: username,
-             url: profilePicture, 
-             friend: workplace, 
-             urlFriend: '', 
                },
              }}
           >

@@ -7,7 +7,7 @@ import tailwindcss from "tailwindcss";
 export default defineConfig(() => {
   return {
     server: {
-      port: 5173, // Set your frontend port here (for example, 3000)
+      port: 5173, 
       proxy: {
         '/api': {
           target: 'http://localhost:4000', // Change to the backend server port

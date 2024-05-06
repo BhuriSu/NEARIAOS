@@ -10,9 +10,18 @@ import socketServer from "./socketServer.js";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import { rateLimit } from 'express-rate-limit';
-import pgPool from './config/database.js';
 import * as client from 'prom-client';
 import * as Sentry from "@sentry/node"
+import pool from './config/database.js';
+
+// Connect to PostgreSQL
+pool.connect()
+  .then(() => {
+    console.log('PostgreSQL pool connected');
+  })
+  .catch((err) => {
+    console.error('Error connecting to PostgreSQL', err);
+  });
 
 dotenv.config();
 mongoose.connect(process.env.MONGO_URL)
@@ -52,11 +61,6 @@ const limiter = rateLimit({
 // Apply the rate limit to all requests
 app.use(limiter);
 
-// PostgreSQL pool instance
-app.use((req, res, next) => {
-  req.pgPool = pgPool;
-  next();
-});
 
 // api 
 app.use('/api/users', usersRouter);
@@ -105,6 +109,7 @@ app.use(function onError(err, req, res, next) {
 app.get("/debug-sentry", function mainHandler(req, res) {
   throw new Error("My first Sentry error!");
 });
+
 
 //set up prometheus 
 const collectDefaultMetrics = client.collectDefaultMetrics;
