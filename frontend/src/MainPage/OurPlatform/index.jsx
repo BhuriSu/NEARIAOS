@@ -30,7 +30,7 @@ function Services() {
           <ServicesCard3>
             <ServicesIcon src={Icon3} width='200' height='200' alt='' />
             <ServicesH2>Make profit by helping</ServicesH2>
-            <ServicesP>Solve problem close to you and take money</ServicesP>
+            <ServicesP>Solve an other problem that close to you and take money</ServicesP>
           </ServicesCard3>
  
         </ServicesWrapper>

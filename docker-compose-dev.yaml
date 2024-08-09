@@ -1,7 +1,7 @@
 version: "3"
 services:
   react-app:
-    image: react-vite
+    image: frontend-neariaos
     env_file: 
       - ./frontend/.env
     ports: 
@@ -12,7 +12,7 @@ services:
       - ./client/:/usr/src/app
       - /usr/src/app/node_modules
   api-server:
-    image: api-server
+    image: backend-neariaos
     ports:
       - "4000:5000"
     networks:

@@ -11,7 +11,7 @@ function FirstPage() {
       <Content>
       <Planet src={FirstPic} alt='' /> 
         <FirstLine>
-        NEARIAOS is dealing and negotiation platform with users near you at specific place.
+        NEARIAOS is dealing and negotiation platform with user around you at specific place.
         </FirstLine>
       </Content>
     </Container>

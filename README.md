@@ -1,4 +1,4 @@
-# NEARIAOS is dealing and negotiation platform with users near you at specific place.
+# NEARIAOS is dealing and negotiation platform with user around you at specific place.
 
 ## Features
 1. Implement a LogIn and SignUp system using Firebase authentication with email verification.
