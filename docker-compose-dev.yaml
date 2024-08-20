@@ -11,6 +11,7 @@ services:
     volumes:
       - ./client/:/usr/src/app
       - /usr/src/app/node_modules
+
   api-server:
     image: backend-neariaos
     ports:
@@ -20,6 +21,7 @@ services:
     depends_on:
       - mongo
       - postgresql
+
   mongo:
     image: mongo
     env_file: 
@@ -30,6 +32,7 @@ services:
       - neariaos-database
     volumes:
       - mongo-data:/data/db
+      
   postgresql:   
     image: postgres
     env_file:

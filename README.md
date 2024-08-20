@@ -43,7 +43,7 @@
 
 ![When it processes](./images/Chat.png)
 
-### `npm start`
+### `npm start` or use Docker to run
 
 Runs the app in the development mode.\
 Open [http://localhost:{your_endpoint}](http://localhost:{your_endpoint}) to view it in your browser.
