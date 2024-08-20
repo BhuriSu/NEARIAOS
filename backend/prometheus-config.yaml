@@ -1,7 +1,16 @@
 global:
-  scrape_interval: 4s
+  scrape_interval: 1m # Set the scrape interval to every 15 seconds. Default is every 1 minute.
+  evaluation_interval: 1m # Evaluate rules every 15 seconds. The default is every 1 minute.
 
 scrape_configs:
-  - job_name: prometheus
+  - job_name: 'prometheus'
     static_configs:
-      - targets: ["localhost:4000"]
+      - targets: ['localhost:9090']
+
+  - job_name: 'backend'
+    static_configs:
+      - targets: ['backend:8080']  # Replace with the actual backend service port
+
+  - job_name: 'db'
+    static_configs:
+      - targets: ['db:5432']  # Monitoring PostgreSQL
