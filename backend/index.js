@@ -11,119 +11,89 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import { rateLimit } from 'express-rate-limit';
 import * as client from 'prom-client';
-import * as Sentry from "@sentry/node"
-import pool from './config/database.js';
+import * as Sentry from "@sentry/node";
 
-// Connect to PostgreSQL
-pool.connect()
-  .then(() => {
-    console.log('PostgreSQL pool connected');
-  })
-  .catch((err) => {
-    console.error('Error connecting to PostgreSQL', err);
-  });
-
+// Load environment variables from .env
 dotenv.config();
-mongoose.connect(process.env.MONGO_URL)
-  .then(() => {
-    console.log("Connected to MongoDB");
-  })
+
+// MongoDB connection
+mongoose.connect(process.env.MONGO_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+})
+  .then(() => console.log("Connected to MongoDB"))
   .catch((error) => {
     console.error("Error connecting to MongoDB:", error);
+    process.exit(1);  // Exit process if MongoDB connection fails
   });
 
-const __dirname1 = path.resolve();
+// Initialize express app
 const app = express();
 
-app.use(express.json());
-// when you want to use POST and PUT/PATCH method
-app.use(express.urlencoded({ extended: false }));
-// prevent CORS access error
-app.use(cors());
+// Setup middleware
+app.use(express.json()); // Parse JSON requests
+app.use(express.urlencoded({ extended: false })); // Parse URL-encoded data
+app.use(cors()); // Enable CORS
 
-// Create a Socket.IO instance attached to the HTTP server
+// Setup rate limiting
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per window
+});
+app.use(limiter); // Apply rate limiting to all requests
+
+// Setup Socket.IO
 const httpServer = createServer(app);
 const io = new Server(httpServer, {
   cors: {
-    origin: "http://localhost:5173",
-    methods: ["GET", "POST"]
-  }
+    origin: process.env.CLIENT_URL || "http://localhost:5173", // Ensure CORS for Socket.IO
+    methods: ["GET", "POST"],
+  },
 });
 
-// Handle connection event
+// Handle Socket.IO connection
 io.on("connection", (socket) => socketServer(socket));
 
-// Define the rate limit middleware
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-});
-// Apply the rate limit to all requests
-app.use(limiter);
-
-
-// api 
+// Setup routes
 app.use('/api/users', usersRouter);
-app.use('/api/lists',listsRouter)
-app.use('/api/messages',messageRouter)
+app.use('/api/lists', listsRouter);
+app.use('/api/messages', messageRouter);
 
-// --------------------------deployment------------------------------
-
+// Serve static files in production
+const __dirname1 = path.resolve();
 if (process.env.NODE_ENV === "production") {
   app.use(express.static(path.join(__dirname1, "/frontend/build")));
-
-  app.get("*", (req, res) =>
-    res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html"))
-  );
+  app.get("*", (req, res) => res.sendFile(path.resolve(__dirname1, "frontend", "build", "index.html")));
 } else {
-  app.get("/test", (req, res) => {
-    res.send("API is running..");
-  });
+  app.get("/test", (req, res) => res.send("API is running.."));
 }
 
+// Sentry configuration for error tracking
 Sentry.init({
-  dsn: 'https://6ee98e4fd244122817e24242135f42d2@o4507186093555712.ingest.us.sentry.io/4507186095194112',
-  debug: true,
-  tracesSampleRate: 1,
-  profilesSampleRate: 1, // Set profiling sampling rate.
+  dsn: process.env.SENTRY_DSN,
+  tracesSampleRate: 1.0,
+  profilesSampleRate: 1.0,
 });
 
-// The request handler must be the first middleware on the app
 app.use(Sentry.Handlers.requestHandler());
-
-// TracingHandler creates a trace for every incoming request
 app.use(Sentry.Handlers.tracingHandler());
+app.use(Sentry.Handlers.errorHandler()); // Capture and handle errors
 
-// The error handler must be registered before any other error middleware and after all controllers
-app.use(Sentry.Handlers.errorHandler());
-
-// Optional fallthrough error handler
-app.use(function onError(err, req, res, next) {
-  // The error id is attached to `res.sentry` to be returned
-  // and optionally displayed to the user for support.
+app.use((err, req, res, next) => {
   res.statusCode = 500;
   res.end(res.sentry + "\n");
 });
 
-//*My laptop is not compatible*
-app.get("/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
+// Prometheus metrics collection
+client.collectDefaultMetrics({ register: client.register });
+app.get('/metrics', async (req, res) => {
+  res.setHeader("Content-Type", client.register.contentType);
+  const metrics = await client.register.metrics();
+  res.send(metrics);
 });
 
-
-//set up prometheus 
-const collectDefaultMetrics = client.collectDefaultMetrics;
-collectDefaultMetrics({ register: client.register });
-
-app.get('/metrics', async (req,res)=> {
-   res.setHeader("Content-Type", client.register.contentType);
-   const metrics = await client.register.metrics();
-   res.send(metrics);
-});
-
-//docker run -d -p 3000:3000 --name=grafana grafana/grafana-oss (run for setting up grafana)
-//docker run -d --name=loki -p 3100:3100 grafana/loki (run for setting up loki)
-
-httpServer.listen(4000, () => {
-  console.log('Server is running!');
+// Start the server
+const PORT = process.env.PORT || 4000;
+httpServer.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

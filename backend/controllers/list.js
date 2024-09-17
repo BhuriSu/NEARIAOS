@@ -1,5 +1,3 @@
-import pool from '../config/database.js';
-
 export const Lists = async (req, res) => {
   res.json('respond with a resource');
 };
@@ -14,29 +12,31 @@ export const FindUsers = async (req, res) => {
   }
 
   try {
-    const client = await pool.connect();
-    const query = `
-      SELECT * FROM profile 
-      WHERE ST_Distance(
-        ST_SetSRID(ST_MakePoint($1, $2), 4326),
-        ST_SetSRID(ST_MakePoint(profile.longitude, profile.latitude), 4326)
-      ) < $3
-    `;
-    const params = [longitude, latitude, radius];
+    await client.connect();
+    const db = client.db('yourDatabaseName'); // Replace with your database name
+    const profiles = db.collection('profiles'); // Replace with your collection name
 
-    const result = await client.query(query, params);
-    const list = result.rows;
+    // Convert radius from meters to radians for MongoDB geospatial queries
+    const radiusInRadians = radius / 6378100;
 
-    await client.query(
-      `
-      UPDATE profile 
-      SET latitude = $1, longitude = $2 
-      WHERE username = $3
-      `,
-      [latitude, longitude, id]
+    // Perform the geospatial query using $geoWithin or $near
+    const list = await profiles.find({
+      location: {
+        $near: {
+          $geometry: {
+            type: 'Point',
+            coordinates: [longitude, latitude]
+          },
+          $maxDistance: radius // distance in meters
+        }
+      }
+    }).toArray();
+
+    // Update the user's latitude and longitude
+    const updateResult = await profiles.updateOne(
+      { username: id },
+      { $set: { latitude, longitude } }
     );
-
-    client.release();
 
     if (list.length > 0) {
       return res.json({
@@ -54,5 +54,7 @@ export const FindUsers = async (req, res) => {
       success: false,
       err: error.message
     });
+  } finally {
+    await client.close();
   }
 };
