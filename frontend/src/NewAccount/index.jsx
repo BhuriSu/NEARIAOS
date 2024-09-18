@@ -43,7 +43,7 @@ function NewAccountPage() {
         setImageFile(file);
         setImageFileUrl(URL.createObjectURL(file));
        }
-      };
+    };
     
   useEffect(() => {
        if (imageFile) {
@@ -102,6 +102,10 @@ function NewAccountPage() {
       console.log(formData);
       if (Object.keys(formData).length === 0) {
         setCreateUserError('No changes made');
+        return;
+      }
+      if (!formData.username || !formData.date) {
+        setCreateUserError('Please fill in all required fields');
         return;
       }
       if (imageFileUploading) {

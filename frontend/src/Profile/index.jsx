@@ -27,7 +27,7 @@ import { HiOutlineExclamationCircle } from 'react-icons/hi';
 function ProfileEditPage() {
   const { currentUser, error, loading } = useSelector((state) => state.user);
   const location = useLocation();
-  const formDataFromNewAccount = location.state.formData;
+  const formDataFromNewAccount = location.state?.formData || {};
   const [formData, setFormData] = useState(formDataFromNewAccount);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -40,8 +40,8 @@ function ProfileEditPage() {
   const filePickerRef = useRef();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (currentUser) {
-      setFormData(currentUser);
+    if (!currentUser) {
+      // Fetch or load the user data
     }
   }, [currentUser]);
   const handleImageChange = (e) => {
@@ -97,16 +97,31 @@ function ProfileEditPage() {
     e.preventDefault();
     setUpdateUserError(null);
     setUpdateUserSuccess(null);
+
+    // Log currentUser and formData for debugging
+    console.log('Current User:', currentUser);
+    console.log('Form Data:', formData);
+
+    // Check if currentUser exists
+    if (!currentUser || !currentUser._id) {
+      setUpdateUserError('User not found');
+      console.error('No user data available');
+      return;
+    }
+
     if (Object.keys(formData).length === 0) {
       setUpdateUserError('No changes made');
       return;
     }
+
     if (imageFileUploading) {
       setUpdateUserError('Please wait for image to upload');
       return;
     }
+
     try {
       dispatch(updateStart());
+
       const res = await fetch(`/api/users/update/${currentUser._id}`, {
         method: 'PATCH',
         headers: {
@@ -114,14 +129,15 @@ function ProfileEditPage() {
         },
         body: JSON.stringify(formData),
       });
+      
       const data = await res.json();
+
       if (!res.ok) {
-        dispatch(updateFailure(data.message));
-        setUpdateUserError(data.message);
-      } else {
-        dispatch(updateSuccess(data));
-        setUpdateUserSuccess("User's profile updated successfully");
+        throw new Error(data.message);
       }
+
+      dispatch(updateSuccess(data));
+      setUpdateUserSuccess("Profile updated successfully");
     } catch (error) {
       dispatch(updateFailure(error.message));
       setUpdateUserError(error.message);
@@ -131,15 +147,17 @@ function ProfileEditPage() {
   const handleDeleteUser = async () => {
     setShowModal(false);
     try {
-      dispatch(deleteUserStart(formData));
+      dispatch(deleteUserStart());
       const res = await fetch(`/api/users/delete/${currentUser._id}`, {
         method: 'DELETE',
       });
       const data = await res.json();
       if (!res.ok) {
-        dispatch(deleteUserFailure(data.message));
+        throw new Error(data.message);
       } else {
-        dispatch(deleteUserSuccess(data));
+        dispatch(deleteUserSuccess());
+        const auth = getAuth();
+        await signOut(auth);
       }
     } catch (error) {
       dispatch(deleteUserFailure(error.message));
