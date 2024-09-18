@@ -1,12 +1,12 @@
 import Message from "../models/Messages.js";
 import Conversation from "../models/Conversation.js";
-import Profile from "../models/Profile.js";
+import User from "../models/User.js";
 
 export const sendMessage = async (req, res) => {
   try {
     const recipientId = req.params.id;
     const { content, userId } = req.body;
-    const recipient = await Profile.findById(recipientId);
+    const recipient = await User.findById(recipientId);
 
     if (!recipient) {
       throw new Error("Recipient not found");
