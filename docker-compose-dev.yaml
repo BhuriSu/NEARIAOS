@@ -1,4 +1,4 @@
-version: "3"
+
 services:
   react-app:
     image: frontend-neariaos
@@ -20,7 +20,6 @@ services:
       - neariaos-backend
     depends_on:
       - mongo
-      - postgresql
 
   mongo:
     image: mongo
@@ -33,16 +32,6 @@ services:
     volumes:
       - mongo-data:/data/db
       
-  postgresql:   
-    image: postgres
-    env_file:
-      - ./backend/.env
-    ports:
-      - "5432:5432"
-    networks:
-      - neariaos-database
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
   prom-server:
     image: prom/prometheus
     ports:
