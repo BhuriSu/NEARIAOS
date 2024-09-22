@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { getDownloadURL, getStorage, ref } from 'firebase/storage';
 import Map from './Map';
-import ModalWindow from './Modal';
 import {
   ListPageBackground,
   ToggleBox,
@@ -179,12 +178,40 @@ function ListUsers() {
                 padding: '0',
                 justifyContent: 'space-around',
                 flexWrap: 'wrap',
+                gap: '20px',
               }}
             >
               {list.success
-                ? list.list.map((username) => (
-                  <ModalWindow username={username} key={username._id} />
-                ))
+                ? list.list.map((user) => (
+                    <li
+                      key={user._id}
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'column',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        border: '1px solid #ccc',
+                        borderRadius: '10px',
+                        width: '150px',
+                        height: '200px',
+                        boxShadow: '2px 2px 10px rgba(0,0,0,0.1)',
+                      }}
+                    >
+                      <img
+                        src={user.url}
+                        alt={user.username}
+                        style={{
+                          width: '100px',
+                          height: '100px',
+                          objectFit: 'cover',
+                          borderRadius: '50%',
+                        }}
+                      />
+                      <p style={{ marginTop: '10px', fontSize: '16px' }}>
+                        Age: {user.age}
+                      </p>
+                    </li>
+                  ))
                 : list.err}
             </ul>
           )}

@@ -24,7 +24,15 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert } from 'flowbite-react';
 
 function NewAccountPage() {
-  const [formData, setFormData] = useState({});
+  const [formData, setFormData] = useState({
+    username: '',
+    date: '',
+    beverage: '',
+    workplace: '',
+    favorite: '',
+    about: '',
+    profilePicture: ''
+  });
   const { loading } = useSelector((state) => state.user);
   const [imageFile, setImageFile] = useState(null);
   const [imageFileUrl, setImageFileUrl] = useState(null);
@@ -91,9 +99,13 @@ function NewAccountPage() {
       );
     };
         // Handle input change
-    const handleChange = (e) => {
-          setFormData({ ...formData, [e.target.id]: e.target.value });
-    };
+        const handleChange = (e) => {
+          const { name, value } = e.target;
+          setFormData({
+            ...formData,
+            [name]: value,
+          });
+        };
 
     const handleCreateSubmit = async (e) => {
       e.preventDefault();

@@ -39,11 +39,30 @@ function ProfileEditPage() {
   const [showModal, setShowModal] = useState(false);
   const filePickerRef = useRef();
   const dispatch = useDispatch();
+
   useEffect(() => {
-    if (!currentUser) {
-      // Fetch or load the user data
+    if (formDataFromNewAccount && Object.keys(formDataFromNewAccount).length > 0) {
+      if (JSON.stringify(formData) !== JSON.stringify(formDataFromNewAccount)) {
+        setFormData(formDataFromNewAccount);
+      }
+    } else if (currentUser) {
+      const updatedFormData = {
+        username: currentUser.username || '',
+        date: currentUser.date || '',
+        beverage: currentUser.beverage || '',
+        workplace: currentUser.workplace || '',
+        favorite: currentUser.favorite || '',
+        about: currentUser.about || '',
+        profilePicture: currentUser.profilePicture || '',
+      };
+  
+      // Check if current formData is different from the currentUser data
+      if (JSON.stringify(formData) !== JSON.stringify(updatedFormData)) {
+        setFormData(updatedFormData);
+      }
     }
-  }, [currentUser]);
+  }, [formDataFromNewAccount, currentUser, formData]);
+
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -145,6 +164,11 @@ function ProfileEditPage() {
   };
 
   const handleDeleteUser = async () => {
+    if (!currentUser || !currentUser._id) {
+      dispatch(deleteUserFailure("User ID is undefined"));
+      return;
+    }
+  
     setShowModal(false);
     try {
       dispatch(deleteUserStart());
@@ -176,7 +200,7 @@ function ProfileEditPage() {
   return (
     <>
       <BackgroundProfileContainer >
-  
+      {currentUser && formData ? (
         <form onSubmit={handleUpdateSubmit}>
         <div style={{ display: 'flex', justifyContent: 'center' }}>
         <DivImage>
@@ -325,6 +349,9 @@ function ProfileEditPage() {
 
           <br/>
         </form>
+        ) : (
+          <div>No user data available</div>
+        )}
         <br/>
 
           <Link to="/listUser">
