@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useNavigate, useLocation, Link } from "react-router-dom";
+import { useNavigate, useLocation, Link, useParams } from "react-router-dom";
 import {
   getDownloadURL,
   getStorage,
@@ -38,6 +38,7 @@ import { CircularProgressbar } from 'react-circular-progressbar';
 import { Alert } from 'flowbite-react';
 
 function NewAccountPage() {
+  const { userId } = useParams();
   const [formData, setFormData] = useState({
     username: '',
     date: '',
@@ -60,23 +61,24 @@ function NewAccountPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate(); 
   const location = useLocation();
-
+  
   useEffect(() => {
     const fetchProfileData = async () => {
+      if (!userId) return; // Early return if no userId
       try {
-        const res = await fetch('/api/users/${userId}'); // Adjust this with your API endpoint and user identifier
+        const res = await fetch(`/api/users/${userId}`);
+        if (!res.ok) throw new Error("Failed to fetch data");
         const data = await res.json();
-        setFormData(data);
+        setFormData(data); // This should set your form data correctly
         setIsUpdateMode(true);
       } catch (error) {
         console.error("Error fetching profile data:", error);
+        setUserError("Failed to fetch user data.");
       }
     };
   
-    if (!formData.username) { // Only fetch if formData is empty
-      fetchProfileData();
-    }
-  }, []);
+    fetchProfileData();
+  }, [userId]);
 
   useEffect(() => {
     if (location.state && location.state.formData) {
@@ -153,7 +155,7 @@ function NewAccountPage() {
     try {
       if (isUpdateMode) {
         dispatch(updateStart());
-        const res = await fetch('/api/users/update/${userId}', {
+        const res = await fetch(`/api/users/update/${userId}`, {
           method: 'PUT',
           headers: {
             'Content-Type': 'application/json',
@@ -195,7 +197,7 @@ function NewAccountPage() {
   const handleDelete = async () => {
     try {
       dispatch(deleteStart());
-      const res = await fetch('/api/users/delete/${userId}', {
+      const res = await fetch(`/api/users/delete/${userId}`, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -270,6 +272,7 @@ function NewAccountPage() {
             name='username'
             id='username'
             placeholder='username...'
+            value={formData.username}
             onChange={handleChange} 
           />
           <br/>
@@ -279,6 +282,7 @@ function NewAccountPage() {
               type="date" 
               name="date"
               id="date" 
+              value={formData.date}
               onChange={handleChange}
               style={{ border: 'none', background: 'transparent', color: '#000', outline: 'none', textAlign: 'center' }}
             />

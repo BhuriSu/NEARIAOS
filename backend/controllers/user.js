@@ -1,7 +1,18 @@
 import User from '../models/User.js';  // Assuming you have a Mongoose User model
+import { body, validationResult } from 'express-validator';
 
 // CREATE operation
 export const createUser = async (req, res) => {
+  // Validate the request body
+  await body('username').notEmpty().withMessage('Username is required').run(req);
+  await body('date').isDate().withMessage('Invalid date format').run(req);
+  // Add other validation rules as needed
+
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
   try {
     const { username, date, beverage, workplace, favorite, about, profilePicture } = req.body;
 
@@ -15,12 +26,13 @@ export const createUser = async (req, res) => {
       profilePicture
     });
 
-    const savedUser = await newUser.save();  // Save the user using Mongoose
+    const savedUser = await newUser.save();
 
     res.status(201).json({ user: savedUser });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Error creating user' });
+    const errorMessage = error.code === 11000 ? 'Username already exists' : 'Error creating user';
+    res.status(500).json({ error: errorMessage });
   }
 };
 
