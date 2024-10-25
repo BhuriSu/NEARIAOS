@@ -21,7 +21,7 @@ const LogIn=({handleChange})=>{
         e.preventDefault();
         try {
             await logIn(email, password);
-            navigate('/profile');
+            navigate('/newAccount');
         } catch (error) {
            const errorMessage = error.message;
            alert(errorMessage);
@@ -32,7 +32,7 @@ const LogIn=({handleChange})=>{
         e.preventDefault();
         try {
           await googleSignIn();
-          navigate('/profile');
+          navigate('/newAccount');
         } catch (error) {
           console.log(error);
         }

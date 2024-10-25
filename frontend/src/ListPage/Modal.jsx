@@ -4,7 +4,7 @@ import {
 } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 import { getMessages } from '../api/messages';
-import UserAvatar from "../Profile/UserAvatar";
+import UserAvatar from "../NewAccount/UserAvatar";
 
 function ModalWindow(props) {
 

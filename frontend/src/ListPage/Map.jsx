@@ -8,7 +8,7 @@ import {
 import { Link } from 'react-router-dom';
 import styles from './GoogleMapStyles.json';
 import {getMessages} from '../api/messages';
-import UserAvatar from "../Profile/UserAvatar";
+import UserAvatar from "../NewAccount/UserAvatar";
 
 const Map = ({
   googleMapURL = import.meta.env.VITE_GOOGLE_MAP_URI,

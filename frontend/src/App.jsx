@@ -6,7 +6,6 @@ import {
 import Home from './pages/main';
 import PremiumPage from './pages/premium';
 import ContactPage from './pages/contact';
-import ProfilePage from './Profile';
 import NewAccount from './NewAccount';
 import ChatPage from './pages/chat';
 import ListPage from './pages/listUsers';
@@ -26,7 +25,6 @@ function App() {
           <Route path='/contact' element={<ContactPage/>} />
           <Route path='/startForm' element={<LogInAndSignUpPage/>} />
           <Route path='/newAccount' element={<NewAccount/>} />
-          <Route path='/profile' element={<ProfilePage/>} />
           <Route path='/chat' element={<ChatPage/>} />
           <Route path='/listUser' element={<ListPage/>} />
           <Route path='/privacy' element={<PrivacyPage/>} />

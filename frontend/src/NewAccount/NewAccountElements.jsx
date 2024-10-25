@@ -69,3 +69,27 @@ export const SaveBtnStyle = styled.button`
     color: #fff;
   }
 `;
+export const BackToListPage = styled.p`
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+`;
+export const LogOutLine = styled.p`
+  color: #fff;
+  font-size: 24px;
+  text-align: center;
+`;
+
+export const DeleteBtnStyle = styled.button`
+border-radius: 50px;
+background: #ff0000;
+white-space: nowrap;
+padding: 10px 22px;
+color: #fff;
+font-size: 16px;
+outline: none;
+border: none;
+cursor: pointer;
+transition: all 0.2s ease-in-out;
+text-decoration: none;
+`;

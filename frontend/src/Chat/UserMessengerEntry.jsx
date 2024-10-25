@@ -5,7 +5,7 @@ import {
 } from "@mui/material";
 import React from "react";
 import moment from "moment";
-import UserAvatar from "../Profile/UserAvatar";
+import UserAvatar from "../NewAccount/UserAvatar";
 
 const UserMessengerEntry = (props) => {
   const recipient = props.conversation.recipient;

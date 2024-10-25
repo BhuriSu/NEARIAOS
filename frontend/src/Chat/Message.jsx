@@ -1,7 +1,7 @@
 import { Card, useTheme } from "@mui/material";
 import React from "react";
 import HorizontalStack from "./HorizontalStack";
-import UserAvatar from "../Profile/UserAvatar";
+import UserAvatar from "../NewAccount/UserAvatar";
 
 const Message = (props) => {
   const username = props.conservant.username;
