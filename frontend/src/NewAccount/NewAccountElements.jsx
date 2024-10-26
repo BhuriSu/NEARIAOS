@@ -69,11 +69,6 @@ export const SaveBtnStyle = styled.button`
     color: #fff;
   }
 `;
-export const BackToListPage = styled.p`
-  color: #fff;
-  font-size: 24px;
-  text-align: center;
-`;
 export const LogOutLine = styled.p`
   color: #fff;
   font-size: 24px;

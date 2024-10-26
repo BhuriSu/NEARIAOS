@@ -1,23 +1,21 @@
+// userSlice.js
 import { createSlice } from '@reduxjs/toolkit';
-
-const initialState = {
-  currentUser: null ,
-  error: null,
-  loading: false,
-};
 
 const userSlice = createSlice({
   name: 'user',
-  initialState,
+  initialState: {
+    currentUser: null,
+    loading: false,
+    error: null,
+  },
   reducers: {
     createStart: (state) => {
       state.loading = true;
       state.error = null;
     },
     createSuccess: (state, action) => {
-      state.currentUser = action.payload;
       state.loading = false;
-      state.error = null;
+      state.currentUser = action.payload;
     },
     createFailure: (state, action) => {
       state.loading = false;
@@ -28,9 +26,8 @@ const userSlice = createSlice({
       state.error = null;
     },
     updateSuccess: (state, action) => {
-      state.currentUser = action.payload;
       state.loading = false;
-      state.error = null;
+      state.currentUser = action.payload; // Ensure this includes the profile picture URL
     },
     updateFailure: (state, action) => {
       state.loading = false;
@@ -41,9 +38,8 @@ const userSlice = createSlice({
       state.error = null;
     },
     deleteSuccess: (state) => {
-      state.currentUser = null;
       state.loading = false;
-      state.error = null;
+      state.currentUser = null; // Optionally clear user data
     },
     deleteFailure: (state, action) => {
       state.loading = false;

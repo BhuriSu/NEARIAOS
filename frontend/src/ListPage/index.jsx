@@ -1,101 +1,29 @@
 import React, { useState } from 'react';
-import axios from 'axios';
-import { getDownloadURL, getStorage, ref } from 'firebase/storage';
-import Map from './Map';
-import {
-  ListPageBackground,
-  ToggleBox,
-  InputFormUserList,
-  LabelRadius,
-} from './ListPageElement';
+import { useNavigate } from 'react-router-dom';
+import { ListPageBackground, InputFormUserList, LabelRadius } from './ListPageElement';
 import { Button } from '@mui/material';
 
 function ListUsers() {
   const [radius, setRadius] = useState('');
-  const [list, setList] = useState({
-    success: false,
-    err: '',
-    list: [],
-  });
-  const [isShowMap, setShowMap] = useState(false);
-  const [latitude, setLatitude] = useState('');
-  const [longitude, setLongitude] = useState('');
+ // const [isShowMap, setShowMap] = useState(false);
+  const [showProfiles, setShowProfiles] = useState(false);
 
-  const requestListUsers = async (latitude, longitude, radius) => {
-    try {
-      const response = await axios.post('/api/lists', {
-        latitude,
-        longitude,
-        radius,
-      });
-      if (response.data.success) {
-        const { list } = response.data;
-        const promisesArr = list.map(async (user) => {
-          try {
-            const pic = await getDownloadURL(ref(getStorage(), `images/${user.username}`));
-            user.url = pic;
-            return user;
-          } catch (error) {
-            console.error('Error fetching profile picture:', error);
-            return user;
-          }
-        });
+  const exampleUsers = [
+    { id: 1, username: 'User1', age: 25, url: 'https://picsum.photos/100/100?random=1' },
+    { id: 2, username: 'User2', age: 30, url: 'https://picsum.photos/100/100?random=2' },
+    { id: 3, username: 'User3', age: 22, url: 'https://picsum.photos/100/100?random=3' },
+    { id: 4, username: 'User4', age: 28, url: 'https://picsum.photos/100/100?random=4' },
+    { id: 5, username: 'User5', age: 27, url: 'https://picsum.photos/100/100?random=5' },
+  ];
 
-        const result = await Promise.all(promisesArr);
-        setList({
-          success: true,
-          list: result,
-        });
-      } else {
-        setList({
-          success: false,
-          err: response.data.err,
-          list: [],
-        });
-      }
-    } catch (error) {
-      console.error('Runtime error:', error);
-      setList({
-        success: false,
-        err: 'Runtime error',
-        list: [],
-      });
-    }
+  const navigate = useNavigate();
+
+  const handleFindSomeone = () => {
+    setShowProfiles(true);
   };
 
-  const geoFindLocation = () => {
-    const success = (position) => {
-      setLatitude(position.coords.latitude);
-      setLongitude(position.coords.longitude);
-
-      requestListUsers(
-        position.coords.latitude,
-        position.coords.longitude,
-        radius || 200,
-      );
-    };
-
-    const error = () => {
-      setList({
-        success: false,
-        err: 'Unable to retrieve your location',
-        list: [],
-      });
-    };
-
-    if (!navigator.geolocation) {
-      setList({
-        success: false,
-        err: 'Geolocation is not supported by your browser',
-        list: [],
-      });
-    } else {
-      navigator.geolocation.getCurrentPosition(success, error);
-    }
-  };
-
-  const toggleMap = () => {
-    setShowMap(!isShowMap);
+  const handleChatClick = () => {
+    navigate('/chat'); // Navigate to the chat page
   };
 
   return (
@@ -132,12 +60,7 @@ function ListUsers() {
               Touch the line and move right or left
               <br />
               <br />
-              {' '}
-              Chosen radius: &nbsp;
-              {' '}
-              {radius}
-              &nbsp; meters
-              {' '}
+              Chosen radius: {radius} meters
             </div>
           ) : (
             <div style={{ margin: 'auto 0' }}>Choose the radius</div>
@@ -147,30 +70,14 @@ function ListUsers() {
         <Button
           variant='contained'
           id='find-me'
-          onClick={geoFindLocation}
+          onClick={handleFindSomeone}
           style={{ backgroundColor: '#00eeff', color: '#000' }}
         >
           FIND SOMEONE
         </Button>
 
-        {list.success && (
-          <ToggleBox>
-            <input type='checkbox' user='toggle' className='sw' id='toggle-2' />
-            <label htmlFor='toggle-2' onClick={toggleMap}>
-              <span>Use a map</span>
-            </label>
-          </ToggleBox>
-        )}
-
-        <div>
-          {isShowMap ? (
-            <Map
-              latitude={latitude}
-              longitude={longitude}
-              list={list}
-              radius={radius}
-            />
-          ) : (
+        <div style={{ marginTop: '30px' }}> {/* Added margin here for spacing */}
+          {showProfiles && (
             <ul
               style={{
                 display: 'flex',
@@ -181,38 +88,43 @@ function ListUsers() {
                 gap: '20px',
               }}
             >
-              {list.success
-                ? list.list.map((user) => (
-                    <li
-                      key={user._id}
-                      style={{
-                        display: 'flex',
-                        flexDirection: 'column',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        border: '1px solid #ccc',
-                        borderRadius: '10px',
-                        width: '150px',
-                        height: '200px',
-                        boxShadow: '2px 2px 10px rgba(0,0,0,0.1)',
-                      }}
-                    >
-                      <img
-                        src={user.url}
-                        alt={user.username}
-                        style={{
-                          width: '100px',
-                          height: '100px',
-                          objectFit: 'cover',
-                          borderRadius: '50%',
-                        }}
-                      />
-                      <p style={{ marginTop: '10px', fontSize: '16px' }}>
-                        Age: {user.age}
-                      </p>
-                    </li>
-                  ))
-                : list.err}
+              {exampleUsers.map((user) => (
+                <li
+                  key={user.id}
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'column',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    border: '1px solid #ccc',
+                    borderRadius: '15px',
+                    width: '150px',
+                    height: '200px',
+                    boxShadow: '2px 2px 10px rgba(0,0,0,0.1)',
+                    overflow: 'hidden',
+                  }}
+                >
+                  <img
+                    src={user.url}
+                    alt={user.username}
+                    style={{
+                      width: '100px',
+                      height: '100px',
+                      objectFit: 'cover',
+                      borderRadius: '50%',
+                      marginBottom: '10px',
+                    }}
+                  />
+                  <p style={{ margin: '0', fontSize: '16px' }}>Age: {user.age}</p>
+                  <Button
+                    variant='contained'
+                    onClick={handleChatClick} // Call handleChatClick to navigate to /chat
+                    style={{ marginTop: '10px', backgroundColor: '#00eeff', color: '#000' }}
+                  >
+                    Chat
+                  </Button>
+                </li>
+              ))}
             </ul>
           )}
         </div>
